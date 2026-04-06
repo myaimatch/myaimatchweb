@@ -15,13 +15,13 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "myAIMatch — Find Your Perfect AI Stack",
+  title: "myAIMatch — The AI Tools Directory for Businesses",
   description:
-    "Stop guessing which AI tools are right for you. Get a personalized stack recommendation in minutes — free.",
+    "Browse, compare, and find the right AI tools for your business. Hand-picked and organized by function — not by who pays to be listed.",
   openGraph: {
-    title: "myAIMatch — Find Your Perfect AI Stack",
+    title: "myAIMatch — The AI Tools Directory for Businesses",
     description:
-      "Stop guessing which AI tools are right for you. Get a personalized stack recommendation in minutes — free.",
+      "Browse, compare, and find the right AI tools for your business. Hand-picked and organized by function — not by who pays to be listed.",
     url: "https://myaimatch.ai",
     type: "website",
   },
@@ -279,28 +279,6 @@ const deals = [
   { name: "Descript", deal: "Free 1 hour/month", tag: "Audio" },
 ];
 
-// ─── How it works steps ───────────────────────────────────────────
-const steps = [
-  {
-    number: "1",
-    title: "Tell Us Your Needs",
-    description:
-      "Take our 2-minute assessment. We ask about your business, team size, and biggest challenges.",
-  },
-  {
-    number: "2",
-    title: "Get Your AI Stack",
-    description:
-      "Receive a personalized recommendation with the exact tools that fit your workflow — delivered to your inbox.",
-  },
-  {
-    number: "3",
-    title: "Implement with Confidence",
-    description:
-      "Need help setting things up? Our experts configure your tools and get your team running on Day 1.",
-  },
-];
-
 export default function HomePage() {
   return (
     <div className="bg-[#131313] text-white">
@@ -314,15 +292,16 @@ export default function HomePage() {
       >
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-6">
-            Find Your Perfect{" "}
-            <span className="text-[#8468EB]">AI Match</span>
+            The AI Tools Directory Built for{" "}
+            <span className="text-[#8468EB]">Businesses That Don&apos;t Have Time to Guess</span>
           </h1>
           <p className="text-lg md:text-xl text-[#A0A0A0] max-w-2xl mx-auto mb-10 leading-relaxed">
-            Stop guessing which AI tools are right for you. Get a personalized
-            stack recommendation in minutes — free.
+            Every tool is hand-picked and organized by business function — not
+            by who pays to be listed. Browse, compare, and find what actually
+            works for your team.
           </p>
           <Link
-            href="/assessment"
+            href="/directory"
             className="inline-block text-white font-semibold text-base px-8 py-4 rounded-full transition-all hover:opacity-90 hover:scale-105"
             style={{
               background:
@@ -330,8 +309,17 @@ export default function HomePage() {
               border: "1px solid rgba(132,104,235,0.4)",
             }}
           >
-            Get Your Free AI Stack
+            Browse the Directory
           </Link>
+          <p className="mt-4 text-sm text-[#A0A0A0]">
+            or{" "}
+            <a
+              href="#categories"
+              className="underline text-white hover:text-[#8468EB] transition-colors"
+            >
+              browse by category below
+            </a>
+          </p>
         </div>
       </section>
 
@@ -352,7 +340,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Category Grid ─────────────────────────────────────────── */}
-      <section className="px-4 py-20 bg-[#232323]">
+      <section id="categories" className="px-4 py-20 bg-[#232323]">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-10 text-center">
             Browse by Category
@@ -440,72 +428,48 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── How It Works ──────────────────────────────────────────── */}
-      <section className="px-4 py-20 bg-[#232323]">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-14 text-center">
-            How It Works
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {steps.map((step) => (
-              <div key={step.number} className="flex flex-col gap-5">
-                <div className="w-12 h-12 rounded-full bg-[#8468EB] flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                  {step.number}
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold text-lg mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-[#A0A0A0] text-sm leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
+      {/* ── Assessment Promo Banner ───────────────────────────────── */}
+      <section className="px-4 md:px-8 py-16">
+        <div
+          className="rounded-2xl overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(135deg, #7B5FD6 0%, #9B7FFF 50%, #8468EB 100%)",
+          }}
+        >
+          <div className="flex flex-col md:flex-row items-center gap-10 px-8 md:px-14 py-12 md:py-16">
+            {/* Left — text content */}
+            <div className="flex flex-col gap-5 md:w-3/5 text-center md:text-left">
+              <h2 className="text-2xl md:text-3xl font-bold text-white leading-snug">
+                Not Sure Which Tools Are Right for You?
+              </h2>
+              <p className="text-white/80 text-base leading-relaxed">
+                Most businesses waste months testing tools that were never a
+                fit. Tell us about your workflow and team — we&apos;ll match you
+                to the exact tools that solve your actual problems.
+              </p>
+              <p className="text-white font-medium text-sm">
+                Free. 2 minutes. No sales call required.
+              </p>
+              <div className="flex justify-center md:justify-start">
+                <Link
+                  href="/assessment"
+                  className="inline-block bg-white font-semibold text-base px-8 py-4 rounded-full transition-all hover:opacity-90 hover:scale-105"
+                  style={{ color: "#131313" }}
+                >
+                  Get My Free AI Match
+                </Link>
               </div>
-            ))}
-          </div>
-          <div className="mt-14 text-center">
-            <Link
-              href="/assessment"
-              className="inline-block text-white font-semibold text-base px-8 py-4 rounded-full transition-all hover:opacity-90 hover:scale-105"
-              style={{
-                background:
-                  "linear-gradient(156deg, #232323 15.44%, #8468EB 111.39%)",
-                border: "1px solid rgba(132,104,235,0.4)",
-              }}
-            >
-              Start Your Free Assessment
-            </Link>
-          </div>
-        </div>
-      </section>
+            </div>
 
-      {/* ── Bottom CTA ────────────────────────────────────────────── */}
-      <section
-        className="px-4 py-24"
-        style={{
-          background:
-            "linear-gradient(156deg, #1a1a1a 15%, rgba(132,104,235,0.25) 100%)",
-        }}
-      >
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Not sure where to start?
-          </h2>
-          <p className="text-[#A0A0A0] text-lg mb-10 leading-relaxed">
-            Take our free 2-minute assessment and get a personalized AI stack
-            recommendation.
-          </p>
-          <Link
-            href="/assessment"
-            className="inline-block text-white font-semibold text-base px-8 py-4 rounded-full transition-all hover:opacity-90 hover:scale-105"
-            style={{
-              background:
-                "linear-gradient(156deg, #232323 15.44%, #8468EB 111.39%)",
-              border: "1px solid rgba(132,104,235,0.4)",
-            }}
-          >
-            Get Your Free AI Stack
-          </Link>
+            {/* Right — decorative orbit rings */}
+            <div className="relative hidden md:flex items-center justify-center md:w-2/5 min-h-[200px]">
+              <div className="absolute w-56 h-56 rounded-full border border-white/10" />
+              <div className="absolute w-40 h-40 rounded-full border border-white/20" />
+              <div className="absolute w-24 h-24 rounded-full border border-white/30" />
+              <div className="absolute w-10 h-10 rounded-full bg-white/10 border border-white/40" />
+            </div>
+          </div>
         </div>
       </section>
     </div>
