@@ -1,0 +1,50 @@
+## Design System
+
+### Theme
+Dark mode only.
+
+### Colors (use these exact values — do not use default Tailwind palette)
+| Role | Value |
+|---|---|
+| Page background | `#131313` |
+| Card background | `#232323` |
+| Elevated surface | `#2F2F2F` |
+| Border | `#343434` |
+| Primary accent | `#8468EB` |
+| Heading text | `#FFFFFF` |
+| Body / muted text | `#A0A0A0` |
+| CTA gradient | `linear-gradient(156deg, #232323 15.44%, #8468EB 111.39%)` |
+| Hero radial glow | `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132,104,235,0.15) 0%, #131313 70%)` |
+
+### Typography
+- Font: Inter or system sans-serif
+- Large headings: tight tracking (`letter-spacing: -0.03em`), `font-weight: 700`
+- Body text: generous line-height (`1.7`)
+- Never use the same weight for headings and body at the same visual level
+
+### Spacing & Depth
+- Use consistent spacing tokens — not arbitrary Tailwind steps
+- Surfaces must have a layering system: base → elevated → floating (not all at the same z-plane)
+- Cards: `rounded-2xl`, border `#343434`, background `#2F2F2F`
+- Buttons / pills: `rounded-full`
+
+### Shadows
+- Never use flat `shadow-md`
+- Use layered, color-tinted shadows with low opacity
+- Accent shadow: `0 0 24px rgba(132, 104, 235, 0.1)`
+
+### Gradients & Texture
+- Layer multiple radial gradients for depth
+- Add grain/texture via SVG noise filter on hero sections where appropriate
+
+### Animations
+- Only animate `transform` and `opacity`
+- **Never use `transition-all`**
+- Use spring-style easing (`cubic-bezier(0.34, 1.56, 0.64, 1)` for scale, ease-out for fades)
+
+### Interactive States
+Every clickable element must have:
+- `hover` state
+- `focus-visible` state (keyboard accessible)
+- `active` state
+No exceptions.
