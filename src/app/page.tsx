@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { SpiralAnimation } from "@/components/ui/spiral-animation";
 import { BeamsBackground } from "@/components/ui/beams-background";
+import { OfferCarousel } from "@/components/ui/offer-carousel";
+import type { Deal } from "@/components/ui/offer-carousel";
 
 const SearchBarWrapper = dynamic(
   () => import("@/components/ui/search-bar-wrapper").then((m) => ({ default: m.SearchBarWrapper })),
@@ -133,13 +135,67 @@ const categories = [
 ];
 
 // ─── Featured deals placeholder data ─────────────────────────────
-const deals = [
-  { name: "Jasper AI", deal: "50% off first 3 months", tag: "Content" },
-  { name: "Surfer SEO", deal: "Free 7-day trial", tag: "SEO" },
-  { name: "Synthesia", deal: "20% off annual plan", tag: "Video" },
-  { name: "HubSpot AI", deal: "Free CRM forever", tag: "Sales" },
-  { name: "Notion AI", deal: "3 months free on Plus", tag: "Productivity" },
-  { name: "Descript", deal: "Free 1 hour/month", tag: "Audio" },
+const deals: Deal[] = [
+  {
+    id: "jasper",
+    name: "Jasper AI",
+    tag: "Content",
+    deal: "50% off your first 3 months — generate blogs, ads & emails in seconds.",
+    dealLabel: "50% OFF",
+    imageSrc: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
+    imageAlt: "Creative writing workspace",
+    href: "/directory?category=content-writing",
+  },
+  {
+    id: "surfer",
+    name: "Surfer SEO",
+    tag: "SEO",
+    deal: "Free 7-day trial — rank higher with AI-powered content optimization.",
+    dealLabel: "FREE TRIAL",
+    imageSrc: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80",
+    imageAlt: "Data analytics dashboard",
+    href: "/directory?category=marketing-seo",
+  },
+  {
+    id: "synthesia",
+    name: "Synthesia",
+    tag: "Video",
+    deal: "20% off annual plan — create AI videos with a human presenter in minutes.",
+    dealLabel: "20% OFF",
+    imageSrc: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
+    imageAlt: "Video production setup",
+    href: "/directory?category=video-audio",
+  },
+  {
+    id: "hubspot",
+    name: "HubSpot AI",
+    tag: "Sales",
+    deal: "Free CRM forever — AI-powered sales tools with no time limit.",
+    dealLabel: "FREE",
+    imageSrc: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
+    imageAlt: "Business team meeting",
+    href: "/directory?category=sales-crm",
+  },
+  {
+    id: "notion",
+    name: "Notion AI",
+    tag: "Productivity",
+    deal: "3 months free on Plus — AI writing, summarizing & task management.",
+    dealLabel: "3 MO FREE",
+    imageSrc: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80",
+    imageAlt: "Organized workspace desk",
+    href: "/directory?category=productivity-ops",
+  },
+  {
+    id: "descript",
+    name: "Descript",
+    tag: "Audio",
+    deal: "Free 1 hour/month — edit audio & video by editing text.",
+    dealLabel: "FREE TIER",
+    imageSrc: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=600&q=80",
+    imageAlt: "Podcast microphone setup",
+    href: "/directory?category=video-audio",
+  },
 ];
 
 export default function HomePage() {
@@ -350,33 +406,17 @@ export default function HomePage() {
       {/* ── Featured Deals Carousel ───────────────────────────────── */}
       <section className="px-4 py-20">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-            Featured Deals
-          </h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {deals.map((deal) => (
-              <div
-                key={deal.name}
-                className="min-w-[240px] flex-shrink-0 bg-[#2F2F2F] rounded-2xl border border-[#343434] p-5 flex flex-col gap-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#343434] flex-shrink-0" />
-                  <div>
-                    <p className="text-white text-sm font-semibold">
-                      {deal.name}
-                    </p>
-                    <span className="text-xs text-[#8468EB] font-medium">
-                      {deal.tag}
-                    </span>
-                  </div>
-                </div>
-                <p className="text-[#A0A0A0] text-sm">{deal.deal}</p>
-                <button className="mt-auto w-full text-center text-sm font-semibold text-white py-2 rounded-full border border-[#8468EB] hover:bg-[#8468EB] transition-colors">
-                  Get Deal
-                </button>
-              </div>
-            ))}
+          <div className="flex items-end justify-between mb-8 gap-4">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                Featured Deals
+              </h2>
+              <p className="text-sm mt-1" style={{ color: "#A0A0A0" }}>
+                Exclusive offers on the best AI tools — updated regularly
+              </p>
+            </div>
           </div>
+          <OfferCarousel deals={deals} />
         </div>
       </section>
 
