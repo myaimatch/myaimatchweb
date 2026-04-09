@@ -1,0 +1,485 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:transparent}
+.ds{font-family:'Inter',sans-serif;color:#fff;padding:32px 24px;max-width:900px}
+.section{margin-bottom:48px}
+.label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#814ac8;margin-bottom:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.col{flex:1;min-width:140px}
+
+/* Colors */
+.swatch-row{display:flex;gap:6px;margin-bottom:8px}
+.swatch{width:44px;height:44px;border-radius:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;font-size:9px;font-weight:600;color:rgba(255,255,255,.55)}
+.swatch.lg{width:100%;height:64px;border-radius:12px;font-size:10px;align-items:center;padding:0}
+
+/* Typography */
+.type-row{border-bottom:1px solid rgba(255,255,255,.06);padding:10px 0;display:flex;align-items:baseline;gap:16px}
+.type-meta{font-size:10px;color:rgba(255,255,255,.35);width:110px;flex-shrink:0;font-family:monospace}
+
+/* Spacing */
+.space-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.space-bar{background:linear-gradient(90deg,#814ac8,#df7afe);border-radius:3px;height:12px}
+.space-label{font-size:10px;color:rgba(255,255,255,.4);font-family:monospace;width:40px}
+.space-val{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* Components */
+.comp-wrap{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px;margin-bottom:12px}
+.comp-label{font-size:10px;color:rgba(255,255,255,.25);margin-bottom:14px;font-family:monospace}
+
+/* Buttons */
+.btn-primary{background:linear-gradient(135deg,#814ac8,#a066d4);color:#fff;border:none;border-radius:999px;padding:10px 22px;font-size:14px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:7px;letter-spacing:.01em}
+.btn-secondary{background:rgba(129,74,200,.15);color:#df7afe;border:1px solid rgba(129,74,200,.35);border-radius:999px;padding:10px 22px;font-size:14px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:10px 22px;font-size:14px;font-weight:500;cursor:pointer}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:12px;color:rgba(255,255,255,.7);background:rgba(255,255,255,.04)}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#814ac8}
+
+/* Card */
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:20px;position:relative;overflow:hidden}
+.card-glow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:200px;height:80px;background:radial-gradient(ellipse,rgba(129,74,200,.5),transparent 70%);filter:blur(8px);pointer-events:none}
+.card-icon{width:42px;height:42px;border-radius:12px;background:rgba(129,74,200,.2);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.card-title{font-size:16px;font-weight:600;color:#fff;margin-bottom:4px}
+.card-sub{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
+
+/* Input */
+.input-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 16px}
+.input-icon{color:#814ac8;font-size:14px}
+.input-field{background:transparent;border:none;outline:none;font-size:13px;color:rgba(255,255,255,.7);font-family:inherit;flex:1}
+.input-field::placeholder{color:rgba(255,255,255,.25)}
+
+/* Nav */
+.nav{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.07);border-radius:999px;padding:8px 18px;backdrop-filter:blur(10px)}
+.nav-logo{width:24px;height:24px;border-radius:8px;background:#814ac8;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-right:6px}
+.nav-link{font-size:12px;color:rgba(255,255,255,.5);padding:4px 10px;cursor:pointer}
+.nav-link.active{color:#fff}
+.nav-cta{margin-left:auto;background:linear-gradient(135deg,#814ac8,#a066d4);color:#fff;border:none;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer}
+
+/* Footer */
+.footer-col-title{font-size:12px;font-weight:600;color:#fff;margin-bottom:12px}
+.footer-link{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:7px;display:block;cursor:pointer}
+.subscribe{display:flex;gap:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;overflow:hidden;padding:3px 3px 3px 14px}
+.subscribe input{background:transparent;border:none;outline:none;font-size:12px;color:rgba(255,255,255,.6);font-family:inherit;flex:1;min-width:0}
+.subscribe button{background:#814ac8;color:#fff;border:none;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
+
+/* CTA section */
+.cta-section{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(129,74,200,.45),transparent 70%),linear-gradient(180deg,#0d0d0d,#000);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:52px 32px;text-align:center;position:relative}
+.cta-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:2px;height:80px;background:linear-gradient(180deg,#814ac8,transparent)}
+
+/* Divider */
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);margin:40px 0}
+
+/* Grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+</style>
+
+<div class="ds">
+
+<div style="margin-bottom:52px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#814ac8;margin-bottom:8px">MyAIMatch</div>
+<div style="font-size:30px;font-weight:700;color:#fff;margin-bottom:6px">Design System</div>
+<div style="font-size:14px;color:rgba(255,255,255,.4);line-height:1.6">Dark-first, purple-led. Built for trust and clarity at every touchpoint.</div>
+</div>
+
+<!-- COLOR PALETTE -->
+<div class="section">
+<div class="label">Color Palette</div>
+
+<div class="row" style="margin-bottom:18px">
+<div class="col">
+<div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:7px;font-family:monospace">Backgrounds</div>
+<div class="swatch-row">
+<div class="swatch" style="background:#000000">000</div>
+<div class="swatch" style="background:#0d0d0d">0d0d</div>
+<div class="swatch" style="background:#111111">111</div>
+<div class="swatch" style="background:#161616">161</div>
+<div class="swatch" style="background:#222222">222</div>
+</div>
+</div>
+<div class="col">
+<div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:7px;font-family:monospace">Primary Purple</div>
+<div class="swatch-row">
+<div class="swatch" style="background:#26215c">261f</div>
+<div class="swatch" style="background:#3c3489">3c34</div>
+<div class="swatch" style="background:#534ab7">534a</div>
+<div class="swatch" style="background:#814ac8;border:2px solid rgba(255,255,255,.3)">814a</div>
+<div class="swatch" style="background:#a066d4">a066</div>
+</div>
+</div>
+<div class="col">
+<div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:7px;font-family:monospace">Accent / Glow</div>
+<div class="swatch-row">
+<div class="swatch" style="background:#b688dd">b688</div>
+<div class="swatch" style="background:#c9a4e6">c9a4</div>
+<div class="swatch" style="background:#df7afe;border:2px solid rgba(255,255,255,.3)">df7a</div>
+<div class="swatch" style="background:#ebb5ff">ebb5</div>
+<div class="swatch" style="background:#f4d9ff">f4d9</div>
+</div>
+</div>
+</div>
+
+<div class="g2" style="margin-bottom:14px">
+<div>
+<div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:7px;font-family:monospace">Text Scale</div>
+<div class="swatch-row">
+<div class="swatch" style="background:#ffffff;color:#666">fff</div>
+<div class="swatch" style="background:rgba(255,255,255,.87);color:#888">e0</div>
+<div class="swatch" style="background:rgba(255,255,255,.6);color:#aaa">99</div>
+<div class="swatch" style="background:rgba(255,255,255,.35);color:#bbb">59</div>
+<div class="swatch" style="background:rgba(255,255,255,.12);color:#ccc">1f</div>
+</div>
+</div>
+<div>
+<div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:7px;font-family:monospace">Borders / Surfaces</div>
+<div class="swatch-row">
+<div class="swatch" style="background:rgba(255,255,255,.08);color:#ccc">0d</div>
+<div class="swatch" style="background:rgba(255,255,255,.1);color:#ccc">1a</div>
+<div class="swatch" style="background:rgba(129,74,200,.2);color:#ccc">p20</div>
+<div class="swatch" style="background:rgba(129,74,200,.35);color:#ccc">p35</div>
+<div class="swatch" style="background:rgba(129,74,200,.5);color:#ccc">p50</div>
+</div>
+</div>
+</div>
+
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px">
+<div style="font-size:10px;color:rgba(255,255,255,.25);margin-bottom:10px;font-family:monospace">Token reference</div>
+<div class="row" style="gap:20px">
+<div style="font-size:11px;font-family:monospace;line-height:2.1;color:rgba(255,255,255,.5)">
+--color-bg: #000000<br>
+--color-surface: #0d0d0dcc<br>
+--color-card: rgba(255,255,255,.04)<br>
+--color-border: rgba(255,255,255,.08)
+</div>
+<div style="font-size:11px;font-family:monospace;line-height:2.1;color:rgba(255,255,255,.5)">
+--color-primary: #814ac8<br>
+--color-accent: #df7afe<br>
+--color-text-primary: #ffffff<br>
+--color-text-muted: rgba(255,255,255,.4)
+</div>
+<div style="font-size:11px;font-family:monospace;line-height:2.1;color:rgba(255,255,255,.5)">
+--gradient-cta: linear-gradient(135deg,#814ac8,#a066d4)<br>
+--gradient-glow: radial-gradient(ellipse,rgba(129,74,200,.5),transparent 70%)<br>
+--gradient-beam: radial-gradient(ellipse 80% 60% at 50% 0%,rgba(129,74,200,.45),transparent)
+</div>
+</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- TYPOGRAPHY -->
+<div class="section">
+<div class="label">Typography</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:6px 16px;margin-bottom:14px">
+<div class="type-row">
+<div class="type-meta">Display / 40–48px / 700</div>
+<div style="font-size:36px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1.1">Ready to Elevate</div>
+</div>
+<div class="type-row">
+<div class="type-meta">H1 / 32–36px / 700</div>
+<div style="font-size:28px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1.2">Find Your AI Stack</div>
+</div>
+<div class="type-row">
+<div class="type-meta">H2 / 24px / 600</div>
+<div style="font-size:22px;font-weight:600;letter-spacing:-.01em;color:#fff">Explore Categories</div>
+</div>
+<div class="type-row">
+<div class="type-meta">H3 / 18–20px / 600</div>
+<div style="font-size:18px;font-weight:600;color:#fff">Design Tools</div>
+</div>
+<div class="type-row">
+<div class="type-meta">Body / 15–16px / 400</div>
+<div style="font-size:15px;font-weight:400;color:rgba(255,255,255,.6);line-height:1.65">We bridge the gap between discovery and implementation — your knowledgeable friend in the AI space.</div>
+</div>
+<div class="type-row">
+<div class="type-meta">Small / 13px / 400</div>
+<div style="font-size:13px;font-weight:400;color:rgba(255,255,255,.4)">24 tools available · Free assessment</div>
+</div>
+<div class="type-row" style="border:none">
+<div class="type-meta">Label / 10px / 700</div>
+<div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#814ac8">Category · AI Tools</div>
+</div>
+</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px">
+<div style="font-size:10px;color:rgba(255,255,255,.25);font-family:monospace;margin-bottom:8px">Font stack</div>
+<div style="font-size:12px;font-family:monospace;color:rgba(255,255,255,.5);line-height:2">
+Primary: Inter (400, 500, 600, 700) &nbsp;·&nbsp; Weights used: 400 body, 500 medium, 600 semibold, 700 bold<br>
+Fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif<br>
+Letter-spacing: –0.02em for Display/H1 · –0.01em for H2 · normal for body<br>
+Line-height: 1.1 display · 1.2 headings · 1.65 body · 1.0 labels
+</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SPACING & RADIUS -->
+<div class="section">
+<div class="row">
+<div class="col" style="min-width:200px">
+<div class="label">Spacing Scale</div>
+<div class="space-row"><div class="space-label">xs / 4</div><div class="space-bar" style="width:8px"></div></div>
+<div class="space-row"><div class="space-label">sm / 8</div><div class="space-bar" style="width:16px"></div></div>
+<div class="space-row"><div class="space-label">md / 12</div><div class="space-bar" style="width:24px"></div></div>
+<div class="space-row"><div class="space-label">lg / 16</div><div class="space-bar" style="width:32px"></div></div>
+<div class="space-row"><div class="space-label">xl / 24</div><div class="space-bar" style="width:48px"></div></div>
+<div class="space-row"><div class="space-label">2xl / 32</div><div class="space-bar" style="width:64px"></div></div>
+<div class="space-row"><div class="space-label">3xl / 48</div><div class="space-bar" style="width:96px"></div></div>
+<div class="space-row"><div class="space-label">4xl / 64</div><div class="space-bar" style="width:128px"></div></div>
+</div>
+<div class="col" style="min-width:180px">
+<div class="label">Border Radius</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:36px;height:36px;background:rgba(129,74,200,.25);border:1px solid rgba(129,74,200,.4);border-radius:4px"></div>
+<span style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.4)">4px · sm</span>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:44px;height:36px;background:rgba(129,74,200,.25);border:1px solid rgba(129,74,200,.4);border-radius:8px"></div>
+<span style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.4)">8px · md</span>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:52px;height:36px;background:rgba(129,74,200,.25);border:1px solid rgba(129,74,200,.4);border-radius:12px"></div>
+<span style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.4)">12px · lg</span>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:60px;height:36px;background:rgba(129,74,200,.25);border:1px solid rgba(129,74,200,.4);border-radius:18px"></div>
+<span style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.4)">18px · xl (card)</span>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:80px;height:36px;background:rgba(129,74,200,.25);border:1px solid rgba(129,74,200,.4);border-radius:999px"></div>
+<span style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.4)">999px · pill / CTA</span>
+</div>
+</div>
+</div>
+<div class="col" style="min-width:180px">
+<div class="label">Shadows & Glow</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;font-size:11px;font-family:monospace;color:rgba(255,255,255,.4);line-height:2">
+border: 1px solid rgba(255,255,255,.08)<br>
+<span style="color:rgba(255,255,255,.25)">— default card border</span>
+</div>
+<div style="background:rgba(255,255,255,.04);border:1px solid rgba(129,74,200,.4);border-radius:12px;padding:12px;font-size:11px;font-family:monospace;color:rgba(255,255,255,.4);line-height:2;box-shadow:0 0 24px rgba(129,74,200,.25)">
+border: rgba(129,74,200,.4)<br>box-shadow: 0 0 24px rgba(129,74,200,.25)<br>
+<span style="color:rgba(255,255,255,.25)">— hover/active state</span>
+</div>
+<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;font-size:11px;font-family:monospace;color:rgba(255,255,255,.4);line-height:2;box-shadow:0 15px 35px rgba(0,0,0,.4)">
+box-shadow: 0 15px 35px rgba(0,0,0,.4)<br>
+<span style="color:rgba(255,255,255,.25)">— elevated / modal</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- COMPONENTS -->
+<div class="section">
+<div class="label">Components</div>
+
+<!-- Navbar -->
+<div class="comp-wrap">
+<div class="comp-label">navbar · pill / blur</div>
+<div class="nav">
+<div class="nav-logo">M</div>
+<span class="nav-link active">Overview</span>
+<span class="nav-link">Directory</span>
+<span class="nav-link">Compare</span>
+<span class="nav-link">Pricing</span>
+<span style="margin-left:auto;font-size:12px;color:rgba(255,255,255,.35);margin-right:10px">Contact</span>
+<button class="nav-cta">Get started ↗</button>
+</div>
+</div>
+
+<!-- Buttons -->
+<div class="comp-wrap">
+<div class="comp-label">buttons</div>
+<div class="row" style="gap:10px;align-items:center;flex-wrap:wrap">
+<button class="btn-primary">Get Started ↗</button>
+<button class="btn-primary">Book an Appointment</button>
+<button class="btn-secondary">View Tools</button>
+<button class="btn-ghost">Contact us</button>
+</div>
+</div>
+
+<!-- Badges & Input -->
+<div class="g2">
+<div class="comp-wrap">
+<div class="comp-label">badges / pills</div>
+<div class="row" style="gap:8px">
+<span class="badge"><span class="badge-dot"></span>Become a Part of Us</span>
+<span class="badge">Free Assessment</span>
+<span class="badge" style="border-color:rgba(129,74,200,.4);color:#df7afe">New</span>
+</div>
+</div>
+<div class="comp-wrap">
+<div class="comp-label">search input</div>
+<div class="input-wrap">
+<span class="input-icon">⌕</span>
+<input class="input-field" placeholder="Search AI tools..." />
+<button style="background:linear-gradient(135deg,#814ac8,#df7afe);color:#fff;border:none;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:500;cursor:pointer">Search</button>
+</div>
+</div>
+</div>
+
+<!-- Cards -->
+<div class="comp-wrap">
+<div class="comp-label">category card · with 3D tilt on hover (Framer Motion)</div>
+<div class="g3">
+<div class="card">
+<div class="card-glow"></div>
+<div class="card-icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#814ac8" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+</div>
+<div class="card-title">Design Tools</div>
+<div class="card-sub">24 tools · Figma, Sketch, XD</div>
+<div style="margin-top:14px"><button class="btn-secondary" style="font-size:12px;padding:7px 16px">View Tools →</button></div>
+</div>
+<div class="card" style="border-color:rgba(129,74,200,.3);box-shadow:0 0 28px rgba(129,74,200,.15)">
+<div class="card-glow"></div>
+<div class="card-icon" style="background:rgba(129,74,200,.3)">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#df7afe" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+</div>
+<div class="card-title">Development</div>
+<div class="card-sub">42 tools · VS Code, React, Next.js</div>
+<div style="margin-top:14px"><button class="btn-primary" style="font-size:12px;padding:7px 16px">View Tools →</button></div>
+</div>
+<div class="card">
+<div class="card-glow"></div>
+<div class="card-icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#814ac8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+</div>
+<div class="card-title">Productivity</div>
+<div class="card-sub">18 tools · Notion, Slack, Asana</div>
+<div style="margin-top:14px"><button class="btn-secondary" style="font-size:12px;padding:7px 16px">View Tools →</button></div>
+</div>
+</div>
+</div>
+
+<!-- CTA Section -->
+<div class="comp-wrap">
+<div class="comp-label">CTA section · radial beam from top</div>
+<div class="cta-section">
+<span class="badge" style="margin-bottom:20px;display:inline-flex">
+<span class="badge-dot"></span>Become a Part of Us
+</span>
+<div style="font-size:26px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-.02em;line-height:1.2">Ready to Elevate Your Brand<br><span style="color:rgba(255,255,255,.4)">with Next-Gen Innovation?</span></div>
+<div style="font-size:13px;color:rgba(255,255,255,.35);margin:12px 0 24px;max-width:380px;margin-left:auto;margin-right:auto;line-height:1.65">Join us and start transforming your vision into reality with expert support.</div>
+<button class="btn-primary">Book an Appointment</button>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="comp-wrap">
+<div class="comp-label">footer · dark with purple beam top-center</div>
+<div style="background:radial-gradient(ellipse 40% 80px at 50% 0%,rgba(129,74,200,.35),transparent);border-radius:12px;padding:28px 24px">
+<div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1.5fr;gap:24px">
+<div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+<div style="width:28px;height:28px;border-radius:8px;background:#814ac8;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">M</div>
+<span style="font-size:14px;font-weight:600;color:#fff">MyAIMatch</span>
+</div>
+<div style="font-size:11px;color:rgba(255,255,255,.3);line-height:1.7">Made with 💜 and purpose<br>– Your AI Matching Engine</div>
+</div>
+<div>
+<div class="footer-col-title">Pages</div>
+<a class="footer-link">Home</a>
+<a class="footer-link">Directory</a>
+<a class="footer-link">Compare</a>
+<a class="footer-link">Pricing</a>
+<a class="footer-link">FAQ</a>
+</div>
+<div>
+<div class="footer-col-title">Social</div>
+<a class="footer-link">Twitter (X)</a>
+<a class="footer-link">LinkedIn</a>
+<a class="footer-link">YouTube</a>
+</div>
+<div>
+<div class="footer-col-title">Subscribe</div>
+<div class="subscribe">
+<input placeholder="Enter your email..." />
+<button>Subscribe</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MOTION -->
+<div class="section">
+<div class="label">Motion & Animation (Framer Motion)</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px">
+<div class="g2" style="gap:20px">
+<div>
+<div style="font-size:10px;color:rgba(255,255,255,.25);font-family:monospace;margin-bottom:10px">Transitions</div>
+<div style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.45);line-height:2.2">
+Spring: stiffness 300-400 / damping 20-25<br>
+Card hover lift: y –8px, spring<br>
+Card 3D tilt: rotateX/Y ±8°, spring<br>
+Form expand: width 240→340px, spring<br>
+Suggestion list: height auto, 0.2s ease<br>
+Button tap: scale 0.95-0.98
+</div>
+</div>
+<div>
+<div style="font-size:10px;color:rgba(255,255,255,.25);font-family:monospace;margin-bottom:10px">Effects</div>
+<div style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.45);line-height:2.2">
+Background beam: radial-gradient breathing 2s loop<br>
+Particle float: x/y ±20px, 1.5–3s, reverse<br>
+Click burst: 14 particles, 0.5–1.3s ease-out<br>
+Glow pulse: opacity 0.3→0.6, scale 1→1.1, 0.3s<br>
+Gradient animate: 15s linear loop (3 stops)<br>
+Page enter: opacity 0→1, y 20→0, 0.5s
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- DESIGN PRINCIPLES -->
+<div class="section">
+<div class="label">Design Principles</div>
+<div class="g3" style="gap:10px">
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px">
+<div style="font-size:16px;margin-bottom:8px">🌑</div>
+<div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:5px">Dark First</div>
+<div style="font-size:11px;color:rgba(255,255,255,.35);line-height:1.6">Pure blacks (#000, #0d0d0d) as the base. Never use dark grays as page backgrounds — true black maximises contrast with purple glows.</div>
+</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px">
+<div style="font-size:16px;margin-bottom:8px">💜</div>
+<div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:5px">Purple-Led</div>
+<div style="font-size:11px;color:rgba(255,255,255,.35);line-height:1.6">#814ac8 for all interactive elements, #df7afe for glows and accents. Never introduce secondary brand colors — purple is the only hue family.</div>
+</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px">
+<div style="font-size:16px;margin-bottom:8px">✦</div>
+<div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:5px">Glow as Depth</div>
+<div style="font-size:11px;color:rgba(255,255,255,.35);line-height:1.6">Radial purple glows create spatial hierarchy. Beams at top-center of sections. Card glows bloom on hover. Never flat shadows.</div>
+</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px">
+<div style="font-size:16px;margin-bottom:8px">○</div>
+<div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:5px">Pill-Native</div>
+<div style="font-size:11px;color:rgba(255,255,255,.35);line-height:1.6">All CTAs, navbars, and inputs use border-radius: 999px. Cards use 18px. Only inner UI elements drop to 8–12px.</div>
+</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px">
+<div style="font-size:16px;margin-bottom:8px">⟡</div>
+<div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:5px">Glass Surfaces</div>
+<div style="font-size:11px;color:rgba(255,255,255,.35);line-height:1.6">Cards: rgba(255,255,255,.04) + 1px rgba border. Navbar: backdrop-blur: 10px. Never opaque surfaces — layers should breathe.</div>
+</div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px">
+<div style="font-size:16px;margin-bottom:8px">◌</div>
+<div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:5px">Trust Through Space</div>
+<div style="font-size:11px;color:rgba(255,255,255,.35);line-height:1.6">Generous whitespace signals confidence. 48–64px section padding. Text at 40–60% opacity for hierarchy. Never crowd the canvas.</div>
+</div>
+</div>
+</div>
+
+</div>
