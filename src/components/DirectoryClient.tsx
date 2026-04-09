@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react"
 import dynamic from "next/dynamic"
 import { Star } from "lucide-react"
+import { motion } from "framer-motion"
 import type { AirtableTool, AirtableCategory } from "@/lib/airtable"
 
 const SearchBar = dynamic(
@@ -104,7 +105,12 @@ function ToolCard({
   const categoryName = tool.category[0] ? categoryMap[tool.category[0]] : null
 
   return (
-    <div className="bg-[#2F2F2F] rounded-2xl border border-[#343434] hover:border-[#8468EB] transition-all p-5 flex flex-col gap-4">
+    <motion.div
+      className="bg-[#1a1a1a] rounded-2xl border border-[#2a2a2a] p-5 flex flex-col gap-4"
+      whileHover={{ scale: 1.02, borderColor: "#814ac8", boxShadow: "0 16px 40px rgba(129,74,200,0.15)" }}
+      whileTap={{ scale: 0.99 }}
+      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+    >
       {/* Logo + name row */}
       <div className="flex items-center gap-3">
         {tool.logoUrl ? (
@@ -148,6 +154,6 @@ function ToolCard({
           </span>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }

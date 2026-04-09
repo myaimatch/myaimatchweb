@@ -19,6 +19,7 @@ import {
   Globe,
   GraduationCap,
 } from "lucide-react";
+import CategoryCard from "@/components/CategoryCard";
 
 export const metadata: Metadata = {
   title: "myAIMatch — Find the Right AI Tools for You",
@@ -471,46 +472,14 @@ export default function HomePage() {
             {categories.map((cat) => {
               const Icon = cat.icon;
               return (
-                <div
+                <CategoryCard
                   key={cat.slug}
-                  className="group flex flex-col gap-5 p-6 bg-[#2F2F2F] rounded-2xl border border-[#343434] hover:border-[#8468EB] transition-all hover:shadow-lg hover:shadow-[#8468EB]/10"
-                >
-                  {/* Header */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-[#343434] flex items-center justify-center group-hover:bg-[#8468EB]/20 transition-colors flex-shrink-0">
-                      <Icon size={18} className="text-[#8468EB]" />
-                    </div>
-                    <div>
-                      <p className="text-white text-sm font-semibold leading-snug">
-                        {cat.name}
-                      </p>
-                      <p className="text-[#A0A0A0] text-xs mt-0.5">
-                        {cat.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Tool logo placeholders — 14 minimum */}
-                  <div className="flex flex-wrap gap-2">
-                    {cat.placeholderLogos.map((logo, i) => (
-                      <div
-                        key={i}
-                        className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0"
-                        style={{ backgroundColor: logo.bg, color: logo.color }}
-                      >
-                        {logo.initials}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* View more */}
-                  <Link
-                    href={`/directory?category=${cat.slug}`}
-                    className="text-[#8468EB] text-sm font-medium hover:text-white transition-colors flex items-center gap-1 mt-auto"
-                  >
-                    View more →
-                  </Link>
-                </div>
+                  name={cat.name}
+                  slug={cat.slug}
+                  description={cat.description}
+                  icon={<Icon size={18} style={{ color: "#c084fc" }} />}
+                  placeholderLogos={cat.placeholderLogos}
+                />
               );
             })}
           </div>
