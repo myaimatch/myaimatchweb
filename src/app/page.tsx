@@ -1,6 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { SpiralAnimation } from "@/components/ui/spiral-animation";
+
+const SearchBarWrapper = dynamic(
+  () => import("@/components/ui/search-bar-wrapper").then((m) => ({ default: m.SearchBarWrapper })),
+  { ssr: false }
+);
 import {
   TrendingUp,
   PenLine,
@@ -12,7 +18,6 @@ import {
   BarChart2,
   Globe,
   GraduationCap,
-  Search,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -451,17 +456,8 @@ export default function HomePage() {
 
       {/* ── Search Bar ───────────────────────────────────────────── */}
       <section className="px-4 pb-20 -mt-4">
-        <div className="max-w-2xl mx-auto relative">
-          <Search
-            className="absolute left-5 top-1/2 -translate-y-1/2 text-[#A0A0A0]"
-            size={20}
-          />
-          <input
-            type="text"
-            placeholder="What do you need AI to help with?"
-            className="w-full bg-[#232323] border border-[#343434] text-white placeholder-[#A0A0A0] rounded-full pl-13 pr-6 py-4 text-base outline-none focus:border-[#8468EB] focus:ring-1 focus:ring-[#8468EB] transition-colors"
-            style={{ paddingLeft: "3.25rem" }}
-          />
+        <div className="max-w-2xl mx-auto">
+          <SearchBarWrapper />
         </div>
       </section>
 

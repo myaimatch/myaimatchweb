@@ -1,8 +1,19 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Search, Star } from "lucide-react"
+import dynamic from "next/dynamic"
+import { Star } from "lucide-react"
 import type { AirtableTool, AirtableCategory } from "@/lib/airtable"
+
+const SearchBar = dynamic(
+  () => import("@/components/ui/search-bar").then((m) => ({ default: m.SearchBar })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-14 rounded-full bg-white/5 border border-white/10 animate-pulse" />
+    ),
+  }
+)
 
 interface Props {
   tools: AirtableTool[]
@@ -29,14 +40,12 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   return (
     <div className="px-4 pb-24">
       {/* Search */}
-      <div className="max-w-2xl mx-auto relative mb-8">
-        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#A0A0A0] w-4 h-4" />
-        <input
-          type="text"
-          placeholder="Search tools..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-[#232323] border border-[#343434] text-white placeholder-[#A0A0A0] rounded-full pl-12 pr-6 py-4 text-base outline-none focus:border-[#8468EB] focus:ring-1 focus:ring-[#8468EB] transition-colors"
+      <div className="max-w-2xl mx-auto mb-8">
+        <SearchBar
+          placeholder="Search AI tools..."
+          onSearch={(q) => setSearch(q)}
+          onChange={(q) => setSearch(q)}
+          suggestions={tools.map((t) => t.name).slice(0, 20)}
         />
       </div>
 
