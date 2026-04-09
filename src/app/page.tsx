@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { SpiralAnimation } from "@/components/ui/spiral-animation";
+import { BeamsBackground } from "@/components/ui/beams-background";
 
 const SearchBarWrapper = dynamic(
   () => import("@/components/ui/search-bar-wrapper").then((m) => ({ default: m.SearchBarWrapper })),
@@ -35,171 +36,26 @@ export const metadata: Metadata = {
 };
 
 // ─── Placeholder logo sets (14 per category) ─────────────────────
-// Real logos will come from Airtable. These simulate a tool logo grid.
-const mkLogos = (seeds: { i: string; bg: string; color: string }[]) =>
-  seeds.map((s) => ({ initials: s.i, bg: s.bg, color: s.color }));
+// Real logos will come from Airtable. Monochrome until real assets are ready.
+const greys = ["#1e1e1e", "#252525", "#2a2a2a", "#303030"];
+const mkLogos = (initials: string[]) =>
+  initials.map((i, idx) => ({
+    initials: i,
+    bg: greys[idx % greys.length],
+    color: "rgba(255,255,255,0.65)",
+  }));
 
 const logoSets = {
-  "marketing-seo": mkLogos([
-    { i: "Sm", bg: "#FF6B2B", color: "#fff" },
-    { i: "AH", bg: "#2563EB", color: "#fff" },
-    { i: "SE", bg: "#10B981", color: "#fff" },
-    { i: "Mk", bg: "#F59E0B", color: "#111" },
-    { i: "Gs", bg: "#4285F4", color: "#fff" },
-    { i: "Mb", bg: "#6366F1", color: "#fff" },
-    { i: "Hs", bg: "#FF7A59", color: "#fff" },
-    { i: "Kw", bg: "#0EA5E9", color: "#fff" },
-    { i: "Sp", bg: "#8B5CF6", color: "#fff" },
-    { i: "Cl", bg: "#EC4899", color: "#fff" },
-    { i: "Lm", bg: "#14B8A6", color: "#fff" },
-    { i: "Rb", bg: "#F97316", color: "#fff" },
-    { i: "Mr", bg: "#06B6D4", color: "#fff" },
-    { i: "Wr", bg: "#84CC16", color: "#111" },
-  ]),
-  "content-writing": mkLogos([
-    { i: "Js", bg: "#6366F1", color: "#fff" },
-    { i: "Cp", bg: "#10B981", color: "#fff" },
-    { i: "Wr", bg: "#F59E0B", color: "#111" },
-    { i: "Ry", bg: "#EC4899", color: "#fff" },
-    { i: "Su", bg: "#0EA5E9", color: "#fff" },
-    { i: "Cl", bg: "#8B5CF6", color: "#fff" },
-    { i: "Gm", bg: "#14B8A6", color: "#fff" },
-    { i: "Cn", bg: "#FF6B2B", color: "#fff" },
-    { i: "Bz", bg: "#2563EB", color: "#fff" },
-    { i: "Nl", bg: "#06B6D4", color: "#fff" },
-    { i: "Hy", bg: "#84CC16", color: "#111" },
-    { i: "Wt", bg: "#F97316", color: "#fff" },
-    { i: "Pf", bg: "#4285F4", color: "#fff" },
-    { i: "Kl", bg: "#EF4444", color: "#fff" },
-  ]),
-  "design-creative": mkLogos([
-    { i: "Md", bg: "#FF7262", color: "#fff" },
-    { i: "Cv", bg: "#00C4B4", color: "#fff" },
-    { i: "Ad", bg: "#FF0000", color: "#fff" },
-    { i: "Fg", bg: "#A259FF", color: "#fff" },
-    { i: "Sk", bg: "#F7B500", color: "#111" },
-    { i: "Dr", bg: "#E44D26", color: "#fff" },
-    { i: "Rm", bg: "#06B6D4", color: "#fff" },
-    { i: "Ps", bg: "#2AF598", color: "#111" },
-    { i: "Il", bg: "#FF9A00", color: "#fff" },
-    { i: "Cr", bg: "#EC4899", color: "#fff" },
-    { i: "Sp", bg: "#6366F1", color: "#fff" },
-    { i: "Vk", bg: "#10B981", color: "#fff" },
-    { i: "Nv", bg: "#8B5CF6", color: "#fff" },
-    { i: "Lx", bg: "#F59E0B", color: "#111" },
-  ]),
-  "video-audio": mkLogos([
-    { i: "Sy", bg: "#5865F2", color: "#fff" },
-    { i: "Dc", bg: "#DB4437", color: "#fff" },
-    { i: "Rv", bg: "#00C4B4", color: "#fff" },
-    { i: "Lm", bg: "#FF6B2B", color: "#fff" },
-    { i: "Ee", bg: "#2563EB", color: "#fff" },
-    { i: "Mu", bg: "#10B981", color: "#fff" },
-    { i: "Ca", bg: "#8B5CF6", color: "#fff" },
-    { i: "Ec", bg: "#EC4899", color: "#fff" },
-    { i: "Vc", bg: "#F59E0B", color: "#111" },
-    { i: "Ht", bg: "#14B8A6", color: "#fff" },
-    { i: "Wv", bg: "#06B6D4", color: "#fff" },
-    { i: "Ss", bg: "#84CC16", color: "#111" },
-    { i: "Pp", bg: "#EF4444", color: "#fff" },
-    { i: "Fl", bg: "#F97316", color: "#fff" },
-  ]),
-  "sales-crm": mkLogos([
-    { i: "Sf", bg: "#00A1E0", color: "#fff" },
-    { i: "Hs", bg: "#FF7A59", color: "#fff" },
-    { i: "Pp", bg: "#2563EB", color: "#fff" },
-    { i: "Cl", bg: "#10B981", color: "#fff" },
-    { i: "Ol", bg: "#8B5CF6", color: "#fff" },
-    { i: "Zp", bg: "#F59E0B", color: "#111" },
-    { i: "Ga", bg: "#EC4899", color: "#fff" },
-    { i: "At", bg: "#14B8A6", color: "#fff" },
-    { i: "Nd", bg: "#EF4444", color: "#fff" },
-    { i: "Lr", bg: "#06B6D4", color: "#fff" },
-    { i: "Kr", bg: "#F97316", color: "#fff" },
-    { i: "Mn", bg: "#84CC16", color: "#111" },
-    { i: "Ou", bg: "#4285F4", color: "#fff" },
-    { i: "Rs", bg: "#FF6B2B", color: "#fff" },
-  ]),
-  "customer-support": mkLogos([
-    { i: "It", bg: "#2563EB", color: "#fff" },
-    { i: "Zd", bg: "#03363D", color: "#fff" },
-    { i: "Ic", bg: "#6366F1", color: "#fff" },
-    { i: "Fr", bg: "#F59E0B", color: "#111" },
-    { i: "Gp", bg: "#10B981", color: "#fff" },
-    { i: "Cr", bg: "#EC4899", color: "#fff" },
-    { i: "Lc", bg: "#FF6B2B", color: "#fff" },
-    { i: "Dr", bg: "#14B8A6", color: "#fff" },
-    { i: "Hl", bg: "#8B5CF6", color: "#fff" },
-    { i: "Kn", bg: "#0EA5E9", color: "#fff" },
-    { i: "Vo", bg: "#EF4444", color: "#fff" },
-    { i: "Cy", bg: "#84CC16", color: "#111" },
-    { i: "Tn", bg: "#F97316", color: "#fff" },
-    { i: "Sp", bg: "#06B6D4", color: "#fff" },
-  ]),
-  "productivity-ops": mkLogos([
-    { i: "Nt", bg: "#000000", color: "#fff" },
-    { i: "Sl", bg: "#4A154B", color: "#fff" },
-    { i: "As", bg: "#FC636B", color: "#fff" },
-    { i: "Mo", bg: "#6366F1", color: "#fff" },
-    { i: "Cl", bg: "#2563EB", color: "#fff" },
-    { i: "Ai", bg: "#10B981", color: "#fff" },
-    { i: "Zm", bg: "#2D8CFF", color: "#fff" },
-    { i: "Zp", bg: "#F59E0B", color: "#111" },
-    { i: "Lp", bg: "#EC4899", color: "#fff" },
-    { i: "Tb", bg: "#FF6B2B", color: "#fff" },
-    { i: "Cr", bg: "#8B5CF6", color: "#fff" },
-    { i: "Od", bg: "#14B8A6", color: "#fff" },
-    { i: "Re", bg: "#EF4444", color: "#fff" },
-    { i: "Sc", bg: "#84CC16", color: "#111" },
-  ]),
-  "data-analytics": mkLogos([
-    { i: "Ga", bg: "#E37400", color: "#fff" },
-    { i: "Tb", bg: "#0078D4", color: "#fff" },
-    { i: "Lk", bg: "#6366F1", color: "#fff" },
-    { i: "Mx", bg: "#10B981", color: "#fff" },
-    { i: "Dg", bg: "#8B5CF6", color: "#fff" },
-    { i: "Bq", bg: "#4285F4", color: "#fff" },
-    { i: "Pw", bg: "#F2C811", color: "#111" },
-    { i: "Ht", bg: "#EC4899", color: "#fff" },
-    { i: "Sp", bg: "#FF6B2B", color: "#fff" },
-    { i: "Am", bg: "#232F3E", color: "#fff" },
-    { i: "Rf", bg: "#14B8A6", color: "#fff" },
-    { i: "Mt", bg: "#EF4444", color: "#fff" },
-    { i: "Dc", bg: "#0EA5E9", color: "#fff" },
-    { i: "Md", bg: "#84CC16", color: "#111" },
-  ]),
-  "website-landing-pages": mkLogos([
-    { i: "Wf", bg: "#4353FF", color: "#fff" },
-    { i: "Fr", bg: "#2563EB", color: "#fff" },
-    { i: "Wp", bg: "#21759B", color: "#fff" },
-    { i: "Sq", bg: "#000000", color: "#fff" },
-    { i: "Sw", bg: "#FF6B2B", color: "#fff" },
-    { i: "Ub", bg: "#6366F1", color: "#fff" },
-    { i: "Sh", bg: "#10B981", color: "#fff" },
-    { i: "Lp", bg: "#EC4899", color: "#fff" },
-    { i: "Cm", bg: "#8B5CF6", color: "#fff" },
-    { i: "El", bg: "#F59E0B", color: "#111" },
-    { i: "Bz", bg: "#14B8A6", color: "#fff" },
-    { i: "Cs", bg: "#EF4444", color: "#fff" },
-    { i: "Hb", bg: "#0EA5E9", color: "#fff" },
-    { i: "Vr", bg: "#84CC16", color: "#111" },
-  ]),
-  "learning-training": mkLogos([
-    { i: "Co", bg: "#F59E0B", color: "#111" },
-    { i: "Ud", bg: "#A435F0", color: "#fff" },
-    { i: "Ll", bg: "#58CC02", color: "#fff" },
-    { i: "Sk", bg: "#00A0D2", color: "#fff" },
-    { i: "Kh", bg: "#14BF96", color: "#fff" },
-    { i: "Mg", bg: "#6366F1", color: "#fff" },
-    { i: "Th", bg: "#EC4899", color: "#fff" },
-    { i: "Lv", bg: "#2563EB", color: "#fff" },
-    { i: "Ep", bg: "#FF6B2B", color: "#fff" },
-    { i: "Ac", bg: "#10B981", color: "#fff" },
-    { i: "Dc", bg: "#8B5CF6", color: "#fff" },
-    { i: "Bk", bg: "#EF4444", color: "#fff" },
-    { i: "Sp", bg: "#0EA5E9", color: "#fff" },
-    { i: "Rc", bg: "#84CC16", color: "#111" },
-  ]),
+  "marketing-seo": mkLogos(["Sm","AH","SE","Mk","Gs","Mb","Hs","Kw","Sp","Cl","Lm","Rb","Mr","Wr"]),
+  "content-writing": mkLogos(["Js","Cp","Wr","Ry","Su","Cl","Gm","Cn","Bz","Nl","Hy","Wt","Pf","Kl"]),
+  "design-creative": mkLogos(["Md","Cv","Ad","Fg","Sk","Dr","Rm","Ps","Il","Cr","Sp","Vk","Nv","Lx"]),
+  "video-audio": mkLogos(["Sy","Dc","Rv","Lm","Ee","Mu","Ca","Ec","Vc","Ht","Wv","Ss","Pp","Fl"]),
+  "sales-crm": mkLogos(["Sf","Hs","Pp","Cl","Ol","Zp","Ga","At","Nd","Lr","Kr","Mn","Ou","Rs"]),
+  "customer-support": mkLogos(["It","Zd","Ic","Fr","Gp","Cr","Lc","Dr","Hl","Kn","Vo","Cy","Tn","Sp"]),
+  "productivity-ops": mkLogos(["Nt","Sl","As","Mo","Cl","Ai","Zm","Zp","Lp","Tb","Cr","Od","Re","Sc"]),
+  "data-analytics": mkLogos(["Ga","Tb","Lk","Mx","Dg","Bq","Pw","Ht","Sp","Am","Rf","Mt","Dc","Md"]),
+  "website-landing-pages": mkLogos(["Wf","Fr","Wp","Sq","Sw","Ub","Sh","Lp","Cm","El","Bz","Cs","Hb","Vr"]),
+  "learning-training": mkLogos(["Co","Ud","Ll","Sk","Kh","Mg","Th","Lv","Ep","Ac","Dc","Bk","Sp","Rc"]),
 };
 
 // ─── Category data ────────────────────────────────────────────────
@@ -463,27 +319,32 @@ export default function HomePage() {
       </section>
 
       {/* ── Category Grid ─────────────────────────────────────────── */}
-      <section id="categories" className="px-4 py-20 bg-[#232323]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-10 text-center">
-            Browse by Category
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <CategoryCard
-                  key={cat.slug}
-                  name={cat.name}
-                  slug={cat.slug}
-                  description={cat.description}
-                  icon={<Icon size={18} style={{ color: "#c084fc" }} />}
-                  placeholderLogos={cat.placeholderLogos}
-                />
-              );
-            })}
+      <section id="categories" className="relative overflow-hidden">
+        <BeamsBackground intensity="subtle" className="px-4 py-20">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-center">
+              Explore AI Tools by Category
+            </h2>
+            <p className="text-center text-[#A0A0A0] text-sm mb-10">
+              Browse 200+ curated AI tools across the categories your workflow needs most
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {categories.map((cat) => {
+                const Icon = cat.icon;
+                return (
+                  <CategoryCard
+                    key={cat.slug}
+                    name={cat.name}
+                    slug={cat.slug}
+                    description={cat.description}
+                    icon={<Icon size={18} style={{ color: "#c084fc" }} />}
+                    placeholderLogos={cat.placeholderLogos}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </BeamsBackground>
       </section>
 
       {/* ── Featured Deals Carousel ───────────────────────────────── */}
