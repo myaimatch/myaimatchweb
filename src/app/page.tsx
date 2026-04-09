@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SpiralAnimation } from "@/components/ui/spiral-animation";
 import {
   TrendingUp,
   PenLine,
@@ -15,13 +16,13 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "myAIMatch — The AI Tools Directory for Businesses",
+  title: "myAIMatch — Find the Right AI Tools for You",
   description:
-    "Browse, compare, and find the right AI tools for your business. Hand-picked and organized by function — not by who pays to be listed.",
+    "Whether you're a founder, freelancer, or just AI-curious — myAIMatch matches you to the exact AI tools you need to work smarter. No jargon. Free assessment included.",
   openGraph: {
-    title: "myAIMatch — The AI Tools Directory for Businesses",
+    title: "myAIMatch — Find the Right AI Tools for You",
     description:
-      "Browse, compare, and find the right AI tools for your business. Hand-picked and organized by function — not by who pays to be listed.",
+      "Whether you're a founder, freelancer, or just AI-curious — myAIMatch matches you to the exact AI tools you need to work smarter. No jargon. Free assessment included.",
     url: "https://myaimatch.ai",
     type: "website",
   },
@@ -281,45 +282,170 @@ const deals = [
 
 export default function HomePage() {
   return (
-    <div className="bg-[#131313] text-white">
+    <div className="bg-black text-white">
       {/* ── Hero ──────────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden py-24 md:py-36 px-4"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132,104,235,0.15) 0%, #131313 70%)",
-        }}
+        className="relative overflow-hidden"
+        style={{ minHeight: "92vh", display: "flex", flexDirection: "column", justifyContent: "center" }}
       >
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-6">
-            The AI Tools Directory Built for{" "}
-            <span className="text-[#8468EB]">Businesses That Don&apos;t Have Time to Guess</span>
-          </h1>
-          <p className="text-lg md:text-xl text-[#A0A0A0] max-w-2xl mx-auto mb-10 leading-relaxed">
-            Every tool is hand-picked and organized by business function — not
-            by who pays to be listed. Browse, compare, and find what actually
-            works for your team.
-          </p>
-          <Link
-            href="/directory"
-            className="inline-block text-white font-semibold text-base px-8 py-4 rounded-full transition-all hover:opacity-90 hover:scale-105"
+        {/* ── Background: base black ── */}
+        <div style={{ position: "absolute", inset: 0, background: "#000005" }} />
+
+        {/* ── Noise grain filter ── */}
+        <svg style={{ position: "absolute", width: 0, height: 0 }}>
+          <defs>
+            <filter id="grain">
+              <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+              <feColorMatrix type="saturate" values="0" />
+              <feBlend in="SourceGraphic" mode="overlay" />
+            </filter>
+          </defs>
+        </svg>
+        <div
+          style={{
+            position: "absolute", inset: 0,
+            filter: "url(#grain)",
+            opacity: 0.04,
+            background: "#ffffff",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* ── Spiral Animation (GSAP canvas) ── */}
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+          <SpiralAnimation />
+        </div>
+
+        {/* ── Orb — primary glow ── */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-8%", left: "50%",
+            transform: "translateX(-50%)",
+            width: "clamp(400px, 60vw, 800px)",
+            height: "clamp(300px, 45vw, 600px)",
+            background:
+              "radial-gradient(ellipse 70% 65% at 50% 30%, rgba(129,74,200,0.55) 0%, rgba(223,122,254,0.12) 45%, transparent 70%)",
+            animation: "orbPulse 7s ease-in-out infinite",
+            pointerEvents: "none",
+          }}
+        />
+        {/* ── Orb — outer soft halo ── */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-15%", left: "50%",
+            transform: "translateX(-50%)",
+            width: "clamp(500px, 80vw, 1000px)",
+            height: "clamp(400px, 60vw, 760px)",
+            background:
+              "radial-gradient(ellipse 80% 70% at 50% 28%, rgba(129,74,200,0.18) 0%, transparent 65%)",
+            animation: "orbPulse2 9s 1s ease-in-out infinite",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* ── Bottom fade to black ── */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0, left: 0, right: 0,
+            height: "220px",
+            background: "linear-gradient(to bottom, transparent, #000000)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* ── Hero content ── */}
+        <div
+          className="relative max-w-4xl mx-auto text-center px-4"
+          style={{ paddingTop: "clamp(80px, 14vh, 140px)", paddingBottom: "clamp(80px, 12vh, 120px)" }}
+        >
+          {/* Badge */}
+          <div
             style={{
-              background:
-                "linear-gradient(156deg, #232323 15.44%, #8468EB 111.39%)",
-              border: "1px solid rgba(132,104,235,0.4)",
+              animation: "heroFadeUp 0.7s ease both",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "6px 16px",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "999px",
+              background: "rgba(255,255,255,0.04)",
+              marginBottom: "28px",
             }}
           >
-            Browse the Directory
-          </Link>
-          <p className="mt-4 text-sm text-[#A0A0A0]">
-            or{" "}
-            <a
-              href="#categories"
-              className="underline text-white hover:text-[#8468EB] transition-colors"
+            <span style={{ color: "#814ac8", fontSize: "12px" }}>✦</span>
+            <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", letterSpacing: "0.03em" }}>
+              The AI Matching Engine for Everyone
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1
+            className="font-bold tracking-tight"
+            style={{
+              animation: "heroFadeUp 0.7s 0.15s ease both",
+              fontSize: "clamp(38px, 7vw, 72px)",
+              lineHeight: 1.08,
+              letterSpacing: "-0.03em",
+              marginBottom: "24px",
+              color: "#ffffff",
+            }}
+          >
+            Stop Searching.{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg, #a066d4 0%, #df7afe 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
             >
-              browse by category below
-            </a>
+              Start Doing More With AI.
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <p
+            style={{
+              animation: "heroFadeUp 0.7s 0.3s ease both",
+              fontSize: "clamp(16px, 2vw, 19px)",
+              color: "rgba(255,255,255,0.55)",
+              lineHeight: 1.7,
+              maxWidth: "560px",
+              margin: "0 auto 40px",
+            }}
+          >
+            Whether you&apos;re a founder, freelancer, or just AI-curious —
+            myAIMatch finds the exact tools you need to work smarter.{" "}
+            <span style={{ color: "rgba(255,255,255,0.35)" }}>No jargon. No overwhelm. Just results.</span>
           </p>
+
+          {/* CTA Row */}
+          <div
+            style={{
+              animation: "heroFadeUp 0.7s 0.45s ease both",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "12px",
+              flexWrap: "wrap",
+            }}
+          >
+            {/* Primary CTA */}
+            <Link href="/assessment" className="hero-cta-primary">
+              Get Your Free AI Assessment
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+
+            {/* Ghost CTA */}
+            <Link href="/directory" className="hero-cta-ghost">
+              Browse the Directory
+            </Link>
+          </div>
         </div>
       </section>
 
