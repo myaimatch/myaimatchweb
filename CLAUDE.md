@@ -39,9 +39,9 @@ A universal AI matching engine and consultancy that eliminates "AI overwhelm." T
 - Mobile-first responsive
 
 ## Brand Assets
-- Always check the `brand_assets/` folder before designing. It may contain logos, color guides, style guides, or images.
+- Always check the `brand_assets/` folder before designing. It contains logos, design system, style guides, or images.
 - If assets exist there, use them. Do not use placeholders where real assets are available.
-- If a logo is present, use it. If a color palette is defined, use those exact values — do not invent brand colors.
+- If a logo is present, use it. If a color palette, typografy, animations is defined, use those exact values — do not invent brand colors.
 
 ## Anti-Generic Guardrails
 - **Colors:** Never use default Tailwind palette (indigo-500, blue-600, etc.). Pick a custom brand color and derive from it.

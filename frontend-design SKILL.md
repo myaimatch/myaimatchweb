@@ -1,88 +1,183 @@
 ---
 name: frontend-design
-description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics.
-license: Complete terms in LICENSE.txt
+description: Create distinctive, production-grade frontend interfaces aligned with the MyAIMatch design system. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code within the dark-first, purple-led brand identity.
 ---
 
-This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
-
-The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
+This skill guides creation of distinctive, production-grade frontend interfaces for MyAIMatch. Implement real working code with exceptional attention to aesthetic detail — always within the established brand system.
 
 ## Design Thinking
 
-Before coding, understand the context and commit to a BOLD aesthetic direction:
+Before coding, understand the context and commit to a clear direction:
 - **Purpose**: What problem does this interface solve? Who uses it?
-- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.
-- **Constraints**: Technical requirements (framework, performance, accessibility).
-- **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?
+- **Tone**: Smart, calm, trustworthy — the "knowledgeable friend" who has already done the research. Not hype-driven, not a vendor pitch. The aesthetic is dark, refined, and confident.
+- **Constraints**: Technical requirements (Next.js 14, Tailwind CSS, Framer Motion, shadcn/ui).
+- **Differentiation**: What makes this component or page section UNFORGETTABLE within the system? The brand is fixed — the creativity lives in layout, composition, motion, and spatial decisions.
 
-**CRITICAL**: Choose a clear conceptual direction and execute it with precision. Bold maximalism and refined minimalism both work - the key is intentionality, not intensity.
+**CRITICAL**: Execute within the design system with precision and intention. The brand constraints are not a ceiling — they are the canvas. Maximalism and minimalism both work inside the dark/purple world.
 
-Then implement working code (HTML/CSS/JS, React, Vue, etc.) that is:
-- Production-grade and functional
-- Visually striking and memorable
-- Cohesive with a clear aesthetic point-of-view
-- Meticulously refined in every detail
+---
 
-## Frontend Aesthetics Guidelines
+## MyAIMatch Design System (Required Tokens)
 
-Focus on:
-- **Typography**: Choose fonts that are beautiful, unique, and interesting. Avoid generic fonts like Arial and Inter; opt instead for distinctive choices that elevate the frontend's aesthetics; unexpected, characterful font choices. Pair a distinctive display font with a refined body font.
-- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes.
-- **Motion**: Use animations for effects and micro-interactions. Prioritize CSS-only solutions for HTML. Use Motion library for React when available. Focus on high-impact moments: one well-orchestrated page load with staggered reveals (animation-delay) creates more delight than scattered micro-interactions. Use scroll-triggering and hover states that surprise.
-- **Spatial Composition**: Unexpected layouts. Asymmetry. Overlap. Diagonal flow. Grid-breaking elements. Generous negative space OR controlled density.
-- **Backgrounds & Visual Details**: Create atmosphere and depth rather than defaulting to solid colors. Add contextual effects and textures that match the overall aesthetic. Apply creative forms like gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, decorative borders, custom cursors, and grain overlays.
+All components MUST use these values. Never deviate.
 
-NEVER use generic AI-generated aesthetics like overused font families (Inter, Roboto, Arial, system fonts), cliched color schemes (particularly purple gradients on white backgrounds), predictable layouts and component patterns, and cookie-cutter design that lacks context-specific character.
+### Color
+```css
+/* Backgrounds — always true black, never gray */
+--color-bg:      #000000;
+--color-surface: #0d0d0dcc;
+--color-card:    rgba(255, 255, 255, 0.04);
+--color-border:  rgba(255, 255, 255, 0.08);
 
-Interpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. NEVER converge on common choices (Space Grotesk, for example) across generations.
+/* Purple — the only brand hue */
+--color-primary: #814ac8;
+--color-accent:  #df7afe;
 
-**IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.
+/* Text hierarchy */
+--color-text-primary: #ffffff;
+--color-text-muted:   rgba(255, 255, 255, 0.4);
+--color-text-dim:     rgba(255, 255, 255, 0.25);
 
-Remember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.
+/* Gradients */
+--gradient-cta:  linear-gradient(135deg, #814ac8, #a066d4);
+--gradient-glow: radial-gradient(ellipse, rgba(129, 74, 200, 0.5), transparent 70%);
+--gradient-beam: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(129, 74, 200, 0.45), transparent);
+```
 
-## Scroll-Driven Website Design Guidelines
+**Rule**: Never introduce a second hue family. Purple is the only color. Section depth is created through glow intensity and surface opacity — not light/dark alternation.
 
-When this skill is invoked for a scroll-driven animated website (used alongside `video-to-website`), follow these additional rules:
+### Typography
+```css
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-### Typography as Design
-- Hero headings: **6rem minimum**, tight line-height (0.9-1.0), heavy weight (700-800)
-- Section headings: **3rem minimum**, confident weight (600-700)
-- Horizontal marquee text: **10-15vw**, uppercase, letterspaced
-- Section labels: small (0.7rem), uppercase, letterspaced (0.15em+), muted color — like "001 / Features"
-- Text hierarchy replaces card containers. Size, weight, and color ARE the structure
+/* Scale */
+/* Display  */ font-size: 40–48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;
+/* H1       */ font-size: 32–36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;
+/* H2       */ font-size: 24px;    font-weight: 600; letter-spacing: -0.01em;
+/* H3       */ font-size: 18–20px; font-weight: 600;
+/* Body     */ font-size: 15–16px; font-weight: 400; line-height: 1.65; color: rgba(255,255,255,.6);
+/* Small    */ font-size: 13px;    font-weight: 400; color: rgba(255,255,255,.4);
+/* Label    */ font-size: 10px;    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #814ac8;
+```
 
-### No Cards, No Boxes
-- **NEVER** use glassmorphism cards, frosted glass, or visible containers around text on scroll-driven sites
-- Text sits directly on the background — clean, confident, editorial
-- Readability comes from: font weight (600+), text-shadow if needed, and ensuring video frames have clean backgrounds at text scroll points
-- The only acceptable "container" is generous padding on the section itself
+**Rule**: Inter is the primary and only typeface. Do not substitute or supplement with display fonts unless building a one-off marketing moment — and even then, Inter must remain the body font.
 
-### Color Zones
-- Background color must shift between sections (light → dark → accent → light)
-- Define color zones in CSS variables: `--bg-light`, `--bg-dark`, `--bg-accent`
-- Text color inverts automatically: `--text-on-light`, `--text-on-dark`
-- Transitions happen via GSAP, not CSS transitions
+For scroll-driven hero sections, display text may go up to 6rem+ with tight line-height (0.9–1.0) — this is an extension of the scale, not a replacement.
+
+### Shape Language
+```css
+/* Radius */
+--radius-sm:   4px;   /* icon interiors */
+--radius-md:   8px;   /* inner UI, tool logos */
+--radius-lg:   12px;  /* panels */
+--radius-xl:   18px;  /* cards */
+--radius-pill: 999px; /* all CTAs, navbars, inputs, badges */
+
+/* Borders */
+/* Default card   */ border: 1px solid rgba(255,255,255,.08);
+/* Hover/active   */ border: 1px solid rgba(129,74,200,.4); box-shadow: 0 0 24px rgba(129,74,200,.25);
+/* Elevated modal */ box-shadow: 0 15px 35px rgba(0,0,0,.4);
+```
+
+**Rule**: All CTAs, navbars, and inputs use `border-radius: 999px`. Cards use 18px. This is non-negotiable.
+
+### Glow System (replaces shadows)
+Three glow types — use them, never flat box-shadows:
+- **Beam**: vertical purple beam at top-center of sections — `::before` pseudo-element, 2px wide, gradient to transparent. Used on footer, CTA sections.
+- **Bloom**: card-level radial glow at bottom-center — 200×80px, blur 8px, rgba(129,74,200,.5). Intensifies on hover.
+- **Ambient**: section-level breathing — `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(129,74,200,.45), transparent)`. Background of CTA and hero sections.
+
+---
+
+## Motion (Framer Motion — Required)
+
+All animations use Framer Motion. Never use CSS transitions alone for interactive components.
+
+```
+/* Spring config */
+Spring: stiffness 300–400 / damping 20–25
+
+/* Card */
+Hover lift:   y –8px, spring
+3D tilt:      rotateX/Y ±8° from mouse position, spring
+Glow reveal:  opacity 0→0.6, scale 1→1.1, 0.3s
+
+/* Search bar */
+Expand:       width 240→340px, scale 1→1.05, spring
+Particles:    x/y ±20px, 1.5–3s, reverse loop
+Click burst:  14 particles, 0.5–1.3s ease-out
+
+/* Page / section enter */
+Stagger:      opacity 0→1, y 20→0, 0.5s — label first, then heading, then body, then CTA
+Gradient bg:  15s linear loop (3 gradient stops)
+
+/* Button */
+Tap: scale 0.95–0.98
+```
+
+---
+
+## Scroll-Driven Website Guidelines
+
+For scroll-animated pages and marketing sections.
+
+### Typography at Scale
+- Hero headings: **6rem minimum**, tight line-height (0.9–1.0), weight 700–800
+- Section headings: **3rem minimum**, weight 600–700
+- Horizontal marquee: **10–15vw**, uppercase, letter-spaced
+- Section labels: 0.7rem, uppercase, letter-spacing 0.15em+, `color: #814ac8`
+- Text hierarchy replaces card containers — size, weight, and opacity ARE the structure
+
+### Section Depth (Not Light/Dark Zones)
+Sections don't alternate light/dark — they stay dark. Depth shifts via:
+- Glow beam presence/absence
+- Surface opacity: `rgba(255,255,255,.04)` card → `rgba(255,255,255,.02)` deep section → `#0d0d0d` solid panel
+- Purple ambient intensity: faint glow → strong bloom → full radial beam
 
 ### Layout Variety
-Every scroll-driven page needs at least 3 different layout patterns:
+Every scroll page needs at least 3 different layout patterns:
 1. **Centered** — hero sections, CTAs
-2. **Left-aligned** — feature descriptions with product on right
-3. **Right-aligned** — alternate features
-4. **Full-width** — horizontal marquee text, stats rows
-5. **Split** — text on one side, supporting visual on the other
+2. **Left-aligned** — feature descriptions with visual on right
+3. **Right-aligned** — alternating features
+4. **Full-width** — horizontal marquee, stats rows
+5. **Split** — text one side, supporting visual the other
 
 Never use the same layout for consecutive sections.
 
 ### Animation Choreography
-- Every section must use a DIFFERENT entrance animation (fade-up, slide-left, slide-right, scale-up, clip-path reveal)
-- Elements within a section enter with staggered delays (0.08-0.12s between items)
-- Sequence: label first → heading → body text → CTA/button
-- At least one section must pin (stay fixed) while its contents animate internally
-- At least one oversized text element must move horizontally on scroll
+- Every section uses a DIFFERENT entrance: fade-up, slide-left, slide-right, scale-up, clip-path reveal
+- Stagger delays: 0.08–0.12s between elements within a section
+- Entry sequence: label → heading → body → CTA
+- At least one section pins (fixed) while its contents animate internally
+- At least one oversized text element moves horizontally on scroll
 
 ### Stats & Numbers
-- Display stats at **4rem+** font size
-- Numbers MUST count up via GSAP (never appear statically)
-- Use a suffix element for units (x, M, %, etc.) at a smaller size
-- Labels below in small caps or uppercase muted text
+- Display at **4rem+**
+- Numbers count up via Framer Motion animate — never appear statically
+- Unit suffix at a smaller size
+- Labels in small-caps or uppercase muted text below
+
+---
+
+## What Makes This System Creative
+
+The design constraints are fixed (dark, purple, Inter, pill shapes). Creativity lives in:
+
+- **Spatial composition**: Asymmetry, grid-breaking, diagonal flow, overlap, generous negative space
+- **Glow choreography**: Where beams appear, how blooms sequence, which elements pulse
+- **Glass layering**: Depth through stacked transparencies — rgba at .02, .04, .08
+- **Motion timing**: Spring feel vs. eased vs. instant — choosing the right physics for each interaction
+- **Layout density**: Controlled density for data-heavy sections vs. vast negative space for emotional sections
+- **Scale contrast**: Massive display type next to micro-labels creates tension and hierarchy
+
+---
+
+## Do Not
+
+- Use any background color other than `#000` or `#0d0d0d`
+- Introduce any hue other than the purple family
+- Use opaque card surfaces (always semi-transparent)
+- Use `box-shadow` for depth — use glow radial gradients instead
+- Use Inter replacements (no Space Grotesk, no Syne, no display fonts as primary)
+- Substitute flat easing for spring physics on interactive elements
+- Create light mode variants — this system is dark-only
