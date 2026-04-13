@@ -21,6 +21,20 @@ export interface AirtableTool {
   maimScore?: number
   featured: boolean
   status: string
+  // ─── Enriched fields ───────────────────────────────────────────────────────
+  supportLanguages?: string[]
+  uiLanguages?: string[]
+  foundedYear?: number
+  hasFreePlan?: boolean
+  trialDays?: number
+  bestFor?: string
+  hasApi?: boolean
+  integrations?: string[]
+  companyHq?: string
+  employeeCount?: string
+  gdprCompliant?: boolean
+  hasMobileApp?: boolean
+  soc2Certified?: boolean
 }
 
 export interface AirtableCategory {
@@ -82,6 +96,20 @@ function mapTool(record: Airtable.Record<Airtable.FieldSet>): AirtableTool {
     maimScore: f['MAIM Score'] as number | undefined,
     featured: (f['Featured'] as boolean) ?? false,
     status: (f['Status'] as string) ?? '',
+    // ─── Enriched fields ─────────────────────────────────────────────────────
+    supportLanguages: f['Support Languages'] as string[] | undefined,
+    uiLanguages: f['UI Languages'] as string[] | undefined,
+    foundedYear: f['Founded Year'] as number | undefined,
+    hasFreePlan: f['Has Free Plan'] as boolean | undefined,
+    trialDays: f['Trial Days'] as number | undefined,
+    bestFor: f['Best For'] as string | undefined,
+    hasApi: f['Has API'] as boolean | undefined,
+    integrations: f['Integrations'] as string[] | undefined,
+    companyHq: f['Company HQ'] as string | undefined,
+    employeeCount: f['Employee Count'] as string | undefined,
+    gdprCompliant: f['GDPR Compliant'] as boolean | undefined,
+    hasMobileApp: f['Has Mobile App'] as boolean | undefined,
+    soc2Certified: f['SOC2 Certified'] as boolean | undefined,
   }
 }
 

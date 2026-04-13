@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "enrich": "tsx scripts/enrich-tools.ts",
+    "enrich:dry": "tsx scripts/enrich-tools.ts --dry-run --limit=5"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
