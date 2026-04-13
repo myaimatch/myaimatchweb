@@ -1,19 +1,20 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const linkColumns = [
   {
-    heading: "Product",
+    title: "Product",
     links: [
       { label: "Directory", href: "/directory" },
-      { label: "Compare", href: "/compare" },
-      { label: "Services", href: "/services" },
-      { label: "Blog", href: "/blog" },
+      { label: "Compare Tools", href: "/compare" },
+      { label: "Free Assessment", href: "/assessment" },
     ],
   },
   {
-    heading: "Company",
+    title: "Company",
     links: [
-      { label: "About", href: "/about" },
+      { label: "Services", href: "/services" },
+      { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -21,58 +22,76 @@ const linkColumns = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#131313] border-t border-[#343434]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row justify-between gap-10">
+    <footer
+      className="bg-[#131313] relative"
+      style={{
+        borderTop: "1px solid transparent",
+        backgroundImage:
+          "linear-gradient(#131313, #131313), linear-gradient(90deg, #814ac8 0%, transparent 60%)",
+        backgroundOrigin: "border-box",
+        backgroundClip: "padding-box, border-box",
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Top section */}
+        <div className="flex flex-col md:flex-row justify-between gap-8">
           {/* Logo + tagline */}
           <div className="flex flex-col gap-3">
-            <Link
-              href="/"
-              className="text-white font-bold text-xl tracking-tight hover:text-[#8468EB] transition-colors"
-            >
-              myAIMatch
+            <Link href="/" className="inline-block">
+              <Image
+                src="/logo-myaimatch.png"
+                alt="myAIMatch"
+                width={140}
+                height={40}
+                style={{ objectFit: "contain" }}
+                priority
+              />
             </Link>
-            <p className="text-[#A0A0A0] text-sm max-w-xs">
-              Find and implement the right AI tools for your business — faster.
+            <p className="text-[#A0A0A0] text-sm max-w-xs leading-relaxed">
+              The universal AI matching engine. Find, compare, and implement the
+              right AI tools for your business.
             </p>
           </div>
 
           {/* Link columns */}
           <div className="flex flex-wrap gap-10">
             {linkColumns.map((col) => (
-              <div key={col.heading} className="flex flex-col gap-3">
-                <span className="text-white text-sm font-semibold">
-                  {col.heading}
-                </span>
-                {col.links.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-[#A0A0A0] hover:text-white text-sm transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+              <div key={col.title} className="flex flex-col gap-3">
+                <p className="text-white text-sm font-semibold tracking-wide">
+                  {col.title}
+                </p>
+                <ul className="flex flex-col gap-2">
+                  {col.links.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-6 border-t border-[#343434] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[#A0A0A0] text-sm">
+        <div className="mt-8 pt-5 border-t border-[#1e1e1e] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[#A0A0A0] text-xs">
             © 2026 myAIMatch. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-5">
             <Link
               href="/privacy"
-              className="text-[#A0A0A0] hover:text-white text-sm transition-colors"
+              className="text-[#A0A0A0] hover:text-white text-xs transition-colors duration-150"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="text-[#A0A0A0] hover:text-white text-sm transition-colors"
+              className="text-[#A0A0A0] hover:text-white text-xs transition-colors duration-150"
             >
               Terms of Service
             </Link>

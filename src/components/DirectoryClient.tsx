@@ -418,9 +418,34 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
 
       {/* ── Toolbar ────────────────────────────────────────────────────── */}
       <div className="px-4 sm:px-6 py-3 flex items-center justify-end gap-3 flex-wrap bg-[#0d0d0d] border-b border-[#1a1a1a]">
+        {/* Filters toggle — far left */}
+        <button
+          onClick={() => setFiltersOpen((v) => !v)}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200 mr-auto"
+          style={{
+            background:
+              filtersOpen || filterCount > 0
+                ? "rgba(129,74,200,0.12)"
+                : "rgba(255,255,255,0.03)",
+            borderColor: filtersOpen || filterCount > 0 ? "#814ac8" : "#2a2a2a",
+            color: filtersOpen || filterCount > 0 ? "#b07de8" : "#777",
+          }}
+        >
+          <SlidersHorizontal className="w-4 h-4" />
+          Filters
+          {filterCount > 0 && (
+            <span
+              className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center text-white"
+              style={{ background: "#814ac8" }}
+            >
+              {filterCount}
+            </span>
+          )}
+        </button>
+
         {/* Live Data badge */}
         <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs mr-auto"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs"
           style={{
             borderColor: "#1a3a1a",
             background: "rgba(34,197,94,0.05)",
@@ -472,31 +497,6 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             suggestions={tools.map((t) => t.name).slice(0, 20)}
           />
         </div>
-
-        {/* Filters toggle */}
-        <button
-          onClick={() => setFiltersOpen((v) => !v)}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200"
-          style={{
-            background:
-              filtersOpen || filterCount > 0
-                ? "rgba(129,74,200,0.12)"
-                : "rgba(255,255,255,0.03)",
-            borderColor: filtersOpen || filterCount > 0 ? "#814ac8" : "#2a2a2a",
-            color: filtersOpen || filterCount > 0 ? "#b07de8" : "#777",
-          }}
-        >
-          <SlidersHorizontal className="w-4 h-4" />
-          Filters
-          {filterCount > 0 && (
-            <span
-              className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center text-white"
-              style={{ background: "#814ac8" }}
-            >
-              {filterCount}
-            </span>
-          )}
-        </button>
       </div>
 
       {/* ── Content: Left Filter Panel + Table ────────────────────────── */}
@@ -1239,6 +1239,9 @@ function ToolRow({
           onClick={(e) => {
             e.stopPropagation()
             onToggleFavorite()
+            if (visitUrl) {
+              window.open(visitUrl, "_blank", "noopener,noreferrer")
+            }
           }}
           className="w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-150"
           style={{

@@ -5,6 +5,7 @@ import { SpiralAnimation } from "@/components/ui/spiral-animation";
 import { BeamsBackground } from "@/components/ui/beams-background";
 import { OfferCarousel } from "@/components/ui/offer-carousel";
 import type { Deal } from "@/components/ui/offer-carousel";
+import BannerCTA from "@/components/BannerCTA";
 
 // SEARCH_BAR_HIDDEN_START — uncomment to restore semantic search bar routing to directory
 // const SearchBarWrapper = dynamic(
@@ -432,49 +433,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Assessment Promo Banner ───────────────────────────────── */}
-      <section className="px-4 md:px-8 py-16">
-        <div
-          className="rounded-2xl overflow-hidden"
-          style={{
-            background:
-              "linear-gradient(135deg, #7B5FD6 0%, #9B7FFF 50%, #8468EB 100%)",
-          }}
-        >
-          <div className="flex flex-col md:flex-row items-center gap-10 px-8 md:px-14 py-12 md:py-16">
-            {/* Left — text content */}
-            <div className="flex flex-col gap-5 md:w-3/5 text-center md:text-left">
-              <h2 className="text-2xl md:text-3xl font-bold text-white leading-snug">
-                Not Sure Which Tools Are Right for You?
-              </h2>
-              <p className="text-white/80 text-base leading-relaxed">
-                Most businesses waste months testing tools that were never a
-                fit. Tell us about your workflow and team — we&apos;ll match you
-                to the exact tools that solve your actual problems.
-              </p>
-              <p className="text-white font-medium text-sm">
-                Free. 2 minutes. No sales call required.
-              </p>
-              <div className="flex justify-center md:justify-start">
-                <Link
-                  href="/assessment"
-                  className="inline-block bg-white font-semibold text-base px-8 py-4 rounded-full transition-all hover:opacity-90 hover:scale-105"
-                  style={{ color: "#131313" }}
-                >
-                  Get My Free AI Match
-                </Link>
-              </div>
-            </div>
-
-            {/* Right — decorative orbit rings */}
-            <div className="relative hidden md:flex items-center justify-center md:w-2/5 min-h-[200px]">
-              <div className="absolute w-56 h-56 rounded-full border border-white/10" />
-              <div className="absolute w-40 h-40 rounded-full border border-white/20" />
-              <div className="absolute w-24 h-24 rounded-full border border-white/30" />
-              <div className="absolute w-10 h-10 rounded-full bg-white/10 border border-white/40" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <BannerCTA />
     </div>
   );
 }
