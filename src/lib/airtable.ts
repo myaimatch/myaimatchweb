@@ -60,6 +60,15 @@ function getBase() {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+/** Safely parse a field that may be string[] (Multi-Select) or string (Long Text) into string[] */
+function parseStringArray(val: unknown): string[] | undefined {
+  if (!val) return undefined
+  if (Array.isArray(val)) return val as string[]
+  if (typeof val === 'string') return val.split(',').map(s => s.trim()).filter(Boolean)
+  return undefined
+}
+
+
 function allRecords(table: Airtable.Table<Airtable.FieldSet>, opts: Airtable.SelectOptions<Airtable.FieldSet> = {}): Promise<Airtable.Record<Airtable.FieldSet>[]> {
   return new Promise((resolve, reject) => {
     const records: Airtable.Record<Airtable.FieldSet>[] = []
@@ -97,14 +106,14 @@ function mapTool(record: Airtable.Record<Airtable.FieldSet>): AirtableTool {
     featured: (f['Featured'] as boolean) ?? false,
     status: (f['Status'] as string) ?? '',
     // ─── Enriched fields ─────────────────────────────────────────────────────
-    supportLanguages: f['Support Languages'] as string[] | undefined,
-    uiLanguages: f['UI Languages'] as string[] | undefined,
+    supportLanguages: parseStringArray(f['Support Languages']),
+    uiLanguages: parseStringArray(f['UI Languages']),
     foundedYear: f['Founded Year'] as number | undefined,
     hasFreePlan: f['Has Free Plan'] as boolean | undefined,
     trialDays: f['Trial Days'] as number | undefined,
     bestFor: f['Best For'] as string | undefined,
     hasApi: f['Has API'] as boolean | undefined,
-    integrations: f['Integrations'] as string[] | undefined,
+    integrations: parseStringArray(f['Integrations']),
     companyHq: f['Company HQ'] as string | undefined,
     employeeCount: f['Employee Count'] as string | undefined,
     gdprCompliant: f['GDPR Compliant'] as boolean | undefined,
