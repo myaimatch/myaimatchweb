@@ -155,11 +155,118 @@ Rules:
   }
 }
 
-// ─── Placeholder main ─────────────────────────────────────────────────────────
-async function main() {
-  const pages = await fetchToolPages('https://notion.so')
-  const data = await extractWithClaude('Notion', 'https://notion.so', pages)
-  console.log('Extracted:', JSON.stringify(data, null, 2))
+// ─── Airtable I/O ─────────────────────────────────────────────────────────────
+async function readToolsFromAirtable(): Promise<ToolRecord[]> {
+  const tools: ToolRecord[] = []
+  await new Promise<void>((resolve, reject) => {
+    base('Tools')
+      .select({
+        filterByFormula: `{Status} = "Active"`,
+        fields: ['Name', 'Website URL'],
+      })
+      .eachPage(
+        (records, fetchNextPage) => {
+          for (const r of records) {
+            const name = r.fields['Name'] as string | undefined
+            const url = r.fields['Website URL'] as string | undefined
+            if (name && url) tools.push({ id: r.id, name, websiteUrl: url })
+          }
+          fetchNextPage()
+        },
+        err => (err ? reject(err) : resolve())
+      )
+  })
+  return tools
 }
+
+function buildAirtableFields(data: EnrichedData): Record<string, unknown> {
+  const fields: Record<string, unknown> = {}
+  if (data.support_languages !== null) fields['Support Languages'] = data.support_languages
+  if (data.ui_languages !== null) fields['UI Languages'] = data.ui_languages
+  if (data.founded_year !== null) fields['Founded Year'] = data.founded_year
+  if (data.has_free_plan !== null) fields['Has Free Plan'] = data.has_free_plan
+  if (data.trial_days !== null) fields['Trial Days'] = data.trial_days
+  if (data.best_for !== null) fields['Best For'] = data.best_for
+  if (data.has_api !== null) fields['Has API'] = data.has_api
+  if (data.integrations !== null) fields['Integrations'] = data.integrations
+  if (data.company_hq !== null) fields['Company HQ'] = data.company_hq
+  if (data.employee_count !== null) fields['Employee Count'] = data.employee_count
+  if (data.gdpr_compliant !== null) fields['GDPR Compliant'] = data.gdpr_compliant
+  if (data.has_mobile_app !== null) fields['Has Mobile App'] = data.has_mobile_app
+  if (data.soc2_certified !== null) fields['SOC2 Certified'] = data.soc2_certified
+  return fields
+}
+
+async function updateAirtableRecord(recordId: string, fields: Record<string, unknown>): Promise<void> {
+  if (Object.keys(fields).length === 0) return
+  await base('Tools').update(recordId, fields as Airtable.FieldSet)
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function main() {
+  const tools = await readToolsFromAirtable()
+  const toProcess = tools.slice(0, LIMIT === Infinity ? tools.length : LIMIT)
+
+  console.log(`Processing ${toProcess.length} of ${tools.length} tools...\n`)
+
+  let updated = 0
+  let skipped = 0
+  let failed = 0
+
+  for (let i = 0; i < toProcess.length; i++) {
+    const tool = toProcess[i]
+    const progress = `[${i + 1}/${toProcess.length}]`
+
+    process.stdout.write(`${progress} ${tool.name} ... `)
+
+    try {
+      const pages = await fetchToolPages(tool.websiteUrl)
+
+      if (!pages.home && !pages.pricing && !pages.about) {
+        console.log('⚠️  no pages fetched, skipped')
+        skipped++
+        continue
+      }
+
+      const data = await extractWithClaude(tool.name, tool.websiteUrl, pages)
+
+      if (!data) {
+        console.log('⚠️  Claude returned null, skipped')
+        skipped++
+        continue
+      }
+
+      const fields = buildAirtableFields(data)
+      const fieldCount = Object.keys(fields).length
+
+      if (DRY_RUN) {
+        console.log(`✅ dry-run (${fieldCount} fields)`)
+        console.log('   ', JSON.stringify(data))
+      } else {
+        await updateAirtableRecord(tool.id, fields)
+        console.log(`✅ updated (${fieldCount} fields)`)
+        updated++
+      }
+    } catch (err) {
+      console.log('❌ error:', err)
+      failed++
+    }
+
+    // Rate limit: 1.5s between tools to respect Airtable + Claude limits
+    if (i < toProcess.length - 1) await sleep(1500)
+  }
+
+  console.log(`\n─────────────────────────────────`)
+  console.log(`✅ Updated:  ${updated}`)
+  console.log(`⚠️  Skipped:  ${skipped}`)
+  console.log(`❌ Failed:   ${failed}`)
+  console.log(`─────────────────────────────────\n`)
+}
+
+main().catch(console.error)
 
 main().catch(console.error)
