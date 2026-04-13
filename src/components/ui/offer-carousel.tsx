@@ -23,7 +23,7 @@ interface DealCardProps {
 
 const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
   ({ deal }, ref) => {
-    const initials = deal.name.slice(0, 2).toUpperCase();
+    const initials = (deal.name || "?").slice(0, 2).toUpperCase();
     const [logoError, setLogoError] = React.useState(false);
 
     return (
@@ -33,6 +33,7 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
         className="relative flex-shrink-0 w-[300px] h-[380px] rounded-2xl overflow-hidden group snap-start block"
         whileHover={{ y: -8 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        aria-label={`View ${deal.name} details and special offer`}
       >
         {/* Top half — branded background */}
         <div className="relative h-[190px] w-full overflow-hidden flex items-center justify-center"
@@ -61,6 +62,7 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
                 src={`https://logo.clearbit.com/${deal.website}`}
                 alt={deal.name}
                 className="w-16 h-16 rounded-xl object-contain"
+                loading="lazy"
                 onError={() => setLogoError(true)}
               />
             ) : (
