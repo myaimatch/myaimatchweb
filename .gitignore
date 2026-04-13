@@ -13,3 +13,13 @@ out/
 # misc
 .DS_Store
 temporary screenshots/
+
+# design reference files
+*.pdf
+*.png
+
+# build cache
+tsconfig.tsbuildinfo
+
+# superpowers docs (auto-generated)
+docs/superpowers/
