@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { SpiralAnimation } from "@/components/ui/spiral-animation";
 import { BeamsBackground } from "@/components/ui/beams-background";
 import { OfferCarousel } from "@/components/ui/offer-carousel";
