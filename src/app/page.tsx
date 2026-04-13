@@ -6,10 +6,12 @@ import { BeamsBackground } from "@/components/ui/beams-background";
 import { OfferCarousel } from "@/components/ui/offer-carousel";
 import type { Deal } from "@/components/ui/offer-carousel";
 
-const SearchBarWrapper = dynamic(
-  () => import("@/components/ui/search-bar-wrapper").then((m) => ({ default: m.SearchBarWrapper })),
-  { ssr: false }
-);
+// SEARCH_BAR_HIDDEN_START — uncomment to restore semantic search bar routing to directory
+// const SearchBarWrapper = dynamic(
+//   () => import("@/components/ui/search-bar-wrapper").then((m) => ({ default: m.SearchBarWrapper })),
+//   { ssr: false }
+// );
+// SEARCH_BAR_HIDDEN_END
 import {
   TrendingUp,
   PenLine,
@@ -374,15 +376,18 @@ export default function HomePage() {
       </section>
 
       {/* ── Search Bar ───────────────────────────────────────────── */}
-      <section className="px-4 pb-20 -mt-4">
+      {/* SEARCH_BAR_HIDDEN_START */}
+      {/* <section className="px-4 pb-20 -mt-4">
         <div className="max-w-2xl mx-auto">
           <SearchBarWrapper />
         </div>
-      </section>
+      </section> */}
+      {/* SEARCH_BAR_HIDDEN_END */}
 
       {/* ── Category Grid ─────────────────────────────────────────── */}
+      {/* Reduced py-20 to py-12 for tighter visual hierarchy after search bar removal */}
       <section id="categories" className="relative overflow-hidden">
-        <BeamsBackground intensity="subtle" className="px-4 py-20">
+        <BeamsBackground intensity="subtle" className="px-4 py-12">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-center">
               Explore AI Tools by Category
