@@ -70,7 +70,7 @@ export default function BannerCTA() {
           </h2>
           <p data-animate className="text-white/80 text-base leading-relaxed">
             Most businesses waste months testing tools that were never a fit.
-            Tell us about your workflow and team — we'll match you to the exact
+            Tell us about your workflow and team — we&apos;ll match you to the exact
             tools that solve your actual problems.
           </p>
           <p data-animate className="text-white font-medium text-sm">
