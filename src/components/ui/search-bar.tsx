@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState, useRef, useMemo } from "react"
+import { useRouter } from "next/navigation"
 import { Search, CircleDot } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
@@ -20,6 +21,33 @@ const DEFAULT_SUGGESTIONS = [
   "Voice & Audio",
   "Website builders",
 ]
+
+export const KEYWORD_CATEGORY_MAP: Record<string, string> = {
+  designer: "Design",
+  graphic: "Design",
+  marketer: "Marketing",
+  marketing: "Marketing",
+  developer: "Developer Tools",
+  coder: "Developer Tools",
+  programmer: "Developer Tools",
+  writer: "Content Creation",
+  content: "Content Creation",
+  copywriter: "Content Creation",
+  sales: "Sales",
+  support: "Customer Support",
+  customer: "Customer Support",
+  data: "Data & Analytics",
+  analytics: "Data & Analytics",
+  video: "Video",
+  image: "Image Generation",
+  audio: "Audio",
+  productivity: "Productivity",
+  hr: "HR",
+  finance: "Finance",
+  education: "Education",
+  research: "Research",
+  social: "Social Media",
+}
 
 const GooeyFilter = () => (
   <svg style={{ position: "absolute", width: 0, height: 0 }} aria-hidden="true">
@@ -83,12 +111,13 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({
-  placeholder = "What do you need AI to help with?",
+  placeholder = "I'm a designer / marketer / developer...",
   onSearch,
   onChange,
   suggestions: propSuggestions,
   className,
 }: SearchBarProps) => {
+  const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const [isFocused, setIsFocused] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -129,9 +158,28 @@ const SearchBar = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
-      if (onSearch) onSearch(searchQuery)
       setIsAnimating(true)
       setTimeout(() => setIsAnimating(false), 1000)
+
+      // Try to map query to a category using semantic matching
+      const lowerQuery = searchQuery.toLowerCase()
+      let matchedCategory: string | null = null
+
+      // Check if any keyword appears in the query
+      for (const [keyword, category] of Object.entries(KEYWORD_CATEGORY_MAP)) {
+        if (lowerQuery.includes(keyword)) {
+          matchedCategory = category
+          break
+        }
+      }
+
+      if (matchedCategory) {
+        router.push(`/directory?category=${encodeURIComponent(matchedCategory)}`)
+      } else {
+        router.push(`/directory?q=${encodeURIComponent(searchQuery)}`)
+      }
+
+      if (onSearch) onSearch(searchQuery)
     }
   }
 

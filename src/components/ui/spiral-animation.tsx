@@ -29,7 +29,7 @@ class AnimationController {
   private readonly cameraZ = -400
   private readonly cameraTravelDistance = 3400
   private readonly startDotYOffset = 28
-  private readonly viewZoom = 100
+  private readonly viewZoom = 130
   private readonly numberOfStars = 5000
   private readonly trailLength = 80
 
@@ -64,6 +64,7 @@ class AnimationController {
   }
 
   private setupTimeline() {
+    this.time = 0.07
     this.timeline.to(this, {
       time: 1,
       duration: 15,

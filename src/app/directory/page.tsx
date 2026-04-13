@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { fetchAllTools, fetchAllCategories } from "@/lib/airtable"
 import DirectoryClient from "@/components/DirectoryClient"
 
@@ -46,7 +47,9 @@ export default async function DirectoryPage() {
       </section>
 
       {/* Table + filters */}
-      <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
+      <Suspense fallback={<div className="p-8 text-center text-gray-400">Loading directory...</div>}>
+        <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
+      </Suspense>
     </main>
   )
 }

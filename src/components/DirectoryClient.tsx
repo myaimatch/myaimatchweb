@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
 import {
@@ -110,6 +111,7 @@ function useFavorites() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function DirectoryClient({ tools, categories, categoryMap }: Props) {
+  const searchParams = useSearchParams()
   const [search, setSearch] = useState("")
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null)
@@ -121,6 +123,24 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const { favorites, toggle: toggleFavorite } = useFavorites()
   // fetchedAt intentionally unused in display for now (badge always shows "just now")
   const [] = useState(() => new Date())
+
+  // Initialize filters from URL params on mount
+  useEffect(() => {
+    const categoryParam = searchParams.get("category")
+    const queryParam = searchParams.get("q")
+
+    if (categoryParam) {
+      // Find the category by name
+      const matchedCategory = categories.find((cat) => cat.name === categoryParam)
+      if (matchedCategory) {
+        setActiveCategory(matchedCategory.id)
+      }
+    }
+
+    if (queryParam) {
+      setSearch(queryParam)
+    }
+  }, [searchParams, categories])
 
   // Unique pricing models from all tools
   const pricingOptions = useMemo(() => {

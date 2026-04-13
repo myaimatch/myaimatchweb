@@ -145,6 +145,7 @@ const deals: Deal[] = [
     imageSrc: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
     imageAlt: "Creative writing workspace",
     href: "/directory?category=content-writing",
+    website: "jasper.ai",
   },
   {
     id: "surfer",
@@ -155,6 +156,7 @@ const deals: Deal[] = [
     imageSrc: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80",
     imageAlt: "Data analytics dashboard",
     href: "/directory?category=marketing-seo",
+    website: "surferseo.com",
   },
   {
     id: "synthesia",
@@ -165,6 +167,7 @@ const deals: Deal[] = [
     imageSrc: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
     imageAlt: "Video production setup",
     href: "/directory?category=video-audio",
+    website: "synthesia.io",
   },
   {
     id: "hubspot",
@@ -175,6 +178,7 @@ const deals: Deal[] = [
     imageSrc: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
     imageAlt: "Business team meeting",
     href: "/directory?category=sales-crm",
+    website: "hubspot.com",
   },
   {
     id: "notion",
@@ -185,6 +189,7 @@ const deals: Deal[] = [
     imageSrc: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80",
     imageAlt: "Organized workspace desk",
     href: "/directory?category=productivity-ops",
+    website: "notion.so",
   },
   {
     id: "descript",
@@ -195,6 +200,7 @@ const deals: Deal[] = [
     imageSrc: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=600&q=80",
     imageAlt: "Podcast microphone setup",
     href: "/directory?category=video-audio",
+    website: "descript.com",
   },
 ];
 
@@ -277,7 +283,7 @@ export default function HomePage() {
         {/* ── Hero content ── */}
         <div
           className="relative max-w-4xl mx-auto text-center px-4"
-          style={{ paddingTop: "clamp(80px, 14vh, 140px)", paddingBottom: "clamp(80px, 12vh, 120px)" }}
+          style={{ paddingTop: "clamp(40px, 6vh, 80px)", paddingBottom: "clamp(80px, 12vh, 120px)" }}
         >
           {/* Badge */}
           <div
