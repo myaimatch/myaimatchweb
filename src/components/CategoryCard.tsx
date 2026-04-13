@@ -154,7 +154,7 @@ export default function CategoryCard({
               whileHover={{ backgroundColor: "#9b5fd4" } as never}
               whileTap={{ scale: 0.97 }}
             >
-              View Tools
+              View & Compare Tools
               <ArrowRight size={15} />
             </motion.span>
           </Link>

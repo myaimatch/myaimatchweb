@@ -14,6 +14,7 @@ export interface Deal {
   imageSrc: string;
   imageAlt: string;
   href: string;
+  website: string;
 }
 
 interface DealCardProps {
@@ -22,7 +23,8 @@ interface DealCardProps {
 
 const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
   ({ deal }, ref) => {
-    const initials = deal.name.slice(0, 2).toUpperCase();
+    const initials = (deal.name || "?").slice(0, 2).toUpperCase();
+    const [logoError, setLogoError] = React.useState(false);
 
     return (
       <motion.a
@@ -31,17 +33,47 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
         className="relative flex-shrink-0 w-[300px] h-[380px] rounded-2xl overflow-hidden group snap-start block"
         whileHover={{ y: -8 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        aria-label={`View ${deal.name} details and special offer`}
       >
-        {/* Top half — image */}
-        <div className="relative h-[190px] w-full overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={deal.imageSrc}
-            alt={deal.imageAlt}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        {/* Top half — branded background */}
+        <div className="relative h-[190px] w-full overflow-hidden flex items-center justify-center"
+          style={{
+            background: "linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 100%)"
+          }}
+        >
+          {/* Radial gradient overlay */}
+          <div className="absolute inset-0"
+            style={{
+              background: "radial-gradient(circle at center, rgba(129,74,200,0.25) 0%, transparent 70%)"
+            }}
           />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60" />
+
+          {/* MyAIMatch logo watermark */}
+          <img
+            src="/logo.png"
+            alt="MyAIMatch"
+            className="absolute bottom-3 right-3 w-16 h-auto opacity-10"
+          />
+
+          {/* Tool logo from Clearbit */}
+          <div className="relative z-10">
+            {!logoError ? (
+              <img
+                src={`https://logo.clearbit.com/${deal.website}`}
+                alt={deal.name}
+                className="w-16 h-16 rounded-xl object-contain"
+                loading="lazy"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <div
+                className="w-16 h-16 rounded-xl flex items-center justify-center text-xs font-bold"
+                style={{ backgroundColor: "#814ac8", color: "white" }}
+              >
+                {initials}
+              </div>
+            )}
+          </div>
 
           {/* Category tag pill */}
           <div
@@ -74,22 +106,9 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
 
           {/* Footer */}
           <div
-            className="flex items-center justify-between pt-4"
+            className="flex items-center justify-end pt-4"
             style={{ borderTop: "1px solid #1e1e1e" }}
           >
-            {/* Initials avatar */}
-            <div className="flex items-center gap-2.5">
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-                style={{ backgroundColor: "#252525", color: "rgba(255,255,255,0.65)" }}
-              >
-                {initials}
-              </div>
-              <span className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.5)" }}>
-                {deal.name}
-              </span>
-            </div>
-
             {/* Arrow CTA */}
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:-rotate-45"
