@@ -54,6 +54,132 @@ interface EnrichedData {
   soc2_certified: boolean | null
 }
 
+// ─── Language Hints Extractor ─────────────────────────────────────────────────
+const ISO_TO_LANG: Record<string, string> = {
+  en: 'English', es: 'Spanish', fr: 'French', de: 'German', pt: 'Portuguese',
+  it: 'Italian', nl: 'Dutch', ru: 'Russian', ja: 'Japanese', zh: 'Chinese',
+  ko: 'Korean', ar: 'Arabic', hi: 'Hindi', pl: 'Polish', sv: 'Swedish',
+  da: 'Danish', fi: 'Finnish', no: 'Norwegian', tr: 'Turkish', th: 'Thai',
+  vi: 'Vietnamese', id: 'Indonesian', cs: 'Czech', ro: 'Romanian', uk: 'Ukrainian',
+  he: 'Hebrew', hu: 'Hungarian', el: 'Greek', bg: 'Bulgarian', hr: 'Croatian',
+}
+
+function isoToName(code: string): string {
+  const base = code.split(/[-_]/)[0].toLowerCase()
+  return ISO_TO_LANG[base] || code
+}
+
+interface LanguageHints {
+  htmlLang: string | null
+  hreflangs: string[]
+  ogLocales: string[]
+}
+
+function extractLanguageHints(html: string): LanguageHints {
+  // <html lang="en"> or <html xml:lang="en">
+  const langMatch = html.match(/<html[^>]+(?:xml:)?lang=["']([^"']+)["']/i)
+  const htmlLang = langMatch ? isoToName(langMatch[1]) : null
+
+  // <link rel="alternate" hreflang="es" href="...">
+  const hreflangs: string[] = []
+  const hreflangRegex = /hreflang=["']([a-z]{2}(?:[-_][a-zA-Z]{2,4})?)["']/gi
+  let m: RegExpExecArray | null
+  while ((m = hreflangRegex.exec(html)) !== null) {
+    const lang = isoToName(m[1])
+    if (lang !== 'x-default' && !hreflangs.includes(lang)) hreflangs.push(lang)
+  }
+
+  // <meta property="og:locale" content="en_US"> and og:locale:alternate
+  const ogLocales: string[] = []
+  const ogRegex = /property=["']og:locale(?::alternate)?["'][^>]+content=["']([^"']+)["']/gi
+  while ((m = ogRegex.exec(html)) !== null) {
+    const lang = isoToName(m[1])
+    if (!ogLocales.includes(lang)) ogLocales.push(lang)
+  }
+  // Also match reversed attribute order: content before property
+  const ogRegex2 = /content=["']([^"']+)["'][^>]+property=["']og:locale(?::alternate)?["']/gi
+  while ((m = ogRegex2.exec(html)) !== null) {
+    const lang = isoToName(m[1])
+    if (!ogLocales.includes(lang)) ogLocales.push(lang)
+  }
+
+  return { htmlLang, hreflangs, ogLocales }
+}
+
+// ─── Language Research (Web Search) ───────────────────────────────────────────
+async function researchLanguages(
+  toolName: string,
+  websiteUrl: string,
+  languageHints: LanguageHints
+): Promise<{ support_languages: string[]; ui_languages: string[] }> {
+  const fallback = {
+    support_languages: [languageHints.htmlLang || 'English'],
+    ui_languages: [languageHints.htmlLang || 'English'],
+  }
+
+  const hintsText = [
+    languageHints.htmlLang ? `Page language: ${languageHints.htmlLang}` : null,
+    languageHints.hreflangs.length ? `hreflang tags found: ${languageHints.hreflangs.join(', ')}` : null,
+    languageHints.ogLocales.length ? `OG locales: ${languageHints.ogLocales.join(', ')}` : null,
+  ].filter(Boolean).join('\n')
+
+  const prompt = `Find ALL supported languages for the software tool "${toolName}" (${websiteUrl}).
+
+${hintsText ? `Known language signals from their website:\n${hintsText}\n` : ''}Search for "${toolName} supported languages" — check G2, Capterra, TrustRadius, official help docs, or documentation pages.
+
+Return ONLY valid JSON (no markdown, no extra text):
+{
+  "support_languages": ["English", "Spanish", ...],
+  "ui_languages": ["English", "Spanish", ...]
+}
+
+Rules:
+- support_languages: languages the product's customer support / help center is available in
+- ui_languages: languages the product interface / UI can be set to
+- Include ALL languages you can find evidence for — be thorough
+- Use full English names (e.g. "English" not "en", "Spanish" not "es")
+- If you cannot find specific info for one field, copy from the other (they often overlap)
+- At minimum return ["English"] if the product clearly operates in English`
+
+  try {
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 1024,
+      tools: [{ type: 'web_search_20250305' as const, name: 'web_search', max_uses: 3 }],
+      messages: [{ role: 'user', content: prompt }],
+    })
+
+    // Find the last text block (after web search results)
+    const textBlock = response.content.filter(b => b.type === 'text').pop()
+    if (!textBlock || textBlock.type !== 'text') return fallback
+
+    let text = textBlock.text
+
+    // Extract JSON: try markdown code block first, then find raw JSON object
+    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/)
+    if (codeBlockMatch) {
+      text = codeBlockMatch[1].trim()
+    } else {
+      const jsonObjMatch = text.match(/\{[\s\S]*\}/)
+      if (jsonObjMatch) {
+        text = jsonObjMatch[0].trim()
+      } else {
+        // No JSON found — Claude returned plain text (no results from search)
+        return fallback
+      }
+    }
+
+    const parsed = JSON.parse(text) as { support_languages?: string[]; ui_languages?: string[] }
+    return {
+      support_languages: parsed.support_languages?.length ? parsed.support_languages : fallback.support_languages,
+      ui_languages: parsed.ui_languages?.length ? parsed.ui_languages : fallback.ui_languages,
+    }
+  } catch (err) {
+    console.error(`  ⚠️  Language research error for ${toolName}:`, err)
+    return fallback
+  }
+}
+
 // ─── Web Scraper ──────────────────────────────────────────────────────────────
 function htmlToText(html: string): string {
   return html
@@ -67,6 +193,19 @@ function htmlToText(html: string): string {
     .replace(/\s+/g, ' ')
     .trim()
     .slice(0, 6000)
+}
+
+async function fetchRawHtml(url: string): Promise<string> {
+  try {
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(10000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MyAIMatch/1.0; +https://myaimatch.ai)' },
+    })
+    if (!res.ok) return ''
+    return await res.text()
+  } catch {
+    return ''
+  }
 }
 
 async function fetchPage(url: string): Promise<string> {
@@ -83,14 +222,15 @@ async function fetchPage(url: string): Promise<string> {
   }
 }
 
-async function fetchToolPages(websiteUrl: string): Promise<{ home: string; pricing: string; about: string }> {
+async function fetchToolPages(websiteUrl: string): Promise<{ home: string; pricing: string; about: string; homeRawHtml: string }> {
   const baseUrl = websiteUrl.replace(/\/$/, '')
-  const [home, pricing, about] = await Promise.all([
+  const [home, pricing, about, homeRawHtml] = await Promise.all([
     fetchPage(baseUrl),
     fetchPage(`${baseUrl}/pricing`).then(t => t || fetchPage(`${baseUrl}/plans`)),
     fetchPage(`${baseUrl}/about`).then(t => t || fetchPage(`${baseUrl}/company`).then(t2 => t2 || fetchPage(`${baseUrl}/about-us`))),
+    fetchRawHtml(baseUrl),
   ])
-  return { home, pricing, about }
+  return { home, pricing, about, homeRawHtml }
 }
 
 // ─── Claude Extractor ─────────────────────────────────────────────────────────
@@ -98,7 +238,7 @@ async function extractWithClaude(
   toolName: string,
   websiteUrl: string,
   pages: { home: string; pricing: string; about: string }
-): Promise<EnrichedData | null> {
+): Promise<Omit<EnrichedData, 'support_languages' | 'ui_languages'> | null> {
   const prompt = `You are extracting structured data about an AI software tool from its website.
 
 Tool name: ${toolName}
@@ -116,8 +256,6 @@ ${pages.about || '(not available)'}
 Extract these fields and return ONLY valid JSON (no markdown, no extra text):
 
 {
-  "support_languages": ["English"],
-  "ui_languages": ["English"],
   "founded_year": 2021,
   "has_free_plan": true,
   "trial_days": 14,
@@ -133,8 +271,6 @@ Extract these fields and return ONLY valid JSON (no markdown, no extra text):
 
 Rules:
 - Return null for any field you cannot determine with confidence
-- support_languages: languages available for customer support/help
-- ui_languages: languages the product interface supports
 - trial_days: 0 if no trial, null if unknown
 - best_for: one of exactly: Solo, Small Team, Mid-Market, Enterprise, All
 - integrations: only from this list: Zapier, Slack, Make, Google Workspace, HubSpot, Notion, Stripe, Other
@@ -147,7 +283,14 @@ Rules:
       max_tokens: 512,
       messages: [{ role: 'user', content: prompt }],
     })
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    let text = response.content[0].type === 'text' ? response.content[0].text : ''
+
+    // Extract JSON from markdown code blocks if present
+    const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/)
+    if (jsonMatch) {
+      text = jsonMatch[1].trim()
+    }
+
     return JSON.parse(text) as EnrichedData
   } catch (err) {
     console.error(`  ⚠️  Claude parse error for ${toolName}:`, err)
@@ -224,15 +367,25 @@ async function main() {
     process.stdout.write(`${progress} ${tool.name} ... `)
 
     try {
-      const pages = await fetchToolPages(tool.websiteUrl)
+      const { home, pricing, about, homeRawHtml } = await fetchToolPages(tool.websiteUrl)
 
-      if (!pages.home && !pages.pricing && !pages.about) {
+      if (!home && !pricing && !about) {
         console.log('⚠️  no pages fetched, skipped')
         skipped++
         continue
       }
 
-      const data = await extractWithClaude(tool.name, tool.websiteUrl, pages)
+      const languageHints = extractLanguageHints(homeRawHtml)
+
+      // Run language research (web search) and general extraction in parallel
+      const [langData, generalData] = await Promise.all([
+        researchLanguages(tool.name, tool.websiteUrl, languageHints),
+        extractWithClaude(tool.name, tool.websiteUrl, { home, pricing, about }),
+      ])
+
+      const data: EnrichedData | null = generalData
+        ? { support_languages: langData.support_languages, ui_languages: langData.ui_languages, ...generalData }
+        : null
 
       if (!data) {
         console.log('⚠️  Claude returned null, skipped')
@@ -256,8 +409,8 @@ async function main() {
       failed++
     }
 
-    // Rate limit: 1.5s between tools to respect Airtable + Claude limits
-    if (i < toProcess.length - 1) await sleep(1500)
+    // Rate limit: 2.5s between tools to respect Airtable + Claude + web search limits
+    if (i < toProcess.length - 1) await sleep(2500)
   }
 
   console.log(`\n─────────────────────────────────`)
@@ -266,7 +419,5 @@ async function main() {
   console.log(`❌ Failed:   ${failed}`)
   console.log(`─────────────────────────────────\n`)
 }
-
-main().catch(console.error)
 
 main().catch(console.error)
