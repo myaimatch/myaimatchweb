@@ -34,7 +34,7 @@ interface Props {
   categoryMap: Record<string, string>
 }
 
-type SortField = "name" | "category" | "pricingModel" | "publicRating" | "maimScore" | null
+type SortField = "name" | "category" | "pricingModel" | "publicRating" | "maimScore" | "bestFor" | null
 type SortDir = "asc" | "desc"
 
 interface ActiveFilters {
@@ -42,6 +42,12 @@ interface ActiveFilters {
   minRating: number | null
   minMaimScore: number | null
   featuredOnly: boolean
+  supportLanguages: string[]
+  hasFreePlan: boolean | null
+  bestFor: string[]
+  hasApi: boolean | null
+  companyHq: string[]
+  gdprCompliant: boolean | null
 }
 
 const DEFAULT_FILTERS: ActiveFilters = {
@@ -49,6 +55,12 @@ const DEFAULT_FILTERS: ActiveFilters = {
   minRating: null,
   minMaimScore: null,
   featuredOnly: false,
+  supportLanguages: [],
+  hasFreePlan: null,
+  bestFor: [],
+  hasApi: null,
+  companyHq: [],
+  gdprCompliant: null,
 }
 
 function countActiveFilters(f: ActiveFilters) {
@@ -57,6 +69,12 @@ function countActiveFilters(f: ActiveFilters) {
   if (f.minRating) n++
   if (f.minMaimScore) n++
   if (f.featuredOnly) n++
+  if (f.supportLanguages.length) n++
+  if (f.hasFreePlan !== null) n++
+  if (f.bestFor.length) n++
+  if (f.hasApi !== null) n++
+  if (f.companyHq.length) n++
+  if (f.gdprCompliant !== null) n++
   return n
 }
 
@@ -191,7 +209,28 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     if (activeFilters.featuredOnly) {
       result = result.filter((t) => t.featured)
     }
-    // 5. Favorites only
+    // 5. New enriched filters
+    if (activeFilters.supportLanguages.length) {
+      result = result.filter((t) =>
+        t.supportLanguages?.some((lang) => activeFilters.supportLanguages.includes(lang))
+      )
+    }
+    if (activeFilters.hasFreePlan !== null) {
+      result = result.filter((t) => (t.hasFreePlan ?? false) === activeFilters.hasFreePlan)
+    }
+    if (activeFilters.bestFor.length) {
+      result = result.filter((t) => t.bestFor && activeFilters.bestFor.includes(t.bestFor))
+    }
+    if (activeFilters.hasApi !== null) {
+      result = result.filter((t) => (t.hasApi ?? false) === activeFilters.hasApi)
+    }
+    if (activeFilters.companyHq.length) {
+      result = result.filter((t) => t.companyHq && activeFilters.companyHq.includes(t.companyHq))
+    }
+    if (activeFilters.gdprCompliant !== null) {
+      result = result.filter((t) => (t.gdprCompliant ?? false) === activeFilters.gdprCompliant)
+    }
+    // 6. Favorites only
     if (showFavoritesOnly) {
       result = result.filter((t) => favorites.has(t.id))
     }
@@ -216,6 +255,9 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
         } else if (sortField === "maimScore") {
           aVal = a.maimScore ?? 0
           bVal = b.maimScore ?? 0
+        } else if (sortField === "bestFor") {
+          aVal = a.bestFor ?? ""
+          bVal = b.bestFor ?? ""
         }
 
         if (typeof aVal === "number" && typeof bVal === "number") {
@@ -595,6 +637,159 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     </div>
                   </label>
                 </FilterSection>
+
+                {/* Support Languages */}
+                <FilterSection title="Support Language">
+                  <div className="space-y-2">
+                    {["English", "Spanish", "French", "German", "Portuguese", "Japanese", "Other"].map((lang) => (
+                      <CheckboxRow
+                        key={lang}
+                        label={lang}
+                        checked={activeFilters.supportLanguages.includes(lang)}
+                        onChange={(checked) =>
+                          setActiveFilters((prev) => ({
+                            ...prev,
+                            supportLanguages: checked
+                              ? [...prev.supportLanguages, lang]
+                              : prev.supportLanguages.filter((l) => l !== lang),
+                          }))
+                        }
+                      />
+                    ))}
+                  </div>
+                </FilterSection>
+
+                {/* Best For */}
+                <FilterSection title="Best For">
+                  <div className="flex flex-wrap gap-1.5">
+                    {["Solo", "Small Team", "Mid-Market", "Enterprise", "All"].map((val) => (
+                      <button
+                        key={val}
+                        onClick={() =>
+                          setActiveFilters((prev) => ({
+                            ...prev,
+                            bestFor: prev.bestFor.includes(val)
+                              ? prev.bestFor.filter((v) => v !== val)
+                              : [...prev.bestFor, val],
+                          }))
+                        }
+                        className="px-2.5 py-1 rounded-lg border text-xs font-medium transition-all duration-150"
+                        style={{
+                          borderColor: activeFilters.bestFor.includes(val) ? "#814ac8" : "#2a2a2a",
+                          background: activeFilters.bestFor.includes(val) ? "rgba(129,74,200,0.15)" : "transparent",
+                          color: activeFilters.bestFor.includes(val) ? "#b07de8" : "#666",
+                        }}
+                      >
+                        {val}
+                      </button>
+                    ))}
+                  </div>
+                </FilterSection>
+
+                {/* Company HQ */}
+                <FilterSection title="Company HQ">
+                  <div className="space-y-2">
+                    {["USA", "EU", "UK", "Canada", "LATAM", "Asia", "Other"].map((hq) => (
+                      <CheckboxRow
+                        key={hq}
+                        label={hq}
+                        checked={activeFilters.companyHq.includes(hq)}
+                        onChange={(checked) =>
+                          setActiveFilters((prev) => ({
+                            ...prev,
+                            companyHq: checked
+                              ? [...prev.companyHq, hq]
+                              : prev.companyHq.filter((h) => h !== hq),
+                          }))
+                        }
+                      />
+                    ))}
+                  </div>
+                </FilterSection>
+
+                {/* Free Plan */}
+                <FilterSection title="Free Plan">
+                  <label className="flex items-center justify-between cursor-pointer">
+                    <span className="text-sm text-[#888]">Has free plan</span>
+                    <div
+                      onClick={() =>
+                        setActiveFilters((prev) => ({
+                          ...prev,
+                          hasFreePlan: prev.hasFreePlan === true ? null : true,
+                        }))
+                      }
+                      className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
+                      style={{
+                        background: activeFilters.hasFreePlan === true ? "#814ac8" : "#2a2a2a",
+                        width: "36px",
+                        height: "20px",
+                      }}
+                    >
+                      <div
+                        className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full bg-white transition-transform duration-200"
+                        style={{
+                          transform: activeFilters.hasFreePlan === true ? "translateX(16px)" : "translateX(0)",
+                        }}
+                      />
+                    </div>
+                  </label>
+                </FilterSection>
+
+                {/* Has API */}
+                <FilterSection title="API Access">
+                  <label className="flex items-center justify-between cursor-pointer">
+                    <span className="text-sm text-[#888]">Has public API</span>
+                    <div
+                      onClick={() =>
+                        setActiveFilters((prev) => ({
+                          ...prev,
+                          hasApi: prev.hasApi === true ? null : true,
+                        }))
+                      }
+                      className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
+                      style={{
+                        background: activeFilters.hasApi === true ? "#814ac8" : "#2a2a2a",
+                        width: "36px",
+                        height: "20px",
+                      }}
+                    >
+                      <div
+                        className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full bg-white transition-transform duration-200"
+                        style={{
+                          transform: activeFilters.hasApi === true ? "translateX(16px)" : "translateX(0)",
+                        }}
+                      />
+                    </div>
+                  </label>
+                </FilterSection>
+
+                {/* GDPR */}
+                <FilterSection title="Compliance">
+                  <label className="flex items-center justify-between cursor-pointer">
+                    <span className="text-sm text-[#888]">GDPR compliant</span>
+                    <div
+                      onClick={() =>
+                        setActiveFilters((prev) => ({
+                          ...prev,
+                          gdprCompliant: prev.gdprCompliant === true ? null : true,
+                        }))
+                      }
+                      className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
+                      style={{
+                        background: activeFilters.gdprCompliant === true ? "#814ac8" : "#2a2a2a",
+                        width: "36px",
+                        height: "20px",
+                      }}
+                    >
+                      <div
+                        className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full bg-white transition-transform duration-200"
+                        style={{
+                          transform: activeFilters.gdprCompliant === true ? "translateX(16px)" : "translateX(0)",
+                        }}
+                      />
+                    </div>
+                  </label>
+                </FilterSection>
               </div>
             </motion.div>
           )}
@@ -617,6 +812,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   <SortHeader
                     label="Category"
                     field="category"
+                    sortField={sortField}
+                    sortDir={sortDir}
+                    onSort={handleSort}
+                  />
+                  <SortHeader
+                    label="Best For"
+                    field="bestFor"
                     sortField={sortField}
                     sortDir={sortDir}
                     onSort={handleSort}
@@ -651,7 +853,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               <tbody>
                 {filteredTools.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-20">
+                    <td colSpan={8} className="text-center py-20">
                       <p className="text-white font-medium mb-1">No tools found</p>
                       <p className="text-sm text-[#555]">
                         Try a different category or adjust filters.
@@ -887,11 +1089,28 @@ function ToolRow({
             <p className="text-sm font-semibold text-white truncate max-w-[150px]">
               {tool.name}
             </p>
-            {tool.featured && (
-              <span className="text-[10px] font-medium" style={{ color: "#814ac8" }}>
-                Featured
-              </span>
-            )}
+            <div className="flex items-center gap-1 mt-0.5 flex-wrap">
+              {tool.featured && (
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(129,74,200,0.15)", color: "#9d6ed4" }}>
+                  ✦ Featured
+                </span>
+              )}
+              {tool.hasFreePlan && (
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(34,197,94,0.10)", color: "#4ade80" }}>
+                  Free
+                </span>
+              )}
+              {tool.hasApi && (
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(59,130,246,0.10)", color: "#60a5fa" }}>
+                  API
+                </span>
+              )}
+              {tool.supportLanguages?.includes("Spanish") && (
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(251,146,60,0.10)", color: "#fb923c" }}>
+                  ES
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </td>
@@ -904,6 +1123,33 @@ function ToolRow({
             style={{ background: "rgba(129,74,200,0.10)", color: "#9d6ed4" }}
           >
             {categoryName}
+          </span>
+        ) : (
+          <span className="text-[#333] text-xs">—</span>
+        )}
+      </td>
+
+      {/* Best For */}
+      <td className="px-4 py-3.5">
+        {tool.bestFor ? (
+          <span
+            className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
+            style={{
+              background:
+                tool.bestFor === "Solo" ? "rgba(34,197,94,0.08)" :
+                tool.bestFor === "Small Team" ? "rgba(59,130,246,0.08)" :
+                tool.bestFor === "Mid-Market" ? "rgba(251,146,60,0.08)" :
+                tool.bestFor === "Enterprise" ? "rgba(129,74,200,0.08)" :
+                "rgba(255,255,255,0.05)",
+              color:
+                tool.bestFor === "Solo" ? "#4ade80" :
+                tool.bestFor === "Small Team" ? "#60a5fa" :
+                tool.bestFor === "Mid-Market" ? "#fb923c" :
+                tool.bestFor === "Enterprise" ? "#b07de8" :
+                "#888",
+            }}
+          >
+            {tool.bestFor}
           </span>
         ) : (
           <span className="text-[#333] text-xs">—</span>
