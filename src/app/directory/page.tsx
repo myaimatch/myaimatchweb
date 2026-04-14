@@ -3,6 +3,8 @@ import { Suspense } from "react"
 import { fetchAllTools, fetchAllCategories } from "@/lib/airtable"
 import DirectoryClient from "@/components/DirectoryClient"
 
+export const revalidate = 3600 // revalidate every hour
+
 export const metadata: Metadata = {
   title: "AI Tools Directory | myAIMatch",
   description:

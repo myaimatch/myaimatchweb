@@ -1,5 +1,4 @@
 import Airtable from 'airtable'
-import { unstable_cache } from 'next/cache'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -141,62 +140,46 @@ function mapCategory(record: Airtable.Record<Airtable.FieldSet>): AirtableCatego
 
 // ─── Exported Functions ───────────────────────────────────────────────────────
 
-export const fetchAllTools = unstable_cache(
-  async (): Promise<AirtableTool[]> => {
-    const base = getBase()
-    const records = await allRecords(base('Tools'), {
-      sort: [{ field: 'Name', direction: 'asc' }],
-    })
-    return records.map(mapTool)
-  },
-  ['all-tools'],
-  { revalidate: 3600, tags: ['tools'] }
-)
+export async function fetchAllTools(): Promise<AirtableTool[]> {
+  const base = getBase()
+  const records = await allRecords(base('Tools'), {
+    sort: [{ field: 'Name', direction: 'asc' }],
+  })
+  return records.map(mapTool)
+}
 
-export const fetchToolsByCategory = unstable_cache(
-  async (categorySlug: string): Promise<AirtableTool[]> => {
-    const base = getBase()
+export async function fetchToolsByCategory(categorySlug: string): Promise<AirtableTool[]> {
+  const base = getBase()
 
-    // Resolve slug → record ID
-    const catRecords = await allRecords(base('Categories'), {
-      filterByFormula: `{Slug} = "${categorySlug}"`,
-      maxRecords: 1,
-    })
-    if (catRecords.length === 0) return []
-    const categoryId = catRecords[0].id
+  // Resolve slug → record ID
+  const catRecords = await allRecords(base('Categories'), {
+    filterByFormula: `{Slug} = "${categorySlug}"`,
+    maxRecords: 1,
+  })
+  if (catRecords.length === 0) return []
+  const categoryId = catRecords[0].id
 
-    // Fetch tools linked to that category
-    const records = await allRecords(base('Tools'), {
-      filterByFormula: `FIND("${categoryId}", ARRAYJOIN({Category}))`,
-      sort: [{ field: 'Name', direction: 'asc' }],
-    })
-    return records.map(mapTool)
-  },
-  ['tools-by-category'],
-  { revalidate: 3600, tags: ['tools'] }
-)
+  // Fetch tools linked to that category
+  const records = await allRecords(base('Tools'), {
+    filterByFormula: `FIND("${categoryId}", ARRAYJOIN({Category}))`,
+    sort: [{ field: 'Name', direction: 'asc' }],
+  })
+  return records.map(mapTool)
+}
 
-export const fetchToolBySlug = unstable_cache(
-  async (slug: string): Promise<AirtableTool | null> => {
-    const base = getBase()
-    const records = await allRecords(base('Tools'), {
-      filterByFormula: `{Slug} = "${slug}"`,
-      maxRecords: 1,
-    })
-    return records.length > 0 ? mapTool(records[0]) : null
-  },
-  ['tool-by-slug'],
-  { revalidate: 3600, tags: ['tools'] }
-)
+export async function fetchToolBySlug(slug: string): Promise<AirtableTool | null> {
+  const base = getBase()
+  const records = await allRecords(base('Tools'), {
+    filterByFormula: `{Slug} = "${slug}"`,
+    maxRecords: 1,
+  })
+  return records.length > 0 ? mapTool(records[0]) : null
+}
 
-export const fetchAllCategories = unstable_cache(
-  async (): Promise<AirtableCategory[]> => {
-    const base = getBase()
-    const records = await allRecords(base('Categories'), {
-      sort: [{ field: 'Display Order', direction: 'asc' }],
-    })
-    return records.map(mapCategory)
-  },
-  ['all-categories'],
-  { revalidate: 3600, tags: ['categories'] }
-)
+export async function fetchAllCategories(): Promise<AirtableCategory[]> {
+  const base = getBase()
+  const records = await allRecords(base('Categories'), {
+    sort: [{ field: 'Display Order', direction: 'asc' }],
+  })
+  return records.map(mapCategory)
+}
