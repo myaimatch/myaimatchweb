@@ -244,15 +244,6 @@ export default async function HomePage() {
       </section>
 
       {/*
-        HOMEPAGE_CATEGORY_CARDS_HIDDEN_START
-        The previous "Explore AI Tools by Category" CategoryCard grid lived here.
-        It is intentionally hidden so the homepage can show the full Airtable-backed
-        directory table instead. Restore the old section here if category cards are
-        needed again later.
-        HOMEPAGE_CATEGORY_CARDS_HIDDEN_END
-      */}
-
-      {/*
         FEATURED_DEALS_HIDDEN_START
         The previous homepage Featured Deals carousel was moved to /deals.
         FEATURED_DEALS_HIDDEN_END
