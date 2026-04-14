@@ -161,6 +161,11 @@ const SearchBar = ({
       setIsAnimating(true)
       setTimeout(() => setIsAnimating(false), 1000)
 
+      if (onSearch || onChange) {
+        onSearch?.(searchQuery)
+        return
+      }
+
       // Try to map query to a category using semantic matching
       const lowerQuery = searchQuery.toLowerCase()
       let matchedCategory: string | null = null
@@ -174,12 +179,10 @@ const SearchBar = ({
       }
 
       if (matchedCategory) {
-        router.push(`/directory?category=${encodeURIComponent(matchedCategory)}`)
+        router.push(`/?category=${encodeURIComponent(matchedCategory)}#directory`)
       } else {
-        router.push(`/directory?q=${encodeURIComponent(searchQuery)}`)
+        router.push(`/?q=${encodeURIComponent(searchQuery)}#directory`)
       }
-
-      if (onSearch) onSearch(searchQuery)
     }
   }
 

@@ -42,6 +42,7 @@
 .hero-cta-primary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   background: linear-gradient(135deg, #814ac8 0%, #a066d4 100%);
   color: #ffffff;

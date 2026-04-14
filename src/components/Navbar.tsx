@@ -3,12 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Directory", href: "/directory" },
   { label: "Deals", href: "/deals" },
-  { label: "Compare", href: "/compare" },
   { label: "Services", href: "/services" },
   { label: "Blog", href: "/blog" },
 ];
@@ -156,7 +154,7 @@ export default function Navbar() {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "6px",
+                  justifyContent: "center",
                   background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
                   color: "#ffffff",
                   fontSize: "13.5px",
@@ -183,7 +181,6 @@ export default function Navbar() {
                 }}
               >
                 Get Your Free AI Stack
-                <ArrowUpRight size={14} strokeWidth={2.5} />
               </Link>
             </div>
 
@@ -349,7 +346,6 @@ export default function Navbar() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "6px",
                   background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
                   color: "#ffffff",
                   fontSize: "14px",
@@ -361,7 +357,6 @@ export default function Navbar() {
                 }}
               >
                 Get Your Free AI Stack
-                <ArrowUpRight size={15} strokeWidth={2.5} />
               </Link>
             </div>
           </div>

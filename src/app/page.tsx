@@ -15,13 +15,13 @@ import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "myAIMatch — Find the Right AI Tools for You",
+  title: "myAIMatch — Find AI Tools You'll Actually Use",
   description:
-    "Whether you're a founder, freelancer, or just AI-curious — myAIMatch matches you to the exact AI tools you need to work smarter. No jargon. Free assessment included.",
+    "myAIMatch helps you match with the right AI tools for your workflow, team, budget, and ROI goals before wasting time on trials.",
   openGraph: {
-    title: "myAIMatch — Find the Right AI Tools for You",
+    title: "myAIMatch — Find AI Tools You'll Actually Use",
     description:
-      "Whether you're a founder, freelancer, or just AI-curious — myAIMatch matches you to the exact AI tools you need to work smarter. No jargon. Free assessment included.",
+      "myAIMatch helps you match with the right AI tools for your workflow, team, budget, and ROI goals before wasting time on trials.",
     url: "https://myaimatch.ai",
     type: "website",
   },
@@ -131,7 +131,7 @@ export default async function HomePage() {
           >
             <span style={{ color: "#814ac8", fontSize: "12px" }}>✦</span>
             <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", letterSpacing: "0.03em" }}>
-              The AI Matching Engine for Everyone
+              AI tool matching, not another directory
             </span>
           </div>
 
@@ -147,7 +147,7 @@ export default async function HomePage() {
               color: "#ffffff",
             }}
           >
-            Stop Searching.{" "}
+            Find the AI tools{" "}
             <span
               style={{
                 background: "linear-gradient(135deg, #a066d4 0%, #df7afe 100%)",
@@ -156,7 +156,7 @@ export default async function HomePage() {
                 backgroundClip: "text",
               }}
             >
-              Start Doing More With AI.
+              you&apos;ll actually use.
             </span>
           </h1>
 
@@ -171,9 +171,9 @@ export default async function HomePage() {
               margin: "0 auto 40px",
             }}
           >
-            Whether you&apos;re a founder, freelancer, or just AI-curious —
-            myAIMatch finds the exact tools you need to work smarter.{" "}
-            <span style={{ color: "rgba(255,255,255,0.35)" }}>No jargon. No overwhelm. Just results.</span>
+            Our goal is to match you with the best tools for you, so you get
+            real value from AI before wasting time on trials, teams, or promises
+            that will not pay off.
           </p>
 
           {/* CTA Row */}
@@ -190,14 +190,11 @@ export default async function HomePage() {
             {/* Primary CTA */}
             <Link href="/assessment" className="hero-cta-primary">
               Get Your Free AI Assessment
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-                <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5.5M11.5 2.5V8.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
             </Link>
 
             {/* Ghost CTA */}
-            <Link href="/directory" className="hero-cta-ghost">
-              Browse the Directory
+            <Link href="/#directory" className="hero-cta-ghost">
+              Browse the AI Directory
             </Link>
           </div>
         </div>
@@ -219,9 +216,28 @@ export default async function HomePage() {
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-center">
               AI Tools <span className="text-[#814ac8]">Directory</span>
             </h2>
-            <p className="text-center text-[#A0A0A0] text-sm mb-10">
-              Cut through the noise. Compare AI tools side-by-side with real data, objective scores, and category-specific benchmarks.
+            <p className="text-center text-[#A0A0A0] text-sm mb-8 max-w-3xl mx-auto leading-relaxed">
+              Explore the catalog, then use MyAIMatch to choose tools that fit
+              your workflow, team, budget, and ROI goals.
             </p>
+            <div className="grid gap-3 md:grid-cols-3">
+              {[
+                "Do not start a trial and waste time.",
+                "Do not promise ROI before the tool fits.",
+                "Do not onboard a team on tools they will not use.",
+              ].map((point) => (
+                <div
+                  key={point}
+                  className="rounded-[18px] border px-5 py-4 text-center text-sm font-medium text-white/70"
+                  style={{
+                    borderColor: "rgba(129,74,200,0.24)",
+                    background: "rgba(255,255,255,0.03)",
+                  }}
+                >
+                  {point}
+                </div>
+              ))}
+            </div>
           </div>
           <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
         </div>
