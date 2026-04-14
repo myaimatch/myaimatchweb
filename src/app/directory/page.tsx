@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { fetchAllTools, fetchAllCategories } from "@/lib/airtable"
 import DirectoryClient from "@/components/DirectoryClient"
 
-// Skip static prerendering — framer-motion v12 + RSC payload causes {state,value,isStale} at runtime
+// Keep Airtable-backed directory fresh and avoid baking live data into static output.
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
