@@ -8,7 +8,7 @@ You are a senior UI designer and frontend developer with backend knowledge for s
 A universal AI matching engine and consultancy that eliminates "AI overwhelm." The platform bridges discovery and implementation: Free Assessment → Paid Strategy Roadmap → AI Stack Setup. Voice: smart,innovative, trustworthy.
 
 ## Always Do First
-- Invoke the `frontend-design` skill before writing any frontend code, every session, no exceptions, view /mnt/skills/public/frontend-design/SKILL.md
+- Invoke the superpowers to analyze better step by step. Also invoke `frontend-design` skill before writing any frontend code, every session, no exceptions, view /mnt/skills/public/frontend-design/SKILL.md
 
 
 ## Reference Images

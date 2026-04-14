@@ -1,7 +1,9 @@
 import type { Metadata } from "next"
-import { Suspense } from "react"
 import { fetchAllTools, fetchAllCategories } from "@/lib/airtable"
 import DirectoryClient from "@/components/DirectoryClient"
+
+// Keep Airtable-backed directory fresh and avoid baking live data into static output.
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: "AI Tools Directory | myAIMatch",
@@ -47,9 +49,7 @@ export default async function DirectoryPage() {
       </section>
 
       {/* Table + filters */}
-      <Suspense fallback={<div className="p-8 text-center text-gray-400">Loading directory...</div>}>
-        <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
-      </Suspense>
+      <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
     </main>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback, useEffect } from "react"
+import { useState, useMemo, useCallback, useEffect, useRef, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
@@ -14,6 +14,9 @@ import {
   ArrowUpRight,
   Bookmark,
   ChevronRight,
+  Columns,
+  Check,
+  Minus,
 } from "lucide-react"
 import type { AirtableTool, AirtableCategory } from "@/lib/airtable"
 
@@ -35,14 +38,12 @@ interface Props {
   categoryMap: Record<string, string>
 }
 
-type SortField = "name" | "category" | "pricingModel" | "publicRating" | "maimScore" | "bestFor" | null
+type SortField = "name" | "category" | "communityReputation" | "minMonthlyPrice" | "bestFor" | null
 type SortDir = "asc" | "desc"
 
 interface ActiveFilters {
-  pricingModels: string[]
   minRating: number | null
-  minMaimScore: number | null
-  featuredOnly: boolean
+  maxPrice: number
   supportLanguages: string[]
   hasFreePlan: boolean | null
   bestFor: string[]
@@ -52,10 +53,8 @@ interface ActiveFilters {
 }
 
 const DEFAULT_FILTERS: ActiveFilters = {
-  pricingModels: [],
   minRating: null,
-  minMaimScore: null,
-  featuredOnly: false,
+  maxPrice: 500,
   supportLanguages: [],
   hasFreePlan: null,
   bestFor: [],
@@ -66,10 +65,8 @@ const DEFAULT_FILTERS: ActiveFilters = {
 
 function countActiveFilters(f: ActiveFilters) {
   let n = 0
-  if (f.pricingModels.length) n++
   if (f.minRating) n++
-  if (f.minMaimScore) n++
-  if (f.featuredOnly) n++
+  if (f.maxPrice < 500) n++
   if (f.supportLanguages.length) n++
   if (f.hasFreePlan !== null) n++
   if (f.bestFor.length) n++
@@ -77,6 +74,53 @@ function countActiveFilters(f: ActiveFilters) {
   if (f.companyHq.length) n++
   if (f.gdprCompliant !== null) n++
   return n
+}
+
+// ─── Column Picker ────────────────────────────────────────────────────────────
+
+const COLUMN_CONFIG = [
+  { key: "category", label: "Category", defaultVisible: true },
+  { key: "fullDescription", label: "Full Description", defaultVisible: true },
+  { key: "pricingSummary", label: "Pricing Summary", defaultVisible: true },
+  { key: "bestFor", label: "Best For", defaultVisible: true },
+  { key: "communityReputation", label: "Community Reputation", defaultVisible: true },
+  { key: "freePlan", label: "Free Plan", defaultVisible: true },
+  { key: "hasApi", label: "Has API", defaultVisible: false },
+  { key: "foundedYear", label: "Founded Year", defaultVisible: false },
+  { key: "companyHq", label: "Company HQ", defaultVisible: false },
+  { key: "employeeCount", label: "Employee Count", defaultVisible: false },
+  { key: "gdprCompliant", label: "GDPR Compliant", defaultVisible: false },
+  { key: "soc2Certified", label: "SOC2 Certified", defaultVisible: false },
+  { key: "hasMobileApp", label: "Mobile App", defaultVisible: false },
+  { key: "trialDays", label: "Trial Days", defaultVisible: false },
+  { key: "supportLanguages", label: "Support Languages", defaultVisible: false },
+  { key: "minMonthlyPrice", label: "Min Monthly Price", defaultVisible: false },
+] as const
+
+type ColumnKey = (typeof COLUMN_CONFIG)[number]["key"]
+
+const COLUMN_ORDER = COLUMN_CONFIG.map((column) => column.key)
+
+const DEFAULT_COLUMNS = Object.fromEntries(
+  COLUMN_CONFIG.map((column) => [column.key, column.defaultVisible])
+) as Record<ColumnKey, boolean>
+
+const COLUMN_LABELS = Object.fromEntries(
+  COLUMN_CONFIG.map((column) => [column.key, column.label])
+) as Record<ColumnKey, string>
+
+const LS_COLUMNS_KEY = "maim-visible-columns"
+
+function loadColumns(): Record<ColumnKey, boolean> {
+  if (typeof window === "undefined") return DEFAULT_COLUMNS
+  try {
+    const stored = localStorage.getItem(LS_COLUMNS_KEY)
+    if (!stored) return DEFAULT_COLUMNS
+    const parsed = JSON.parse(stored) as Partial<Record<ColumnKey, boolean>>
+    return { ...DEFAULT_COLUMNS, ...parsed }
+  } catch {
+    return DEFAULT_COLUMNS
+  }
 }
 
 // ─── useFavorites hook ────────────────────────────────────────────────────────
@@ -108,10 +152,23 @@ function useFavorites() {
   return { favorites, toggle }
 }
 
+// ─── SearchParamsReader — isolated so useSearchParams() stays inside Suspense ──
+
+function SearchParamsReader({
+  onParams,
+}: {
+  onParams: (category: string | null, q: string | null) => void
+}) {
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    onParams(searchParams.get("category"), searchParams.get("q"))
+  }, [searchParams, onParams])
+  return null
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function DirectoryClient({ tools, categories, categoryMap }: Props) {
-  const searchParams = useSearchParams()
   const [search, setSearch] = useState("")
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null)
@@ -120,36 +177,50 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>(DEFAULT_FILTERS)
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
+  const [visibleColumns, setVisibleColumns] = useState<Record<ColumnKey, boolean>>(DEFAULT_COLUMNS)
+  const [columnPickerOpen, setColumnPickerOpen] = useState(false)
+  const columnPickerRef = useRef<HTMLDivElement>(null)
   const { favorites, toggle: toggleFavorite } = useFavorites()
-  // fetchedAt intentionally unused in display for now (badge always shows "just now")
-  const [] = useState(() => new Date())
 
-  // Initialize filters from URL params on mount
+  // Load column visibility from localStorage on mount
   useEffect(() => {
-    const categoryParam = searchParams.get("category")
-    const queryParam = searchParams.get("q")
+    setVisibleColumns(loadColumns())
+  }, [])
 
-    if (categoryParam) {
-      // Find the category by name
-      const matchedCategory = categories.find((cat) => cat.name === categoryParam)
-      if (matchedCategory) {
-        setActiveCategory(matchedCategory.id)
+  // Close column picker when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (columnPickerRef.current && !columnPickerRef.current.contains(e.target as Node)) {
+        setColumnPickerOpen(false)
       }
     }
-
-    if (queryParam) {
-      setSearch(queryParam)
+    if (columnPickerOpen) {
+      document.addEventListener("mousedown", handleClickOutside)
     }
-  }, [searchParams, categories])
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [columnPickerOpen])
 
-  // Unique pricing models from all tools
-  const pricingOptions = useMemo(() => {
-    const set = new Set<string>()
-    tools.forEach((t) => {
-      if (t.pricingModel) set.add(t.pricingModel)
+  // Receive URL params from SearchParamsReader
+  const handleUrlParams = useCallback(
+    (categoryParam: string | null, queryParam: string | null) => {
+      if (categoryParam) {
+        const matchedCategory = categories.find((cat) => cat.name === categoryParam)
+        if (matchedCategory) setActiveCategory(matchedCategory.id)
+      }
+      if (queryParam) setSearch(queryParam)
+    },
+    [categories]
+  )
+
+  const toggleColumn = useCallback((key: ColumnKey) => {
+    setVisibleColumns((prev) => {
+      const next = { ...prev, [key]: !prev[key] }
+      try {
+        localStorage.setItem(LS_COLUMNS_KEY, JSON.stringify(next))
+      } catch { /* ignore */ }
+      return next
     })
-    return Array.from(set).sort()
-  }, [tools])
+  }, [])
 
   // Tool count per category (for category cards)
   const toolCountByCategory = useMemo(() => {
@@ -189,7 +260,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const handleCategorySelect = useCallback(
     (catId: string | null) => {
       setActiveCategory(catId)
-      setActiveSubcategory(null) // reset subcategory on category change
+      setActiveSubcategory(null)
     },
     []
   )
@@ -215,25 +286,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
       )
     }
     // 4. Sidebar filters
-    if (activeFilters.pricingModels.length) {
-      result = result.filter(
-        (t) => t.pricingModel && activeFilters.pricingModels.includes(t.pricingModel)
-      )
-    }
     if (activeFilters.minRating != null) {
-      result = result.filter((t) => (t.publicRating ?? 0) >= activeFilters.minRating!)
-    }
-    if (activeFilters.minMaimScore != null) {
-      result = result.filter((t) => (t.maimScore ?? 0) >= activeFilters.minMaimScore!)
-    }
-    if (activeFilters.featuredOnly) {
-      result = result.filter((t) => t.featured)
-    }
-    // 5. New enriched filters
-    if (activeFilters.supportLanguages.length) {
-      result = result.filter((t) =>
-        t.supportLanguages?.some((lang) => activeFilters.supportLanguages.includes(lang))
-      )
+      result = result.filter((t) => (t.communityReputation ?? 0) >= activeFilters.minRating!)
     }
     if (activeFilters.hasFreePlan !== null) {
       result = result.filter((t) => (t.hasFreePlan ?? false) === activeFilters.hasFreePlan)
@@ -250,7 +304,17 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     if (activeFilters.gdprCompliant !== null) {
       result = result.filter((t) => (t.gdprCompliant ?? false) === activeFilters.gdprCompliant)
     }
-    // 6. Favorites only
+    if (activeFilters.supportLanguages.length) {
+      result = result.filter((t) =>
+        t.supportLanguages?.some((lang) => activeFilters.supportLanguages.includes(lang))
+      )
+    }
+    if (activeFilters.maxPrice < 500) {
+      result = result.filter(
+        (t) => !t.minMonthlyPrice || t.minMonthlyPrice <= activeFilters.maxPrice
+      )
+    }
+    // 5. Favorites only
     if (showFavoritesOnly) {
       result = result.filter((t) => favorites.has(t.id))
     }
@@ -266,15 +330,12 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
         } else if (sortField === "category") {
           aVal = a.category[0] ? (categoryMap[a.category[0]] ?? "") : ""
           bVal = b.category[0] ? (categoryMap[b.category[0]] ?? "") : ""
-        } else if (sortField === "pricingModel") {
-          aVal = a.pricingModel ?? ""
-          bVal = b.pricingModel ?? ""
-        } else if (sortField === "publicRating") {
-          aVal = a.publicRating ?? 0
-          bVal = b.publicRating ?? 0
-        } else if (sortField === "maimScore") {
-          aVal = a.maimScore ?? 0
-          bVal = b.maimScore ?? 0
+        } else if (sortField === "communityReputation") {
+          aVal = a.communityReputation ?? 0
+          bVal = b.communityReputation ?? 0
+        } else if (sortField === "minMonthlyPrice") {
+          aVal = a.minMonthlyPrice ?? 0
+          bVal = b.minMonthlyPrice ?? 0
         } else if (sortField === "bestFor") {
           aVal = a.bestFor ?? ""
           bVal = b.bestFor ?? ""
@@ -305,17 +366,24 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
 
   const filterCount = countActiveFilters(activeFilters)
 
+  // Count visible optional columns
+  const activeColumnCount = COLUMN_ORDER.filter(
+    (k) => visibleColumns[k] && !DEFAULT_COLUMNS[k]
+  ).length
+
   return (
     <div className="relative">
+      {/* Read URL search params inside its own Suspense to avoid RSC encoding issues */}
+      <Suspense fallback={null}>
+        <SearchParamsReader onParams={handleUrlParams} />
+      </Suspense>
       {/* ── Category Cards ─────────────────────────────────────────────── */}
       <div className="bg-[#0d0d0d] pt-5 pb-0">
         <div className="relative">
-          {/* Left fade mask */}
           <div
             className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 z-10"
             style={{ background: "linear-gradient(to right, #0d0d0d, transparent)" }}
           />
-          {/* Right fade mask */}
           <div
             className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 z-10"
             style={{ background: "linear-gradient(to left, #0d0d0d, transparent)" }}
@@ -325,7 +393,6 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             className="flex gap-3 overflow-x-auto px-6 pb-4"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {/* All Tools card */}
             <CategoryCard
               id={null}
               name="All Tools"
@@ -352,7 +419,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           </div>
         </div>
 
-        {/* Subcategory chips — animates in when a category is selected */}
+        {/* Subcategory chips */}
         <AnimatePresence>
           {activeCategory && availableSubcategories.length > 0 && (
             <motion.div
@@ -412,13 +479,12 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           )}
         </AnimatePresence>
 
-        {/* Divider */}
         <div className="border-b border-[#1a1a1a]" />
       </div>
 
       {/* ── Toolbar ────────────────────────────────────────────────────── */}
       <div className="px-4 sm:px-6 py-3 flex items-center justify-end gap-3 flex-wrap bg-[#0d0d0d] border-b border-[#1a1a1a]">
-        {/* Filters toggle — far left */}
+        {/* Filters toggle */}
         <button
           onClick={() => setFiltersOpen((v) => !v)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200 mr-auto"
@@ -442,6 +508,88 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             </span>
           )}
         </button>
+
+        {/* Column Picker — hidden on mobile */}
+        <div className="relative hidden md:block" ref={columnPickerRef}>
+          <button
+            onClick={() => setColumnPickerOpen((v) => !v)}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200"
+            style={{
+              background: columnPickerOpen || activeColumnCount > 0
+                ? "rgba(129,74,200,0.12)"
+                : "rgba(255,255,255,0.03)",
+              borderColor: columnPickerOpen || activeColumnCount > 0 ? "#814ac8" : "#2a2a2a",
+              color: columnPickerOpen || activeColumnCount > 0 ? "#b07de8" : "#777",
+            }}
+          >
+            <Columns className="w-4 h-4" />
+            Columns
+          </button>
+
+          <AnimatePresence>
+            {columnPickerOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-full mt-2 z-50 rounded-xl border overflow-hidden"
+                style={{
+                  background: "#0f0f0f",
+                  borderColor: "#2a2a2a",
+                  minWidth: "220px",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                }}
+              >
+                <div className="px-4 py-3 border-b" style={{ borderColor: "#1a1a1a" }}>
+                  <span className="text-[10px] font-semibold text-[#444] uppercase tracking-widest">
+                    Visible Columns
+                  </span>
+                </div>
+                <div className="px-3 py-2 space-y-0.5 max-h-[320px] overflow-y-auto">
+                  {COLUMN_ORDER.map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => toggleColumn(key)}
+                      className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-left transition-colors duration-100"
+                      style={{
+                        background: visibleColumns[key] ? "rgba(129,74,200,0.08)" : "transparent",
+                      }}
+                    >
+                      <div
+                        className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-150"
+                        style={{
+                          borderColor: visibleColumns[key] ? "#814ac8" : "#333",
+                          background: visibleColumns[key] ? "#814ac8" : "transparent",
+                        }}
+                      >
+                        {visibleColumns[key] && <Check className="w-2.5 h-2.5 text-white" />}
+                      </div>
+                      <span
+                        className="text-xs"
+                        style={{ color: visibleColumns[key] ? "#ccc" : "#666" }}
+                      >
+                        {COLUMN_LABELS[key]}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <div className="px-4 py-2.5 border-t" style={{ borderColor: "#1a1a1a" }}>
+                  <button
+                    onClick={() => {
+                      setVisibleColumns(DEFAULT_COLUMNS)
+                      try { localStorage.setItem(LS_COLUMNS_KEY, JSON.stringify(DEFAULT_COLUMNS)) } catch { /* ignore */ }
+                    }}
+                    className="text-xs transition-colors"
+                    style={{ color: "#814ac8" }}
+                  >
+                    Reset to default
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Live Data badge */}
         <div
@@ -542,32 +690,39 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   </div>
                 </div>
 
-                {/* Pricing Model */}
-                <FilterSection title="Pricing Model">
-                  <div className="space-y-2">
-                    {pricingOptions.map((opt) => (
-                      <CheckboxRow
-                        key={opt}
-                        label={opt}
-                        checked={activeFilters.pricingModels.includes(opt)}
-                        onChange={(checked) =>
+                {/* Best For */}
+                <FilterSection title="Best For">
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      "Graphic Designers", "Email Marketers", "Software Developers",
+                      "Content Creators", "Data Analysts", "Sales Representatives",
+                      "Customer Support Agents", "Project Managers", "HR Professionals", "General Users"
+                    ].map((val) => (
+                      <button
+                        key={val}
+                        onClick={() =>
                           setActiveFilters((prev) => ({
                             ...prev,
-                            pricingModels: checked
-                              ? [...prev.pricingModels, opt]
-                              : prev.pricingModels.filter((m) => m !== opt),
+                            bestFor: prev.bestFor.includes(val)
+                              ? prev.bestFor.filter((v) => v !== val)
+                              : [...prev.bestFor, val],
                           }))
                         }
-                      />
+                        className="px-2.5 py-1 rounded-lg border text-xs font-medium transition-all duration-150"
+                        style={{
+                          borderColor: activeFilters.bestFor.includes(val) ? "#814ac8" : "#2a2a2a",
+                          background: activeFilters.bestFor.includes(val) ? "rgba(129,74,200,0.15)" : "transparent",
+                          color: activeFilters.bestFor.includes(val) ? "#b07de8" : "#666",
+                        }}
+                      >
+                        {val}
+                      </button>
                     ))}
-                    {pricingOptions.length === 0 && (
-                      <p className="text-xs text-[#444]">No pricing data</p>
-                    )}
                   </div>
                 </FilterSection>
 
-                {/* Min Rating */}
-                <FilterSection title="Minimum Rating">
+                {/* Min Community Reputation */}
+                <FilterSection title="Minimum Reputation">
                   <div className="flex gap-1.5 flex-wrap">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -596,133 +751,6 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                         />
                         {star}+
                       </button>
-                    ))}
-                  </div>
-                </FilterSection>
-
-                {/* Min MAIM Score */}
-                <FilterSection title="Min MAIM Score">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs text-[#555]">
-                      <span>0</span>
-                      <span style={{ color: "#814ac8" }} className="font-medium">
-                        {activeFilters.minMaimScore ?? 0}+
-                      </span>
-                      <span>100</span>
-                    </div>
-                    <input
-                      type="range"
-                      min={0}
-                      max={100}
-                      step={5}
-                      value={activeFilters.minMaimScore ?? 0}
-                      onChange={(e) =>
-                        setActiveFilters((prev) => ({
-                          ...prev,
-                          minMaimScore:
-                            Number(e.target.value) === 0 ? null : Number(e.target.value),
-                        }))
-                      }
-                      className="w-full accent-[#814ac8]"
-                    />
-                  </div>
-                </FilterSection>
-
-                {/* Featured Only */}
-                <FilterSection title="Featured">
-                  <label className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-[#888]">Featured only</span>
-                    <div
-                      onClick={() =>
-                        setActiveFilters((prev) => ({
-                          ...prev,
-                          featuredOnly: !prev.featuredOnly,
-                        }))
-                      }
-                      className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
-                      style={{
-                        background: activeFilters.featuredOnly ? "#814ac8" : "#2a2a2a",
-                        width: "36px",
-                        height: "20px",
-                      }}
-                    >
-                      <div
-                        className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full bg-white transition-transform duration-200"
-                        style={{
-                          transform: activeFilters.featuredOnly
-                            ? "translateX(16px)"
-                            : "translateX(0)",
-                        }}
-                      />
-                    </div>
-                  </label>
-                </FilterSection>
-
-                {/* Support Languages */}
-                <FilterSection title="Support Language">
-                  <div className="space-y-2">
-                    {["English", "Spanish", "French", "German", "Portuguese", "Japanese", "Other"].map((lang) => (
-                      <CheckboxRow
-                        key={lang}
-                        label={lang}
-                        checked={activeFilters.supportLanguages.includes(lang)}
-                        onChange={(checked) =>
-                          setActiveFilters((prev) => ({
-                            ...prev,
-                            supportLanguages: checked
-                              ? [...prev.supportLanguages, lang]
-                              : prev.supportLanguages.filter((l) => l !== lang),
-                          }))
-                        }
-                      />
-                    ))}
-                  </div>
-                </FilterSection>
-
-                {/* Best For */}
-                <FilterSection title="Best For">
-                  <div className="flex flex-wrap gap-1.5">
-                    {["Solo", "Small Team", "Mid-Market", "Enterprise", "All"].map((val) => (
-                      <button
-                        key={val}
-                        onClick={() =>
-                          setActiveFilters((prev) => ({
-                            ...prev,
-                            bestFor: prev.bestFor.includes(val)
-                              ? prev.bestFor.filter((v) => v !== val)
-                              : [...prev.bestFor, val],
-                          }))
-                        }
-                        className="px-2.5 py-1 rounded-lg border text-xs font-medium transition-all duration-150"
-                        style={{
-                          borderColor: activeFilters.bestFor.includes(val) ? "#814ac8" : "#2a2a2a",
-                          background: activeFilters.bestFor.includes(val) ? "rgba(129,74,200,0.15)" : "transparent",
-                          color: activeFilters.bestFor.includes(val) ? "#b07de8" : "#666",
-                        }}
-                      >
-                        {val}
-                      </button>
-                    ))}
-                  </div>
-                </FilterSection>
-
-                {/* Company HQ */}
-                <FilterSection title="Company HQ">
-                  <div className="space-y-2">
-                    {["USA", "EU", "UK", "Canada", "LATAM", "Asia", "Other"].map((hq) => (
-                      <CheckboxRow
-                        key={hq}
-                        label={hq}
-                        checked={activeFilters.companyHq.includes(hq)}
-                        onChange={(checked) =>
-                          setActiveFilters((prev) => ({
-                            ...prev,
-                            companyHq: checked
-                              ? [...prev.companyHq, hq]
-                              : prev.companyHq.filter((h) => h !== hq),
-                          }))
-                        }
-                      />
                     ))}
                   </div>
                 </FilterSection>
@@ -783,6 +811,27 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   </label>
                 </FilterSection>
 
+                {/* Company HQ */}
+                <FilterSection title="Company HQ">
+                  <div className="space-y-2">
+                    {["USA", "EU", "UK", "Canada", "LATAM", "Asia", "Other"].map((hq) => (
+                      <CheckboxRow
+                        key={hq}
+                        label={hq}
+                        checked={activeFilters.companyHq.includes(hq)}
+                        onChange={(checked) =>
+                          setActiveFilters((prev) => ({
+                            ...prev,
+                            companyHq: checked
+                              ? [...prev.companyHq, hq]
+                              : prev.companyHq.filter((h) => h !== hq),
+                          }))
+                        }
+                      />
+                    ))}
+                  </div>
+                </FilterSection>
+
                 {/* GDPR */}
                 <FilterSection title="Compliance">
                   <label className="flex items-center justify-between cursor-pointer">
@@ -810,6 +859,57 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     </div>
                   </label>
                 </FilterSection>
+
+                {/* Support Languages */}
+                <FilterSection title="Support Language">
+                  <div className="space-y-2">
+                    {["English", "Spanish", "French", "German", "Portuguese", "Japanese", "Other"].map((lang) => (
+                      <CheckboxRow
+                        key={lang}
+                        label={lang}
+                        checked={activeFilters.supportLanguages.includes(lang)}
+                        onChange={(checked) =>
+                          setActiveFilters((prev) => ({
+                            ...prev,
+                            supportLanguages: checked
+                              ? [...prev.supportLanguages, lang]
+                              : prev.supportLanguages.filter((l) => l !== lang),
+                          }))
+                        }
+                      />
+                    ))}
+                  </div>
+                </FilterSection>
+
+                {/* Max Monthly Price */}
+                <FilterSection title="Max Monthly Price">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs">
+                      <span style={{ color: "#555" }}>$0</span>
+                      <span style={{ color: "#814ac8" }} className="font-medium">
+                        ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? "+" : ""}
+                      </span>
+                      <span style={{ color: "#555" }}>$500+</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={0}
+                      max={500}
+                      step={10}
+                      value={activeFilters.maxPrice}
+                      onChange={(e) =>
+                        setActiveFilters((prev) => ({
+                          ...prev,
+                          maxPrice: Number(e.target.value),
+                        }))
+                      }
+                      className="w-full accent-[#814ac8]"
+                    />
+                    <p className="text-[10px] text-[#444]">
+                      Shows tools with starting price ≤ ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? " (all)" : ""}
+                    </p>
+                  </div>
+                </FilterSection>
               </div>
             </motion.div>
           )}
@@ -821,6 +921,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             <table className="w-full border-collapse">
               <thead>
                 <tr style={{ background: "#0d0d0d", borderBottom: "1px solid #1a1a1a" }}>
+                  {/* Tool — always visible */}
                   <SortHeader
                     label="Tool"
                     field="name"
@@ -829,41 +930,111 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     onSort={handleSort}
                     className="pl-5 w-[220px]"
                   />
-                  <SortHeader
-                    label="Category"
-                    field="category"
-                    sortField={sortField}
-                    sortDir={sortDir}
-                    onSort={handleSort}
-                  />
-                  <SortHeader
-                    label="Best For"
-                    field="bestFor"
-                    sortField={sortField}
-                    sortDir={sortDir}
-                    onSort={handleSort}
-                  />
-                  <SortHeader
-                    label="Pricing"
-                    field="pricingModel"
-                    sortField={sortField}
-                    sortDir={sortDir}
-                    onSort={handleSort}
-                  />
-                  <SortHeader
-                    label="Rating"
-                    field="publicRating"
-                    sortField={sortField}
-                    sortDir={sortDir}
-                    onSort={handleSort}
-                  />
-                  <SortHeader
-                    label="MAIM Score"
-                    field="maimScore"
-                    sortField={sortField}
-                    sortDir={sortDir}
-                    onSort={handleSort}
-                  />
+                  {/* Toggleable columns */}
+                  {visibleColumns.category && (
+                    <SortHeader
+                      label="Category"
+                      field="category"
+                      sortField={sortField}
+                      sortDir={sortDir}
+                      onSort={handleSort}
+                    />
+                  )}
+                  {visibleColumns.fullDescription && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                        Full Description
+                      </span>
+                    </th>
+                  )}
+                  {visibleColumns.pricingSummary && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                        Pricing Summary
+                      </span>
+                    </th>
+                  )}
+                  {visibleColumns.bestFor && (
+                    <SortHeader
+                      label="Best For"
+                      field="bestFor"
+                      sortField={sortField}
+                      sortDir={sortDir}
+                      onSort={handleSort}
+                    />
+                  )}
+                  {visibleColumns.communityReputation && (
+                    <SortHeader
+                      label="Reputation"
+                      field="communityReputation"
+                      sortField={sortField}
+                      sortDir={sortDir}
+                      onSort={handleSort}
+                    />
+                  )}
+                  {visibleColumns.freePlan && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                        Free Plan
+                      </span>
+                    </th>
+                  )}
+                  {/* Extra optional columns */}
+                  {visibleColumns.hasApi && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>API</span>
+                    </th>
+                  )}
+                  {visibleColumns.foundedYear && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Founded</span>
+                    </th>
+                  )}
+                  {visibleColumns.companyHq && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>HQ</span>
+                    </th>
+                  )}
+                  {visibleColumns.employeeCount && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Team Size</span>
+                    </th>
+                  )}
+                  {visibleColumns.gdprCompliant && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>GDPR</span>
+                    </th>
+                  )}
+                  {visibleColumns.soc2Certified && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>SOC2</span>
+                    </th>
+                  )}
+                  {visibleColumns.hasMobileApp && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Mobile</span>
+                    </th>
+                  )}
+                  {visibleColumns.trialDays && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Trial</span>
+                    </th>
+                  )}
+                  {visibleColumns.supportLanguages && (
+                    <th className="px-4 py-3 text-left">
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Languages</span>
+                    </th>
+                  )}
+                  {visibleColumns.minMonthlyPrice && (
+                    <SortHeader
+                      label="Min Price"
+                      field="minMonthlyPrice"
+                      sortField={sortField}
+                      sortDir={sortDir}
+                      onSort={handleSort}
+                    />
+                  )}
+                  {/* Always-visible: bookmark + visit */}
                   <th className="px-3 py-3 text-xs font-semibold text-[#444] uppercase tracking-wider w-10" />
                   <th className="px-4 py-3 text-xs font-semibold text-[#444] uppercase tracking-wider text-right pr-5">
                     Visit
@@ -873,7 +1044,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               <tbody>
                 {filteredTools.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="text-center py-20">
+                    <td colSpan={20} className="text-center py-20">
                       <p className="text-white font-medium mb-1">No tools found</p>
                       <p className="text-sm text-[#555]">
                         Try a different category or adjust filters.
@@ -889,6 +1060,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       isEven={idx % 2 === 0}
                       isFavorite={favorites.has(tool.id)}
                       onToggleFavorite={() => toggleFavorite(tool.id)}
+                      visibleColumns={visibleColumns}
                     />
                   ))
                 )}
@@ -1053,22 +1225,56 @@ function SortHeader({
 
 // ─── ToolRow ──────────────────────────────────────────────────────────────────
 
+function ExpandableText({ text, maxLength }: { text: string; maxLength: number }) {
+  const [expanded, setExpanded] = useState(false)
+  const isLong = text.length > maxLength
+  const display = expanded || !isLong ? text : text.slice(0, maxLength) + "…"
+
+  return (
+    <div className="flex items-start gap-1">
+      <span className="text-xs text-[#888] leading-relaxed">{display}</span>
+      {isLong && (
+        <button
+          onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v) }}
+          className="flex-shrink-0 mt-0.5 transition-colors duration-150"
+          style={{ color: "#814ac8" }}
+          title={expanded ? "Show less" : "Show more"}
+        >
+          {expanded
+            ? <ChevronUp className="w-3.5 h-3.5" />
+            : <ChevronDown className="w-3.5 h-3.5" />
+          }
+        </button>
+      )}
+    </div>
+  )
+}
+
+function BoolCell({ value }: { value: boolean | undefined }) {
+  if (value === true) {
+    return <Check className="w-4 h-4" style={{ color: "#4ade80" }} />
+  }
+  return <Minus className="w-4 h-4" style={{ color: "#333" }} />
+}
+
 function ToolRow({
   tool,
   categoryMap,
   isEven,
   isFavorite,
   onToggleFavorite,
+  visibleColumns,
 }: {
   tool: AirtableTool
   categoryMap: Record<string, string>
   isEven: boolean
   isFavorite: boolean
   onToggleFavorite: () => void
+  visibleColumns: Record<ColumnKey, boolean>
 }) {
   const initials = tool.name.slice(0, 2).toUpperCase()
   const categoryName = tool.category[0] ? categoryMap[tool.category[0]] : null
-  const visitUrl = tool.affiliateLink ?? tool.websiteUrl
+  const visitUrl = tool.websiteUrl
 
   return (
     <tr
@@ -1084,7 +1290,7 @@ function ToolRow({
           : "#0f0f0f"
       }}
     >
-      {/* Tool */}
+      {/* Tool — always visible */}
       <td className="pl-5 pr-4 py-3.5">
         <div className="flex items-center gap-3">
           {tool.logoUrl ? (
@@ -1136,112 +1342,154 @@ function ToolRow({
       </td>
 
       {/* Category */}
-      <td className="px-4 py-3.5">
-        {categoryName ? (
-          <span
-            className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
-            style={{ background: "rgba(129,74,200,0.10)", color: "#9d6ed4" }}
-          >
-            {categoryName}
-          </span>
-        ) : (
-          <span className="text-[#333] text-xs">—</span>
-        )}
-      </td>
+      {visibleColumns.category && (
+        <td className="px-4 py-3.5">
+          {categoryName ? (
+            <span
+              className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
+              style={{ background: "rgba(129,74,200,0.10)", color: "#9d6ed4" }}
+            >
+              {categoryName}
+            </span>
+          ) : (
+            <span className="text-[#333] text-xs">—</span>
+          )}
+        </td>
+      )}
+
+      {/* Full Description */}
+      {visibleColumns.fullDescription && (
+        <td className="px-4 py-3.5 max-w-[260px]">
+          {tool.fullDescription ? (
+            <ExpandableText text={tool.fullDescription} maxLength={80} />
+          ) : (
+            <span className="text-[#333] text-xs">—</span>
+          )}
+        </td>
+      )}
+
+      {/* Pricing Summary */}
+      {visibleColumns.pricingSummary && (
+        <td className="px-4 py-3.5 max-w-[200px]">
+          {tool.pricingSummary ? (
+            <span className="text-xs text-[#888] leading-relaxed line-clamp-2">
+              {tool.pricingSummary.length > 60
+                ? tool.pricingSummary.slice(0, 60) + "…"
+                : tool.pricingSummary}
+            </span>
+          ) : (
+            <span className="text-[#333] text-xs">—</span>
+          )}
+        </td>
+      )}
 
       {/* Best For */}
-      <td className="px-4 py-3.5">
-        {tool.bestFor ? (
-          <span
-            className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
-            style={{
-              background:
-                tool.bestFor === "Solo" ? "rgba(34,197,94,0.08)" :
-                tool.bestFor === "Small Team" ? "rgba(59,130,246,0.08)" :
-                tool.bestFor === "Mid-Market" ? "rgba(251,146,60,0.08)" :
-                tool.bestFor === "Enterprise" ? "rgba(129,74,200,0.08)" :
-                "rgba(255,255,255,0.05)",
-              color:
-                tool.bestFor === "Solo" ? "#4ade80" :
-                tool.bestFor === "Small Team" ? "#60a5fa" :
-                tool.bestFor === "Mid-Market" ? "#fb923c" :
-                tool.bestFor === "Enterprise" ? "#b07de8" :
-                "#888",
-            }}
-          >
-            {tool.bestFor}
-          </span>
-        ) : (
-          <span className="text-[#333] text-xs">—</span>
-        )}
-      </td>
-
-      {/* Pricing */}
-      <td className="px-4 py-3.5">
-        {tool.pricingModel ? (
-          <span
-            className="inline-block px-2.5 py-1 rounded-full text-xs font-medium border"
-            style={{ borderColor: "#222", background: "#141414", color: "#777" }}
-          >
-            {tool.pricingModel}
-          </span>
-        ) : (
-          <span className="text-[#333] text-xs">—</span>
-        )}
-      </td>
-
-      {/* Rating */}
-      <td className="px-4 py-3.5">
-        {tool.publicRating != null ? (
-          <div className="flex items-center gap-1.5">
-            <Star
-              className="w-3.5 h-3.5"
-              style={{ color: "#814ac8", fill: "#814ac8" }}
-            />
-            <span className="text-sm font-medium text-white">
-              {tool.publicRating.toFixed(1)}
-            </span>
-            <span className="text-xs text-[#444]">/ 5</span>
-          </div>
-        ) : (
-          <span className="text-[#333] text-xs">—</span>
-        )}
-      </td>
-
-      {/* MAIM Score */}
-      <td className="px-4 py-3.5">
-        {tool.maimScore != null ? (
-          <div className="flex items-center gap-2.5">
-            <div
-              className="w-16 h-1.5 rounded-full overflow-hidden"
-              style={{ background: "#1a1a1a" }}
+      {visibleColumns.bestFor && (
+        <td className="px-4 py-3.5">
+          {tool.bestFor ? (
+            <span
+              className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
+              style={{
+                background: "rgba(129,74,200,0.08)",
+                color: "#b07de8",
+              }}
             >
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: `${Math.min(tool.maimScore, 100)}%`,
-                  background: "linear-gradient(90deg, #814ac8, #b07de8)",
-                }}
-              />
-            </div>
-            <span className="text-sm font-medium text-white tabular-nums w-7">
-              {tool.maimScore}
+              {tool.bestFor}
             </span>
-          </div>
-        ) : (
-          <span className="text-[#333] text-xs">—</span>
-        )}
-      </td>
+          ) : (
+            <span className="text-[#333] text-xs">—</span>
+          )}
+        </td>
+      )}
 
-      {/* Bookmark */}
+      {/* Community Reputation */}
+      {visibleColumns.communityReputation && (
+        <td className="px-4 py-3.5">
+          {tool.communityReputation != null ? (
+            <div className="flex items-center gap-1.5">
+              <Star
+                className="w-3.5 h-3.5"
+                style={{ color: "#814ac8", fill: "#814ac8" }}
+              />
+              <span className="text-sm font-medium text-white">
+                {tool.communityReputation.toFixed(1)}
+              </span>
+              <span className="text-xs text-[#444]">/ 5</span>
+            </div>
+          ) : (
+            <span className="text-[#333] text-xs">—</span>
+          )}
+        </td>
+      )}
+
+      {/* Free Plan */}
+      {visibleColumns.freePlan && (
+        <td className="px-4 py-3.5">
+          <BoolCell value={tool.hasFreePlan} />
+        </td>
+      )}
+
+      {/* Optional columns */}
+      {visibleColumns.hasApi && (
+        <td className="px-4 py-3.5"><BoolCell value={tool.hasApi} /></td>
+      )}
+      {visibleColumns.foundedYear && (
+        <td className="px-4 py-3.5">
+          <span className="text-xs text-[#888]">{tool.foundedYear ?? "—"}</span>
+        </td>
+      )}
+      {visibleColumns.companyHq && (
+        <td className="px-4 py-3.5">
+          <span className="text-xs text-[#888]">{tool.companyHq ?? "—"}</span>
+        </td>
+      )}
+      {visibleColumns.employeeCount && (
+        <td className="px-4 py-3.5">
+          <span className="text-xs text-[#888]">{tool.employeeCount ?? "—"}</span>
+        </td>
+      )}
+      {visibleColumns.gdprCompliant && (
+        <td className="px-4 py-3.5"><BoolCell value={tool.gdprCompliant} /></td>
+      )}
+      {visibleColumns.soc2Certified && (
+        <td className="px-4 py-3.5"><BoolCell value={tool.soc2Certified} /></td>
+      )}
+      {visibleColumns.hasMobileApp && (
+        <td className="px-4 py-3.5"><BoolCell value={tool.hasMobileApp} /></td>
+      )}
+      {visibleColumns.trialDays && (
+        <td className="px-4 py-3.5">
+          <span className="text-xs text-[#888]">
+            {tool.trialDays ? `${tool.trialDays}d` : "—"}
+          </span>
+        </td>
+      )}
+      {visibleColumns.supportLanguages && (
+        <td className="px-4 py-3.5 max-w-[140px]">
+          {tool.supportLanguages?.length ? (
+            <span className="text-xs text-[#888] line-clamp-2">
+              {tool.supportLanguages.slice(0, 3).join(", ")}
+              {tool.supportLanguages.length > 3 ? ` +${tool.supportLanguages.length - 3}` : ""}
+            </span>
+          ) : (
+            <span className="text-[#333] text-xs">—</span>
+          )}
+        </td>
+      )}
+      {visibleColumns.minMonthlyPrice && (
+        <td className="px-4 py-3.5">
+          <span className="text-xs text-[#888]">
+            {tool.minMonthlyPrice != null ? `$${tool.minMonthlyPrice}` : "—"}
+          </span>
+        </td>
+      )}
+
+      {/* Bookmark — always visible */}
       <td className="px-3 py-3.5">
         <button
           onClick={(e) => {
             e.stopPropagation()
             onToggleFavorite()
-            if (visitUrl) {
-              window.open(visitUrl, "_blank", "noopener,noreferrer")
-            }
           }}
           className="w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-150"
           style={{
@@ -1259,7 +1507,7 @@ function ToolRow({
         </button>
       </td>
 
-      {/* Visit */}
+      {/* Visit — always visible, uses websiteUrl */}
       <td className="px-4 py-3.5 pr-5 text-right">
         {visitUrl ? (
           <a
