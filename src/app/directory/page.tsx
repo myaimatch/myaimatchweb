@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import { Suspense } from "react"
 import { fetchAllTools, fetchAllCategories } from "@/lib/airtable"
 import DirectoryClient from "@/components/DirectoryClient"
 
-export const revalidate = 3600 // revalidate every hour
+// Skip static prerendering — framer-motion v12 + RSC payload causes {state,value,isStale} at runtime
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: "AI Tools Directory | myAIMatch",
@@ -49,9 +49,7 @@ export default async function DirectoryPage() {
       </section>
 
       {/* Table + filters */}
-      <Suspense fallback={<div className="p-8 text-center text-gray-400">Loading directory...</div>}>
-        <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
-      </Suspense>
+      <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
     </main>
   )
 }

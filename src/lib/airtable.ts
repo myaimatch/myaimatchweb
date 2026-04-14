@@ -138,14 +138,29 @@ function mapCategory(record: Airtable.Record<Airtable.FieldSet>): AirtableCatego
   }
 }
 
+// ─── In-memory cache (per serverless instance, TTL 1 hour) ───────────────────
+
+const TTL = 3600 * 1000
+const mem: {
+  tools?: { data: AirtableTool[]; ts: number }
+  categories?: { data: AirtableCategory[]; ts: number }
+} = {}
+
+function isFresh(ts: number) {
+  return Date.now() - ts < TTL
+}
+
 // ─── Exported Functions ───────────────────────────────────────────────────────
 
 export async function fetchAllTools(): Promise<AirtableTool[]> {
+  if (mem.tools && isFresh(mem.tools.ts)) return mem.tools.data
   const base = getBase()
   const records = await allRecords(base('Tools'), {
     sort: [{ field: 'Name', direction: 'asc' }],
   })
-  return records.map(mapTool)
+  const data = records.map(mapTool)
+  mem.tools = { data, ts: Date.now() }
+  return data
 }
 
 export async function fetchToolsByCategory(categorySlug: string): Promise<AirtableTool[]> {
@@ -177,9 +192,12 @@ export async function fetchToolBySlug(slug: string): Promise<AirtableTool | null
 }
 
 export async function fetchAllCategories(): Promise<AirtableCategory[]> {
+  if (mem.categories && isFresh(mem.categories.ts)) return mem.categories.data
   const base = getBase()
   const records = await allRecords(base('Categories'), {
     sort: [{ field: 'Display Order', direction: 'asc' }],
   })
-  return records.map(mapCategory)
+  const data = records.map(mapCategory)
+  mem.categories = { data, ts: Date.now() }
+  return data
 }

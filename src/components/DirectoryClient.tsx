@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback, useEffect, useRef } from "react"
+import { useState, useMemo, useCallback, useEffect, useRef, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
@@ -169,10 +169,23 @@ function useFavorites() {
   return { favorites, toggle }
 }
 
+// ─── SearchParamsReader — isolated so useSearchParams() stays inside Suspense ──
+
+function SearchParamsReader({
+  onParams,
+}: {
+  onParams: (category: string | null, q: string | null) => void
+}) {
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    onParams(searchParams.get("category"), searchParams.get("q"))
+  }, [searchParams, onParams])
+  return null
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function DirectoryClient({ tools, categories, categoryMap }: Props) {
-  const searchParams = useSearchParams()
   const [search, setSearch] = useState("")
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null)
@@ -204,22 +217,17 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [columnPickerOpen])
 
-  // Initialize filters from URL params on mount
-  useEffect(() => {
-    const categoryParam = searchParams.get("category")
-    const queryParam = searchParams.get("q")
-
-    if (categoryParam) {
-      const matchedCategory = categories.find((cat) => cat.name === categoryParam)
-      if (matchedCategory) {
-        setActiveCategory(matchedCategory.id)
+  // Receive URL params from SearchParamsReader
+  const handleUrlParams = useCallback(
+    (categoryParam: string | null, queryParam: string | null) => {
+      if (categoryParam) {
+        const matchedCategory = categories.find((cat) => cat.name === categoryParam)
+        if (matchedCategory) setActiveCategory(matchedCategory.id)
       }
-    }
-
-    if (queryParam) {
-      setSearch(queryParam)
-    }
-  }, [searchParams, categories])
+      if (queryParam) setSearch(queryParam)
+    },
+    [categories]
+  )
 
   const toggleColumn = useCallback((key: ColumnKey) => {
     setVisibleColumns((prev) => {
@@ -385,6 +393,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
 
   return (
     <div className="relative">
+      {/* Read URL search params inside its own Suspense to avoid RSC encoding issues */}
+      <Suspense fallback={null}>
+        <SearchParamsReader onParams={handleUrlParams} />
+      </Suspense>
       {/* ── Category Cards ─────────────────────────────────────────────── */}
       <div className="bg-[#0d0d0d] pt-5 pb-0">
         <div className="relative">
