@@ -42,6 +42,7 @@
 .hero-cta-primary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   background: linear-gradient(135deg, #814ac8 0%, #a066d4 100%);
   color: #ffffff;
@@ -63,21 +64,30 @@
 .hero-cta-ghost {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  background: transparent;
-  color: rgba(255,255,255,0.7);
+  background: #ffffff;
+  color: #814ac8;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   padding: 12px 24px;
   border-radius: 999px;
   text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.12);
-  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  border: 1px solid rgba(129,74,200,0.28);
+  box-shadow: 0 6px 24px rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.35);
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 .hero-cta-ghost:hover {
-  color: #ffffff;
-  border-color: rgba(255,255,255,0.25);
-  background-color: rgba(255,255,255,0.05);
+  color: #6f37b7;
+  border-color: rgba(129,74,200,0.45);
+  background-color: rgba(255,255,255,0.92);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(255,255,255,0.12), 0 2px 6px rgba(0,0,0,0.45);
+}
+
+.hero-cta-primary,
+.hero-cta-ghost {
+  min-width: min(100%, 340px);
 }
 
 /* ── Hero animations ──────────────────────────────────────── */

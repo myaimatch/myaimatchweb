@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback, useEffect, useRef, Suspense } from "react"
+import { useState, useMemo, useCallback, useEffect, useRef, Suspense, type FormEvent } from "react"
 import { useSearchParams } from "next/navigation"
 import dynamic from "next/dynamic"
 import { motion, AnimatePresence } from "framer-motion"
@@ -62,6 +62,10 @@ const DEFAULT_FILTERS: ActiveFilters = {
   companyHq: [],
   gdprCompliant: null,
 }
+
+const INITIAL_VISIBLE_TOOLS = 20
+const VISIBLE_TOOLS_INCREMENT = 20
+const SUGGEST_TOOL_EMAIL = "admin@myaimatch.ai"
 
 function countActiveFilters(f: ActiveFilters) {
   let n = 0
@@ -179,7 +183,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   const [visibleColumns, setVisibleColumns] = useState<Record<ColumnKey, boolean>>(DEFAULT_COLUMNS)
   const [columnPickerOpen, setColumnPickerOpen] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_TOOLS)
+  const [showGoUp, setShowGoUp] = useState(false)
   const columnPickerRef = useRef<HTMLDivElement>(null)
+  const directoryTopRef = useRef<HTMLDivElement>(null)
   const { favorites, toggle: toggleFavorite } = useFavorites()
 
   // Load column visibility from localStorage on mount
@@ -364,6 +371,61 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     categoryMap,
   ])
 
+  useEffect(() => {
+    setVisibleCount(INITIAL_VISIBLE_TOOLS)
+  }, [
+    activeCategory,
+    activeSubcategory,
+    search,
+    activeFilters,
+    showFavoritesOnly,
+    sortField,
+    sortDir,
+  ])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const top = directoryTopRef.current?.getBoundingClientRect().top ?? 0
+      const absoluteTop = top + window.scrollY
+      setShowGoUp(window.scrollY > absoluteTop + 520 || visibleCount > INITIAL_VISIBLE_TOOLS)
+    }
+
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [visibleCount])
+
+  const visibleTools = useMemo(
+    () => filteredTools.slice(0, visibleCount),
+    [filteredTools, visibleCount]
+  )
+
+  const shownToolCount = Math.min(visibleCount, filteredTools.length)
+  const canShowMore = shownToolCount < filteredTools.length
+
+  const scrollToDirectoryTop = useCallback(() => {
+    directoryTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }, [])
+
+  const handleSuggestToolSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const toolName = String(formData.get("toolName") ?? "").trim()
+    const websiteLink = String(formData.get("websiteLink") ?? "").trim()
+    const reason = String(formData.get("reason") ?? "").trim()
+
+    if (!toolName || !websiteLink) return
+
+    const subject = `Tool suggestion: ${toolName}`
+    const body = [
+      `Tool name: ${toolName}`,
+      `Website link: ${websiteLink}`,
+      reason ? `Why it is worth adding: ${reason}` : "",
+    ].filter(Boolean).join("\n")
+
+    window.location.href = `mailto:${SUGGEST_TOOL_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }, [])
+
   const filterCount = countActiveFilters(activeFilters)
 
   // Count visible optional columns
@@ -372,7 +434,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   ).length
 
   return (
-    <div className="relative">
+    <div ref={directoryTopRef} className="relative scroll-mt-24">
       {/* Read URL search params inside its own Suspense to avoid RSC encoding issues */}
       <Suspense fallback={null}>
         <SearchParamsReader onParams={handleUrlParams} />
@@ -483,167 +545,173 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
       </div>
 
       {/* ── Toolbar ────────────────────────────────────────────────────── */}
-      <div className="px-4 sm:px-6 py-3 flex items-center justify-end gap-3 flex-wrap bg-[#0d0d0d] border-b border-[#1a1a1a]">
-        {/* Filters toggle */}
-        <button
-          onClick={() => setFiltersOpen((v) => !v)}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200 mr-auto"
-          style={{
-            background:
-              filtersOpen || filterCount > 0
-                ? "rgba(129,74,200,0.12)"
-                : "rgba(255,255,255,0.03)",
-            borderColor: filtersOpen || filterCount > 0 ? "#814ac8" : "#2a2a2a",
-            color: filtersOpen || filterCount > 0 ? "#b07de8" : "#777",
-          }}
-        >
-          <SlidersHorizontal className="w-4 h-4" />
-          Filters
-          {filterCount > 0 && (
-            <span
-              className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center text-white"
-              style={{ background: "#814ac8" }}
-            >
-              {filterCount}
-            </span>
-          )}
-        </button>
-
-        {/* Column Picker — hidden on mobile */}
-        <div className="relative hidden md:block" ref={columnPickerRef}>
-          <button
-            onClick={() => setColumnPickerOpen((v) => !v)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200"
-            style={{
-              background: columnPickerOpen || activeColumnCount > 0
-                ? "rgba(129,74,200,0.12)"
-                : "rgba(255,255,255,0.03)",
-              borderColor: columnPickerOpen || activeColumnCount > 0 ? "#814ac8" : "#2a2a2a",
-              color: columnPickerOpen || activeColumnCount > 0 ? "#b07de8" : "#777",
-            }}
-          >
-            <Columns className="w-4 h-4" />
-            Columns
-          </button>
-
-          <AnimatePresence>
-            {columnPickerOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -6, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -6, scale: 0.97 }}
-                transition={{ duration: 0.15 }}
-                className="absolute right-0 top-full mt-2 z-50 rounded-xl border overflow-hidden"
-                style={{
-                  background: "#0f0f0f",
-                  borderColor: "#2a2a2a",
-                  minWidth: "220px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
-                }}
-              >
-                <div className="px-4 py-3 border-b" style={{ borderColor: "#1a1a1a" }}>
-                  <span className="text-[10px] font-semibold text-[#444] uppercase tracking-widest">
-                    Visible Columns
-                  </span>
-                </div>
-                <div className="px-3 py-2 space-y-0.5 max-h-[320px] overflow-y-auto">
-                  {COLUMN_ORDER.map((key) => (
-                    <button
-                      key={key}
-                      onClick={() => toggleColumn(key)}
-                      className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-left transition-colors duration-100"
-                      style={{
-                        background: visibleColumns[key] ? "rgba(129,74,200,0.08)" : "transparent",
-                      }}
-                    >
-                      <div
-                        className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-150"
-                        style={{
-                          borderColor: visibleColumns[key] ? "#814ac8" : "#333",
-                          background: visibleColumns[key] ? "#814ac8" : "transparent",
-                        }}
-                      >
-                        {visibleColumns[key] && <Check className="w-2.5 h-2.5 text-white" />}
-                      </div>
-                      <span
-                        className="text-xs"
-                        style={{ color: visibleColumns[key] ? "#ccc" : "#666" }}
-                      >
-                        {COLUMN_LABELS[key]}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-                <div className="px-4 py-2.5 border-t" style={{ borderColor: "#1a1a1a" }}>
-                  <button
-                    onClick={() => {
-                      setVisibleColumns(DEFAULT_COLUMNS)
-                      try { localStorage.setItem(LS_COLUMNS_KEY, JSON.stringify(DEFAULT_COLUMNS)) } catch { /* ignore */ }
-                    }}
-                    className="text-xs transition-colors"
-                    style={{ color: "#814ac8" }}
-                  >
-                    Reset to default
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Live Data badge */}
-        <div
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs"
-          style={{
-            borderColor: "#1a3a1a",
-            background: "rgba(34,197,94,0.05)",
-            color: "#4ade80",
-          }}
-        >
-          <span
-            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style={{
-              background: "#4ade80",
-              animation: "orbPulse 2s ease-in-out infinite",
-              boxShadow: "0 0 4px #4ade80",
-            }}
-          />
-          Live Data · Updated just now
-        </div>
-
-        {/* Saved toggle */}
-        <button
-          onClick={() => setShowFavoritesOnly((v) => !v)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all duration-150"
-          style={{
-            borderColor: showFavoritesOnly ? "#814ac8" : "#2a2a2a",
-            background: showFavoritesOnly ? "rgba(129,74,200,0.12)" : "transparent",
-            color: showFavoritesOnly ? "#b07de8" : "#666",
-          }}
-        >
-          <Bookmark className="w-3.5 h-3.5" fill={showFavoritesOnly ? "#b07de8" : "none"} />
-          Saved
-          {favorites.size > 0 && (
-            <span
-              className="w-4 h-4 rounded-full text-[10px] font-bold flex items-center justify-center"
+      <div className="bg-[#0d0d0d] border-b border-[#1a1a1a] px-4 sm:px-6 py-4">
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)_minmax(0,1fr)] lg:items-center">
+          <div className="flex flex-wrap items-center gap-3 justify-start">
+            {/* Filters toggle */}
+            <button
+              onClick={() => setFiltersOpen((v) => !v)}
+              className="h-12 min-w-[128px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-200"
               style={{
-                background: showFavoritesOnly ? "#814ac8" : "#2a2a2a",
-                color: showFavoritesOnly ? "white" : "#888",
+                background:
+                  filtersOpen || filterCount > 0
+                    ? "rgba(129,74,200,0.12)"
+                    : "rgba(255,255,255,0.03)",
+                borderColor: filtersOpen || filterCount > 0 ? "#814ac8" : "#2a2a2a",
+                color: filtersOpen || filterCount > 0 ? "#b07de8" : "#777",
               }}
             >
-              {favorites.size}
-            </span>
-          )}
-        </button>
+              <SlidersHorizontal className="w-4 h-4" />
+              Filters
+              {filterCount > 0 && (
+                <span
+                  className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center text-white"
+                  style={{ background: "#814ac8" }}
+                >
+                  {filterCount}
+                </span>
+              )}
+            </button>
 
-        {/* Search */}
-        <div className="w-56">
-          <SearchBar
-            placeholder="Search tools..."
-            onSearch={(q) => setSearch(q)}
-            onChange={(q) => setSearch(q)}
-            suggestions={tools.map((t) => t.name).slice(0, 20)}
-          />
+            {/* Column Picker — hidden on mobile */}
+            <div className="relative hidden md:block" ref={columnPickerRef}>
+              <button
+                onClick={() => setColumnPickerOpen((v) => !v)}
+                className="h-12 min-w-[128px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-200"
+                style={{
+                  background: columnPickerOpen || activeColumnCount > 0
+                    ? "rgba(129,74,200,0.12)"
+                    : "rgba(255,255,255,0.03)",
+                  borderColor: columnPickerOpen || activeColumnCount > 0 ? "#814ac8" : "#2a2a2a",
+                  color: columnPickerOpen || activeColumnCount > 0 ? "#b07de8" : "#777",
+                }}
+              >
+                <Columns className="w-4 h-4" />
+                Columns
+              </button>
+
+              <AnimatePresence>
+                {columnPickerOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 top-full mt-2 z-50 rounded-xl border overflow-hidden"
+                    style={{
+                      background: "#0f0f0f",
+                      borderColor: "#2a2a2a",
+                      minWidth: "220px",
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                    }}
+                  >
+                    <div className="px-4 py-3 border-b" style={{ borderColor: "#1a1a1a" }}>
+                      <span className="text-[10px] font-semibold text-[#444] uppercase tracking-widest">
+                        Visible Columns
+                      </span>
+                    </div>
+                    <div className="px-3 py-2 space-y-0.5 max-h-[320px] overflow-y-auto">
+                      {COLUMN_ORDER.map((key) => (
+                        <button
+                          key={key}
+                          onClick={() => toggleColumn(key)}
+                          className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-left transition-colors duration-100"
+                          style={{
+                            background: visibleColumns[key] ? "rgba(129,74,200,0.08)" : "transparent",
+                          }}
+                        >
+                          <div
+                            className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-150"
+                            style={{
+                              borderColor: visibleColumns[key] ? "#814ac8" : "#333",
+                              background: visibleColumns[key] ? "#814ac8" : "transparent",
+                            }}
+                          >
+                            {visibleColumns[key] && <Check className="w-2.5 h-2.5 text-white" />}
+                          </div>
+                          <span
+                            className="text-xs"
+                            style={{ color: visibleColumns[key] ? "#ccc" : "#666" }}
+                          >
+                            {COLUMN_LABELS[key]}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="px-4 py-2.5 border-t" style={{ borderColor: "#1a1a1a" }}>
+                      <button
+                        onClick={() => {
+                          setVisibleColumns(DEFAULT_COLUMNS)
+                          try { localStorage.setItem(LS_COLUMNS_KEY, JSON.stringify(DEFAULT_COLUMNS)) } catch { /* ignore */ }
+                        }}
+                        className="text-xs transition-colors"
+                        style={{ color: "#814ac8" }}
+                      >
+                        Reset to default
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Saved toggle */}
+            <button
+              onClick={() => setShowFavoritesOnly((v) => !v)}
+              className="h-12 min-w-[128px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-150"
+              style={{
+                borderColor: showFavoritesOnly ? "#814ac8" : "#2a2a2a",
+                background: showFavoritesOnly ? "rgba(129,74,200,0.12)" : "rgba(255,255,255,0.03)",
+                color: showFavoritesOnly ? "#b07de8" : "#777",
+              }}
+            >
+              <Bookmark className="w-4 h-4" fill={showFavoritesOnly ? "#b07de8" : "none"} />
+              Saved
+              {favorites.size > 0 && (
+                <span
+                  className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center"
+                  style={{
+                    background: showFavoritesOnly ? "#814ac8" : "#2a2a2a",
+                    color: showFavoritesOnly ? "white" : "#888",
+                  }}
+                >
+                  {favorites.size}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Search */}
+          <div className="w-full max-w-[420px] justify-self-center">
+            <SearchBar
+              placeholder="Search tools..."
+              onSearch={(q) => setSearch(q)}
+              onChange={(q) => setSearch(q)}
+              suggestions={tools.map((t) => t.name).slice(0, 20)}
+            />
+          </div>
+
+          <div className="flex justify-start lg:justify-end">
+            {/* Live Data badge */}
+            <div
+              className="h-12 min-w-[190px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold"
+              style={{
+                borderColor: "rgba(129,74,200,0.26)",
+                background: "rgba(129,74,200,0.06)",
+                color: "#b07de8",
+              }}
+            >
+            <span
+              className="w-2 h-2 rounded-full flex-shrink-0"
+              style={{
+                background: "#814ac8",
+                animation: "orbPulse 2s ease-in-out infinite",
+                boxShadow: "0 0 8px #814ac8",
+              }}
+            />
+              Live Data · Updated just now
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1052,7 +1120,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     </td>
                   </tr>
                 ) : (
-                  filteredTools.map((tool, idx) => (
+                  visibleTools.map((tool, idx) => (
                     <ToolRow
                       key={tool.id}
                       tool={tool}
@@ -1067,8 +1135,133 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               </tbody>
             </table>
           </div>
+          <div className="flex flex-col gap-4 px-5 py-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-[#777]">
+              Showing <span className="font-semibold text-white">{shownToolCount}</span> of{" "}
+              <span className="font-semibold text-white">{filteredTools.length}</span> tools
+            </p>
+            {canShowMore && (
+              <button
+                onClick={() =>
+                  setVisibleCount((count) =>
+                    Math.min(count + VISIBLE_TOOLS_INCREMENT, filteredTools.length)
+                  )
+                }
+                className="inline-flex h-12 items-center justify-center rounded-full border px-6 text-sm font-semibold transition-all duration-200 sm:ml-auto"
+                style={{
+                  borderColor: "rgba(129,74,200,0.35)",
+                  background: "rgba(129,74,200,0.12)",
+                  color: "#b07de8",
+                }}
+              >
+                Show more
+              </button>
+            )}
+          </div>
+          <SuggestToolForm onSubmit={handleSuggestToolSubmit} />
         </div>
       </div>
+
+      <AnimatePresence>
+        {showGoUp && (
+          <motion.button
+            type="button"
+            onClick={scrollToDirectoryTop}
+            initial={{ opacity: 0, y: 16, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 360, damping: 24 }}
+            className="fixed bottom-6 right-5 z-50 inline-flex h-12 items-center justify-center gap-2 rounded-full border px-5 text-sm font-semibold"
+            style={{
+              borderColor: "rgba(129,74,200,0.42)",
+              background: "rgba(13,13,13,0.92)",
+              color: "#ffffff",
+              boxShadow: "0 0 24px rgba(129,74,200,0.22)",
+              backdropFilter: "blur(14px)",
+            }}
+          >
+            <ChevronUp className="h-4 w-4 text-[#b07de8]" />
+            Go up
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+  return (
+    <div className="px-5 pb-8">
+      <form
+        onSubmit={onSubmit}
+        className="rounded-[18px] border p-5 md:p-6"
+        style={{
+          borderColor: "rgba(129,74,200,0.22)",
+          background:
+            "radial-gradient(ellipse 70% 80% at 85% 0%, rgba(129,74,200,0.16), transparent 60%), rgba(255,255,255,0.03)",
+        }}
+      >
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end">
+          <div className="lg:max-w-sm lg:flex-shrink-0">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#814ac8]">
+              Suggest a tool
+            </p>
+            <h3 className="mt-2 text-xl font-semibold tracking-tight text-white">
+              Know an AI tool worth adding?
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/50">
+              Do you want us to add a new tool that is worthwhile? Send the name
+              and link to the website here.
+            </p>
+          </div>
+
+          <div className="grid flex-1 gap-3 md:grid-cols-2">
+            <label className="flex flex-col gap-2">
+              <span className="text-xs font-semibold text-white/45">Tool name</span>
+              <input
+                name="toolName"
+                required
+                placeholder="Example: Granola"
+                className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                style={{ borderColor: "rgba(255,255,255,0.10)" }}
+              />
+            </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-xs font-semibold text-white/45">Website link</span>
+              <input
+                name="websiteLink"
+                type="url"
+                required
+                placeholder="https://..."
+                className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                style={{ borderColor: "rgba(255,255,255,0.10)" }}
+              />
+            </label>
+            <label className="flex flex-col gap-2 md:col-span-2">
+              <span className="text-xs font-semibold text-white/45">Why is it worth adding?</span>
+              <textarea
+                name="reason"
+                rows={3}
+                placeholder="Who should use it, and what makes it useful?"
+                className="resize-none rounded-[18px] border bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                style={{ borderColor: "rgba(255,255,255,0.10)" }}
+              />
+            </label>
+            <div className="md:col-span-2 flex justify-end">
+              <button
+                type="submit"
+                className="inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-200"
+                style={{
+                  background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+                  boxShadow: "0 0 0 1px rgba(129,74,200,0.4), 0 8px 24px rgba(129,74,200,0.24)",
+                }}
+              >
+                Send tool suggestion
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   )
 }
@@ -1312,9 +1505,20 @@ function ToolRow({
             </div>
           )}
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-white truncate max-w-[150px]">
-              {tool.name}
-            </p>
+            {visitUrl ? (
+              <a
+                href={visitUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm font-semibold text-white truncate max-w-[150px] transition-colors duration-150 hover:text-[#b07de8]"
+              >
+                {tool.name}
+              </a>
+            ) : (
+              <p className="text-sm font-semibold text-white truncate max-w-[150px]">
+                {tool.name}
+              </p>
+            )}
             <div className="flex items-center gap-1 mt-0.5 flex-wrap">
               {tool.featured && (
                 <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(129,74,200,0.15)", color: "#9d6ed4" }}>

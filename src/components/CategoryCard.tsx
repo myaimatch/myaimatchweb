@@ -147,14 +147,14 @@ export default function CategoryCard({
 
         {/* CTA Button */}
         <div className="relative z-10 mt-auto">
-          <Link href={`/directory?category=${slug}`}>
+          <Link href={`/?category=${encodeURIComponent(name)}#directory`}>
             <motion.span
               className="w-full px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-colors"
               style={{ backgroundColor: "#814ac8", color: "#ffffff" }}
               whileHover={{ backgroundColor: "#9b5fd4" } as never}
               whileTap={{ scale: 0.97 }}
             >
-              View & Compare Tools
+              View Tools
               <ArrowRight size={15} />
             </motion.span>
           </Link>
