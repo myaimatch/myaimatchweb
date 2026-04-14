@@ -1,10 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SpiralAnimation } from "@/components/ui/spiral-animation";
-import { BeamsBackground } from "@/components/ui/beams-background";
-import { OfferCarousel } from "@/components/ui/offer-carousel";
-import type { Deal } from "@/components/ui/offer-carousel";
 import BannerCTA from "@/components/BannerCTA";
+import DirectoryClient from "@/components/DirectoryClient";
+import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 
 // SEARCH_BAR_HIDDEN_START — uncomment to restore semantic search bar routing to directory
 // const SearchBarWrapper = dynamic(
@@ -12,19 +11,8 @@ import BannerCTA from "@/components/BannerCTA";
 //   { ssr: false }
 // );
 // SEARCH_BAR_HIDDEN_END
-import {
-  TrendingUp,
-  PenLine,
-  Palette,
-  Video,
-  Handshake,
-  Headphones,
-  CheckSquare,
-  BarChart2,
-  Globe,
-  GraduationCap,
-} from "lucide-react";
-import CategoryCard from "@/components/CategoryCard";
+// Keep Airtable-backed homepage directory fresh and avoid baking live data into static output.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "myAIMatch — Find the Right AI Tools for You",
@@ -39,174 +27,14 @@ export const metadata: Metadata = {
   },
 };
 
-// ─── Placeholder logo sets (14 per category) ─────────────────────
-// Real logos will come from Airtable. Monochrome until real assets are ready.
-const greys = ["#1e1e1e", "#252525", "#2a2a2a", "#303030"];
-const mkLogos = (initials: string[]) =>
-  initials.map((i, idx) => ({
-    initials: i,
-    bg: greys[idx % greys.length],
-    color: "rgba(255,255,255,0.65)",
-  }));
+export default async function HomePage() {
+  const [tools, categories] = await Promise.all([fetchAllTools(), fetchAllCategories()]);
 
-const logoSets = {
-  "marketing-seo": mkLogos(["Sm","AH","SE","Mk","Gs","Mb","Hs","Kw","Sp","Cl","Lm","Rb","Mr","Wr"]),
-  "content-writing": mkLogos(["Js","Cp","Wr","Ry","Su","Cl","Gm","Cn","Bz","Nl","Hy","Wt","Pf","Kl"]),
-  "design-creative": mkLogos(["Md","Cv","Ad","Fg","Sk","Dr","Rm","Ps","Il","Cr","Sp","Vk","Nv","Lx"]),
-  "video-audio": mkLogos(["Sy","Dc","Rv","Lm","Ee","Mu","Ca","Ec","Vc","Ht","Wv","Ss","Pp","Fl"]),
-  "sales-crm": mkLogos(["Sf","Hs","Pp","Cl","Ol","Zp","Ga","At","Nd","Lr","Kr","Mn","Ou","Rs"]),
-  "customer-support": mkLogos(["It","Zd","Ic","Fr","Gp","Cr","Lc","Dr","Hl","Kn","Vo","Cy","Tn","Sp"]),
-  "productivity-ops": mkLogos(["Nt","Sl","As","Mo","Cl","Ai","Zm","Zp","Lp","Tb","Cr","Od","Re","Sc"]),
-  "data-analytics": mkLogos(["Ga","Tb","Lk","Mx","Dg","Bq","Pw","Ht","Sp","Am","Rf","Mt","Dc","Md"]),
-  "website-landing-pages": mkLogos(["Wf","Fr","Wp","Sq","Sw","Ub","Sh","Lp","Cm","El","Bz","Cs","Hb","Vr"]),
-  "learning-training": mkLogos(["Co","Ud","Ll","Sk","Kh","Mg","Th","Lv","Ep","Ac","Dc","Bk","Sp","Rc"]),
-};
+  const categoryMap: Record<string, string> = {};
+  for (const cat of categories) {
+    categoryMap[cat.id] = cat.name;
+  }
 
-// ─── Category data ────────────────────────────────────────────────
-const categories = [
-  {
-    name: "Marketing & SEO",
-    slug: "marketing-seo",
-    description: "Drive traffic and rank higher",
-    icon: TrendingUp,
-    placeholderLogos: logoSets["marketing-seo"],
-  },
-  {
-    name: "Content & Writing",
-    slug: "content-writing",
-    description: "Create content at scale",
-    icon: PenLine,
-    placeholderLogos: logoSets["content-writing"],
-  },
-  {
-    name: "Design & Creative",
-    slug: "design-creative",
-    description: "Produce stunning visuals fast",
-    icon: Palette,
-    placeholderLogos: logoSets["design-creative"],
-  },
-  {
-    name: "Video & Audio",
-    slug: "video-audio",
-    description: "Edit, generate, and produce media",
-    icon: Video,
-    placeholderLogos: logoSets["video-audio"],
-  },
-  {
-    name: "Sales & CRM",
-    slug: "sales-crm",
-    description: "Close more deals, faster",
-    icon: Handshake,
-    placeholderLogos: logoSets["sales-crm"],
-  },
-  {
-    name: "Customer Support",
-    slug: "customer-support",
-    description: "Automate and scale support",
-    icon: Headphones,
-    placeholderLogos: logoSets["customer-support"],
-  },
-  {
-    name: "Productivity & Ops",
-    slug: "productivity-ops",
-    description: "Streamline your workflows",
-    icon: CheckSquare,
-    placeholderLogos: logoSets["productivity-ops"],
-  },
-  {
-    name: "Data & Analytics",
-    slug: "data-analytics",
-    description: "Turn data into decisions",
-    icon: BarChart2,
-    placeholderLogos: logoSets["data-analytics"],
-  },
-  {
-    name: "Website & Landing Pages",
-    slug: "website-landing-pages",
-    description: "Build and optimize pages",
-    icon: Globe,
-    placeholderLogos: logoSets["website-landing-pages"],
-  },
-  {
-    name: "Learning & Training",
-    slug: "learning-training",
-    description: "Upskill your team with AI",
-    icon: GraduationCap,
-    placeholderLogos: logoSets["learning-training"],
-  },
-];
-
-// ─── Featured deals placeholder data ─────────────────────────────
-const deals: Deal[] = [
-  {
-    id: "jasper",
-    name: "Jasper AI",
-    tag: "Content",
-    deal: "50% off your first 3 months — generate blogs, ads & emails in seconds.",
-    dealLabel: "50% OFF",
-    imageSrc: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Creative writing workspace",
-    href: "/directory?category=content-writing",
-    website: "jasper.ai",
-  },
-  {
-    id: "surfer",
-    name: "Surfer SEO",
-    tag: "SEO",
-    deal: "Free 7-day trial — rank higher with AI-powered content optimization.",
-    dealLabel: "FREE TRIAL",
-    imageSrc: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Data analytics dashboard",
-    href: "/directory?category=marketing-seo",
-    website: "surferseo.com",
-  },
-  {
-    id: "synthesia",
-    name: "Synthesia",
-    tag: "Video",
-    deal: "20% off annual plan — create AI videos with a human presenter in minutes.",
-    dealLabel: "20% OFF",
-    imageSrc: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Video production setup",
-    href: "/directory?category=video-audio",
-    website: "synthesia.io",
-  },
-  {
-    id: "hubspot",
-    name: "HubSpot AI",
-    tag: "Sales",
-    deal: "Free CRM forever — AI-powered sales tools with no time limit.",
-    dealLabel: "FREE",
-    imageSrc: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Business team meeting",
-    href: "/directory?category=sales-crm",
-    website: "hubspot.com",
-  },
-  {
-    id: "notion",
-    name: "Notion AI",
-    tag: "Productivity",
-    deal: "3 months free on Plus — AI writing, summarizing & task management.",
-    dealLabel: "3 MO FREE",
-    imageSrc: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Organized workspace desk",
-    href: "/directory?category=productivity-ops",
-    website: "notion.so",
-  },
-  {
-    id: "descript",
-    name: "Descript",
-    tag: "Audio",
-    deal: "Free 1 hour/month — edit audio & video by editing text.",
-    dealLabel: "FREE TIER",
-    imageSrc: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Podcast microphone setup",
-    href: "/directory?category=video-audio",
-    website: "descript.com",
-  },
-];
-
-export default function HomePage() {
   return (
     <div className="bg-black text-white">
       {/* ── Hero ──────────────────────────────────────────────────── */}
@@ -353,10 +181,10 @@ export default function HomePage() {
             style={{
               animation: "heroFadeUp 0.7s 0.45s ease both",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               gap: "12px",
-              flexWrap: "wrap",
             }}
           >
             {/* Primary CTA */}
@@ -384,52 +212,35 @@ export default function HomePage() {
       </section> */}
       {/* SEARCH_BAR_HIDDEN_END */}
 
-      {/* ── Category Grid ─────────────────────────────────────────── */}
-      {/* Reduced py-20 to py-12 for tighter visual hierarchy after search bar removal */}
-      <section id="categories" className="relative overflow-hidden">
-        <BeamsBackground intensity="subtle" className="px-4 py-12">
-          <div className="max-w-7xl mx-auto">
+      {/* ── Directory Table ───────────────────────────────────────── */}
+      <section id="directory" className="relative overflow-hidden bg-[#0d0d0d]">
+        <div className="px-4 py-12">
+          <div className="max-w-7xl mx-auto mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-center">
-              Explore AI Tools by Category
+              AI Tools <span className="text-[#814ac8]">Directory</span>
             </h2>
             <p className="text-center text-[#A0A0A0] text-sm mb-10">
-              Browse 200+ curated AI tools across the categories your workflow needs most
+              Cut through the noise. Compare AI tools side-by-side with real data, objective scores, and category-specific benchmarks.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {categories.map((cat) => {
-                const Icon = cat.icon;
-                return (
-                  <CategoryCard
-                    key={cat.slug}
-                    name={cat.name}
-                    slug={cat.slug}
-                    description={cat.description}
-                    icon={<Icon size={18} style={{ color: "#c084fc" }} />}
-                    placeholderLogos={cat.placeholderLogos}
-                  />
-                );
-              })}
-            </div>
           </div>
-        </BeamsBackground>
-      </section>
-
-      {/* ── Featured Deals Carousel ───────────────────────────────── */}
-      <section className="px-4 py-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-8 gap-4">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                Featured Deals
-              </h2>
-              <p className="text-sm mt-1" style={{ color: "#A0A0A0" }}>
-                Exclusive offers on the best AI tools — updated regularly
-              </p>
-            </div>
-          </div>
-          <OfferCarousel deals={deals} />
+          <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
         </div>
       </section>
+
+      {/*
+        HOMEPAGE_CATEGORY_CARDS_HIDDEN_START
+        The previous "Explore AI Tools by Category" CategoryCard grid lived here.
+        It is intentionally hidden so the homepage can show the full Airtable-backed
+        directory table instead. Restore the old section here if category cards are
+        needed again later.
+        HOMEPAGE_CATEGORY_CARDS_HIDDEN_END
+      */}
+
+      {/*
+        FEATURED_DEALS_HIDDEN_START
+        The previous homepage Featured Deals carousel was moved to /deals.
+        FEATURED_DEALS_HIDDEN_END
+      */}
 
       {/* ── Assessment Promo Banner ───────────────────────────────── */}
       <BannerCTA />

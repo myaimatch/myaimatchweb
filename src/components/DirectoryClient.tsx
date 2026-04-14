@@ -1312,9 +1312,20 @@ function ToolRow({
             </div>
           )}
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-white truncate max-w-[150px]">
-              {tool.name}
-            </p>
+            {visitUrl ? (
+              <a
+                href={visitUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm font-semibold text-white truncate max-w-[150px] transition-colors duration-150 hover:text-[#b07de8]"
+              >
+                {tool.name}
+              </a>
+            ) : (
+              <p className="text-sm font-semibold text-white truncate max-w-[150px]">
+                {tool.name}
+              </p>
+            )}
             <div className="flex items-center gap-1 mt-0.5 flex-wrap">
               {tool.featured && (
                 <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(129,74,200,0.15)", color: "#9d6ed4" }}>
