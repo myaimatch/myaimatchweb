@@ -44,7 +44,6 @@ type SortDir = "asc" | "desc"
 interface ActiveFilters {
   minRating: number | null
   maxPrice: number
-  featuredOnly: boolean
   supportLanguages: string[]
   hasFreePlan: boolean | null
   bestFor: string[]
@@ -56,7 +55,6 @@ interface ActiveFilters {
 const DEFAULT_FILTERS: ActiveFilters = {
   minRating: null,
   maxPrice: 500,
-  featuredOnly: false,
   supportLanguages: [],
   hasFreePlan: null,
   bestFor: [],
@@ -69,7 +67,6 @@ function countActiveFilters(f: ActiveFilters) {
   let n = 0
   if (f.minRating) n++
   if (f.maxPrice < 500) n++
-  if (f.featuredOnly) n++
   if (f.supportLanguages.length) n++
   if (f.hasFreePlan !== null) n++
   if (f.bestFor.length) n++
@@ -81,50 +78,36 @@ function countActiveFilters(f: ActiveFilters) {
 
 // ─── Column Picker ────────────────────────────────────────────────────────────
 
-type ColumnKey =
-  | "category" | "fullDescription" | "pricingSummary"
-  | "bestFor" | "communityReputation" | "freePlan"
-  | "hasApi" | "foundedYear" | "companyHq" | "employeeCount"
-  | "gdprCompliant" | "soc2Certified" | "hasMobileApp"
-  | "trialDays" | "supportLanguages" | "minMonthlyPrice"
+const COLUMN_CONFIG = [
+  { key: "category", label: "Category", defaultVisible: true },
+  { key: "fullDescription", label: "Full Description", defaultVisible: true },
+  { key: "pricingSummary", label: "Pricing Summary", defaultVisible: true },
+  { key: "bestFor", label: "Best For", defaultVisible: true },
+  { key: "communityReputation", label: "Community Reputation", defaultVisible: true },
+  { key: "freePlan", label: "Free Plan", defaultVisible: true },
+  { key: "hasApi", label: "Has API", defaultVisible: false },
+  { key: "foundedYear", label: "Founded Year", defaultVisible: false },
+  { key: "companyHq", label: "Company HQ", defaultVisible: false },
+  { key: "employeeCount", label: "Employee Count", defaultVisible: false },
+  { key: "gdprCompliant", label: "GDPR Compliant", defaultVisible: false },
+  { key: "soc2Certified", label: "SOC2 Certified", defaultVisible: false },
+  { key: "hasMobileApp", label: "Mobile App", defaultVisible: false },
+  { key: "trialDays", label: "Trial Days", defaultVisible: false },
+  { key: "supportLanguages", label: "Support Languages", defaultVisible: false },
+  { key: "minMonthlyPrice", label: "Min Monthly Price", defaultVisible: false },
+] as const
 
-const DEFAULT_COLUMNS: Record<ColumnKey, boolean> = {
-  category: true,
-  fullDescription: true,
-  pricingSummary: true,
-  bestFor: true,
-  communityReputation: true,
-  freePlan: true,
-  hasApi: false,
-  foundedYear: false,
-  companyHq: false,
-  employeeCount: false,
-  gdprCompliant: false,
-  soc2Certified: false,
-  hasMobileApp: false,
-  trialDays: false,
-  supportLanguages: false,
-  minMonthlyPrice: false,
-}
+type ColumnKey = (typeof COLUMN_CONFIG)[number]["key"]
 
-const COLUMN_LABELS: Record<ColumnKey, string> = {
-  category: "Category",
-  fullDescription: "Full Description",
-  pricingSummary: "Pricing Summary",
-  bestFor: "Best For",
-  communityReputation: "Community Reputation",
-  freePlan: "Free Plan",
-  hasApi: "Has API",
-  foundedYear: "Founded Year",
-  companyHq: "Company HQ",
-  employeeCount: "Employee Count",
-  gdprCompliant: "GDPR Compliant",
-  soc2Certified: "SOC2 Certified",
-  hasMobileApp: "Mobile App",
-  trialDays: "Trial Days",
-  supportLanguages: "Support Languages",
-  minMonthlyPrice: "Min Monthly Price",
-}
+const COLUMN_ORDER = COLUMN_CONFIG.map((column) => column.key)
+
+const DEFAULT_COLUMNS = Object.fromEntries(
+  COLUMN_CONFIG.map((column) => [column.key, column.defaultVisible])
+) as Record<ColumnKey, boolean>
+
+const COLUMN_LABELS = Object.fromEntries(
+  COLUMN_CONFIG.map((column) => [column.key, column.label])
+) as Record<ColumnKey, string>
 
 const LS_COLUMNS_KEY = "maim-visible-columns"
 
@@ -306,19 +289,6 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     if (activeFilters.minRating != null) {
       result = result.filter((t) => (t.communityReputation ?? 0) >= activeFilters.minRating!)
     }
-    if (activeFilters.maxPrice < 500) {
-      result = result.filter(
-        (t) => !t.minMonthlyPrice || t.minMonthlyPrice <= activeFilters.maxPrice
-      )
-    }
-    if (activeFilters.featuredOnly) {
-      result = result.filter((t) => t.featured)
-    }
-    if (activeFilters.supportLanguages.length) {
-      result = result.filter((t) =>
-        t.supportLanguages?.some((lang) => activeFilters.supportLanguages.includes(lang))
-      )
-    }
     if (activeFilters.hasFreePlan !== null) {
       result = result.filter((t) => (t.hasFreePlan ?? false) === activeFilters.hasFreePlan)
     }
@@ -333,6 +303,16 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     }
     if (activeFilters.gdprCompliant !== null) {
       result = result.filter((t) => (t.gdprCompliant ?? false) === activeFilters.gdprCompliant)
+    }
+    if (activeFilters.supportLanguages.length) {
+      result = result.filter((t) =>
+        t.supportLanguages?.some((lang) => activeFilters.supportLanguages.includes(lang))
+      )
+    }
+    if (activeFilters.maxPrice < 500) {
+      result = result.filter(
+        (t) => !t.minMonthlyPrice || t.minMonthlyPrice <= activeFilters.maxPrice
+      )
     }
     // 5. Favorites only
     if (showFavoritesOnly) {
@@ -387,7 +367,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const filterCount = countActiveFilters(activeFilters)
 
   // Count visible optional columns
-  const activeColumnCount = (Object.keys(DEFAULT_COLUMNS) as ColumnKey[]).filter(
+  const activeColumnCount = COLUMN_ORDER.filter(
     (k) => visibleColumns[k] && !DEFAULT_COLUMNS[k]
   ).length
 
@@ -567,7 +547,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   </span>
                 </div>
                 <div className="px-3 py-2 space-y-0.5 max-h-[320px] overflow-y-auto">
-                  {(Object.keys(DEFAULT_COLUMNS) as ColumnKey[]).map((key) => (
+                  {COLUMN_ORDER.map((key) => (
                     <button
                       key={key}
                       onClick={() => toggleColumn(key)}
@@ -710,121 +690,6 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   </div>
                 </div>
 
-                {/* Min Community Reputation */}
-                <FilterSection title="Minimum Reputation">
-                  <div className="flex gap-1.5 flex-wrap">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        onClick={() =>
-                          setActiveFilters((prev) => ({
-                            ...prev,
-                            minRating: prev.minRating === star ? null : star,
-                          }))
-                        }
-                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all duration-150"
-                        style={{
-                          borderColor:
-                            activeFilters.minRating === star ? "#814ac8" : "#2a2a2a",
-                          background:
-                            activeFilters.minRating === star
-                              ? "rgba(129,74,200,0.15)"
-                              : "transparent",
-                          color:
-                            activeFilters.minRating === star ? "#b07de8" : "#666",
-                        }}
-                      >
-                        <Star
-                          className="w-3 h-3"
-                          fill={activeFilters.minRating === star ? "#b07de8" : "none"}
-                        />
-                        {star}+
-                      </button>
-                    ))}
-                  </div>
-                </FilterSection>
-
-                {/* Max Monthly Price */}
-                <FilterSection title="Max Monthly Price">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs">
-                      <span style={{ color: "#555" }}>$0</span>
-                      <span style={{ color: "#814ac8" }} className="font-medium">
-                        ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? "+" : ""}
-                      </span>
-                      <span style={{ color: "#555" }}>$500+</span>
-                    </div>
-                    <input
-                      type="range"
-                      min={0}
-                      max={500}
-                      step={10}
-                      value={activeFilters.maxPrice}
-                      onChange={(e) =>
-                        setActiveFilters((prev) => ({
-                          ...prev,
-                          maxPrice: Number(e.target.value),
-                        }))
-                      }
-                      className="w-full accent-[#814ac8]"
-                    />
-                    <p className="text-[10px] text-[#444]">
-                      Shows tools with starting price ≤ ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? " (all)" : ""}
-                    </p>
-                  </div>
-                </FilterSection>
-
-                {/* Featured Only */}
-                <FilterSection title="Featured">
-                  <label className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-[#888]">Featured only</span>
-                    <div
-                      onClick={() =>
-                        setActiveFilters((prev) => ({
-                          ...prev,
-                          featuredOnly: !prev.featuredOnly,
-                        }))
-                      }
-                      className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
-                      style={{
-                        background: activeFilters.featuredOnly ? "#814ac8" : "#2a2a2a",
-                        width: "36px",
-                        height: "20px",
-                      }}
-                    >
-                      <div
-                        className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full bg-white transition-transform duration-200"
-                        style={{
-                          transform: activeFilters.featuredOnly
-                            ? "translateX(16px)"
-                            : "translateX(0)",
-                        }}
-                      />
-                    </div>
-                  </label>
-                </FilterSection>
-
-                {/* Support Languages */}
-                <FilterSection title="Support Language">
-                  <div className="space-y-2">
-                    {["English", "Spanish", "French", "German", "Portuguese", "Japanese", "Other"].map((lang) => (
-                      <CheckboxRow
-                        key={lang}
-                        label={lang}
-                        checked={activeFilters.supportLanguages.includes(lang)}
-                        onChange={(checked) =>
-                          setActiveFilters((prev) => ({
-                            ...prev,
-                            supportLanguages: checked
-                              ? [...prev.supportLanguages, lang]
-                              : prev.supportLanguages.filter((l) => l !== lang),
-                          }))
-                        }
-                      />
-                    ))}
-                  </div>
-                </FilterSection>
-
                 {/* Best For */}
                 <FilterSection title="Best For">
                   <div className="flex flex-wrap gap-1.5">
@@ -856,23 +721,36 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   </div>
                 </FilterSection>
 
-                {/* Company HQ */}
-                <FilterSection title="Company HQ">
-                  <div className="space-y-2">
-                    {["USA", "EU", "UK", "Canada", "LATAM", "Asia", "Other"].map((hq) => (
-                      <CheckboxRow
-                        key={hq}
-                        label={hq}
-                        checked={activeFilters.companyHq.includes(hq)}
-                        onChange={(checked) =>
+                {/* Min Community Reputation */}
+                <FilterSection title="Minimum Reputation">
+                  <div className="flex gap-1.5 flex-wrap">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        onClick={() =>
                           setActiveFilters((prev) => ({
                             ...prev,
-                            companyHq: checked
-                              ? [...prev.companyHq, hq]
-                              : prev.companyHq.filter((h) => h !== hq),
+                            minRating: prev.minRating === star ? null : star,
                           }))
                         }
-                      />
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all duration-150"
+                        style={{
+                          borderColor:
+                            activeFilters.minRating === star ? "#814ac8" : "#2a2a2a",
+                          background:
+                            activeFilters.minRating === star
+                              ? "rgba(129,74,200,0.15)"
+                              : "transparent",
+                          color:
+                            activeFilters.minRating === star ? "#b07de8" : "#666",
+                        }}
+                      >
+                        <Star
+                          className="w-3 h-3"
+                          fill={activeFilters.minRating === star ? "#b07de8" : "none"}
+                        />
+                        {star}+
+                      </button>
                     ))}
                   </div>
                 </FilterSection>
@@ -933,6 +811,27 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   </label>
                 </FilterSection>
 
+                {/* Company HQ */}
+                <FilterSection title="Company HQ">
+                  <div className="space-y-2">
+                    {["USA", "EU", "UK", "Canada", "LATAM", "Asia", "Other"].map((hq) => (
+                      <CheckboxRow
+                        key={hq}
+                        label={hq}
+                        checked={activeFilters.companyHq.includes(hq)}
+                        onChange={(checked) =>
+                          setActiveFilters((prev) => ({
+                            ...prev,
+                            companyHq: checked
+                              ? [...prev.companyHq, hq]
+                              : prev.companyHq.filter((h) => h !== hq),
+                          }))
+                        }
+                      />
+                    ))}
+                  </div>
+                </FilterSection>
+
                 {/* GDPR */}
                 <FilterSection title="Compliance">
                   <label className="flex items-center justify-between cursor-pointer">
@@ -959,6 +858,57 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       />
                     </div>
                   </label>
+                </FilterSection>
+
+                {/* Support Languages */}
+                <FilterSection title="Support Language">
+                  <div className="space-y-2">
+                    {["English", "Spanish", "French", "German", "Portuguese", "Japanese", "Other"].map((lang) => (
+                      <CheckboxRow
+                        key={lang}
+                        label={lang}
+                        checked={activeFilters.supportLanguages.includes(lang)}
+                        onChange={(checked) =>
+                          setActiveFilters((prev) => ({
+                            ...prev,
+                            supportLanguages: checked
+                              ? [...prev.supportLanguages, lang]
+                              : prev.supportLanguages.filter((l) => l !== lang),
+                          }))
+                        }
+                      />
+                    ))}
+                  </div>
+                </FilterSection>
+
+                {/* Max Monthly Price */}
+                <FilterSection title="Max Monthly Price">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs">
+                      <span style={{ color: "#555" }}>$0</span>
+                      <span style={{ color: "#814ac8" }} className="font-medium">
+                        ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? "+" : ""}
+                      </span>
+                      <span style={{ color: "#555" }}>$500+</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={0}
+                      max={500}
+                      step={10}
+                      value={activeFilters.maxPrice}
+                      onChange={(e) =>
+                        setActiveFilters((prev) => ({
+                          ...prev,
+                          maxPrice: Number(e.target.value),
+                        }))
+                      }
+                      className="w-full accent-[#814ac8]"
+                    />
+                    <p className="text-[10px] text-[#444]">
+                      Shows tools with starting price ≤ ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? " (all)" : ""}
+                    </p>
+                  </div>
                 </FilterSection>
               </div>
             </motion.div>
