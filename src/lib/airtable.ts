@@ -15,12 +15,9 @@ export interface AirtableTool {
   affiliateLink?: string
   affiliateStatus?: string
   logoUrl?: string
-  pricingModel?: string
   pricingSummary?: string
-  publicRating?: number
-  maimScore?: number
+  communityReputation?: number
   featured: boolean
-  status: string
   // ─── Enriched fields ───────────────────────────────────────────────────────
   supportLanguages?: string[]
   uiLanguages?: string[]
@@ -35,6 +32,8 @@ export interface AirtableTool {
   gdprCompliant?: boolean
   hasMobileApp?: boolean
   soc2Certified?: boolean
+  minMonthlyPrice?: number
+  maxMonthlyPrice?: number
 }
 
 export interface AirtableCategory {
@@ -65,6 +64,13 @@ function parseStringArray(val: unknown): string[] | undefined {
   if (!val) return undefined
   if (Array.isArray(val)) return val as string[]
   if (typeof val === 'string') return val.split(',').map(s => s.trim()).filter(Boolean)
+  return undefined
+}
+
+/** Parse a Long Text "Yes"/"No" field (previously checkbox) into boolean */
+function parseBool(val: unknown): boolean | undefined {
+  if (val === 'Yes' || val === true) return true
+  if (val === 'No' || val === false) return false
   return undefined
 }
 
@@ -99,26 +105,25 @@ function mapTool(record: Airtable.Record<Airtable.FieldSet>): AirtableTool {
     affiliateLink: f['Affiliate Link'] as string | undefined,
     affiliateStatus: f['Affiliate Status'] as string | undefined,
     logoUrl: f['Logo URL'] as string | undefined,
-    pricingModel: f['Pricing Model'] as string | undefined,
     pricingSummary: f['Pricing Summary'] as string | undefined,
-    publicRating: f['Public Rating'] as number | undefined,
-    maimScore: f['MAIM Score'] as number | undefined,
+    communityReputation: f['Community Reputation'] as number | undefined,
     featured: (f['Featured'] as boolean) ?? false,
-    status: (f['Status'] as string) ?? '',
     // ─── Enriched fields ─────────────────────────────────────────────────────
     supportLanguages: parseStringArray(f['Support Languages']),
     uiLanguages: parseStringArray(f['UI Languages']),
     foundedYear: f['Founded Year'] as number | undefined,
-    hasFreePlan: f['Has Free Plan'] as boolean | undefined,
+    hasFreePlan: parseBool(f['Has Free Plan']),
     trialDays: f['Trial Days'] as number | undefined,
     bestFor: f['Best For'] as string | undefined,
-    hasApi: f['Has API'] as boolean | undefined,
+    hasApi: parseBool(f['Has API']),
     integrations: parseStringArray(f['Integrations']),
     companyHq: f['Company HQ'] as string | undefined,
     employeeCount: f['Employee Count'] as string | undefined,
-    gdprCompliant: f['GDPR Compliant'] as boolean | undefined,
-    hasMobileApp: f['Has Mobile App'] as boolean | undefined,
-    soc2Certified: f['SOC2 Certified'] as boolean | undefined,
+    gdprCompliant: parseBool(f['GDPR Compliant']),
+    hasMobileApp: parseBool(f['Has Mobile App']),
+    soc2Certified: parseBool(f['SOC2 Certified']),
+    minMonthlyPrice: f['Min Monthly Price'] as number | undefined,
+    maxMonthlyPrice: f['Max Monthly Price'] as number | undefined,
   }
 }
 
@@ -140,7 +145,6 @@ export const fetchAllTools = unstable_cache(
   async (): Promise<AirtableTool[]> => {
     const base = getBase()
     const records = await allRecords(base('Tools'), {
-      filterByFormula: `{Status} = "Active"`,
       sort: [{ field: 'Name', direction: 'asc' }],
     })
     return records.map(mapTool)
@@ -163,7 +167,7 @@ export const fetchToolsByCategory = unstable_cache(
 
     // Fetch tools linked to that category
     const records = await allRecords(base('Tools'), {
-      filterByFormula: `AND({Status} = "Active", FIND("${categoryId}", ARRAYJOIN({Category})))`,
+      filterByFormula: `FIND("${categoryId}", ARRAYJOIN({Category}))`,
       sort: [{ field: 'Name', direction: 'asc' }],
     })
     return records.map(mapTool)
