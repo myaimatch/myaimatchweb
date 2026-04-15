@@ -5,7 +5,7 @@ const linkColumns = [
   {
     title: "Product",
     links: [
-      { label: "Find Your Match", href: "/#directory" },
+      { label: "Find Your Match", href: "/#match-tools" },
       { label: "Get Your Match", href: "/assessment" },
     ],
   },

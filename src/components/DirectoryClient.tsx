@@ -457,8 +457,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           >
             <CategoryCard
               id={null}
-              name="All Tools"
-              description="Browse the full AI tools catalog"
+              name="All Matches"
+              description="Match across every AI category"
               icon="✦"
               count={tools.length}
               active={activeCategory === null}
@@ -469,7 +469,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 key={cat.id}
                 id={cat.id}
                 name={cat.name}
-                description={cat.description ?? "Explore tools in this category"}
+                description={cat.description ?? "Match tools to this work type"}
                 icon={cat.icon ?? "🤖"}
                 count={toolCountByCategory[cat.id] ?? 0}
                 active={activeCategory === cat.id}

@@ -179,9 +179,9 @@ const SearchBar = ({
       }
 
       if (matchedCategory) {
-        router.push(`/?category=${encodeURIComponent(matchedCategory)}#directory`)
+        router.push(`/?category=${encodeURIComponent(matchedCategory)}#match-tools`)
       } else {
-        router.push(`/?q=${encodeURIComponent(searchQuery)}#directory`)
+        router.push(`/?q=${encodeURIComponent(searchQuery)}#match-tools`)
       }
     }
   }
