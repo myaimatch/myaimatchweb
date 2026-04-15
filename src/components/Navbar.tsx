@@ -180,7 +180,7 @@ export default function Navbar() {
                   el.style.transform = "translateY(0)";
                 }}
               >
-                Get Your Free AI Stack
+                Try the AI Match Engine
               </Link>
             </div>
 
@@ -356,7 +356,7 @@ export default function Navbar() {
                   boxShadow: "0 4px 16px rgba(129,74,200,0.3)",
                 }}
               >
-                Get Your Free AI Stack
+                Try the AI Match Engine
               </Link>
             </div>
           </div>

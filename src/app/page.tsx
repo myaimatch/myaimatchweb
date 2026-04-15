@@ -189,12 +189,12 @@ export default async function HomePage() {
           >
             {/* Primary CTA */}
             <Link href="/assessment" className="hero-cta-primary">
-              Get Your Free AI Assessment
+              Use the AI Match Engine — Free
             </Link>
 
             {/* Ghost CTA */}
             <Link href="/#directory" className="hero-cta-ghost">
-              Browse the AI Directory
+              Explore & Match
             </Link>
           </div>
         </div>
@@ -214,11 +214,10 @@ export default async function HomePage() {
         <div className="px-4 py-12">
           <div className="max-w-7xl mx-auto mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-center">
-              AI Tools <span className="text-[#814ac8]">Directory</span>
+              Find Your Perfect <span className="text-[#814ac8]">AI Match</span>
             </h2>
             <p className="text-center text-[#A0A0A0] text-sm mb-8 max-w-3xl mx-auto leading-relaxed">
-              Explore the catalog, then use MyAIMatch to choose tools that fit
-              your workflow, team, budget, and ROI goals.
+              Use our Match Engine to filter tools by your role, workflow, budget, and goals — not just categories.
             </p>
             <div className="grid gap-3 md:grid-cols-3">
               {[

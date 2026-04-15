@@ -5,8 +5,8 @@ const linkColumns = [
   {
     title: "Product",
     links: [
-      { label: "AI Directory", href: "/#directory" },
-      { label: "Free Assessment", href: "/assessment" },
+      { label: "Find Your Match", href: "/#directory" },
+      { label: "Get Your Match", href: "/assessment" },
     ],
   },
   {
