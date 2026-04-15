@@ -94,20 +94,6 @@ const nextSteps = [
   },
 ];
 
-const principles = [
-  {
-    title: "Fit before features",
-    body: "A tool only matters if it fits your role, budget, and actual work.",
-  },
-  {
-    title: "Workflow before tool choice",
-    body: "We start with how work happens now, then match tools to the gaps.",
-  },
-  {
-    title: "Implementation before hype",
-    body: "You leave with a priority order and a clear path to adoption.",
-  },
-];
 
 const tiers: Tier[] = [
   {
@@ -428,8 +414,7 @@ export default function ServicesPage() {
         }
 
         .deliverable-card h3,
-        .pricing-card h3,
-        .principle-card h3 {
+        .pricing-card h3 {
           position: relative;
           z-index: 1;
           margin-top: 28px;
@@ -441,8 +426,7 @@ export default function ServicesPage() {
         }
 
         .deliverable-card p,
-        .pricing-card p,
-        .principle-card p {
+        .pricing-card p {
           position: relative;
           z-index: 1;
           margin-top: 14px;
@@ -643,22 +627,6 @@ export default function ServicesPage() {
           line-height: 1.65;
         }
 
-        .principles-grid {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 16px;
-          margin-top: 44px;
-        }
-
-        .principle-card {
-          padding: 30px;
-        }
-
-        .principle-card h3 {
-          margin-top: 0;
-          font-size: 24px;
-        }
-
         .final-cta {
           position: relative;
           overflow: hidden;
@@ -732,7 +700,6 @@ export default function ServicesPage() {
 
           .deliverables-grid,
           .pricing-grid,
-          .principles-grid,
           .process-grid,
           .next-grid {
             grid-template-columns: 1fr;
@@ -775,7 +742,7 @@ export default function ServicesPage() {
             Build the AI stack <span>you&apos;ll actually use.</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            We review your workflow, team, and goals — then build a personalized AI stack plan you can actually implement.
+            One session. We map your workflow, find the gaps, and deliver a stack built around how you actually work.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link className="services-cta-primary" href={heroPrimaryHref}>
@@ -819,7 +786,7 @@ export default function ServicesPage() {
         <SectionHeader
           label="What you get"
           title="A decision-ready AI stack roadmap."
-          body="Built around your workflow — not around whatever tool is trending this week."
+          body="Built around your workflow — not around whatever's trending."
         />
         <div className="deliverables-grid">
           {deliverables.map((item) => (
@@ -861,7 +828,7 @@ export default function ServicesPage() {
         <SectionHeader
           label="Assessment tiers"
           title="Choose the scope that matches your complexity."
-          body="Scope determines depth. More complexity means more workflows, roles, and integration decisions to untangle."
+          body="Scope determines depth. Price reflects the workflows, roles, and integrations that need reviewing."
         />
         <div className="pricing-grid">
           {tiers.map((tier, index) => {
@@ -896,8 +863,8 @@ export default function ServicesPage() {
             <SectionHeader
               align="left"
               label="After the assessment"
-              title="Want help executing the plan?"
-              body="The assessment stands on its own. If you want to go further, MyAIMatch offers hands-on implementation and coaching."
+              title="Need help executing the plan?"
+              body="The roadmap is yours to keep. If you want support executing it, we offer two ways to continue."
             />
           </div>
           <div className="next-stack">
@@ -911,22 +878,6 @@ export default function ServicesPage() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="services-shell py-20 md:py-28">
-        <SectionHeader
-          label="Why MyAIMatch"
-          title="Right AI first. Better implementation second."
-          body="Built around fit, workflow, and adoption — not around what's popular."
-        />
-        <div className="principles-grid">
-          {principles.map((item) => (
-            <article className="services-card principle-card" key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
-          ))}
         </div>
       </section>
 
