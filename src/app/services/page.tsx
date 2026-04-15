@@ -3,13 +3,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI Strategy Assessment & Consulting | myAIMatch",
+  title: "Full Tech Stack Strategy Assessment | myAIMatch",
   description:
-    "Get a personalized AI stack roadmap for your workflow, team, budget, and implementation goals.",
+    "We review your workflow, team, and goals — then build a personalized AI stack plan you can actually implement.",
   openGraph: {
-    title: "AI Strategy Assessment & Consulting | myAIMatch",
+    title: "Full Tech Stack Strategy Assessment | myAIMatch",
     description:
-      "Get a personalized AI stack roadmap for your workflow, team, budget, and implementation goals.",
+      "We review your workflow, team, and goals — then build a personalized AI stack plan you can actually implement.",
     url: "https://myaimatch.ai/services",
     type: "website",
   },
@@ -27,32 +27,32 @@ const deliverables = [
   {
     eyebrow: "01",
     title: "60-minute 1:1 strategy session",
-    body: "A focused video session to walk through your goals, current stack, decision points, and where AI can remove real friction.",
+    body: "A focused video call to map your stack, decisions, and next moves.",
   },
   {
     eyebrow: "02",
     title: "Workflow and tool-stack review",
-    body: "Pre-session review of your questionnaire, tools, team structure, manual steps, and gaps that slow the work down.",
+    body: "Pre-session audit of your tools, team structure, and friction points.",
   },
   {
     eyebrow: "03",
     title: "Recommended AI tools by use case",
-    body: "A practical AI stack mapped to your actual workflows, not a generic set of popular apps.",
+    body: "A stack matched to your actual workflows — not a generic list.",
   },
   {
     eyebrow: "04",
     title: "Integration roadmap",
-    body: "A clear view of which tools connect, what should be automated, and which setup steps should happen first.",
+    body: "What connects, what should be automated, and in what order.",
   },
   {
     eyebrow: "05",
     title: "Priority action plan",
-    body: "A first, second, third order based on complexity, cost-saving opportunities, and likely impact.",
+    body: "A clear first, second, third — based on impact and effort.",
   },
   {
     eyebrow: "06",
     title: "Branded report and recording",
-    body: "You receive a PDF roadmap within 48 hours, plus the session recording so you can revisit every recommendation.",
+    body: "Delivered within 48 hours. Yours to revisit anytime.",
   },
 ];
 
@@ -60,56 +60,52 @@ const processSteps = [
   {
     step: "01",
     title: "Choose your assessment tier",
-    body: "Pick the scope that matches your business complexity: Solo, Small Team, or SMB.",
+    body: "Pick the scope that matches your complexity: Solo, Small Team, or SMB.",
     detail: "Payment first, then scheduling.",
   },
   {
     step: "02",
     title: "Share your current workflow",
-    body: "After checkout, you complete a short pre-session questionnaire about your tools, tasks, team, and goals.",
-    detail: "This gives the strategy session real context.",
+    body: "Complete a short questionnaire about your tools, tasks, and goals.",
+    detail: "This gives the session real context.",
   },
   {
     step: "03",
     title: "Meet for your strategy session",
-    body: "We walk through workflow pain points, AI opportunities, tool fit, implementation effort, and priority tradeoffs.",
-    detail: "60 minutes by video call.",
+    body: "60 minutes on workflow pain points, tool fit, and priority tradeoffs.",
+    detail: "By video call.",
   },
   {
     step: "04",
     title: "Get your AI stack roadmap",
-    body: "Within 48 hours, you receive your PDF report, implementation order, ROI estimates, and next-step options.",
+    body: "PDF report, implementation order, and next-step options within 48 hours.",
     detail: "Optional check-in after 7 days.",
   },
 ];
 
 const nextSteps = [
   {
-    title: "AI Stack Setup",
-    body: "Configure tools, connect workflows, and build the automations recommended in your roadmap.",
+    title: "AI Tech Stack Implementation",
+    body: "We configure your tools, connect workflows, and build the automations from your roadmap.",
   },
   {
     title: "AI Coaching",
-    body: "Get guided support as you or your team start using the new stack inside daily operations.",
-  },
-  {
-    title: "Partner Program",
-    body: "Stay supported over time with adoption planning, workflow optimization, and ongoing stack decisions.",
+    body: "Training on how your stack works — for you and your team, at your own pace.",
   },
 ];
 
 const principles = [
   {
     title: "Fit before features",
-    body: "A tool only matters if it fits your role, budget, team, and actual work.",
+    body: "A tool only matters if it fits your role, budget, and actual work.",
   },
   {
     title: "Workflow before tool choice",
-    body: "The assessment starts with how work happens now, then matches tools to the moments where they can help.",
+    body: "We start with how work happens now, then match tools to the gaps.",
   },
   {
     title: "Implementation before hype",
-    body: "You leave with a priority order, setup direction, and a practical path for adoption.",
+    body: "You leave with a priority order and a clear path to adoption.",
   },
 ];
 
@@ -117,7 +113,7 @@ const tiers: Tier[] = [
   {
     name: "Solo / Freelancer",
     price: "$2,000",
-    description: "For one operator with one main workflow and a clear need to choose the right AI stack.",
+    description: "One operator. One main workflow. Clear tool recommendations and setup order.",
     scope: ["1 primary workflow", "Recommended tools by use case", "Priority setup order"],
     href: process.env.NEXT_PUBLIC_STRATEGY_SOLO_STRIPE_URL,
   },
@@ -131,7 +127,7 @@ const tiers: Tier[] = [
   {
     name: "SMB",
     price: "$10,000",
-    description: "For broader teams that need deeper review, stronger prioritization, and implementation clarity.",
+    description: "Cross-team review, deeper prioritization, and phased implementation.",
     scope: ["Cross-team workflow review", "ROI estimate ranges", "Implementation phasing"],
     href: process.env.NEXT_PUBLIC_STRATEGY_SMB_STRIPE_URL,
   },
@@ -774,14 +770,12 @@ export default function ServicesPage() {
 
       <section className="services-hero">
         <div className="services-shell relative z-10 text-center">
-          <p className="services-label">Full Strategy Assessment</p>
+          <p className="services-label">Full Tech Stack Strategy Assessment</p>
           <h1 className="services-hero-title">
             Build the AI stack <span>you&apos;ll actually use.</span>
           </h1>
-          <p className="mx-auto mt-8 max-w-3xl text-base leading-[1.75] text-white/65 md:text-lg">
-            Get a clear AI stack plan before you spend time, money, or team trust
-            on the wrong tools. MyAIMatch reviews your workflow, tools, team, and
-            goals before recommending what to adopt and how to implement it.
+          <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
+            We review your workflow, team, and goals — then build a personalized AI stack plan you can actually implement.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link className="services-cta-primary" href={heroPrimaryHref}>
@@ -792,8 +786,7 @@ export default function ServicesPage() {
             </Link>
           </div>
           <p className="mt-6 text-sm leading-6 text-white/40">
-            For solo operators, small teams, and SMBs ready to move from AI
-            curiosity to implementation.
+            For founders, freelancers, and teams ready to stop guessing and start building.
           </p>
 
           <div className="services-map" aria-hidden="true">
@@ -801,19 +794,19 @@ export default function ServicesPage() {
               <strong>
                 <span>Workflow</span> review
               </strong>
-              <p>We start with the work you already do and where decisions get stuck.</p>
+              <p>Where your work slows down and where AI fits.</p>
             </div>
             <div className="map-card map-card-two">
               <strong>
                 <span>AI Match</span> logic
               </strong>
-              <p>Recommendations are filtered by fit, budget, team, and setup effort.</p>
+              <p>Filtered by fit, budget, and setup effort — not by trend.</p>
             </div>
             <div className="map-card map-card-three">
               <strong>
                 <span>Implementation</span> order
               </strong>
-              <p>You leave knowing what to set up first, second, and third.</p>
+              <p>Leave knowing exactly what to set up first.</p>
             </div>
             <div className="map-node">
               <Image src="/logo.png" alt="" width={42} height={42} />
@@ -826,7 +819,7 @@ export default function ServicesPage() {
         <SectionHeader
           label="What you get"
           title="A decision-ready AI stack roadmap."
-          body="The assessment turns your current workflow into a practical recommendation set, so you can choose tools with context instead of chasing whatever is trending."
+          body="Built around your workflow — not around whatever tool is trending this week."
         />
         <div className="deliverables-grid">
           {deliverables.map((item) => (
@@ -845,8 +838,8 @@ export default function ServicesPage() {
             <SectionHeader
               align="left"
               label="How it works"
-              title="Payment, prep, strategy, roadmap."
-              body="The service is designed to keep the live session focused. We review your context first, then use the call to make better decisions together."
+              title="Pay. Prep. Strategy. Roadmap."
+              body="Context first. Then we make decisions together on the call."
             />
           </div>
           <div className="process-list">
@@ -868,7 +861,7 @@ export default function ServicesPage() {
         <SectionHeader
           label="Assessment tiers"
           title="Choose the scope that matches your complexity."
-          body="Pricing is based on how many workflows, roles, and integration questions need to be reviewed before your recommendations are useful."
+          body="Scope determines depth. More complexity means more workflows, roles, and integration decisions to untangle."
         />
         <div className="pricing-grid">
           {tiers.map((tier, index) => {
@@ -903,8 +896,8 @@ export default function ServicesPage() {
             <SectionHeader
               align="left"
               label="After the assessment"
-              title="When you want help implementing the plan, we can stay with you."
-              body="The strategy assessment stands on its own. If you want support beyond the roadmap, MyAIMatch can help you set up the stack, coach adoption, or keep improving the workflow over time."
+              title="Want help executing the plan?"
+              body="The assessment stands on its own. If you want to go further, MyAIMatch offers hands-on implementation and coaching."
             />
           </div>
           <div className="next-stack">
@@ -925,7 +918,7 @@ export default function ServicesPage() {
         <SectionHeader
           label="Why MyAIMatch"
           title="Right AI first. Better implementation second."
-          body="The assessment is built around fit, workflow, and adoption. That keeps the conversation grounded in what your business can actually use."
+          body="Built around fit, workflow, and adoption — not around what's popular."
         />
         <div className="principles-grid">
           {principles.map((item) => (
@@ -941,8 +934,7 @@ export default function ServicesPage() {
         <div className="final-cta">
           <h2>Leave the session with a plan, not another list of tools.</h2>
           <p>
-            Start with your current workflow, get matched recommendations, and
-            walk away with the order of operations for implementation.
+            Start with your workflow. Leave with clarity.
           </p>
           <div className="relative mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link className="services-cta-primary" href={heroPrimaryHref}>
