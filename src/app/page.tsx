@@ -1,31 +1,61 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { SpiralAnimation } from "@/components/ui/spiral-animation";
-import BannerCTA from "@/components/BannerCTA";
+import HomepageConstellation from "@/components/HomepageConstellation";
 import DirectoryClient from "@/components/DirectoryClient";
 import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 
-// SEARCH_BAR_HIDDEN_START — uncomment to restore semantic search bar routing to directory
-// const SearchBarWrapper = dynamic(
-//   () => import("@/components/ui/search-bar-wrapper").then((m) => ({ default: m.SearchBarWrapper })),
-//   { ssr: false }
-// );
-// SEARCH_BAR_HIDDEN_END
-// Keep Airtable-backed homepage directory fresh and avoid baking live data into static output.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "myAIMatch — Find AI Tools You'll Actually Use",
+  title: "myAIMatch - Find AI Tools You'll Actually Use",
   description:
-    "myAIMatch helps you match with the right AI tools for your workflow, team, budget, and ROI goals before wasting time on trials.",
+    "Use the AI Match Engine to get AI tool recommendations for your workflow, team, budget, and implementation goals.",
   openGraph: {
-    title: "myAIMatch — Find AI Tools You'll Actually Use",
+    title: "myAIMatch - Find AI Tools You'll Actually Use",
     description:
-      "myAIMatch helps you match with the right AI tools for your workflow, team, budget, and ROI goals before wasting time on trials.",
+      "Use the AI Match Engine to get AI tool recommendations for your workflow, team, budget, and implementation goals.",
     url: "https://myaimatch.ai",
     type: "website",
   },
 };
+
+const matchPath = [
+  {
+    step: "01",
+    title: "Tell us your workflow",
+    body: "Answer a few questions about your role, team, budget, and goals.",
+  },
+  {
+    step: "02",
+    title: "Get matched by fit",
+    body: "The AI Match Engine filters recommendations around how you actually work.",
+  },
+  {
+    step: "03",
+    title: "Receive your AI stack",
+    body: "Your recommended stack arrives by email with a clear starting point.",
+  },
+  {
+    step: "04",
+    title: "Compare when needed",
+    body: "Use the tool table to check pricing, fit, reputation, and details.",
+  },
+];
+
+const principles = [
+  {
+    title: "Fit before features",
+    body: "The best AI tool is the one your workflow can absorb without creating new busywork.",
+  },
+  {
+    title: "Context before recommendations",
+    body: "Role, budget, team size, and implementation effort change what the right match looks like.",
+  },
+  {
+    title: "Momentum before overwhelm",
+    body: "Start with a small stack you can use, then expand once the workflow proves itself.",
+  },
+];
 
 export default async function HomePage() {
   const [tools, categories] = await Promise.all([fetchAllTools(), fetchAllCategories()]);
@@ -36,220 +66,684 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="bg-black text-white">
-      {/* ── Hero ──────────────────────────────────────────────────── */}
-      <section
-        className="relative overflow-hidden"
-        style={{ minHeight: "92vh", display: "flex", flexDirection: "column", justifyContent: "center" }}
-      >
-        {/* ── Background: base black ── */}
-        <div style={{ position: "absolute", inset: 0, background: "#000005" }} />
+    <div className="home-ramp bg-black text-white">
+      <style>{`
+        .home-ramp {
+          --home-primary: #814ac8;
+          --home-accent: #df7afe;
+          --home-card: rgba(255,255,255,0.04);
+          --home-border: rgba(255,255,255,0.08);
+          --home-muted: rgba(255,255,255,0.6);
+          --home-dim: rgba(255,255,255,0.4);
+          overflow: hidden;
+        }
 
-        {/* ── Noise grain filter ── */}
-        <svg style={{ position: "absolute", width: 0, height: 0 }}>
-          <defs>
-            <filter id="grain">
-              <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-              <feColorMatrix type="saturate" values="0" />
-              <feBlend in="SourceGraphic" mode="overlay" />
-            </filter>
-          </defs>
-        </svg>
-        <div
-          style={{
-            position: "absolute", inset: 0,
-            filter: "url(#grain)",
-            opacity: 0.04,
-            background: "#ffffff",
-            pointerEvents: "none",
-          }}
-        />
+        .home-shell {
+          width: min(1180px, calc(100% - 32px));
+          margin: 0 auto;
+        }
 
-        {/* ── Spiral Animation (GSAP canvas) ── */}
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-          <SpiralAnimation />
-        </div>
+        .home-label {
+          color: var(--home-primary);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
 
-        {/* ── Orb — primary glow ── */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-8%", left: "50%",
-            transform: "translateX(-50%)",
-            width: "clamp(400px, 60vw, 800px)",
-            height: "clamp(300px, 45vw, 600px)",
-            background:
-              "radial-gradient(ellipse 70% 65% at 50% 30%, rgba(129,74,200,0.55) 0%, rgba(223,122,254,0.12) 45%, transparent 70%)",
-            animation: "orbPulse 7s ease-in-out infinite",
-            pointerEvents: "none",
-          }}
-        />
-        {/* ── Orb — outer soft halo ── */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-15%", left: "50%",
-            transform: "translateX(-50%)",
-            width: "clamp(500px, 80vw, 1000px)",
-            height: "clamp(400px, 60vw, 760px)",
-            background:
-              "radial-gradient(ellipse 80% 70% at 50% 28%, rgba(129,74,200,0.18) 0%, transparent 65%)",
-            animation: "orbPulse2 9s 1s ease-in-out infinite",
-            pointerEvents: "none",
-          }}
-        />
+        .home-hero {
+          position: relative;
+          min-height: calc(100vh - 64px);
+          display: flex;
+          align-items: center;
+          padding: 82px 0 64px;
+          background:
+            radial-gradient(ellipse 80% 54% at 50% 0%, rgba(129,74,200,0.42), transparent 68%),
+            radial-gradient(ellipse 56% 44% at 78% 34%, rgba(223,122,254,0.14), transparent 68%),
+            #000000;
+        }
 
-        {/* ── Bottom fade to black ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0, left: 0, right: 0,
-            height: "220px",
-            background: "linear-gradient(to bottom, transparent, #000000)",
-            pointerEvents: "none",
-          }}
-        />
+        .home-hero::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+          background-size: 82px 82px;
+          mask-image: radial-gradient(ellipse 72% 58% at 50% 16%, black, transparent 76%);
+          pointer-events: none;
+        }
 
-        {/* ── Hero content ── */}
-        <div
-          className="relative max-w-4xl mx-auto text-center px-4"
-          style={{ paddingTop: "clamp(40px, 6vh, 80px)", paddingBottom: "clamp(80px, 12vh, 120px)" }}
-        >
-          {/* Badge */}
-          <div
-            style={{
-              animation: "heroFadeUp 0.7s ease both",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "6px 16px",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: "999px",
-              background: "rgba(255,255,255,0.04)",
-              marginBottom: "28px",
-            }}
-          >
-            <span style={{ color: "#814ac8", fontSize: "12px" }}>✦</span>
-            <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", letterSpacing: "0.03em" }}>
-              AI tool matching, not another directory
-            </span>
+        .home-hero::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 2px;
+          height: 170px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, rgba(223,122,254,0.72), transparent);
+          pointer-events: none;
+        }
+
+        .home-hero-grid {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(420px, 0.86fr);
+          gap: 34px;
+          align-items: center;
+        }
+
+        .home-hero-copy {
+          padding: 44px 0;
+        }
+
+        .home-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          padding: 7px 14px;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.04);
+          color: rgba(255,255,255,0.68);
+          font-size: 12px;
+          line-height: 1;
+        }
+
+        .home-badge-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 999px;
+          background: #814ac8;
+          box-shadow: 0 0 18px rgba(223,122,254,0.72);
+        }
+
+        .home-hero-title {
+          margin-top: 26px;
+          max-width: 820px;
+          color: #ffffff;
+          font-size: clamp(54px, 8.5vw, 112px);
+          font-weight: 800;
+          letter-spacing: -0.052em;
+          line-height: 0.92;
+        }
+
+        .home-hero-title span {
+          background: linear-gradient(135deg, #ffffff 4%, #df7afe 58%, #a066d4 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .home-hero-body {
+          margin-top: 26px;
+          max-width: 620px;
+          color: rgba(255,255,255,0.64);
+          font-size: 17px;
+          line-height: 1.75;
+        }
+
+        .home-cta-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 34px;
+        }
+
+        .home-cta-primary,
+        .home-cta-secondary {
+          display: inline-flex;
+          min-height: 50px;
+          align-items: center;
+          justify-content: center;
+          border-radius: 999px;
+          padding: 0 24px;
+          font-size: 14px;
+          font-weight: 800;
+          letter-spacing: 0.01em;
+          text-decoration: none;
+          transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease;
+        }
+
+        .home-cta-primary {
+          border: 1px solid rgba(223,122,254,0.34);
+          color: #ffffff;
+          background: linear-gradient(135deg, #814ac8, #a066d4);
+        }
+
+        .home-cta-secondary {
+          border: 1px solid rgba(255,255,255,0.13);
+          color: rgba(255,255,255,0.78);
+          background: rgba(255,255,255,0.04);
+        }
+
+        .home-cta-primary:hover,
+        .home-cta-secondary:hover {
+          opacity: 0.92;
+          transform: translateY(-2px);
+        }
+
+        .home-hero-note {
+          margin-top: 18px;
+          color: rgba(255,255,255,0.42);
+          font-size: 13px;
+          line-height: 1.7;
+        }
+
+        .homepage-constellation {
+          position: relative;
+          min-height: 560px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 28px;
+          background:
+            radial-gradient(ellipse 86% 70% at 50% 50%, rgba(129,74,200,0.2), transparent 68%),
+            rgba(255,255,255,0.025);
+          overflow: hidden;
+        }
+
+        .homepage-constellation::before {
+          content: "";
+          position: absolute;
+          inset: 14%;
+          border: 1px solid rgba(129,74,200,0.18);
+          border-radius: 999px;
+        }
+
+        .homepage-constellation::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          bottom: 0;
+          width: 1px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, transparent, rgba(129,74,200,0.42), transparent);
+        }
+
+        .homepage-constellation-canvas {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+        }
+
+        .constellation-core {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          z-index: 3;
+          display: grid;
+          width: 92px;
+          height: 92px;
+          place-items: center;
+          transform: translate(-50%, -50%);
+          border: 1px solid rgba(223,122,254,0.34);
+          border-radius: 999px;
+          background:
+            radial-gradient(ellipse at center, rgba(255,255,255,0.15), transparent 58%),
+            rgba(13,13,13,0.72);
+          backdrop-filter: blur(12px);
+        }
+
+        .constellation-core img {
+          width: 46px;
+          height: 46px;
+          object-fit: contain;
+          filter: drop-shadow(0 0 14px rgba(223,122,254,0.65));
+        }
+
+        .constellation-label,
+        .constellation-chip {
+          position: absolute;
+          z-index: 4;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 999px;
+          background: rgba(13,13,13,0.72);
+          color: rgba(255,255,255,0.72);
+          padding: 8px 12px;
+          font-size: 12px;
+          font-weight: 700;
+          backdrop-filter: blur(12px);
+        }
+
+        .label-workflow { left: 10%; top: 24%; }
+        .label-role { right: 16%; top: 18%; }
+        .label-budget { right: 10%; bottom: 24%; }
+        .label-team { left: 14%; bottom: 18%; }
+        .label-fit { left: 50%; bottom: 10%; transform: translateX(-50%); color: #df7afe; }
+
+        .homepage-constellation-fallback {
+          position: absolute;
+          inset: 0;
+          z-index: 5;
+          background:
+            radial-gradient(ellipse 70% 60% at 50% 48%, rgba(129,74,200,0.24), transparent 68%),
+            rgba(0,0,0,0.18);
+        }
+
+        .constellation-ring {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          border: 1px solid rgba(129,74,200,0.22);
+          border-radius: 999px;
+          transform: translate(-50%, -50%);
+        }
+
+        .ring-one { width: 34%; height: 34%; }
+        .ring-two { width: 58%; height: 46%; }
+        .ring-three { width: 82%; height: 58%; }
+        .chip-1 { left: 10%; top: 24%; }
+        .chip-2 { right: 16%; top: 18%; }
+        .chip-3 { right: 10%; bottom: 24%; }
+        .chip-4 { left: 14%; bottom: 18%; }
+        .chip-5 { left: 50%; bottom: 10%; transform: translateX(-50%); color: #df7afe; }
+
+        .match-path-section {
+          position: relative;
+          padding: 34px 0 76px;
+          background: #000000;
+        }
+
+        .match-path {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 14px;
+        }
+
+        .path-card,
+        .principle-card {
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background:
+            radial-gradient(ellipse 90% 58% at 50% 100%, rgba(129,74,200,0.17), transparent 70%),
+            rgba(255,255,255,0.04);
+        }
+
+        .path-card {
+          min-height: 210px;
+          padding: 22px;
+        }
+
+        .path-card::after,
+        .principle-card::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: -44px;
+          width: 220px;
+          height: 88px;
+          transform: translateX(-50%);
+          background: radial-gradient(ellipse, rgba(129,74,200,0.42), transparent 70%);
+          filter: blur(10px);
+          opacity: 0.26;
+          pointer-events: none;
+        }
+
+        .path-step {
+          display: inline-grid;
+          width: 42px;
+          height: 42px;
+          place-items: center;
+          border-radius: 999px;
+          color: #ffffff;
+          background: linear-gradient(135deg, #814ac8, #a066d4);
+          font-size: 12px;
+          font-weight: 900;
+        }
+
+        .path-card h3,
+        .principle-card h3 {
+          position: relative;
+          z-index: 1;
+          margin-top: 22px;
+          color: #ffffff;
+          font-size: 19px;
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          line-height: 1.2;
+        }
+
+        .path-card p,
+        .principle-card p {
+          position: relative;
+          z-index: 1;
+          margin-top: 12px;
+          color: rgba(255,255,255,0.58);
+          font-size: 14px;
+          line-height: 1.65;
+        }
+
+        .match-table-section {
+          position: relative;
+          overflow: hidden;
+          background:
+            radial-gradient(ellipse 70% 38% at 50% 0%, rgba(129,74,200,0.18), transparent 72%),
+            #0d0d0d;
+        }
+
+        .match-table-header {
+          max-width: 900px;
+          margin: 0 auto 30px;
+          padding-top: 64px;
+          text-align: center;
+        }
+
+        .home-section-title {
+          margin-top: 14px;
+          color: #ffffff;
+          font-size: clamp(34px, 5vw, 62px);
+          font-weight: 800;
+          letter-spacing: -0.04em;
+          line-height: 0.98;
+        }
+
+        .home-section-body {
+          margin: 18px auto 0;
+          max-width: 720px;
+          color: rgba(255,255,255,0.6);
+          font-size: 16px;
+          line-height: 1.75;
+        }
+
+        .table-proof-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+          margin-top: 26px;
+        }
+
+        .table-proof {
+          border: 1px solid rgba(129,74,200,0.22);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.03);
+          padding: 12px 16px;
+          color: rgba(255,255,255,0.68);
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .principles-section {
+          padding: 92px 0;
+          background:
+            radial-gradient(ellipse 62% 42% at 12% 12%, rgba(129,74,200,0.14), transparent 68%),
+            #000000;
+        }
+
+        .principles-head {
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+          gap: 48px;
+          align-items: end;
+          margin-bottom: 34px;
+        }
+
+        .principles-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+        }
+
+        .principle-card {
+          min-height: 260px;
+          padding: 30px;
+        }
+
+        .principle-card h3 {
+          margin-top: 0;
+          font-size: 25px;
+        }
+
+        .home-final {
+          padding: 0 0 88px;
+          background: #000000;
+        }
+
+        .home-final-panel {
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 28px;
+          background:
+            linear-gradient(180deg, rgba(129,74,200,0.25), rgba(129,74,200,0.07) 44%, transparent),
+            radial-gradient(ellipse 85% 58% at 50% 0%, rgba(129,74,200,0.45), transparent 70%),
+            #0d0d0d;
+          padding: clamp(48px, 8vw, 88px) 24px;
+          text-align: center;
+        }
+
+        .home-final-panel::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 2px;
+          height: 96px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, #df7afe, transparent);
+        }
+
+        .home-final-panel h2 {
+          position: relative;
+          margin: 0 auto;
+          max-width: 820px;
+          color: #ffffff;
+          font-size: clamp(36px, 6vw, 72px);
+          font-weight: 800;
+          letter-spacing: -0.045em;
+          line-height: 0.98;
+        }
+
+        .home-final-panel p {
+          position: relative;
+          margin: 22px auto 0;
+          max-width: 660px;
+          color: rgba(255,255,255,0.62);
+          font-size: 16px;
+          line-height: 1.75;
+        }
+
+        @media (max-width: 1080px) {
+          .home-hero-grid,
+          .principles-head {
+            grid-template-columns: 1fr;
+          }
+
+          .home-hero-copy {
+            padding-bottom: 0;
+            text-align: center;
+          }
+
+          .home-hero-body,
+          .home-cta-row {
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: center;
+          }
+
+          .homepage-constellation {
+            min-height: 460px;
+          }
+
+          .match-path,
+          .principles-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 720px) {
+          .home-shell {
+            width: min(100% - 24px, 1180px);
+          }
+
+          .home-hero {
+            min-height: auto;
+            padding: 62px 0 52px;
+          }
+
+          .home-hero-title {
+            font-size: clamp(46px, 16vw, 76px);
+          }
+
+          .home-hero-body {
+            font-size: 15px;
+          }
+
+          .home-cta-primary,
+          .home-cta-secondary {
+            width: 100%;
+          }
+
+          .homepage-constellation {
+            min-height: 360px;
+            border-radius: 22px;
+          }
+
+          .constellation-label,
+          .constellation-chip {
+            padding: 7px 10px;
+            font-size: 11px;
+          }
+
+          .constellation-core {
+            width: 76px;
+            height: 76px;
+          }
+
+          .constellation-core img {
+            width: 38px;
+            height: 38px;
+          }
+
+          .match-path,
+          .principles-grid,
+          .table-proof-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .table-proof {
+            border-radius: 18px;
+          }
+        }
+      `}</style>
+
+      <section className="home-hero">
+        <div className="home-shell home-hero-grid">
+          <div className="home-hero-copy">
+            <div className="home-badge">
+              <span className="home-badge-dot" />
+              AI tool matching that starts with your workflow
+            </div>
+            <h1 className="home-hero-title">
+              Find the AI tools your <span>workflow can actually use.</span>
+            </h1>
+            <p className="home-hero-body">
+              Answer the AI Match Engine questions, then get a recommended AI
+              stack by email based on your role, team, budget, and goals.
+            </p>
+            <div className="home-cta-row">
+              <Link href="/assessment" className="home-cta-primary">
+                Use the AI Match Engine - Free
+              </Link>
+              <Link href="#match-tools" className="home-cta-secondary">
+                Find Your Match
+              </Link>
+            </div>
+            <p className="home-hero-note">
+              Built for people who want the right AI stack before wasting trial
+              periods, team energy, or budget.
+            </p>
           </div>
 
-          {/* Headline */}
-          <h1
-            className="font-bold tracking-tight"
-            style={{
-              animation: "heroFadeUp 0.7s 0.15s ease both",
-              fontSize: "clamp(38px, 7vw, 72px)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.03em",
-              marginBottom: "24px",
-              color: "#ffffff",
-            }}
-          >
-            Find the AI tools{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #a066d4 0%, #df7afe 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              you&apos;ll actually use.
-            </span>
-          </h1>
+          <HomepageConstellation />
+        </div>
+      </section>
 
-          {/* Subtitle */}
-          <p
-            style={{
-              animation: "heroFadeUp 0.7s 0.3s ease both",
-              fontSize: "clamp(16px, 2vw, 19px)",
-              color: "rgba(255,255,255,0.55)",
-              lineHeight: 1.7,
-              maxWidth: "560px",
-              margin: "0 auto 40px",
-            }}
-          >
-            Our goal is to match you with the best tools for you, so you get
-            real value from AI before wasting time on trials, teams, or promises
-            that will not pay off.
-          </p>
-
-          {/* CTA Row */}
-          <div
-            style={{
-              animation: "heroFadeUp 0.7s 0.45s ease both",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "12px",
-            }}
-          >
-            {/* Primary CTA */}
-            <Link href="/assessment" className="hero-cta-primary">
-              Use the AI Match Engine — Free
-            </Link>
-
-            {/* Ghost CTA */}
-            <Link href="/#directory" className="hero-cta-ghost">
-              Explore & Match
-            </Link>
+      <section className="match-path-section">
+        <div className="home-shell">
+          <div className="match-path">
+            {matchPath.map((item) => (
+              <article className="path-card" key={item.step}>
+                <div className="path-step">{item.step}</div>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── Search Bar ───────────────────────────────────────────── */}
-      {/* SEARCH_BAR_HIDDEN_START */}
-      {/* <section className="px-4 pb-20 -mt-4">
-        <div className="max-w-2xl mx-auto">
-          <SearchBarWrapper />
-        </div>
-      </section> */}
-      {/* SEARCH_BAR_HIDDEN_END */}
-
-      {/* ── Directory Table ───────────────────────────────────────── */}
-      <section id="directory" className="relative overflow-hidden bg-[#0d0d0d]">
-        <div className="px-4 py-12">
-          <div className="max-w-7xl mx-auto mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 text-center">
-              Find Your Perfect <span className="text-[#814ac8]">AI Match</span>
+      <section id="match-tools" className="match-table-section">
+        <div className="px-4 pb-12">
+          <div className="match-table-header">
+            <p className="home-label">Find Your Perfect AI Match</p>
+            <h2 className="home-section-title">
+              Use the table when you want to go deeper.
             </h2>
-            <p className="text-center text-[#A0A0A0] text-sm mb-8 max-w-3xl mx-auto leading-relaxed">
-              Use our Match Engine to filter tools by your role, workflow, budget, and goals — not just categories.
+            <p className="home-section-body">
+              The AI Match Engine gives you a recommendation stack. This tool
+              view helps you compare fit signals, pricing, reputation, and use
+              cases when you want more detail.
             </p>
-            <div className="grid gap-3 md:grid-cols-3">
-              {[
-                "Do not start a trial and waste time.",
-                "Do not promise ROI before the tool fits.",
-                "Do not onboard a team on tools they will not use.",
-              ].map((point) => (
-                <div
-                  key={point}
-                  className="rounded-[18px] border px-5 py-4 text-center text-sm font-medium text-white/70"
-                  style={{
-                    borderColor: "rgba(129,74,200,0.24)",
-                    background: "rgba(255,255,255,0.03)",
-                  }}
-                >
-                  {point}
-                </div>
-              ))}
+            <div className="table-proof-grid">
+              <div className="table-proof">Filter by workflow fit</div>
+              <div className="table-proof">Compare pricing signals</div>
+              <div className="table-proof">Save tools for later</div>
             </div>
           </div>
           <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
         </div>
       </section>
 
-      {/*
-        FEATURED_DEALS_HIDDEN_START
-        The previous homepage Featured Deals carousel was moved to /deals.
-        FEATURED_DEALS_HIDDEN_END
-      */}
+      <section className="principles-section">
+        <div className="home-shell">
+          <div className="principles-head">
+            <div>
+              <p className="home-label">Why matching beats guessing</p>
+              <h2 className="home-section-title">The right AI tool depends on the work around it.</h2>
+            </div>
+            <p className="home-section-body">
+              MyAIMatch is designed to reduce overwhelm by focusing on adoption,
+              implementation, and fit before a tool ever reaches your stack.
+            </p>
+          </div>
+          <div className="principles-grid">
+            {principles.map((principle) => (
+              <article className="principle-card" key={principle.title}>
+                <h3>{principle.title}</h3>
+                <p>{principle.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* ── Assessment Promo Banner ───────────────────────────────── */}
-      <BannerCTA />
+      <section className="home-final">
+        <div className="home-shell">
+          <div className="home-final-panel">
+            <h2>Start with a match. Stay for implementation when you need it.</h2>
+            <p>
+              Use the free AI Match Engine to get direction. If your team needs
+              help turning the recommendation into a working stack, MyAIMatch
+              Services can guide the setup.
+            </p>
+            <div className="home-cta-row" style={{ justifyContent: "center" }}>
+              <Link href="/assessment" className="home-cta-primary">
+                Start the AI Match Engine
+              </Link>
+              <Link href="/services" className="home-cta-secondary">
+                Get implementation help
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
