@@ -19,43 +19,6 @@ export const metadata: Metadata = {
   },
 };
 
-const matchPath = [
-  {
-    step: "01",
-    title: "Tell us your workflow",
-    body: "Answer a few questions about your role, team, budget, and goals.",
-  },
-  {
-    step: "02",
-    title: "Get matched by fit",
-    body: "The AI Match Engine filters recommendations around how you actually work.",
-  },
-  {
-    step: "03",
-    title: "Receive your AI stack",
-    body: "Your recommended stack arrives by email with a clear starting point.",
-  },
-  {
-    step: "04",
-    title: "Compare when needed",
-    body: "Use the tool table to check pricing, fit, reputation, and details.",
-  },
-];
-
-const principles = [
-  {
-    title: "Fit before features",
-    body: "The best AI tool is the one your workflow can absorb without creating new busywork.",
-  },
-  {
-    title: "Context before recommendations",
-    body: "Role, budget, team size, and implementation effort change what the right match looks like.",
-  },
-  {
-    title: "Momentum before overwhelm",
-    body: "Start with a small stack you can use, then expand once the workflow proves itself.",
-  },
-];
 
 export default async function HomePage() {
   const [tools, categories] = await Promise.all([fetchAllTools(), fetchAllCategories()]);
@@ -343,82 +306,6 @@ export default async function HomePage() {
         .chip-4 { left: 14%; bottom: 18%; }
         .chip-5 { left: 50%; bottom: 10%; transform: translateX(-50%); color: #df7afe; }
 
-        .match-path-section {
-          position: relative;
-          padding: 34px 0 76px;
-          background: #000000;
-        }
-
-        .match-path {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 14px;
-        }
-
-        .path-card,
-        .principle-card {
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 18px;
-          background:
-            radial-gradient(ellipse 90% 58% at 50% 100%, rgba(129,74,200,0.17), transparent 70%),
-            rgba(255,255,255,0.04);
-        }
-
-        .path-card {
-          min-height: 210px;
-          padding: 22px;
-        }
-
-        .path-card::after,
-        .principle-card::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: -44px;
-          width: 220px;
-          height: 88px;
-          transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(129,74,200,0.42), transparent 70%);
-          filter: blur(10px);
-          opacity: 0.26;
-          pointer-events: none;
-        }
-
-        .path-step {
-          display: inline-grid;
-          width: 42px;
-          height: 42px;
-          place-items: center;
-          border-radius: 999px;
-          color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
-          font-size: 12px;
-          font-weight: 900;
-        }
-
-        .path-card h3,
-        .principle-card h3 {
-          position: relative;
-          z-index: 1;
-          margin-top: 22px;
-          color: #ffffff;
-          font-size: 19px;
-          font-weight: 800;
-          letter-spacing: -0.01em;
-          line-height: 1.2;
-        }
-
-        .path-card p,
-        .principle-card p {
-          position: relative;
-          z-index: 1;
-          margin-top: 12px;
-          color: rgba(255,255,255,0.58);
-          font-size: 14px;
-          line-height: 1.65;
-        }
 
         .match-table-section {
           position: relative;
@@ -469,36 +356,6 @@ export default async function HomePage() {
           font-weight: 700;
         }
 
-        .principles-section {
-          padding: 92px 0;
-          background:
-            radial-gradient(ellipse 62% 42% at 12% 12%, rgba(129,74,200,0.14), transparent 68%),
-            #000000;
-        }
-
-        .principles-head {
-          display: grid;
-          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
-          gap: 48px;
-          align-items: end;
-          margin-bottom: 34px;
-        }
-
-        .principles-grid {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 16px;
-        }
-
-        .principle-card {
-          min-height: 260px;
-          padding: 30px;
-        }
-
-        .principle-card h3 {
-          margin-top: 0;
-          font-size: 25px;
-        }
 
         .home-final {
           padding: 0 0 88px;
@@ -571,10 +428,6 @@ export default async function HomePage() {
             min-height: 460px;
           }
 
-          .match-path,
-          .principles-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
         }
 
         @media (max-width: 720px) {
@@ -621,8 +474,6 @@ export default async function HomePage() {
             height: 38px;
           }
 
-          .match-path,
-          .principles-grid,
           .table-proof-grid {
             grid-template-columns: 1fr;
           }
@@ -665,32 +516,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="match-path-section">
-        <div className="home-shell">
-          <div className="match-path">
-            {matchPath.map((item) => (
-              <article className="path-card" key={item.step}>
-                <div className="path-step">{item.step}</div>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section id="match-tools" className="match-table-section">
         <div className="px-4 pb-12">
           <div className="match-table-header">
             <p className="home-label">Find Your Perfect AI Match</p>
             <h2 className="home-section-title">
-              Use the table when you want to go deeper.
+              275 AI tools. Filtered by fit.
             </h2>
-            <p className="home-section-body">
-              The AI Match Engine gives you a recommendation stack. This tool
-              view helps you compare fit signals, pricing, reputation, and use
-              cases when you want more detail.
-            </p>
             <div className="table-proof-grid">
               <div className="table-proof">Filter by workflow fit</div>
               <div className="table-proof">Compare pricing signals</div>
@@ -701,37 +534,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="principles-section">
-        <div className="home-shell">
-          <div className="principles-head">
-            <div>
-              <p className="home-label">Why matching beats guessing</p>
-              <h2 className="home-section-title">The right AI tool depends on the work around it.</h2>
-            </div>
-            <p className="home-section-body">
-              MyAIMatch is designed to reduce overwhelm by focusing on adoption,
-              implementation, and fit before a tool ever reaches your stack.
-            </p>
-          </div>
-          <div className="principles-grid">
-            {principles.map((principle) => (
-              <article className="principle-card" key={principle.title}>
-                <h3>{principle.title}</h3>
-                <p>{principle.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="home-final">
         <div className="home-shell">
           <div className="home-final-panel">
             <h2>Start with a match. Stay for implementation when you need it.</h2>
             <p>
-              Use the free AI Match Engine to get direction. If your team needs
-              help turning the recommendation into a working stack, MyAIMatch
-              Services can guide the setup.
+              Get your free AI stack recommendation, then come back to compare and explore.
             </p>
             <div className="home-cta-row" style={{ justifyContent: "center" }}>
               <Link href="/assessment" className="home-cta-primary">
