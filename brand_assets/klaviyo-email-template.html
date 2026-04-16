@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Your AI Match is ready</title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    body { margin: 0 !important; padding: 0 !important; background-color: #000000; }
+    a { color: #df7afe; text-decoration: none; }
+    @media only screen and (max-width: 620px) {
+      .email-container { width: 100% !important; }
+      .fluid { max-width: 100% !important; height: auto !important; }
+      .stack-column, .stack-column-center { display: block !important; width: 100% !important; max-width: 100% !important; direction: ltr !important; }
+      .mobile-padding { padding-left: 20px !important; padding-right: 20px !important; }
+      .tool-card { padding: 20px !important; }
+      .section-title { font-size: 18px !important; }
+    }
+  </style>
+</head>
+
+<body style="margin:0;padding:0;background-color:#000000;font-family:'Inter',Arial,sans-serif;">
+
+  <!-- Preheader text (hidden) -->
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
+    The AI Match Engine reviewed your workflow. Here's your recommended stack.&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌
+  </div>
+
+  <!-- Email wrapper -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#000000;">
+    <tr>
+      <td align="center" style="padding: 32px 16px;">
+
+        <!-- Email container -->
+        <table class="email-container" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;width:100%;">
+
+          <!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+          <tr>
+            <td style="padding: 0 0 8px 0;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td style="padding: 32px 40px 28px 40px; background-color: #0d0d0d; border-radius: 20px 20px 0 0; border: 1px solid #1e1e1e; border-bottom: none; text-align: center;">
+
+                    <!-- Logo mark -->
+                    <div style="display:inline-block;width:40px;height:40px;background:linear-gradient(135deg,#814ac8,#a066d4);border-radius:12px;text-align:center;line-height:40px;font-size:18px;font-weight:700;color:#ffffff;margin-bottom:16px;">M</div>
+
+                    <!-- Brand name -->
+                    <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#814ac8;margin-bottom:4px;">myAIMatch</div>
+
+                    <!-- Badge -->
+                    <div style="display:inline-block;padding:5px 14px;border:1px solid #2d1a45;border-radius:999px;font-size:11px;color:#df7afe;background:#1a0d2e;margin-bottom:20px;">
+                      AI Match Engine
+                    </div>
+
+                    <!-- Headline -->
+                    <div style="font-size:26px;font-weight:700;color:#ffffff;letter-spacing:-0.03em;line-height:1.2;margin-bottom:6px;">
+                      Your AI stack is ready.
+                    </div>
+                    <div style="font-size:14px;color:#777777;line-height:1.5;">
+                      The AI Match Engine reviewed your workflow and built this for you.
+                    </div>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════ SUMMARY ═══════════════════════════ -->
+          <tr>
+            <td>
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td class="mobile-padding" style="padding: 28px 40px; background-color: #0d0d0d; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e;">
+
+                    <!-- Eyebrow -->
+                    <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#814ac8;margin-bottom:12px;">
+                      The Analysis
+                    </div>
+
+                    <!-- Summary text -->
+                    <p style="font-size:15px;line-height:1.75;color:#e0e0e0;margin:0;">
+                      {{ event.summary }}
+                    </p>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════ SPACER ═══════════════════════════ -->
+          <tr><td style="height:2px;background:linear-gradient(90deg,transparent,#814ac8,transparent);"></td></tr>
+
+          <!-- ═══════════════════════════ YOUR STACK ═══════════════════════════ -->
+          <tr>
+            <td>
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td class="mobile-padding" style="padding: 32px 40px 8px 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+
+                    <!-- Section title -->
+                    <div class="section-title" style="font-size:20px;font-weight:700;color:#ffffff;letter-spacing:-0.02em;margin-bottom:6px;">
+                      Your Core AI Stack
+                    </div>
+                    <div style="font-size:13px;color:#666666;margin-bottom:24px;">
+                      Set up in this exact order for the fastest results.
+                    </div>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ─── TOOL 1 ─── -->
+          <tr>
+            <td class="mobile-padding" style="padding: 0 40px 12px 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table class="tool-card" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#111111;border:1px solid #2d1a45;border-radius:16px;padding:24px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="36" valign="top">
+                          <div style="width:28px;height:28px;background:linear-gradient(135deg,#814ac8,#a066d4);border-radius:8px;text-align:center;line-height:28px;font-size:11px;font-weight:700;color:#ffffff;">01</div>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:6px;">{{ event.tool_1_name }}</div>
+                          <div style="font-size:13px;color:#cccccc;line-height:1.6;margin-bottom:10px;">{{ event.tool_1_use_case }}</div>
+                          <div style="font-size:12px;color:#814ac8;font-weight:600;margin-bottom:3px;">Why it fits</div>
+                          <div style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:{% if event.tool_1_notes %}10px{% else %}0{% endif %};">{{ event.tool_1_why }}</div>
+                          {% if event.tool_1_notes %}
+                          <div style="font-size:12px;background:#1a0d2e;border-left:2px solid #814ac8;padding:8px 12px;border-radius:0 6px 6px 0;color:#df7afe;line-height:1.5;">
+                            {{ event.tool_1_notes }}
+                          </div>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ─── TOOL 2 ─── -->
+          <tr>
+            <td class="mobile-padding" style="padding: 0 40px 12px 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table class="tool-card" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#111111;border:1px solid #1e1e1e;border-radius:16px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="36" valign="top">
+                          <div style="width:28px;height:28px;background:#1a1a1a;border:1px solid #333333;border-radius:8px;text-align:center;line-height:28px;font-size:11px;font-weight:700;color:#814ac8;">02</div>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:6px;">{{ event.tool_2_name }}</div>
+                          <div style="font-size:13px;color:#cccccc;line-height:1.6;margin-bottom:10px;">{{ event.tool_2_use_case }}</div>
+                          <div style="font-size:12px;color:#814ac8;font-weight:600;margin-bottom:3px;">Why it fits</div>
+                          <div style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:{% if event.tool_2_notes %}10px{% else %}0{% endif %};">{{ event.tool_2_why }}</div>
+                          {% if event.tool_2_notes %}
+                          <div style="font-size:12px;background:#1a0d2e;border-left:2px solid #814ac8;padding:8px 12px;border-radius:0 6px 6px 0;color:#df7afe;line-height:1.5;">
+                            {{ event.tool_2_notes }}
+                          </div>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ─── TOOL 3 ─── -->
+          <tr>
+            <td class="mobile-padding" style="padding: 0 40px 12px 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table class="tool-card" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#111111;border:1px solid #1e1e1e;border-radius:16px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="36" valign="top">
+                          <div style="width:28px;height:28px;background:#1a1a1a;border:1px solid #333333;border-radius:8px;text-align:center;line-height:28px;font-size:11px;font-weight:700;color:#814ac8;">03</div>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:6px;">{{ event.tool_3_name }}</div>
+                          <div style="font-size:13px;color:#cccccc;line-height:1.6;margin-bottom:10px;">{{ event.tool_3_use_case }}</div>
+                          <div style="font-size:12px;color:#814ac8;font-weight:600;margin-bottom:3px;">Why it fits</div>
+                          <div style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:{% if event.tool_3_notes %}10px{% else %}0{% endif %};">{{ event.tool_3_why }}</div>
+                          {% if event.tool_3_notes %}
+                          <div style="font-size:12px;background:#1a0d2e;border-left:2px solid #814ac8;padding:8px 12px;border-radius:0 6px 6px 0;color:#df7afe;line-height:1.5;">
+                            {{ event.tool_3_notes }}
+                          </div>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ─── TOOL 4 (optional) ─── -->
+          {% if event.tool_4_name %}
+          <tr>
+            <td class="mobile-padding" style="padding: 0 40px 12px 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table class="tool-card" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#111111;border:1px solid #1e1e1e;border-radius:16px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="36" valign="top">
+                          <div style="width:28px;height:28px;background:#1a1a1a;border:1px solid #333333;border-radius:8px;text-align:center;line-height:28px;font-size:11px;font-weight:700;color:#814ac8;">04</div>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:6px;">{{ event.tool_4_name }}</div>
+                          <div style="font-size:13px;color:#cccccc;line-height:1.6;margin-bottom:10px;">{{ event.tool_4_use_case }}</div>
+                          <div style="font-size:12px;color:#814ac8;font-weight:600;margin-bottom:3px;">Why it fits</div>
+                          <div style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:{% if event.tool_4_notes %}10px{% else %}0{% endif %};">{{ event.tool_4_why }}</div>
+                          {% if event.tool_4_notes %}
+                          <div style="font-size:12px;background:#1a0d2e;border-left:2px solid #814ac8;padding:8px 12px;border-radius:0 6px 6px 0;color:#df7afe;line-height:1.5;">
+                            {{ event.tool_4_notes }}
+                          </div>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- ─── TOOL 5 (optional) ─── -->
+          {% if event.tool_5_name %}
+          <tr>
+            <td class="mobile-padding" style="padding: 0 40px 12px 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table class="tool-card" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#111111;border:1px solid #1e1e1e;border-radius:16px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="36" valign="top">
+                          <div style="width:28px;height:28px;background:#1a1a1a;border:1px solid #333333;border-radius:8px;text-align:center;line-height:28px;font-size:11px;font-weight:700;color:#814ac8;">05</div>
+                        </td>
+                        <td style="padding-left:12px;">
+                          <div style="font-size:16px;font-weight:700;color:#ffffff;margin-bottom:6px;">{{ event.tool_5_name }}</div>
+                          <div style="font-size:13px;color:#cccccc;line-height:1.6;margin-bottom:10px;">{{ event.tool_5_use_case }}</div>
+                          <div style="font-size:12px;color:#814ac8;font-weight:600;margin-bottom:3px;">Why it fits</div>
+                          <div style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:{% if event.tool_5_notes %}10px{% else %}0{% endif %};">{{ event.tool_5_why }}</div>
+                          {% if event.tool_5_notes %}
+                          <div style="font-size:12px;background:#1a0d2e;border-left:2px solid #814ac8;padding:8px 12px;border-radius:0 6px 6px 0;color:#df7afe;line-height:1.5;">
+                            {{ event.tool_5_notes }}
+                          </div>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- ═══════════════════════════ IMPLEMENTATION ORDER ═══════════════════════════ -->
+          <tr>
+            <td class="mobile-padding" style="padding: 8px 40px 0 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d0d0d;border:1px solid #1e1e1e;border-radius:16px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#814ac8;margin-bottom:12px;">Implementation Order</div>
+                    <div style="font-size:15px;font-weight:600;color:#ffffff;letter-spacing:-0.01em;">
+                      {{ event.impl_order }}
+                    </div>
+                    <div style="font-size:12px;color:#555555;margin-top:6px;">Set up in this sequence for the fastest wins.</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════ COST NOTES ═══════════════════════════ -->
+          <tr>
+            <td class="mobile-padding" style="padding: 12px 40px 0 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d0d0d;border:1px solid #1e1e1e;border-radius:16px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#814ac8;margin-bottom:10px;">Cost Estimate</div>
+                    <div style="font-size:14px;color:#cccccc;line-height:1.7;">{{ event.cost_notes }}</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════ WHAT TO AVOID ═══════════════════════════ -->
+          <tr>
+            <td class="mobile-padding" style="padding: 12px 40px 0 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#0d0d0d;border:1px solid #2a1010;border-radius:16px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#cc4444;margin-bottom:14px;">Watch Out For</div>
+
+                    <!-- Avoid 1 -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom:10px;">
+                      <tr>
+                        <td width="20" valign="top" style="padding-top:2px;">
+                          <div style="width:6px;height:6px;background:#cc4444;border-radius:50%;margin-top:5px;"></div>
+                        </td>
+                        <td style="font-size:13px;color:#cccccc;line-height:1.6;padding-left:10px;">{{ event.avoid_1 }}</td>
+                      </tr>
+                    </table>
+
+                    <!-- Avoid 2 -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom:10px;">
+                      <tr>
+                        <td width="20" valign="top" style="padding-top:2px;">
+                          <div style="width:6px;height:6px;background:#cc4444;border-radius:50%;margin-top:5px;"></div>
+                        </td>
+                        <td style="font-size:13px;color:#cccccc;line-height:1.6;padding-left:10px;">{{ event.avoid_2 }}</td>
+                      </tr>
+                    </table>
+
+                    <!-- Avoid 3 (optional) -->
+                    {% if event.avoid_3 %}
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="20" valign="top" style="padding-top:2px;">
+                          <div style="width:6px;height:6px;background:#cc4444;border-radius:50%;margin-top:5px;"></div>
+                        </td>
+                        <td style="font-size:13px;color:#cccccc;line-height:1.6;padding-left:10px;">{{ event.avoid_3 }}</td>
+                      </tr>
+                    </table>
+                    {% endif %}
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════ DIVIDER ═══════════════════════════ -->
+          <tr>
+            <td style="padding: 16px 40px 0 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <div style="height:1px;background:linear-gradient(90deg,transparent,#2d1a45,transparent);"></div>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════ SERVICES CTA ═══════════════════════════ -->
+          <tr>
+            <td class="mobile-padding" style="padding: 16px 40px 8px 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:linear-gradient(135deg,#0d0820,#0a0a0a);border:1px solid #2d1a45;border-radius:20px;text-align:center;">
+                <tr>
+                  <td style="padding:36px 32px;">
+
+                    <!-- Spark icon -->
+                    <div style="font-size:24px;margin-bottom:14px;">⚡</div>
+
+                    <!-- Headline -->
+                    <div style="font-size:18px;font-weight:700;color:#ffffff;letter-spacing:-0.02em;margin-bottom:10px;">
+                      Want help setting this up?
+                    </div>
+
+                    <!-- services_cta text -->
+                    <p style="font-size:13px;color:#999999;line-height:1.7;margin:0 0 24px 0;max-width:400px;margin-left:auto;margin-right:auto;">
+                      {{ event.services_cta }}
+                    </p>
+
+                    <!-- CTA button -->
+                    <a href="https://myaimatch.ai/services" style="display:inline-block;background:linear-gradient(135deg,#814ac8,#a066d4);color:#ffffff;font-size:14px;font-weight:600;padding:13px 28px;border-radius:999px;text-decoration:none;letter-spacing:0.01em;">
+                      View Implementation Services →
+                    </a>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+          <tr>
+            <td class="mobile-padding" style="padding: 8px 40px 0 40px; background-color: #000000; border-left: 1px solid #1e1e1e; border-right: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e; border-radius: 0 0 20px 20px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td style="padding: 24px 0; border-top: 1px solid #161616; text-align: center;">
+
+                    <!-- Brand -->
+                    <div style="font-size:12px;font-weight:700;color:#814ac8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">myAIMatch</div>
+                    <div style="font-size:11px;color:#444444;line-height:1.6;margin-bottom:14px;">
+                      The universal AI matching engine. Find, compare, and implement<br>the right AI tools for your business.
+                    </div>
+
+                    <!-- Links -->
+                    <div style="margin-bottom:16px;">
+                      <a href="https://myaimatch.ai" style="font-size:11px;color:#666666;text-decoration:none;margin:0 10px;">myaimatch.ai</a>
+                      <a href="https://myaimatch.ai/services" style="font-size:11px;color:#666666;text-decoration:none;margin:0 10px;">Services</a>
+                      <a href="{{ unsubscribe_url }}" style="font-size:11px;color:#666666;text-decoration:none;margin:0 10px;">Unsubscribe</a>
+                    </div>
+
+                    <!-- Legal -->
+                    <div style="font-size:10px;color:#333333;line-height:1.6;">
+                      You received this because you used the AI Match Engine at myaimatch.ai.<br>
+                      © 2025 myAIMatch. All rights reserved.
+                    </div>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Bottom padding -->
+          <tr><td style="height:32px;background-color:#000000;"></td></tr>
+
+        </table>
+        <!-- /Email container -->
+
+      </td>
+    </tr>
+  </table>
+  <!-- /Email wrapper -->
+
+</body>
+</html>
