@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const matchSignals = ["Workflow", "Role", "Budget", "Team", "Fit"];
+const matchSignals = ["Workflow", "Industry", "Budget", "Team", "Goals", "Use Case"];
 
 function StaticConstellation() {
   return (
@@ -19,6 +19,7 @@ function StaticConstellation() {
           {signal}
         </div>
       ))}
+      <div className="constellation-chip chip-match">Your Match</div>
     </div>
   );
 }
@@ -235,11 +236,13 @@ export default function HomepageConstellation() {
       <div className="constellation-core constellation-core-live">
         <Image src="/logo.png" alt="" width={46} height={46} />
       </div>
-      <div className="constellation-label label-workflow">Workflow</div>
-      <div className="constellation-label label-role">Role</div>
-      <div className="constellation-label label-budget">Budget</div>
-      <div className="constellation-label label-team">Team</div>
-      <div className="constellation-label label-fit">Fit</div>
+      <div className="constellation-label" style={{ left: "8%", top: "22%" }}>Workflow</div>
+      <div className="constellation-label" style={{ right: "12%", top: "18%" }}>Industry</div>
+      <div className="constellation-label" style={{ right: "6%", top: "52%" }}>Team</div>
+      <div className="constellation-label" style={{ right: "10%", bottom: "22%" }}>Budget</div>
+      <div className="constellation-label" style={{ left: "10%", bottom: "22%" }}>Goals</div>
+      <div className="constellation-label" style={{ left: "6%", top: "52%" }}>Use Case</div>
+      <div className="constellation-label" style={{ left: "50%", bottom: "8%", transform: "translateX(-50%)", color: "#df7afe" }}>Your Match</div>
       {useFallback && <StaticConstellation />}
     </div>
   );

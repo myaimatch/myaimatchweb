@@ -56,10 +56,10 @@ export default async function HomePage() {
 
         .home-hero {
           position: relative;
-          min-height: calc(100vh - 64px);
+          min-height: calc(100vh - 72px);
           display: flex;
           align-items: center;
-          padding: 82px 0 64px;
+          padding: 36px 0 64px;
           background:
             radial-gradient(ellipse 80% 54% at 50% 0%, rgba(129,74,200,0.42), transparent 68%),
             radial-gradient(ellipse 56% 44% at 78% 34%, rgba(223,122,254,0.14), transparent 68%),
@@ -299,12 +299,6 @@ export default async function HomePage() {
           backdrop-filter: blur(12px);
         }
 
-        .label-workflow { left: 10%; top: 24%; }
-        .label-role { right: 16%; top: 18%; }
-        .label-budget { right: 10%; bottom: 24%; }
-        .label-team { left: 14%; bottom: 18%; }
-        .label-fit { left: 50%; bottom: 10%; transform: translateX(-50%); color: #df7afe; }
-
         .homepage-constellation-fallback {
           position: absolute;
           inset: 0;
@@ -326,11 +320,13 @@ export default async function HomePage() {
         .ring-one { width: 34%; height: 34%; }
         .ring-two { width: 58%; height: 46%; }
         .ring-three { width: 82%; height: 58%; }
-        .chip-1 { left: 10%; top: 24%; }
-        .chip-2 { right: 16%; top: 18%; }
-        .chip-3 { right: 10%; bottom: 24%; }
-        .chip-4 { left: 14%; bottom: 18%; }
-        .chip-5 { left: 50%; bottom: 10%; transform: translateX(-50%); color: #df7afe; }
+        .chip-1 { left: 8%; top: 22%; }
+        .chip-2 { right: 12%; top: 18%; }
+        .chip-3 { right: 6%; top: 52%; }
+        .chip-4 { right: 10%; bottom: 22%; }
+        .chip-5 { left: 10%; bottom: 22%; }
+        .chip-6 { left: 6%; top: 52%; }
+        .chip-match { left: 50%; bottom: 8%; transform: translateX(-50%); color: #df7afe; }
 
 
         .match-table-section {
@@ -365,21 +361,40 @@ export default async function HomePage() {
           line-height: 1.75;
         }
 
-        .table-proof-grid {
+        .dir-steps-grid {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 12px;
           margin-top: 26px;
         }
 
-        .table-proof {
-          border: 1px solid rgba(129,74,200,0.22);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.03);
-          padding: 12px 16px;
-          color: rgba(255,255,255,0.68);
+        .dir-step {
+          border: 1px solid rgba(129,74,200,0.18);
+          border-radius: 14px;
+          background: rgba(255,255,255,0.02);
+          padding: 16px 18px;
+          text-align: left;
+        }
+
+        .dir-step-num {
+          color: rgba(223,122,254,0.8);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        .dir-step p {
+          margin-top: 8px;
+          color: rgba(255,255,255,0.6);
           font-size: 13px;
-          font-weight: 700;
+          line-height: 1.6;
+        }
+
+        @media (max-width: 720px) {
+          .dir-steps-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
 
 
@@ -463,7 +478,7 @@ export default async function HomePage() {
 
           .home-hero {
             min-height: auto;
-            padding: 62px 0 52px;
+            padding: 40px 0 52px;
           }
 
           .home-hero-title {
@@ -528,14 +543,7 @@ export default async function HomePage() {
               <Link href="/assessment" className="home-cta-primary">
                 Start Free AI Match
               </Link>
-              <Link href="#match-tools" className="home-cta-secondary">
-                Explore AI Tools
-              </Link>
             </div>
-            <p className="home-hero-note">
-              Built for people who want the right AI stack before wasting trial
-              periods, team energy, or budget.
-            </p>
           </div>
 
           <HomepageConstellation />
@@ -549,10 +557,23 @@ export default async function HomePage() {
             <h2 className="home-section-title">
               275 AI tools. Find what works for you.
             </h2>
-            <div className="table-proof-grid">
-              <div className="table-proof">Filter by workflow fit</div>
-              <div className="table-proof">Compare pricing signals</div>
-              <div className="table-proof">Save tools for later</div>
+            <div className="dir-steps-grid">
+              <div className="dir-step">
+                <span className="dir-step-num">01</span>
+                <p>Select your category and subcategory to narrow your focus.</p>
+              </div>
+              <div className="dir-step">
+                <span className="dir-step-num">02</span>
+                <p>Apply filters based on pricing, free plan, API access, and more.</p>
+              </div>
+              <div className="dir-step">
+                <span className="dir-step-num">03</span>
+                <p>Compare tools side by side and customize columns as needed.</p>
+              </div>
+              <div className="dir-step">
+                <span className="dir-step-num">04</span>
+                <p>Bookmark your top picks and choose the best match for you.</p>
+              </div>
             </div>
           </div>
           <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />

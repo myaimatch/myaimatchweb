@@ -63,7 +63,7 @@ const DEFAULT_FILTERS: ActiveFilters = {
   gdprCompliant: null,
 }
 
-const INITIAL_VISIBLE_TOOLS = 20
+const INITIAL_VISIBLE_TOOLS = 10
 const VISIBLE_TOOLS_INCREMENT = 20
 const SUGGEST_TOOL_EMAIL = "admin@myaimatch.ai"
 
@@ -988,7 +988,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr style={{ background: "#0d0d0d", borderBottom: "1px solid #1a1a1a" }}>
+                <tr style={{ background: "#141414", borderBottom: "1px solid #222222" }}>
                   {/* Tool — always visible */}
                   <SortHeader
                     label="Tool"
@@ -1010,14 +1010,14 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   )}
                   {visibleColumns.fullDescription && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
                         Full Description
                       </span>
                     </th>
                   )}
                   {visibleColumns.pricingSummary && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
                         Pricing Summary
                       </span>
                     </th>
@@ -1042,7 +1042,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   )}
                   {visibleColumns.freePlan && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
                         Free Plan
                       </span>
                     </th>
@@ -1050,47 +1050,47 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   {/* Extra optional columns */}
                   {visibleColumns.hasApi && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>API</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>API</span>
                     </th>
                   )}
                   {visibleColumns.foundedYear && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Founded</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Founded</span>
                     </th>
                   )}
                   {visibleColumns.companyHq && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>HQ</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>HQ</span>
                     </th>
                   )}
                   {visibleColumns.employeeCount && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Team Size</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Team Size</span>
                     </th>
                   )}
                   {visibleColumns.gdprCompliant && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>GDPR</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>GDPR</span>
                     </th>
                   )}
                   {visibleColumns.soc2Certified && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>SOC2</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>SOC2</span>
                     </th>
                   )}
                   {visibleColumns.hasMobileApp && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Mobile</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Mobile</span>
                     </th>
                   )}
                   {visibleColumns.trialDays && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Trial</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Trial</span>
                     </th>
                   )}
                   {visibleColumns.supportLanguages && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Languages</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Languages</span>
                     </th>
                   )}
                   {visibleColumns.minMonthlyPrice && (
@@ -1396,7 +1396,7 @@ function SortHeader({
       <div className="flex items-center gap-1.5">
         <span
           className="text-xs font-semibold uppercase tracking-wider transition-colors duration-150"
-          style={{ color: isActive ? "#814ac8" : "#444" }}
+          style={{ color: isActive ? "#814ac8" : "#666" }}
         >
           {label}
         </span>
@@ -1472,15 +1472,15 @@ function ToolRow({
   return (
     <tr
       className="border-b transition-colors duration-100"
-      style={{ borderColor: "#141414", background: isEven ? "#0d0d0d" : "#0f0f0f" }}
+      style={{ borderColor: "#1e1e1e", background: isEven ? "#161616" : "#1a1a1a" }}
       onMouseEnter={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background =
-          "rgba(129,74,200,0.06)"
+          "rgba(129,74,200,0.10)"
       }}
       onMouseLeave={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background = isEven
-          ? "#0d0d0d"
-          : "#0f0f0f"
+          ? "#161616"
+          : "#1a1a1a"
       }}
     >
       {/* Tool — always visible */}

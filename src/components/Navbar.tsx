@@ -51,13 +51,13 @@ export default function Navbar() {
   }, []);
 
   const navLinkStyle = {
-    color: "rgba(255,255,255,0.55)",
-    fontSize: "14px",
-    fontWeight: 450,
-    padding: "6px 14px",
+    color: "rgba(255,255,255,0.65)",
+    fontSize: "15px",
+    fontWeight: 550,
+    padding: "6px 18px",
     borderRadius: "999px",
     textDecoration: "none",
-    letterSpacing: "0.01em",
+    letterSpacing: "0.005em",
     transition: "color 0.2s ease, background-color 0.2s ease",
     cursor: "pointer",
     background: "transparent",
@@ -70,6 +70,17 @@ export default function Navbar() {
 
   return (
     <>
+      <style>{`
+        @media (min-width: 768px) {
+          .nav-mobile-btn { display: none !important; }
+          .nav-desktop-links { display: flex !important; }
+          .nav-desktop-cta { display: flex !important; }
+        }
+        @media (max-width: 767px) {
+          .nav-desktop-links { display: none !important; }
+          .nav-desktop-cta { display: none !important; }
+        }
+      `}</style>
       <nav
         style={{
           position: "sticky",
@@ -103,7 +114,7 @@ export default function Navbar() {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              height: "64px",
+              height: "72px",
             }}
           >
             {/* Logo */}
@@ -119,9 +130,9 @@ export default function Navbar() {
             >
               <div
                 style={{
-                  width: "28px",
-                  height: "28px",
-                  borderRadius: "8px",
+                  width: "38px",
+                  height: "38px",
+                  borderRadius: "10px",
                   overflow: "hidden",
                   background: "rgba(129,74,200,0.15)",
                   border: "1px solid rgba(129,74,200,0.3)",
@@ -134,8 +145,8 @@ export default function Navbar() {
                 <Image
                   src="/logo.png"
                   alt="MyAIMatch"
-                  width={22}
-                  height={22}
+                  width={28}
+                  height={28}
                   style={{ objectFit: "contain" }}
                 />
               </div>
@@ -143,7 +154,7 @@ export default function Navbar() {
                 style={{
                   color: "#ffffff",
                   fontWeight: 700,
-                  fontSize: "16px",
+                  fontSize: "17px",
                   letterSpacing: "-0.02em",
                   fontFamily: "inherit",
                 }}
@@ -153,7 +164,7 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop nav links */}
-            <div className="hidden md:flex" style={{ alignItems: "center", gap: "4px" }}>
+            <div className="nav-desktop-links" style={{ alignItems: "center", gap: "8px" }}>
               {/* Deals */}
               {navLinks.slice(0, 1).map((link) => (
                 <Link
@@ -282,7 +293,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop CTA */}
-            <div className="hidden md:flex" style={{ alignItems: "center", gap: "16px" }}>
+            <div className="nav-desktop-cta" style={{ alignItems: "center", gap: "16px" }}>
               <Link
                 href="/assessment"
                 style={{
@@ -314,13 +325,13 @@ export default function Navbar() {
                   el.style.transform = "translateY(0)";
                 }}
               >
-                Try the AI Match Engine
+                Start Free AI Match
               </Link>
             </div>
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden"
+              className="nav-mobile-btn"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
               style={{
@@ -354,7 +365,7 @@ export default function Navbar() {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 md:hidden" style={{ zIndex: 9999 }}>
+        <div className="fixed inset-0" style={{ zIndex: 9999 }}>
           {/* Backdrop */}
           <div
             style={{
@@ -553,7 +564,7 @@ export default function Navbar() {
                   boxShadow: "0 4px 16px rgba(129,74,200,0.3)",
                 }}
               >
-                Try the AI Match Engine
+                Start Free AI Match
               </Link>
             </div>
           </div>
