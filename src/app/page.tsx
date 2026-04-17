@@ -63,7 +63,19 @@ export default async function HomePage() {
           background:
             radial-gradient(ellipse 80% 54% at 50% 0%, rgba(129,74,200,0.42), transparent 68%),
             radial-gradient(ellipse 56% 44% at 78% 34%, rgba(223,122,254,0.14), transparent 68%),
+            radial-gradient(ellipse 40% 30% at 12% 82%, rgba(129,74,200,0.08), transparent 60%),
             #000000;
+        }
+
+        .home-hero-noise {
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+          background-size: 256px 256px;
+          opacity: 0.032;
+          mix-blend-mode: overlay;
+          pointer-events: none;
+          z-index: 0;
         }
 
         .home-hero::before {
@@ -122,6 +134,7 @@ export default async function HomePage() {
           border-radius: 999px;
           background: #814ac8;
           box-shadow: 0 0 18px rgba(223,122,254,0.72);
+          animation: orbPulse 2.4s ease-in-out infinite;
         }
 
         .home-hero-title {
@@ -188,6 +201,19 @@ export default async function HomePage() {
         .home-cta-secondary:hover {
           opacity: 0.92;
           transform: translateY(-2px);
+        }
+
+        .home-cta-primary:active,
+        .home-cta-secondary:active {
+          opacity: 1;
+          transform: scale(0.97) translateY(0);
+          transition: transform 80ms ease, opacity 80ms ease;
+        }
+
+        .home-cta-primary:focus-visible,
+        .home-cta-secondary:focus-visible {
+          outline: 2px solid #df7afe;
+          outline-offset: 3px;
         }
 
         .home-hero-note {
@@ -485,25 +511,25 @@ export default async function HomePage() {
       `}</style>
 
       <section className="home-hero">
+        <div className="home-hero-noise" aria-hidden="true" />
         <div className="home-shell home-hero-grid">
           <div className="home-hero-copy">
             <div className="home-badge">
               <span className="home-badge-dot" />
-              AI tool matching that starts with your workflow
+              AI Match Engine
             </div>
             <h1 className="home-hero-title">
-              Find the AI tools your <span>workflow can actually use.</span>
+              Find Your Perfect <span>AI Match</span>
             </h1>
             <p className="home-hero-body">
-              Answer the AI Match Engine questions, then get a recommended AI
-              stack by email based on your role, team, budget, and goals.
+              Explore AI tools for free, get personalized recommendations, or work with us to design and implement the right AI stack for your business.
             </p>
             <div className="home-cta-row">
               <Link href="/assessment" className="home-cta-primary">
-                Use the AI Match Engine - Free
+                Start Free AI Match
               </Link>
               <Link href="#match-tools" className="home-cta-secondary">
-                Find Your Match
+                Explore AI Tools
               </Link>
             </div>
             <p className="home-hero-note">
@@ -520,9 +546,8 @@ export default async function HomePage() {
       <section id="match-tools" className="match-table-section">
         <div className="px-4 pb-12">
           <div className="match-table-header">
-            <p className="home-label">Find Your Perfect AI Match</p>
             <h2 className="home-section-title">
-              275 AI tools. Filtered by fit.
+              275 AI tools. Find what works for you.
             </h2>
             <div className="table-proof-grid">
               <div className="table-proof">Filter by workflow fit</div>
@@ -538,9 +563,9 @@ export default async function HomePage() {
       <section className="home-final">
         <div className="home-shell">
           <div className="home-final-panel">
-            <h2>Start with a match. Stay for implementation when you need it.</h2>
+            <h2>Finding your match is just the start.</h2>
             <p>
-              Get your free AI stack recommendation, then come back to compare and explore.
+              Explore tools freely. When you&apos;re ready, we help you turn them into real systems inside your business.
             </p>
             <div className="home-cta-row" style={{ justifyContent: "center" }}>
               <Link href="/assessment" className="home-cta-primary">
