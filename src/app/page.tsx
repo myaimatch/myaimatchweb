@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   return (
     <div className="home-ramp bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .home-ramp {
           --home-primary: #814ac8;
           --home-accent: #df7afe;
@@ -260,6 +260,24 @@ export default async function HomePage() {
           height: 100%;
         }
 
+        .constellation-connectors {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+
+        .constellation-connectors path {
+          fill: none;
+          stroke: rgba(223,122,254,0.44);
+          stroke-width: 0.18;
+          stroke-linecap: round;
+          stroke-dasharray: 2.2 2.8;
+          filter: drop-shadow(0 0 5px rgba(223,122,254,0.5));
+        }
+
         .constellation-core {
           position: absolute;
           left: 50%;
@@ -270,19 +288,38 @@ export default async function HomePage() {
           height: 92px;
           place-items: center;
           transform: translate(-50%, -50%);
-          border: 1px solid rgba(223,122,254,0.34);
+          border: 1px solid rgba(223,122,254,0.58);
           border-radius: 999px;
           background:
-            radial-gradient(ellipse at center, rgba(255,255,255,0.15), transparent 58%),
-            rgba(13,13,13,0.72);
+            radial-gradient(ellipse at center, rgba(223,122,254,0.18), transparent 62%),
+            rgba(129,74,200,0.08);
+          box-shadow:
+            0 0 0 8px rgba(223,122,254,0.08),
+            0 0 34px rgba(223,122,254,0.36),
+            inset 0 0 26px rgba(223,122,254,0.2);
           backdrop-filter: blur(12px);
         }
 
         .constellation-core img {
-          width: 46px;
-          height: 46px;
+          width: 58px;
+          height: auto;
           object-fit: contain;
-          filter: drop-shadow(0 0 14px rgba(223,122,254,0.65));
+          filter: drop-shadow(0 0 13px rgba(223,122,254,0.72));
+        }
+
+        .constellation-match-label {
+          position: absolute;
+          left: 50%;
+          top: calc(50% + 66px);
+          z-index: 6;
+          transform: translateX(-50%);
+          color: #df7afe;
+          font-size: 16px;
+          font-weight: 800;
+          letter-spacing: 0;
+          line-height: 1;
+          text-shadow: 0 0 18px rgba(223,122,254,0.62);
+          white-space: nowrap;
         }
 
         .constellation-label,
@@ -296,7 +333,12 @@ export default async function HomePage() {
           padding: 8px 12px;
           font-size: 12px;
           font-weight: 700;
+          line-height: 1;
           backdrop-filter: blur(12px);
+          box-shadow: 0 0 18px rgba(129,74,200,0.12);
+          transform-origin: center;
+          white-space: nowrap;
+          will-change: left, top, transform, opacity;
         }
 
         .homepage-constellation-fallback {
@@ -320,13 +362,6 @@ export default async function HomePage() {
         .ring-one { width: 34%; height: 34%; }
         .ring-two { width: 58%; height: 46%; }
         .ring-three { width: 82%; height: 58%; }
-        .chip-1 { left: 8%; top: 22%; }
-        .chip-2 { right: 12%; top: 18%; }
-        .chip-3 { right: 6%; top: 52%; }
-        .chip-4 { right: 10%; bottom: 22%; }
-        .chip-5 { left: 10%; bottom: 22%; }
-        .chip-6 { left: 6%; top: 52%; }
-        .chip-match { left: 50%; bottom: 8%; transform: translateX(-50%); color: #df7afe; }
 
 
         .match-table-section {
@@ -511,8 +546,13 @@ export default async function HomePage() {
           }
 
           .constellation-core img {
-            width: 38px;
-            height: 38px;
+            width: 48px;
+            height: auto;
+          }
+
+          .constellation-match-label {
+            top: calc(50% + 54px);
+            font-size: 14px;
           }
 
           .table-proof-grid {
@@ -523,7 +563,7 @@ export default async function HomePage() {
             border-radius: 18px;
           }
         }
-      `}</style>
+      ` }} />
 
       <section className="home-hero">
         <div className="home-hero-noise" aria-hidden="true" />

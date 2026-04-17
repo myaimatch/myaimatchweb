@@ -2,24 +2,81 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import myAiMatchMark from "../../brand_assets/Vector-1.png";
 
-const matchSignals = ["Workflow", "Industry", "Budget", "Team", "Goals", "Use Case"];
+const matchSignals = [
+  { label: "Workflow", angle: -0.92 },
+  { label: "Industry", angle: -2.02 },
+  { label: "Team", angle: -3.08 },
+  { label: "Budget", angle: -4.08 },
+  { label: "Goals", angle: -5.12 },
+  { label: "Use Case", angle: -6.14 },
+];
+
+type SignalPosition = {
+  left: number;
+  top: number;
+  scale: number;
+  opacity: number;
+  zIndex: number;
+  path: string;
+};
+
+const initialSignalPositions = matchSignals.map((signal) => getSignalPosition(signal.angle));
+
+function getSignalPosition(theta: number): SignalPosition {
+  const x = Math.cos(theta);
+  const y = Math.sin(theta);
+  const depth = (y + 1) / 2;
+  const left = 50 + x * 38;
+  const top = 48 - y * 24;
+  const innerLeft = 50 + x * 12;
+  const innerTop = 48 - y * 7;
+  const controlLeft = 50 + x * 26;
+  const controlTop = 48 - y * 17 + Math.cos(theta) * 2.5;
+
+  return {
+    left,
+    top,
+    scale: 0.88 + depth * 0.18,
+    opacity: 0.58 + depth * 0.36,
+    zIndex: y > 0 ? 6 : 2,
+    path: `M ${left.toFixed(2)} ${top.toFixed(2)} Q ${controlLeft.toFixed(2)} ${controlTop.toFixed(
+      2
+    )} ${innerLeft.toFixed(2)} ${innerTop.toFixed(2)}`,
+  };
+}
 
 function StaticConstellation() {
   return (
     <div className="homepage-constellation-fallback" aria-hidden="true">
+      <svg className="constellation-connectors" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {initialSignalPositions.map((position, index) => (
+          <path d={position.path} key={matchSignals[index].label} />
+        ))}
+      </svg>
       <div className="constellation-ring ring-one" />
       <div className="constellation-ring ring-two" />
       <div className="constellation-ring ring-three" />
       <div className="constellation-core">
-        <Image src="/logo.png" alt="" width={46} height={46} />
+        <Image src={myAiMatchMark} alt="" width={64} height={24} />
       </div>
+      <div className="constellation-match-label">myAIMatch</div>
       {matchSignals.map((signal, index) => (
-        <div className={`constellation-chip chip-${index + 1}`} key={signal}>
-          {signal}
+        <div
+          className="constellation-chip"
+          key={signal.label}
+          style={{
+            left: `${initialSignalPositions[index].left}%`,
+            top: `${initialSignalPositions[index].top}%`,
+            opacity: initialSignalPositions[index].opacity,
+            transform: `translate(-50%, -50%) scale(${initialSignalPositions[index].scale})`,
+            zIndex: initialSignalPositions[index].zIndex,
+          }}
+        >
+          {signal.label}
         </div>
       ))}
-      <div className="constellation-chip chip-match">Your Match</div>
     </div>
   );
 }
@@ -28,6 +85,7 @@ export default function HomepageConstellation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [useFallback, setUseFallback] = useState(false);
+  const [signalPositions, setSignalPositions] = useState<SignalPosition[]>(initialSignalPositions);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -62,75 +120,62 @@ export default function HomepageConstellation() {
         const group = new THREE.Group();
         scene.add(group);
 
-        const coreGeometry = new THREE.IcosahedronGeometry(0.58, 2);
+        const coreGeometry = new THREE.IcosahedronGeometry(0.54, 2);
         const coreMaterial = new THREE.MeshBasicMaterial({
           color: 0xdf7afe,
           transparent: true,
-          opacity: 0.92,
+          opacity: 0.2,
+          wireframe: true,
         });
         const core = new THREE.Mesh(coreGeometry, coreMaterial);
         group.add(core);
 
-        const haloGeometry = new THREE.TorusGeometry(1.04, 0.008, 16, 160);
+        const haloGeometry = new THREE.TorusGeometry(0.96, 0.012, 16, 180);
         const haloMaterial = new THREE.MeshBasicMaterial({
-          color: 0x814ac8,
+          color: 0xdf7afe,
           transparent: true,
-          opacity: 0.42,
+          opacity: 0.62,
         });
         const halo = new THREE.Mesh(haloGeometry, haloMaterial);
         halo.rotation.x = Math.PI / 2.6;
         group.add(halo);
 
+        const orbitGeometry = new THREE.BufferGeometry();
+        const orbitPoints = [];
+        for (let j = 0; j <= 220; j++) {
+          const theta = (j / 220) * Math.PI * 2;
+          orbitPoints.push(new THREE.Vector3(Math.cos(theta) * 3.08, 0, Math.sin(theta) * 1.18));
+        }
+        orbitGeometry.setFromPoints(orbitPoints);
+        const sharedOrbit = new THREE.Line(orbitGeometry, haloMaterial);
+        sharedOrbit.rotation.x = 0.26;
+        group.add(sharedOrbit);
+
         const nodeMaterial = new THREE.MeshBasicMaterial({
           color: 0xffffff,
           transparent: true,
-          opacity: 0.88,
+          opacity: 0.8,
         });
         const accentMaterial = new THREE.MeshBasicMaterial({
           color: 0xdf7afe,
           transparent: true,
           opacity: 0.92,
         });
-        const lineMaterial = new THREE.LineBasicMaterial({
-          color: 0x814ac8,
-          transparent: true,
-          opacity: 0.25,
-        });
-
         const nodes: Array<{
           mesh: import("three").Mesh;
-          radius: number;
-          speed: number;
           angle: number;
-          y: number;
         }> = [];
+        const nodeGeometries: Array<import("three").BufferGeometry> = [];
 
         for (let i = 0; i < matchSignals.length; i++) {
-          const radius = 1.85 + i * 0.34;
-          const angle = (i / matchSignals.length) * Math.PI * 2;
-          const y = (i - 2) * 0.22;
           const geometry = new THREE.SphereGeometry(i === 0 ? 0.09 : 0.07, 20, 20);
+          nodeGeometries.push(geometry);
           const mesh = new THREE.Mesh(geometry, i % 2 === 0 ? accentMaterial : nodeMaterial);
           nodes.push({
             mesh,
-            radius,
-            speed: 0.22 + i * 0.035,
-            angle,
-            y,
+            angle: matchSignals[i].angle,
           });
           group.add(mesh);
-
-          const orbitPoints = [];
-          for (let j = 0; j <= 160; j++) {
-            const theta = (j / 160) * Math.PI * 2;
-            orbitPoints.push(
-              new THREE.Vector3(Math.cos(theta) * radius, y, Math.sin(theta) * radius * 0.38)
-            );
-          }
-          const orbitGeometry = new THREE.BufferGeometry().setFromPoints(orbitPoints);
-          const orbit = new THREE.Line(orbitGeometry, lineMaterial);
-          orbit.rotation.x = 0.18 + i * 0.08;
-          group.add(orbit);
         }
 
         const starGeometry = new THREE.BufferGeometry();
@@ -181,17 +226,21 @@ export default function HomepageConstellation() {
           group.rotation.x = pointer.y * 0.11;
           core.rotation.x = t * 0.24;
           core.rotation.y = t * 0.32;
-          halo.rotation.z = t * 0.18;
+          halo.rotation.z = -t * 0.22;
+          sharedOrbit.rotation.z = -t * 0.05;
           stars.rotation.y = t * 0.03;
 
+          const nextPositions: SignalPosition[] = [];
           nodes.forEach((node, index) => {
-            const theta = node.angle + t * node.speed;
+            const theta = node.angle - t * 0.34;
             node.mesh.position.set(
-              Math.cos(theta) * node.radius,
-              node.y + Math.sin(t * 0.9 + index) * 0.08,
-              Math.sin(theta) * node.radius * 0.38
+              Math.cos(theta) * 3.08,
+              Math.sin(theta) * 0.18,
+              Math.sin(theta) * 1.18
             );
+            nextPositions.push(getSignalPosition(theta));
           });
+          setSignalPositions(nextPositions);
 
           renderer.render(scene, camera);
           raf = window.requestAnimationFrame(animate);
@@ -211,9 +260,10 @@ export default function HomepageConstellation() {
           coreMaterial.dispose();
           haloGeometry.dispose();
           haloMaterial.dispose();
+          orbitGeometry.dispose();
           nodeMaterial.dispose();
           accentMaterial.dispose();
-          lineMaterial.dispose();
+          nodeGeometries.forEach((geometry) => geometry.dispose());
           starGeometry.dispose();
           starMaterial.dispose();
         };
@@ -233,16 +283,34 @@ export default function HomepageConstellation() {
   return (
     <div ref={wrapRef} className="homepage-constellation" aria-hidden="true">
       <canvas ref={canvasRef} className="homepage-constellation-canvas" />
+      <svg className="constellation-connectors" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {signalPositions.map((position, index) => (
+          <path
+            d={position.path}
+            key={matchSignals[index].label}
+            style={{ opacity: position.opacity * 0.56 }}
+          />
+        ))}
+      </svg>
       <div className="constellation-core constellation-core-live">
-        <Image src="/logo.png" alt="" width={46} height={46} />
+        <Image src={myAiMatchMark} alt="" width={64} height={24} />
       </div>
-      <div className="constellation-label" style={{ left: "8%", top: "22%" }}>Workflow</div>
-      <div className="constellation-label" style={{ right: "12%", top: "18%" }}>Industry</div>
-      <div className="constellation-label" style={{ right: "6%", top: "52%" }}>Team</div>
-      <div className="constellation-label" style={{ right: "10%", bottom: "22%" }}>Budget</div>
-      <div className="constellation-label" style={{ left: "10%", bottom: "22%" }}>Goals</div>
-      <div className="constellation-label" style={{ left: "6%", top: "52%" }}>Use Case</div>
-      <div className="constellation-label" style={{ left: "50%", bottom: "8%", transform: "translateX(-50%)", color: "#df7afe" }}>Your Match</div>
+      <div className="constellation-match-label">myAIMatch</div>
+      {matchSignals.map((signal, index) => (
+        <div
+          className="constellation-label"
+          key={signal.label}
+          style={{
+            left: `${signalPositions[index].left}%`,
+            top: `${signalPositions[index].top}%`,
+            opacity: signalPositions[index].opacity,
+            transform: `translate(-50%, -50%) scale(${signalPositions[index].scale})`,
+            zIndex: signalPositions[index].zIndex,
+          }}
+        >
+          {signal.label}
+        </div>
+      ))}
       {useFallback && <StaticConstellation />}
     </div>
   );
