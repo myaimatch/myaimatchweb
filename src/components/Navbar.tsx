@@ -4,6 +4,21 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
+import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
+
+const TALLY_POPUP_HREF =
+  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
+
+const TALLY_POPUP_ATTRIBUTES = {
+  "data-tally-open": "xXNXNr",
+  "data-tally-layout": "modal",
+  "data-tally-hide-title": "1",
+  "data-tally-overlay": "1",
+  "data-tally-emoji-text": "👋",
+  "data-tally-emoji-animation": "wave",
+  "data-tally-auto-close": "1000",
+  "data-tally-form-events-forwarding": "1",
+} as const;
 
 const navLinks = [
   { label: "Deals", href: "/deals" },
@@ -123,44 +138,18 @@ export default function Navbar() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "10px",
                 textDecoration: "none",
                 flexShrink: 0,
               }}
             >
-              <div
-                style={{
-                  width: "38px",
-                  height: "38px",
-                  borderRadius: "10px",
-                  overflow: "hidden",
-                  background: "rgba(129,74,200,0.15)",
-                  border: "1px solid rgba(129,74,200,0.3)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <Image
-                  src="/logo.png"
-                  alt="MyAIMatch"
-                  width={28}
-                  height={28}
-                  style={{ objectFit: "contain" }}
-                />
-              </div>
-              <span
-                style={{
-                  color: "#ffffff",
-                  fontWeight: 700,
-                  fontSize: "17px",
-                  letterSpacing: "-0.02em",
-                  fontFamily: "inherit",
-                }}
-              >
-                myAIMatch
-              </span>
+              <Image
+                src={myAiMatchWordmark}
+                alt="myAIMatch"
+                width={150}
+                height={20}
+                priority
+                style={{ width: "150px", height: "auto", objectFit: "contain" }}
+              />
             </Link>
 
             {/* Desktop nav links */}
@@ -295,7 +284,8 @@ export default function Navbar() {
             {/* Desktop CTA */}
             <div className="nav-desktop-cta" style={{ alignItems: "center", gap: "16px" }}>
               <Link
-                href="/assessment"
+                href={TALLY_POPUP_HREF}
+                {...TALLY_POPUP_ATTRIBUTES}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -404,24 +394,13 @@ export default function Navbar() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    borderRadius: "8px",
-                    overflow: "hidden",
-                    background: "rgba(129,74,200,0.15)",
-                    border: "1px solid rgba(129,74,200,0.3)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Image src="/logo.png" alt="MyAIMatch" width={22} height={22} style={{ objectFit: "contain" }} />
-                </div>
-                <span style={{ color: "#ffffff", fontWeight: 700, fontSize: "16px", letterSpacing: "-0.02em" }}>
-                  myAIMatch
-                </span>
+                <Image
+                  src={myAiMatchWordmark}
+                  alt="myAIMatch"
+                  width={132}
+                  height={18}
+                  style={{ width: "132px", height: "auto", objectFit: "contain" }}
+                />
               </div>
               <button
                 onClick={() => setMobileOpen(false)}
@@ -548,7 +527,8 @@ export default function Navbar() {
             {/* Drawer CTA */}
             <div style={{ marginTop: "auto", paddingTop: "24px" }}>
               <Link
-                href="/assessment"
+                href={TALLY_POPUP_HREF}
+                {...TALLY_POPUP_ATTRIBUTES}
                 onClick={() => setMobileOpen(false)}
                 style={{
                   display: "flex",

@@ -6,6 +6,20 @@ import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 
 export const dynamic = "force-dynamic";
 
+const TALLY_POPUP_HREF =
+  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
+
+const TALLY_POPUP_ATTRIBUTES = {
+  "data-tally-open": "xXNXNr",
+  "data-tally-layout": "modal",
+  "data-tally-hide-title": "1",
+  "data-tally-overlay": "1",
+  "data-tally-emoji-text": "👋",
+  "data-tally-emoji-animation": "wave",
+  "data-tally-auto-close": "1000",
+  "data-tally-form-events-forwarding": "1",
+} as const;
+
 export const metadata: Metadata = {
   title: "myAIMatch - Find AI Tools You'll Actually Use",
   description:
@@ -580,7 +594,7 @@ export default async function HomePage() {
               Explore AI tools for free, get personalized recommendations, or work with us to design and implement the right AI stack for your business.
             </p>
             <div className="home-cta-row">
-              <Link href="/assessment" className="home-cta-primary">
+              <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
                 Start Free AI Match
               </Link>
             </div>
@@ -624,16 +638,13 @@ export default async function HomePage() {
       <section className="home-final">
         <div className="home-shell">
           <div className="home-final-panel">
-            <h2>Finding your match is just the start.</h2>
+            <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
             <p>
-              Explore tools freely. When you&apos;re ready, we help you turn them into real systems inside your business.
+              Don&apos;t have time to filter 275 tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.
             </p>
             <div className="home-cta-row" style={{ justifyContent: "center" }}>
-              <Link href="/assessment" className="home-cta-primary">
-                Start the AI Match Engine
-              </Link>
-              <Link href="/services" className="home-cta-secondary">
-                Get implementation help
+              <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
+                Start Free AI Match
               </Link>
             </div>
           </div>

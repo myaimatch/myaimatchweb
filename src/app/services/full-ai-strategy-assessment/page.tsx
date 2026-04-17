@@ -1,15 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Full AI Strategy Assessment | myAIMatch",
   description:
-    "We analyze how your business actually runs, identify what's missing, and design an AI stack you can implement immediately.",
+    "Book a paid 60-minute strategy session and get a clear AI stack roadmap built around your workflows, team, budget, goals, industry, and use case.",
   openGraph: {
     title: "Full AI Strategy Assessment | myAIMatch",
     description:
-      "We analyze how your business actually runs, identify what's missing, and design an AI stack you can implement immediately.",
+      "Book a paid 60-minute strategy session and get a clear AI stack roadmap built around your workflows, team, budget, goals, industry, and use case.",
     url: "https://myaimatch.ai/services/full-ai-strategy-assessment",
     type: "website",
   },
@@ -20,39 +19,40 @@ type Tier = {
   price: string;
   description: string;
   scope: string[];
-  href?: string;
 };
+
+const strategyBookingHref = process.env.NEXT_PUBLIC_CAL_STRATEGY_URL || "#pricing";
 
 const deliverables = [
   {
     eyebrow: "01",
     title: "60-minute 1:1 strategy session",
-    body: "A focused 1:1 session to break down your workflow and define exactly what needs to change.",
+    body: "A paid working session where we map what you do today, what feels messy, and where AI can create real leverage.",
   },
   {
     eyebrow: "02",
     title: "Workflow and tool-stack review",
-    body: "We analyze your current tools, team, and workflows to identify what's slowing you down.",
+    body: "We review your current tools, handoffs, bottlenecks, and repeated work so the roadmap is grounded in your actual business.",
   },
   {
     eyebrow: "03",
     title: "Recommended AI tools by use case",
-    body: "A stack matched to your actual workflows, not a generic list.",
+    body: "You get specific recommendations tied to workflow, team size, budget, goals, industry, and use case.",
   },
   {
     eyebrow: "04",
     title: "Integration roadmap",
-    body: "Exactly what to connect, automate, and prioritize — and in what order.",
+    body: "A clear view of what should connect to what, what can wait, and where automation makes sense.",
   },
   {
     eyebrow: "05",
     title: "Priority action plan",
-    body: "A clear step-by-step plan so you know what to implement first, next, and later.",
+    body: "A step-by-step order for what to set up first, what to avoid, and how to move without getting buried in tools.",
   },
   {
     eyebrow: "06",
-    title: "Branded report and recording",
-    body: "Delivered within 48 hours. Yours to revisit anytime.",
+    title: "Recorded walkthrough and final report",
+    body: "You leave with the recording, a written roadmap, setup notes, pricing considerations, and clear next steps.",
   },
 ];
 
@@ -60,29 +60,46 @@ const tiers: Tier[] = [
   {
     name: "Solo / Freelancer",
     price: "$2,000",
-    description: "One operator. One main workflow. Clear tool recommendations and setup order.",
-    scope: ["1 primary workflow", "Recommended tools by use case", "Priority setup order"],
-    href: process.env.NEXT_PUBLIC_STRATEGY_SOLO_STRIPE_URL,
+    description:
+      "For one operator who needs a focused stack for personal productivity, client delivery, or one core workflow.",
+    scope: [
+      "Paid 60-minute 1:1 strategy session",
+      "Review of 1 primary workflow and current tools",
+      "Recommended tools by use case",
+      "Priority implementation order",
+      "Budget and setup complexity notes",
+      "Final roadmap, recording, and next-step action plan",
+    ],
   },
   {
     name: "Small Team",
     price: "$5,000",
-    description: "For teams with shared workflows, multiple roles, or a few tools already in motion.",
-    scope: ["Multiple roles or workflows", "Integration roadmap", "Team adoption notes"],
-    href: process.env.NEXT_PUBLIC_STRATEGY_TEAM_STRIPE_URL,
+    description:
+      "For teams with shared workflows, multiple roles, and handoffs that need clearer tools, ownership, and adoption.",
+    scope: [
+      "Paid 60-minute team strategy session",
+      "Review of shared workflows, bottlenecks, and current tools",
+      "Recommended stack by role, workflow, and use case",
+      "Integration roadmap for shared tools and handoffs",
+      "Team adoption notes and what-to-avoid guidance",
+      "Final roadmap, recording, and priority action plan",
+    ],
   },
   {
-    name: "SMB",
+    name: "SMB / Multi-Team",
     price: "$10,000",
-    description: "Cross-team review, deeper prioritization, and phased implementation.",
-    scope: ["Cross-team workflow review", "ROI estimate ranges", "Implementation phasing"],
-    href: process.env.NEXT_PUBLIC_STRATEGY_SMB_STRIPE_URL,
+    description:
+      "For businesses with multiple workflows, teams, or departments where implementation order and risk reduction matter.",
+    scope: [
+      "Paid 60-minute executive strategy session",
+      "Cross-team workflow and tool-stack review",
+      "Use-case recommendations across teams or departments",
+      "Phased integration roadmap and rollout sequence",
+      "Risk, budget, and adoption considerations",
+      "Final report, recording, and clear implementation priorities",
+    ],
   },
 ];
-
-function getTierHref(href?: string) {
-  return href || "#pricing";
-}
 
 function SectionHeader({
   label,
@@ -105,11 +122,9 @@ function SectionHeader({
 }
 
 export default function StrategyAssessmentPage() {
-  const heroPrimaryHref = tiers.find((tier) => tier.href)?.href || "#pricing";
-
   return (
     <div className="services-page bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .services-page {
           --service-primary: #814ac8;
           --service-accent: #df7afe;
@@ -281,80 +296,36 @@ export default function StrategyAssessmentPage() {
           -webkit-text-fill-color: transparent;
         }
 
-        .services-map {
-          position: relative;
-          margin: 58px auto 0;
-          width: min(820px, 100%);
-          min-height: 300px;
+        .strategy-outcomes {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+          margin: 48px auto 0;
+          width: min(900px, 100%);
         }
 
-        .services-map::before {
-          content: "";
-          position: absolute;
-          inset: 18px 10%;
-          border: 1px solid rgba(129,74,200,0.18);
-          border-radius: 999px;
-        }
-
-        .services-map::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 1px;
-          transform: translateX(-50%);
-          background: linear-gradient(180deg, transparent, rgba(129,74,200,0.55), transparent);
-        }
-
-        .map-card {
-          position: absolute;
-          width: min(290px, 42%);
-          border: 1px solid rgba(255,255,255,0.09);
+        .strategy-outcome {
+          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 18px;
-          background: rgba(13,13,13,0.86);
-          padding: 20px;
-          backdrop-filter: blur(12px);
-          z-index: 1;
+          background: rgba(255,255,255,0.035);
+          padding: 18px;
+          text-align: left;
         }
 
-        .map-card strong {
+        .strategy-outcome strong {
           display: block;
-          margin-bottom: 8px;
           color: #ffffff;
-          font-size: 16px;
+          font-size: 14px;
+          font-weight: 700;
           letter-spacing: -0.01em;
         }
 
-        .map-card p {
-          color: rgba(255,255,255,0.5);
+        .strategy-outcome span {
+          display: block;
+          margin-top: 8px;
+          color: rgba(255,255,255,0.52);
           font-size: 13px;
           line-height: 1.6;
-        }
-
-        .map-card span {
-          color: #df7afe;
-        }
-
-        .map-card-one { left: 0; top: 12px; }
-        .map-card-two { right: 0; top: 104px; }
-        .map-card-three { left: 12%; bottom: 0; }
-
-        .map-node {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          z-index: 2;
-          display: grid;
-          width: 92px;
-          height: 92px;
-          place-items: center;
-          transform: translate(-50%, -50%);
-          border: 1px solid rgba(129,74,200,0.34);
-          border-radius: 999px;
-          background:
-            radial-gradient(ellipse at center, rgba(129,74,200,0.42), rgba(13,13,13,0.94) 62%),
-            #0d0d0d;
         }
 
         .deliverables-grid {
@@ -409,7 +380,7 @@ export default function StrategyAssessmentPage() {
 
         .pricing-card {
           display: flex;
-          min-height: 500px;
+          min-height: 620px;
           flex-direction: column;
           padding: 28px;
         }
@@ -466,9 +437,31 @@ export default function StrategyAssessmentPage() {
           width: 100%;
         }
 
+        .next-services-panel {
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 28px;
+          background:
+            radial-gradient(ellipse 85% 70% at 50% 0%, rgba(129,74,200,0.26), transparent 72%),
+            rgba(255,255,255,0.035);
+          padding: clamp(28px, 5vw, 48px);
+        }
+
+        .next-services-panel::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 2px;
+          height: 96px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, rgba(223,122,254,0.78), transparent);
+        }
+
         .next-services-grid {
           display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
           gap: 16px;
           margin-top: 44px;
         }
@@ -489,6 +482,18 @@ export default function StrategyAssessmentPage() {
         .next-service-card:hover {
           border-color: rgba(129,74,200,0.38);
           transform: translateY(-3px);
+        }
+
+        .next-service-card.primary {
+          border-color: rgba(129,74,200,0.32);
+          background:
+            radial-gradient(ellipse 100% 62% at 50% 100%, rgba(129,74,200,0.26), transparent 70%),
+            rgba(255,255,255,0.055);
+        }
+
+        .next-service-card.secondary {
+          min-height: auto;
+          opacity: 0.88;
         }
 
         .next-service-card:active {
@@ -540,26 +545,9 @@ export default function StrategyAssessmentPage() {
             padding: 78px 0 88px;
           }
 
-          .services-map {
-            min-height: auto;
-            display: grid;
-            gap: 14px;
-          }
-
-          .services-map::before,
-          .services-map::after,
-          .map-node {
-            display: none;
-          }
-
-          .map-card {
-            position: relative;
-            left: auto; right: auto; top: auto; bottom: auto;
-            width: 100%;
-          }
-
           .deliverables-grid,
           .pricing-grid,
+          .strategy-outcomes,
           .next-services-grid {
             grid-template-columns: 1fr;
           }
@@ -587,44 +575,41 @@ export default function StrategyAssessmentPage() {
             width: 100%;
           }
         }
-      `}</style>
+      ` }} />
 
       <section className="services-hero">
         <div className="services-shell relative z-10 text-center">
           <p className="services-label">Full AI Strategy Assessment</p>
           <h1 className="services-hero-title">
-            Build the AI stack <span>you&apos;ll actually use.</span>
+            Overwhelmed by AI tools? <span>We&apos;ll build your AI stack roadmap for you.</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            We analyze how your business actually runs, identify what&apos;s missing, and design an AI stack you can implement immediately.
+            If the free match did not give you enough clarity, or the comparison directory feels like too much, book a paid strategy session. We&apos;ll review your business, choose the right stack, and give you a plan you can act on.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="services-cta-primary" href={heroPrimaryHref}>
-              Start Your Strategy Assessment
+            <Link className="services-cta-primary" href={strategyBookingHref}>
+              Book Your Strategy Session
             </Link>
-            <Link className="services-cta-secondary" href="/assessment">
-              Try the AI Match Engine - Free
+            <Link className="services-cta-secondary" href="/#match-tools">
+              Browse the Directory
             </Link>
           </div>
           <p className="mt-6 text-sm leading-6 text-white/40">
-            For founders, freelancers, and teams ready to stop guessing and start building.
+            Booking is handled through a paid scheduling flow with payment before the session.
           </p>
 
-          <div className="services-map" aria-hidden="true">
-            <div className="map-card map-card-one">
-              <strong><span>Workflow</span> review</strong>
-              <p>Where your work slows down and where AI fits.</p>
+          <div className="strategy-outcomes" aria-label="Strategy assessment outcomes">
+            <div className="strategy-outcome">
+              <strong>Less overwhelm</strong>
+              <span>We narrow the tool universe into the stack that fits how you actually work.</span>
             </div>
-            <div className="map-card map-card-two">
-              <strong><span>AI Match</span> logic</strong>
-              <p>Filtered by fit, budget, and setup effort — not by trend.</p>
+            <div className="strategy-outcome">
+              <strong>Clear priorities</strong>
+              <span>You leave knowing what to set up first, next, and later.</span>
             </div>
-            <div className="map-card map-card-three">
-              <strong><span>Implementation</span> order</strong>
-              <p>Leave knowing exactly what to set up first.</p>
-            </div>
-            <div className="map-node">
-              <Image src="/logo.png" alt="" width={42} height={42} />
+            <div className="strategy-outcome">
+              <strong>Decision-ready roadmap</strong>
+              <span>Tools, integrations, budget notes, risks, and next actions in one place.</span>
             </div>
           </div>
         </div>
@@ -634,7 +619,7 @@ export default function StrategyAssessmentPage() {
         <SectionHeader
           label="What you get"
           title="A decision-ready AI stack roadmap."
-          body="Built around your workflow — not around whatever's trending."
+          body="We guide you step by step toward the specific stack that can increase productivity, reduce tool overwhelm, and create value in the parts of your business that matter most."
         />
         <div className="deliverables-grid">
           {deliverables.map((item) => (
@@ -650,8 +635,8 @@ export default function StrategyAssessmentPage() {
       <section id="pricing" className="services-shell py-20 md:py-28">
         <SectionHeader
           label="Assessment tiers"
-          title="Choose what best describes you."
-          body="Scope determines depth. Price reflects the workflows, roles, and integrations that need reviewing."
+          title="Pricing is based on team size and complexity."
+          body="More people means more workflows, roles, handoffs, dependencies, and adoption variables to consider. Choose the tier that best matches how your business actually operates."
         />
         <div className="pricing-grid">
           {tiers.map((tier, index) => {
@@ -670,8 +655,8 @@ export default function StrategyAssessmentPage() {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-                <Link className={ctaClass} href={getTierHref(tier.href)}>
-                  Start Assessment
+                <Link className={ctaClass} href={strategyBookingHref}>
+                  Book Your Strategy Session
                 </Link>
               </article>
             );
@@ -680,26 +665,28 @@ export default function StrategyAssessmentPage() {
       </section>
 
       <section className="services-shell pb-20 md:pb-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="services-label">Where do you want to go next?</p>
-          <h2 className="services-section-title">Ready to take the next step?</h2>
-          <p className="services-section-body">
-            The roadmap is yours to keep. If you want support executing it, here&apos;s how we continue.
-          </p>
-        </div>
-        <div className="next-services-grid">
-          <Link href="/services/ai-tech-stack-implementation" className="next-service-card">
-            <p className="next-service-label">Next step</p>
-            <h3>AI Tech Stack Implementation</h3>
-            <p>We configure your tools, connect workflows, and build the automations from your roadmap.</p>
-            <p className="next-service-arrow">Explore Implementation →</p>
-          </Link>
-          <Link href="/services/ai-coaching" className="next-service-card">
-            <p className="next-service-label">Ongoing</p>
-            <h3>AI Coaching</h3>
-            <p>Ongoing training so you and your team know exactly how to use what we&apos;ve built.</p>
-            <p className="next-service-arrow">Explore AI Coaching →</p>
-          </Link>
+        <div className="next-services-panel">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="services-label">After the roadmap</p>
+            <h2 className="services-section-title">Your roadmap is clear. Now we can help you set it up.</h2>
+            <p className="services-section-body">
+              After the assessment, you know the priorities, tools, and implementation order. The natural next step is setup: configuring the stack, connecting workflows, and turning the plan into a working system.
+            </p>
+          </div>
+          <div className="next-services-grid">
+            <Link href="/services/ai-tech-stack-implementation" className="next-service-card primary">
+              <p className="next-service-label">Recommended next step</p>
+              <h3>AI Tech Stack Implementation</h3>
+              <p>We configure the tools, connect the workflows, and build the automations from your roadmap.</p>
+              <p className="next-service-arrow">Explore Implementation →</p>
+            </Link>
+            <Link href="/services/ai-coaching" className="next-service-card secondary">
+              <p className="next-service-label">Already setting it up yourself?</p>
+              <h3>AI Coaching</h3>
+              <p>Use coaching to train your team, answer setup questions, and make sure the stack gets adopted.</p>
+              <p className="next-service-arrow">Explore AI Coaching →</p>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
