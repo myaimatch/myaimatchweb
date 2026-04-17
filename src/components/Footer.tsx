@@ -1,18 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
+import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
+
+const TALLY_POPUP_HREF =
+  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
+
+const TALLY_POPUP_ATTRIBUTES = {
+  "data-tally-open": "xXNXNr",
+  "data-tally-layout": "modal",
+  "data-tally-hide-title": "1",
+  "data-tally-overlay": "1",
+  "data-tally-emoji-text": "👋",
+  "data-tally-emoji-animation": "wave",
+  "data-tally-auto-close": "1000",
+  "data-tally-form-events-forwarding": "1",
+} as const;
 
 const linkColumns = [
   {
     title: "Product",
     links: [
-      { label: "Find Your Match", href: "/#match-tools" },
-      { label: "Get Your Match", href: "/assessment" },
+      { label: "Browse AI tools", href: "/#match-tools" },
+      { label: "Start Free AI Match", href: TALLY_POPUP_HREF, tally: true },
+      { label: "Deals", href: "/deals" },
+    ],
+  },
+  {
+    title: "Services",
+    links: [
+      { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },
+      { label: "AI Tech Stack Implementation", href: "/services/ai-tech-stack-implementation" },
+      { label: "AI Coaching", href: "/services/ai-coaching" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "Services", href: "/services" },
       { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
     ],
@@ -33,27 +56,38 @@ export default function Footer() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Top section */}
-        <div className="flex flex-col md:flex-row justify-between gap-8">
+        <div className="flex flex-col md:flex-row justify-between gap-10">
           {/* Logo + tagline */}
-          <div className="flex flex-col gap-3">
+          <div className="flex max-w-sm flex-col gap-4">
             <Link href="/" className="inline-block">
               <Image
-                src="/logo-myaimatch.png"
+                src={myAiMatchWordmark}
                 alt="myAIMatch"
-                width={140}
-                height={40}
-                style={{ objectFit: "contain" }}
+                width={176}
+                height={24}
+                style={{ width: "176px", height: "auto", objectFit: "contain" }}
                 priority
               />
             </Link>
-            <p className="text-[#A0A0A0] text-sm max-w-xs leading-relaxed">
-              The universal AI matching engine. Find, compare, and implement the
-              right AI tools for your business.
+            <p className="text-[#A0A0A0] text-sm leading-relaxed">
+              Browse the AI tool landscape, or answer a few questions and get a
+              personalized stack match for your workflow, team, budget, and goals.
             </p>
+            <Link
+              href={TALLY_POPUP_HREF}
+              {...TALLY_POPUP_ATTRIBUTES}
+              className="inline-flex h-10 w-fit items-center justify-center rounded-full px-5 text-sm font-semibold text-white transition-opacity duration-150 hover:opacity-90"
+              style={{
+                background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+                boxShadow: "0 0 0 1px rgba(129,74,200,0.4), 0 6px 18px rgba(129,74,200,0.22)",
+              }}
+            >
+              Start Free AI Match
+            </Link>
           </div>
 
           {/* Link columns */}
-          <div className="flex flex-wrap gap-10">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {linkColumns.map((col) => (
               <div key={col.title} className="flex flex-col gap-3">
                 <p className="text-white text-sm font-semibold tracking-wide">
@@ -64,6 +98,7 @@ export default function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
+                        {...(link.tally ? TALLY_POPUP_ATTRIBUTES : {})}
                         className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
                       >
                         {link.label}

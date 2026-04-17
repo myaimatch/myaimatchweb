@@ -6,6 +6,20 @@ import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 
 export const dynamic = "force-dynamic";
 
+const TALLY_POPUP_HREF =
+  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
+
+const TALLY_POPUP_ATTRIBUTES = {
+  "data-tally-open": "xXNXNr",
+  "data-tally-layout": "modal",
+  "data-tally-hide-title": "1",
+  "data-tally-overlay": "1",
+  "data-tally-emoji-text": "👋",
+  "data-tally-emoji-animation": "wave",
+  "data-tally-auto-close": "1000",
+  "data-tally-form-events-forwarding": "1",
+} as const;
+
 export const metadata: Metadata = {
   title: "myAIMatch - Find AI Tools You'll Actually Use",
   description:
@@ -30,7 +44,7 @@ export default async function HomePage() {
 
   return (
     <div className="home-ramp bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .home-ramp {
           --home-primary: #814ac8;
           --home-accent: #df7afe;
@@ -56,14 +70,26 @@ export default async function HomePage() {
 
         .home-hero {
           position: relative;
-          min-height: calc(100vh - 64px);
+          min-height: calc(100vh - 72px);
           display: flex;
           align-items: center;
-          padding: 82px 0 64px;
+          padding: 36px 0 64px;
           background:
             radial-gradient(ellipse 80% 54% at 50% 0%, rgba(129,74,200,0.42), transparent 68%),
             radial-gradient(ellipse 56% 44% at 78% 34%, rgba(223,122,254,0.14), transparent 68%),
+            radial-gradient(ellipse 40% 30% at 12% 82%, rgba(129,74,200,0.08), transparent 60%),
             #000000;
+        }
+
+        .home-hero-noise {
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+          background-size: 256px 256px;
+          opacity: 0.032;
+          mix-blend-mode: overlay;
+          pointer-events: none;
+          z-index: 0;
         }
 
         .home-hero::before {
@@ -122,6 +148,7 @@ export default async function HomePage() {
           border-radius: 999px;
           background: #814ac8;
           box-shadow: 0 0 18px rgba(223,122,254,0.72);
+          animation: orbPulse 2.4s ease-in-out infinite;
         }
 
         .home-hero-title {
@@ -190,6 +217,19 @@ export default async function HomePage() {
           transform: translateY(-2px);
         }
 
+        .home-cta-primary:active,
+        .home-cta-secondary:active {
+          opacity: 1;
+          transform: scale(0.97) translateY(0);
+          transition: transform 80ms ease, opacity 80ms ease;
+        }
+
+        .home-cta-primary:focus-visible,
+        .home-cta-secondary:focus-visible {
+          outline: 2px solid #df7afe;
+          outline-offset: 3px;
+        }
+
         .home-hero-note {
           margin-top: 18px;
           color: rgba(255,255,255,0.42);
@@ -234,6 +274,24 @@ export default async function HomePage() {
           height: 100%;
         }
 
+        .constellation-connectors {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+        }
+
+        .constellation-connectors path {
+          fill: none;
+          stroke: rgba(223,122,254,0.44);
+          stroke-width: 0.18;
+          stroke-linecap: round;
+          stroke-dasharray: 2.2 2.8;
+          filter: drop-shadow(0 0 5px rgba(223,122,254,0.5));
+        }
+
         .constellation-core {
           position: absolute;
           left: 50%;
@@ -244,19 +302,38 @@ export default async function HomePage() {
           height: 92px;
           place-items: center;
           transform: translate(-50%, -50%);
-          border: 1px solid rgba(223,122,254,0.34);
+          border: 1px solid rgba(223,122,254,0.58);
           border-radius: 999px;
           background:
-            radial-gradient(ellipse at center, rgba(255,255,255,0.15), transparent 58%),
-            rgba(13,13,13,0.72);
+            radial-gradient(ellipse at center, rgba(223,122,254,0.18), transparent 62%),
+            rgba(129,74,200,0.08);
+          box-shadow:
+            0 0 0 8px rgba(223,122,254,0.08),
+            0 0 34px rgba(223,122,254,0.36),
+            inset 0 0 26px rgba(223,122,254,0.2);
           backdrop-filter: blur(12px);
         }
 
         .constellation-core img {
-          width: 46px;
-          height: 46px;
+          width: 58px;
+          height: auto;
           object-fit: contain;
-          filter: drop-shadow(0 0 14px rgba(223,122,254,0.65));
+          filter: drop-shadow(0 0 13px rgba(223,122,254,0.72));
+        }
+
+        .constellation-match-label {
+          position: absolute;
+          left: 50%;
+          top: calc(50% + 66px);
+          z-index: 6;
+          transform: translateX(-50%);
+          color: #df7afe;
+          font-size: 16px;
+          font-weight: 800;
+          letter-spacing: 0;
+          line-height: 1;
+          text-shadow: 0 0 18px rgba(223,122,254,0.62);
+          white-space: nowrap;
         }
 
         .constellation-label,
@@ -270,14 +347,13 @@ export default async function HomePage() {
           padding: 8px 12px;
           font-size: 12px;
           font-weight: 700;
+          line-height: 1;
           backdrop-filter: blur(12px);
+          box-shadow: 0 0 18px rgba(129,74,200,0.12);
+          transform-origin: center;
+          white-space: nowrap;
+          will-change: left, top, transform, opacity;
         }
-
-        .label-workflow { left: 10%; top: 24%; }
-        .label-role { right: 16%; top: 18%; }
-        .label-budget { right: 10%; bottom: 24%; }
-        .label-team { left: 14%; bottom: 18%; }
-        .label-fit { left: 50%; bottom: 10%; transform: translateX(-50%); color: #df7afe; }
 
         .homepage-constellation-fallback {
           position: absolute;
@@ -300,11 +376,6 @@ export default async function HomePage() {
         .ring-one { width: 34%; height: 34%; }
         .ring-two { width: 58%; height: 46%; }
         .ring-three { width: 82%; height: 58%; }
-        .chip-1 { left: 10%; top: 24%; }
-        .chip-2 { right: 16%; top: 18%; }
-        .chip-3 { right: 10%; bottom: 24%; }
-        .chip-4 { left: 14%; bottom: 18%; }
-        .chip-5 { left: 50%; bottom: 10%; transform: translateX(-50%); color: #df7afe; }
 
 
         .match-table-section {
@@ -339,21 +410,40 @@ export default async function HomePage() {
           line-height: 1.75;
         }
 
-        .table-proof-grid {
+        .dir-steps-grid {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 12px;
           margin-top: 26px;
         }
 
-        .table-proof {
-          border: 1px solid rgba(129,74,200,0.22);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.03);
-          padding: 12px 16px;
-          color: rgba(255,255,255,0.68);
+        .dir-step {
+          border: 1px solid rgba(129,74,200,0.18);
+          border-radius: 14px;
+          background: rgba(255,255,255,0.02);
+          padding: 16px 18px;
+          text-align: left;
+        }
+
+        .dir-step-num {
+          color: rgba(223,122,254,0.8);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        .dir-step p {
+          margin-top: 8px;
+          color: rgba(255,255,255,0.6);
           font-size: 13px;
-          font-weight: 700;
+          line-height: 1.6;
+        }
+
+        @media (max-width: 720px) {
+          .dir-steps-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
 
 
@@ -437,7 +527,7 @@ export default async function HomePage() {
 
           .home-hero {
             min-height: auto;
-            padding: 62px 0 52px;
+            padding: 40px 0 52px;
           }
 
           .home-hero-title {
@@ -470,8 +560,13 @@ export default async function HomePage() {
           }
 
           .constellation-core img {
-            width: 38px;
-            height: 38px;
+            width: 48px;
+            height: auto;
+          }
+
+          .constellation-match-label {
+            top: calc(50% + 54px);
+            font-size: 14px;
           }
 
           .table-proof-grid {
@@ -482,34 +577,27 @@ export default async function HomePage() {
             border-radius: 18px;
           }
         }
-      `}</style>
+      ` }} />
 
       <section className="home-hero">
+        <div className="home-hero-noise" aria-hidden="true" />
         <div className="home-shell home-hero-grid">
           <div className="home-hero-copy">
             <div className="home-badge">
               <span className="home-badge-dot" />
-              AI tool matching that starts with your workflow
+              AI Match Engine
             </div>
             <h1 className="home-hero-title">
-              Find the AI tools your <span>workflow can actually use.</span>
+              Find Your Perfect <span>AI Match</span>
             </h1>
             <p className="home-hero-body">
-              Answer the AI Match Engine questions, then get a recommended AI
-              stack by email based on your role, team, budget, and goals.
+              Explore AI tools for free, get personalized recommendations, or work with us to design and implement the right AI stack for your business.
             </p>
             <div className="home-cta-row">
-              <Link href="/assessment" className="home-cta-primary">
-                Use the AI Match Engine - Free
-              </Link>
-              <Link href="#match-tools" className="home-cta-secondary">
-                Find Your Match
+              <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
+                Start Free AI Match
               </Link>
             </div>
-            <p className="home-hero-note">
-              Built for people who want the right AI stack before wasting trial
-              periods, team energy, or budget.
-            </p>
           </div>
 
           <HomepageConstellation />
@@ -520,14 +608,26 @@ export default async function HomePage() {
       <section id="match-tools" className="match-table-section">
         <div className="px-4 pb-12">
           <div className="match-table-header">
-            <p className="home-label">Find Your Perfect AI Match</p>
             <h2 className="home-section-title">
-              275 AI tools. Filtered by fit.
+              275 AI tools. Find what works for you.
             </h2>
-            <div className="table-proof-grid">
-              <div className="table-proof">Filter by workflow fit</div>
-              <div className="table-proof">Compare pricing signals</div>
-              <div className="table-proof">Save tools for later</div>
+            <div className="dir-steps-grid">
+              <div className="dir-step">
+                <span className="dir-step-num">01</span>
+                <p>Select your category and subcategory to narrow your focus.</p>
+              </div>
+              <div className="dir-step">
+                <span className="dir-step-num">02</span>
+                <p>Apply filters based on pricing, free plan, API access, and more.</p>
+              </div>
+              <div className="dir-step">
+                <span className="dir-step-num">03</span>
+                <p>Compare tools side by side and customize columns as needed.</p>
+              </div>
+              <div className="dir-step">
+                <span className="dir-step-num">04</span>
+                <p>Bookmark your top picks and choose the best match for you.</p>
+              </div>
             </div>
           </div>
           <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
@@ -538,16 +638,13 @@ export default async function HomePage() {
       <section className="home-final">
         <div className="home-shell">
           <div className="home-final-panel">
-            <h2>Start with a match. Stay for implementation when you need it.</h2>
+            <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
             <p>
-              Get your free AI stack recommendation, then come back to compare and explore.
+              Don&apos;t have time to filter 275 tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.
             </p>
             <div className="home-cta-row" style={{ justifyContent: "center" }}>
-              <Link href="/assessment" className="home-cta-primary">
-                Start the AI Match Engine
-              </Link>
-              <Link href="/services" className="home-cta-secondary">
-                Get implementation help
+              <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
+                Start Free AI Match
               </Link>
             </div>
           </div>

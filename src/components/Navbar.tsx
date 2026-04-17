@@ -1,19 +1,53 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
+
+const TALLY_POPUP_HREF =
+  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
+
+const TALLY_POPUP_ATTRIBUTES = {
+  "data-tally-open": "xXNXNr",
+  "data-tally-layout": "modal",
+  "data-tally-hide-title": "1",
+  "data-tally-overlay": "1",
+  "data-tally-emoji-text": "👋",
+  "data-tally-emoji-animation": "wave",
+  "data-tally-auto-close": "1000",
+  "data-tally-form-events-forwarding": "1",
+} as const;
 
 const navLinks = [
   { label: "Deals", href: "/deals" },
-  { label: "Services", href: "/services" },
   { label: "Blog", href: "/blog" },
+];
+
+const serviceLinks = [
+  {
+    label: "Full AI Strategy Assessment",
+    href: "/services/full-ai-strategy-assessment",
+    desc: "Map your workflow and get a custom AI stack roadmap.",
+  },
+  {
+    label: "AI Tech Stack Implementation",
+    href: "/services/ai-tech-stack-implementation",
+    desc: "We configure your tools and build the automations.",
+  },
+  {
+    label: "AI Coaching",
+    href: "/services/ai-coaching",
+    desc: "Ongoing training so your team keeps up with AI.",
+  },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 12);
@@ -21,8 +55,47 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const navLinkStyle = {
+    color: "rgba(255,255,255,0.65)",
+    fontSize: "15px",
+    fontWeight: 550,
+    padding: "6px 18px",
+    borderRadius: "999px",
+    textDecoration: "none",
+    letterSpacing: "0.005em",
+    transition: "color 0.2s ease, background-color 0.2s ease",
+    cursor: "pointer",
+    background: "transparent",
+    border: "none",
+    fontFamily: "inherit",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "4px",
+  } as const;
+
   return (
     <>
+      <style>{`
+        @media (min-width: 768px) {
+          .nav-mobile-btn { display: none !important; }
+          .nav-desktop-links { display: flex !important; }
+          .nav-desktop-cta { display: flex !important; }
+        }
+        @media (max-width: 767px) {
+          .nav-desktop-links { display: none !important; }
+          .nav-desktop-cta { display: none !important; }
+        }
+      `}</style>
       <nav
         style={{
           position: "sticky",
@@ -35,7 +108,7 @@ export default function Navbar() {
           transition: "background-color 0.3s ease",
         }}
       >
-        {/* Subtle purple glow line at very top */}
+        {/* Purple glow line at top */}
         <div
           style={{
             position: "absolute",
@@ -50,19 +123,13 @@ export default function Navbar() {
           }}
         />
 
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 24px",
-          }}
-        >
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              height: "64px",
+              height: "72px",
             }}
           >
             {/* Logo */}
@@ -71,65 +138,135 @@ export default function Navbar() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "10px",
                 textDecoration: "none",
                 flexShrink: 0,
               }}
             >
-              <div
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                  background: "rgba(129,74,200,0.15)",
-                  border: "1px solid rgba(129,74,200,0.3)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <Image
-                  src="/logo.png"
-                  alt="MyAIMatch"
-                  width={22}
-                  height={22}
-                  style={{ objectFit: "contain" }}
-                />
-              </div>
-              <span
-                style={{
-                  color: "#ffffff",
-                  fontWeight: 700,
-                  fontSize: "16px",
-                  letterSpacing: "-0.02em",
-                  fontFamily: "inherit",
-                }}
-              >
-                myAIMatch
-              </span>
+              <Image
+                src={myAiMatchWordmark}
+                alt="myAIMatch"
+                width={150}
+                height={20}
+                priority
+                style={{ width: "150px", height: "auto", objectFit: "contain" }}
+              />
             </Link>
 
             {/* Desktop nav links */}
-            <div
-              className="hidden md:flex"
-              style={{ alignItems: "center", gap: "4px" }}
-            >
-              {navLinks.map((link) => (
+            <div className="nav-desktop-links" style={{ alignItems: "center", gap: "8px" }}>
+              {/* Deals */}
+              {navLinks.slice(0, 1).map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  style={{
-                    color: "rgba(255,255,255,0.55)",
-                    fontSize: "14px",
-                    fontWeight: 450,
-                    padding: "6px 14px",
-                    borderRadius: "999px",
-                    textDecoration: "none",
-                    letterSpacing: "0.01em",
-                    transition: "color 0.2s ease, background-color 0.2s ease",
+                  style={navLinkStyle}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = "#ffffff";
+                    (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "rgba(255,255,255,0.06)";
                   }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.55)";
+                    (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              {/* Services dropdown */}
+              <div ref={servicesRef} style={{ position: "relative" }}>
+                <button
+                  onClick={() => setServicesOpen((v) => !v)}
+                  style={navLinkStyle}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.color = "#ffffff";
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = "rgba(255,255,255,0.06)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.55)";
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
+                  }}
+                >
+                  Services
+                  <ChevronDown
+                    size={13}
+                    style={{
+                      opacity: 0.6,
+                      transform: servicesOpen ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 200ms ease",
+                    }}
+                  />
+                </button>
+
+                {servicesOpen && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "calc(100% + 10px)",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      minWidth: "280px",
+                      background: "#0d0d0d",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "14px",
+                      padding: "8px",
+                      boxShadow: "0 16px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04)",
+                      zIndex: 200,
+                    }}
+                  >
+                    {serviceLinks.map((svc) => (
+                      <Link
+                        key={svc.href}
+                        href={svc.href}
+                        onClick={() => setServicesOpen(false)}
+                        style={{
+                          display: "block",
+                          padding: "12px 14px",
+                          borderRadius: "8px",
+                          textDecoration: "none",
+                          transition: "background-color 150ms ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "rgba(255,255,255,0.05)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
+                        }}
+                      >
+                        <span
+                          style={{
+                            display: "block",
+                            color: "#ffffff",
+                            fontSize: "13.5px",
+                            fontWeight: 600,
+                            letterSpacing: "-0.01em",
+                          }}
+                        >
+                          {svc.label}
+                        </span>
+                        <span
+                          style={{
+                            display: "block",
+                            marginTop: "2px",
+                            color: "rgba(255,255,255,0.45)",
+                            fontSize: "12px",
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          {svc.desc}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Blog */}
+              {navLinks.slice(1).map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  style={navLinkStyle}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLAnchorElement).style.color = "#ffffff";
                     (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "rgba(255,255,255,0.06)";
@@ -144,13 +281,11 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Desktop right side: Assessment CTA */}
-            <div
-              className="hidden md:flex"
-              style={{ alignItems: "center", gap: "16px" }}
-            >
+            {/* Desktop CTA */}
+            <div className="nav-desktop-cta" style={{ alignItems: "center", gap: "16px" }}>
               <Link
-                href="/assessment"
+                href={TALLY_POPUP_HREF}
+                {...TALLY_POPUP_ATTRIBUTES}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -180,13 +315,13 @@ export default function Navbar() {
                   el.style.transform = "translateY(0)";
                 }}
               >
-                Try the AI Match Engine
+                Start Free AI Match
               </Link>
             </div>
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden"
+              className="nav-mobile-btn"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
               style={{
@@ -196,6 +331,7 @@ export default function Navbar() {
                 color: "rgba(255,255,255,0.7)",
                 padding: "8px",
                 cursor: "pointer",
+                display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 transition: "background-color 0.2s ease, color 0.2s ease",
@@ -219,10 +355,7 @@ export default function Navbar() {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div
-          className="fixed inset-0 md:hidden"
-          style={{ zIndex: 9999 }}
-        >
+        <div className="fixed inset-0" style={{ zIndex: 9999 }}>
           {/* Backdrop */}
           <div
             style={{
@@ -248,6 +381,7 @@ export default function Navbar() {
               flexDirection: "column",
               padding: "24px",
               zIndex: 10000,
+              overflowY: "auto",
             }}
           >
             {/* Drawer header */}
@@ -260,31 +394,13 @@ export default function Navbar() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    borderRadius: "8px",
-                    overflow: "hidden",
-                    background: "rgba(129,74,200,0.15)",
-                    border: "1px solid rgba(129,74,200,0.3)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Image src="/logo.png" alt="MyAIMatch" width={22} height={22} style={{ objectFit: "contain" }} />
-                </div>
-                <span
-                  style={{
-                    color: "#ffffff",
-                    fontWeight: 700,
-                    fontSize: "16px",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  myAIMatch
-                </span>
+                <Image
+                  src={myAiMatchWordmark}
+                  alt="myAIMatch"
+                  width={132}
+                  height={18}
+                  style={{ width: "132px", height: "auto", objectFit: "contain" }}
+                />
               </div>
               <button
                 onClick={() => setMobileOpen(false)}
@@ -307,40 +423,112 @@ export default function Navbar() {
 
             {/* Drawer links */}
             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
+              {/* Deals */}
+              <Link
+                href="/deals"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  padding: "12px 14px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease, background-color 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "#fff";
+                  el.style.backgroundColor = "rgba(255,255,255,0.06)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "rgba(255,255,255,0.6)";
+                  el.style.backgroundColor = "transparent";
+                }}
+              >
+                Deals
+              </Link>
+
+              {/* Services group */}
+              <div style={{ marginTop: "8px", marginBottom: "4px" }}>
+                <span
                   style={{
-                    color: "rgba(255,255,255,0.6)",
-                    fontSize: "15px",
-                    fontWeight: 500,
-                    padding: "12px 14px",
-                    borderRadius: "10px",
-                    textDecoration: "none",
-                    transition: "color 0.2s ease, background-color 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLAnchorElement;
-                    el.style.color = "#fff";
-                    el.style.backgroundColor = "rgba(255,255,255,0.06)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLAnchorElement;
-                    el.style.color = "rgba(255,255,255,0.6)";
-                    el.style.backgroundColor = "transparent";
+                    display: "block",
+                    padding: "4px 14px 8px",
+                    color: "rgba(129,74,200,0.9)",
+                    fontSize: "10px",
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
                   }}
                 >
-                  {link.label}
-                </Link>
-              ))}
+                  Services
+                </span>
+                {serviceLinks.map((svc) => (
+                  <Link
+                    key={svc.href}
+                    href={svc.href}
+                    onClick={() => setMobileOpen(false)}
+                    style={{
+                      display: "block",
+                      color: "rgba(255,255,255,0.6)",
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      padding: "10px 14px 10px 20px",
+                      borderRadius: "10px",
+                      textDecoration: "none",
+                      transition: "color 0.2s ease, background-color 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.color = "#fff";
+                      el.style.backgroundColor = "rgba(255,255,255,0.06)";
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLAnchorElement;
+                      el.style.color = "rgba(255,255,255,0.6)";
+                      el.style.backgroundColor = "transparent";
+                    }}
+                  >
+                    {svc.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Blog */}
+              <Link
+                href="/blog"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  padding: "12px 14px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease, background-color 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "#fff";
+                  el.style.backgroundColor = "rgba(255,255,255,0.06)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "rgba(255,255,255,0.6)";
+                  el.style.backgroundColor = "transparent";
+                }}
+              >
+                Blog
+              </Link>
             </div>
 
             {/* Drawer CTA */}
-            <div style={{ marginTop: "auto" }}>
+            <div style={{ marginTop: "auto", paddingTop: "24px" }}>
               <Link
-                href="/assessment"
+                href={TALLY_POPUP_HREF}
+                {...TALLY_POPUP_ATTRIBUTES}
                 onClick={() => setMobileOpen(false)}
                 style={{
                   display: "flex",
@@ -356,7 +544,7 @@ export default function Navbar() {
                   boxShadow: "0 4px 16px rgba(129,74,200,0.3)",
                 }}
               >
-                Try the AI Match Engine
+                Start Free AI Match
               </Link>
             </div>
           </div>

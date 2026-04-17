@@ -63,7 +63,7 @@ const DEFAULT_FILTERS: ActiveFilters = {
   gdprCompliant: null,
 }
 
-const INITIAL_VISIBLE_TOOLS = 20
+const INITIAL_VISIBLE_TOOLS = 10
 const VISIBLE_TOOLS_INCREMENT = 20
 const SUGGEST_TOOL_EMAIL = "admin@myaimatch.ai"
 
@@ -988,7 +988,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr style={{ background: "#0d0d0d", borderBottom: "1px solid #1a1a1a" }}>
+                <tr style={{ background: "#141414", borderBottom: "1px solid #222222" }}>
                   {/* Tool — always visible */}
                   <SortHeader
                     label="Tool"
@@ -1010,14 +1010,14 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   )}
                   {visibleColumns.fullDescription && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
                         Full Description
                       </span>
                     </th>
                   )}
                   {visibleColumns.pricingSummary && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
                         Pricing Summary
                       </span>
                     </th>
@@ -1042,7 +1042,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   )}
                   {visibleColumns.freePlan && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
                         Free Plan
                       </span>
                     </th>
@@ -1050,47 +1050,47 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   {/* Extra optional columns */}
                   {visibleColumns.hasApi && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>API</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>API</span>
                     </th>
                   )}
                   {visibleColumns.foundedYear && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Founded</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Founded</span>
                     </th>
                   )}
                   {visibleColumns.companyHq && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>HQ</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>HQ</span>
                     </th>
                   )}
                   {visibleColumns.employeeCount && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Team Size</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Team Size</span>
                     </th>
                   )}
                   {visibleColumns.gdprCompliant && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>GDPR</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>GDPR</span>
                     </th>
                   )}
                   {visibleColumns.soc2Certified && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>SOC2</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>SOC2</span>
                     </th>
                   )}
                   {visibleColumns.hasMobileApp && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Mobile</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Mobile</span>
                     </th>
                   )}
                   {visibleColumns.trialDays && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Trial</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Trial</span>
                     </th>
                   )}
                   {visibleColumns.supportLanguages && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#444" }}>Languages</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Languages</span>
                     </th>
                   )}
                   {visibleColumns.minMonthlyPrice && (
@@ -1190,78 +1190,102 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
 }
 
 function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormElement>) => void }) {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <div className="px-5 pb-8">
-      <form
-        onSubmit={onSubmit}
-        className="rounded-[18px] border p-5 md:p-6"
+      <div
+        className="overflow-hidden rounded-[18px] border"
         style={{
           borderColor: "rgba(129,74,200,0.22)",
           background:
             "radial-gradient(ellipse 70% 80% at 85% 0%, rgba(129,74,200,0.16), transparent 60%), rgba(255,255,255,0.03)",
         }}
       >
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end">
-          <div className="lg:max-w-sm lg:flex-shrink-0">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[#814ac8]">
+        <button
+          type="button"
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen((value) => !value)}
+          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-150 hover:bg-white/[0.03] md:px-6"
+        >
+          <span>
+            <span className="block text-[10px] font-bold uppercase tracking-widest text-[#814ac8]">
               Suggest a tool
-            </p>
-            <h3 className="mt-2 text-xl font-semibold tracking-tight text-white">
+            </span>
+            <span className="mt-1 block text-sm font-semibold tracking-tight text-white md:text-base">
               Know an AI tool worth adding?
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/50">
-              Do you want us to add a new tool that is worthwhile? Send the name
-              and link to the website here.
-            </p>
-          </div>
+            </span>
+            <span className="mt-1 block text-xs text-white/45">
+              Suggest it in a few seconds.
+            </span>
+          </span>
+          <ChevronDown
+            className={`h-5 w-5 flex-shrink-0 text-[#b07de8] transition-transform duration-200 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
 
-          <div className="grid flex-1 gap-3 md:grid-cols-2">
-            <label className="flex flex-col gap-2">
-              <span className="text-xs font-semibold text-white/45">Tool name</span>
-              <input
-                name="toolName"
-                required
-                placeholder="Example: Granola"
-                className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
-                style={{ borderColor: "rgba(255,255,255,0.10)" }}
-              />
-            </label>
-            <label className="flex flex-col gap-2">
-              <span className="text-xs font-semibold text-white/45">Website link</span>
-              <input
-                name="websiteLink"
-                type="url"
-                required
-                placeholder="https://..."
-                className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
-                style={{ borderColor: "rgba(255,255,255,0.10)" }}
-              />
-            </label>
-            <label className="flex flex-col gap-2 md:col-span-2">
-              <span className="text-xs font-semibold text-white/45">Why is it worth adding?</span>
-              <textarea
-                name="reason"
-                rows={3}
-                placeholder="Who should use it, and what makes it useful?"
-                className="resize-none rounded-[18px] border bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
-                style={{ borderColor: "rgba(255,255,255,0.10)" }}
-              />
-            </label>
-            <div className="md:col-span-2 flex justify-end">
-              <button
-                type="submit"
-                className="inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-200"
-                style={{
-                  background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
-                  boxShadow: "0 0 0 1px rgba(129,74,200,0.4), 0 8px 24px rgba(129,74,200,0.24)",
-                }}
-              >
-                Send tool suggestion
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.form
+              onSubmit={onSubmit}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              className="border-t"
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+            >
+              <div className="grid gap-3 px-5 py-5 md:grid-cols-2 md:px-6 md:py-6">
+                <label className="flex flex-col gap-2">
+                  <span className="text-xs font-semibold text-white/45">Tool name</span>
+                  <input
+                    name="toolName"
+                    required
+                    placeholder="Example: Granola"
+                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                    style={{ borderColor: "rgba(255,255,255,0.10)" }}
+                  />
+                </label>
+                <label className="flex flex-col gap-2">
+                  <span className="text-xs font-semibold text-white/45">Website link</span>
+                  <input
+                    name="websiteLink"
+                    type="url"
+                    required
+                    placeholder="https://..."
+                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                    style={{ borderColor: "rgba(255,255,255,0.10)" }}
+                  />
+                </label>
+                <label className="flex flex-col gap-2 md:col-span-2">
+                  <span className="text-xs font-semibold text-white/45">Why is it worth adding?</span>
+                  <textarea
+                    name="reason"
+                    rows={3}
+                    placeholder="Who should use it, and what makes it useful?"
+                    className="resize-none rounded-[18px] border bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                    style={{ borderColor: "rgba(255,255,255,0.10)" }}
+                  />
+                </label>
+                <div className="flex justify-end md:col-span-2">
+                  <button
+                    type="submit"
+                    className="inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-200"
+                    style={{
+                      background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+                      boxShadow: "0 0 0 1px rgba(129,74,200,0.4), 0 8px 24px rgba(129,74,200,0.24)",
+                    }}
+                  >
+                    Send tool suggestion
+                  </button>
+                </div>
+              </div>
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }
@@ -1396,7 +1420,7 @@ function SortHeader({
       <div className="flex items-center gap-1.5">
         <span
           className="text-xs font-semibold uppercase tracking-wider transition-colors duration-150"
-          style={{ color: isActive ? "#814ac8" : "#444" }}
+          style={{ color: isActive ? "#814ac8" : "#666" }}
         >
           {label}
         </span>
@@ -1472,15 +1496,15 @@ function ToolRow({
   return (
     <tr
       className="border-b transition-colors duration-100"
-      style={{ borderColor: "#141414", background: isEven ? "#0d0d0d" : "#0f0f0f" }}
+      style={{ borderColor: "#1e1e1e", background: isEven ? "#161616" : "#1a1a1a" }}
       onMouseEnter={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background =
-          "rgba(129,74,200,0.06)"
+          "rgba(129,74,200,0.10)"
       }}
       onMouseLeave={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background = isEven
-          ? "#0d0d0d"
-          : "#0f0f0f"
+          ? "#161616"
+          : "#1a1a1a"
       }}
     >
       {/* Tool — always visible */}
