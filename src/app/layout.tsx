@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ServicePolish from "@/components/services/ServicePolish";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
         <Script src="https://tally.so/widgets/embed.js" strategy="afterInteractive" />
         <Navbar />
         <main>{children}</main>
+        <ServicePolish />
         <Footer />
       </body>
     </html>

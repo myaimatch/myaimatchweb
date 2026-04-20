@@ -1,8 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import BuildTimeline from "@/components/services/BuildTimeline";
 import CountUp from "@/components/services/CountUp";
 import JourneyIndicator from "@/components/services/JourneyIndicator";
+import LivePipeline from "@/components/services/LivePipeline";
 import Reveal from "@/components/services/Reveal";
+import ServiceHero from "@/components/services/ServiceHero";
+import StackCalculator from "@/components/services/StackCalculator";
 import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
@@ -451,48 +455,22 @@ export default function ImplementationPage() {
         }
       ` }} />
 
-      <section className="impl-hero">
-        <div className="impl-shell relative z-10 text-center">
-          <p className="impl-label">AI Tech Stack Implementation</p>
-          <h1 className="impl-hero-title shimmer-active">
-            Your roadmap is ready. <span>Now let&apos;s build it.</span>
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one.
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="impl-cta-primary" href={calHref}>
-              Book an Implementation Call
-            </Link>
-            <Link className="impl-cta-secondary" href="#what-we-build">
-              See what&apos;s included
-            </Link>
-          </div>
-          <p className="mt-6 text-sm leading-6 text-white/40">
-            Bring a roadmap — ours or yours.
-          </p>
-
-          <div className="impl-metrics" aria-label="Trust signals">
-            <span>
-              <strong>
-                <CountUp value={40} suffix="+" />
-              </strong>{" "}
-              stacks shipped
-            </span>
-            <span className="impl-metrics-divider" aria-hidden>•</span>
-            <span>
-              <strong>
-                <CountUp value={18} />
-              </strong>{" "}
-              AI agents in production
-            </span>
-            <span className="impl-metrics-divider" aria-hidden>•</span>
-            <span>
-              <strong>2–4</strong> weeks typical build
-            </span>
-          </div>
-        </div>
-      </section>
+      <ServiceHero
+        label="AI Tech Stack Implementation"
+        title="Your roadmap is ready."
+        highlightedTitle="Now let's build it."
+        body="We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one."
+        primaryCta={{ label: "Book an Implementation Call", href: calHref }}
+        secondaryCta={{ label: "See what's included", href: "#what-we-build" }}
+        note="Bring a roadmap — ours or yours."
+        variant="implementation"
+        visual={<LivePipeline />}
+        metrics={[
+          { value: <CountUp value={40} suffix="+" />, label: "stacks shipped" },
+          { value: <CountUp value={18} />, label: "AI agents in production" },
+          { value: "2-4", label: "weeks typical build" },
+        ]}
+      />
 
       <section id="what-we-build" className="impl-shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
@@ -515,6 +493,8 @@ export default function ImplementationPage() {
         </div>
       </section>
 
+      <BuildTimeline />
+
       <section className="impl-shell pb-4 md:pb-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="impl-label">Shipped for operators like you</p>
@@ -534,6 +514,8 @@ export default function ImplementationPage() {
           ))}
         </div>
       </section>
+
+      <StackCalculator ctaHref={calHref} />
 
       <section className="impl-shell py-20 md:py-28">
         <div className="impl-who">
