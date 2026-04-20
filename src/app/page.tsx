@@ -2,6 +2,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import HomepageConstellation from "@/components/HomepageConstellation";
 import DirectoryClient from "@/components/DirectoryClient";
+import HomeSignalField from "@/components/home/HomeSignalField";
+import MatchEngineFrame from "@/components/home/MatchEngineFrame";
+import MatchOutputPreview from "@/components/home/MatchOutputPreview";
+import SignalIntakeRail from "@/components/home/SignalIntakeRail";
 import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 
 export const dynamic = "force-dynamic";
@@ -52,7 +56,36 @@ export default async function HomePage() {
           --home-border: rgba(255,255,255,0.08);
           --home-muted: rgba(255,255,255,0.6);
           --home-dim: rgba(255,255,255,0.4);
+          position: relative;
           overflow: hidden;
+        }
+
+        .home-ramp > section {
+          position: relative;
+          z-index: 1;
+        }
+
+        .home-scroll-progress {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 250;
+          width: 100%;
+          height: 2px;
+          transform-origin: left center;
+          background: linear-gradient(90deg, #814ac8, #df7afe);
+          pointer-events: none;
+        }
+
+        .home-signal-field {
+          position: absolute;
+          inset: 0 auto auto 0;
+          z-index: 0;
+          width: 100%;
+          min-height: 180vh;
+          pointer-events: none;
+          opacity: 0.9;
+          mix-blend-mode: screen;
         }
 
         .home-shell {
@@ -72,6 +105,8 @@ export default async function HomePage() {
           position: relative;
           min-height: calc(100vh - 72px);
           display: flex;
+          flex-direction: column;
+          justify-content: center;
           align-items: center;
           padding: 36px 0 64px;
           background:
@@ -114,6 +149,66 @@ export default async function HomePage() {
           transform: translateX(-50%);
           background: linear-gradient(180deg, rgba(223,122,254,0.72), transparent);
           pointer-events: none;
+        }
+
+        .signal-intake-rail {
+          position: relative;
+          z-index: 2;
+          width: min(980px, calc(100% - 32px));
+          flex-shrink: 0;
+          margin: -18px auto 0;
+          border: 1px solid rgba(223,122,254,0.18);
+          border-radius: 999px;
+          background: rgba(8,8,12,0.68);
+          padding: 10px 14px;
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          overflow: hidden;
+        }
+
+        .signal-intake-line {
+          position: absolute;
+          left: 8%;
+          right: 8%;
+          top: 50%;
+          height: 1px;
+          transform: translateY(-50%);
+          background: linear-gradient(90deg, transparent, rgba(223,122,254,0.4), transparent);
+        }
+
+        .signal-intake-chips {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .signal-intake-chips span {
+          display: inline-flex;
+          align-items: center;
+          min-height: 30px;
+          border: 1px solid rgba(255,255,255,0.11);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.045);
+          color: rgba(255,255,255,0.74);
+          padding: 0 12px;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          animation: signalChipFloat 4.8s ease-in-out infinite;
+          animation-delay: var(--delay);
+        }
+
+        .signal-intake-rail p {
+          position: relative;
+          z-index: 1;
+          margin-top: 8px;
+          color: rgba(255,255,255,0.42);
+          font-size: 11px;
+          text-align: center;
         }
 
         .home-hero-grid {
@@ -382,13 +477,25 @@ export default async function HomePage() {
           position: relative;
           overflow: hidden;
           background:
-            radial-gradient(ellipse 70% 38% at 50% 0%, rgba(129,74,200,0.18), transparent 72%),
+            radial-gradient(ellipse 78% 42% at 50% 0%, rgba(129,74,200,0.25), transparent 72%),
+            linear-gradient(180deg, rgba(129,74,200,0.06), transparent 22%),
             #0d0d0d;
+        }
+
+        .match-table-section::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 2px;
+          height: 140px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, rgba(223,122,254,0.65), transparent);
         }
 
         .match-table-header {
           max-width: 900px;
-          margin: 0 auto 30px;
+          margin: 0 auto 34px;
           padding-top: 64px;
           text-align: center;
         }
@@ -418,11 +525,27 @@ export default async function HomePage() {
         }
 
         .dir-step {
+          position: relative;
+          overflow: hidden;
           border: 1px solid rgba(129,74,200,0.18);
           border-radius: 14px;
           background: rgba(255,255,255,0.02);
           padding: 16px 18px;
           text-align: left;
+        }
+
+        .dir-step::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: -42px;
+          width: 160px;
+          height: 70px;
+          transform: translateX(-50%);
+          background: radial-gradient(ellipse, rgba(129,74,200,0.35), transparent 70%);
+          filter: blur(8px);
+          opacity: 0.25;
+          pointer-events: none;
         }
 
         .dir-step-num {
@@ -446,15 +569,171 @@ export default async function HomePage() {
           }
         }
 
+        .match-engine-frame {
+          position: relative;
+          width: min(1420px, 100%);
+          margin: 0 auto;
+          border: 1px solid rgba(223,122,254,0.18);
+          border-radius: 28px;
+          background:
+            radial-gradient(ellipse 90% 42% at 50% 0%, rgba(129,74,200,0.18), transparent 72%),
+            rgba(255,255,255,0.025);
+          padding: 16px;
+          overflow: hidden;
+        }
+
+        .match-engine-frame::before {
+          content: "";
+          position: absolute;
+          inset: 14px;
+          border: 1px solid rgba(255,255,255,0.045);
+          border-radius: 22px;
+          pointer-events: none;
+        }
+
+        .engine-status-bar {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr);
+          gap: 16px;
+          align-items: center;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background: rgba(0,0,0,0.26);
+          padding: 12px 14px;
+        }
+
+        .engine-status-live {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: rgba(255,255,255,0.72);
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        .engine-status-live span {
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          background: #df7afe;
+          box-shadow: 0 0 20px rgba(223,122,254,0.72);
+          animation: orbPulse 2.2s ease-in-out infinite;
+        }
+
+        .engine-status-stats {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 10px;
+        }
+
+        .engine-status-stats div {
+          border-left: 1px solid rgba(255,255,255,0.08);
+          padding-left: 12px;
+        }
+
+        .engine-status-stats strong {
+          display: block;
+          color: #ffffff;
+          font-size: 15px;
+          font-weight: 800;
+          line-height: 1;
+        }
+
+        .engine-status-stats span {
+          display: block;
+          margin-top: 5px;
+          color: rgba(255,255,255,0.4);
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.09em;
+          text-transform: uppercase;
+        }
+
+        .engine-flow-preview {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: minmax(160px, 0.7fr) minmax(260px, 1fr) minmax(180px, 0.72fr);
+          gap: 14px;
+          align-items: center;
+          padding: 18px 10px 10px;
+        }
+
+        .engine-flow-inputs,
+        .engine-flow-output {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          justify-content: center;
+        }
+
+        .engine-flow-inputs span,
+        .engine-flow-output span {
+          display: inline-flex;
+          min-height: 28px;
+          align-items: center;
+          border: 1px solid rgba(223,122,254,0.16);
+          border-radius: 999px;
+          background: rgba(129,74,200,0.08);
+          color: rgba(255,255,255,0.64);
+          padding: 0 10px;
+          font-size: 11px;
+          font-weight: 700;
+        }
+
+        .engine-flow-preview svg {
+          width: 100%;
+          height: 96px;
+          overflow: visible;
+        }
+
+        .engine-flow-preview path {
+          fill: none;
+          stroke: rgba(223,122,254,0.46);
+          stroke-width: 1.2;
+          stroke-linecap: round;
+          stroke-dasharray: 420;
+          animation: engineFlowDraw 5.8s ease-in-out infinite;
+        }
+
+        .engine-flow-preview path:nth-child(2) {
+          animation-delay: 620ms;
+          opacity: 0.72;
+        }
+
+        .engine-flow-preview path:nth-child(3) {
+          animation-delay: 1180ms;
+          opacity: 0.52;
+        }
+
+        .match-engine-table {
+          position: relative;
+          z-index: 2;
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 20px;
+          background: rgba(0,0,0,0.24);
+          overflow: hidden;
+        }
 
         .home-final {
-          padding: 0 0 88px;
-          background: #000000;
+          padding: 0 0 96px;
+          background:
+            radial-gradient(ellipse 72% 36% at 50% 0%, rgba(129,74,200,0.14), transparent 72%),
+            #000000;
         }
 
         .home-final-panel {
           position: relative;
           overflow: hidden;
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.74fr);
+          gap: clamp(24px, 5vw, 56px);
+          align-items: center;
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           background:
@@ -462,23 +741,25 @@ export default async function HomePage() {
             radial-gradient(ellipse 85% 58% at 50% 0%, rgba(129,74,200,0.45), transparent 70%),
             #0d0d0d;
           padding: clamp(48px, 8vw, 88px) 24px;
-          text-align: center;
+          text-align: left;
         }
 
         .home-final-panel::before {
           content: "";
           position: absolute;
+          z-index: 0;
           left: 50%;
           top: 0;
           width: 2px;
           height: 96px;
           transform: translateX(-50%);
           background: linear-gradient(180deg, #df7afe, transparent);
+          pointer-events: none;
         }
 
         .home-final-panel h2 {
           position: relative;
-          margin: 0 auto;
+          margin: 0;
           max-width: 820px;
           color: #ffffff;
           font-size: clamp(36px, 6vw, 72px);
@@ -489,16 +770,170 @@ export default async function HomePage() {
 
         .home-final-panel p {
           position: relative;
-          margin: 22px auto 0;
+          margin: 22px 0 0;
           max-width: 660px;
           color: rgba(255,255,255,0.62);
           font-size: 16px;
           line-height: 1.75;
         }
 
+        .home-final-copy {
+          position: relative;
+          z-index: 2;
+        }
+
+        .match-output-preview {
+          position: relative;
+          z-index: 2;
+        }
+
+        .match-output-card {
+          position: relative;
+          overflow: hidden;
+          min-height: 390px;
+          border: 1px solid rgba(223,122,254,0.24);
+          border-radius: 22px;
+          background:
+            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(129,74,200,0.24), transparent 72%),
+            rgba(255,255,255,0.04);
+          padding: 20px;
+        }
+
+        .match-output-card::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: -80px;
+          width: 240px;
+          height: 140px;
+          transform: translateX(-50%);
+          background: radial-gradient(ellipse, rgba(223,122,254,0.52), transparent 70%);
+          filter: blur(10px);
+          opacity: 0.44;
+        }
+
+        .match-output-header {
+          position: relative;
+          display: flex;
+          gap: 7px;
+        }
+
+        .match-output-header span {
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.18);
+        }
+
+        .match-output-card p {
+          position: relative;
+          margin-top: 24px;
+          color: rgba(223,122,254,0.84);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.13em;
+          text-transform: uppercase;
+        }
+
+        .match-output-blueprint {
+          position: relative;
+          display: grid;
+          place-items: center;
+          min-height: 190px;
+          margin-top: 16px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 16px;
+          background:
+            linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+          background-size: 18px 18px;
+        }
+
+        .match-output-blueprint svg {
+          width: min(260px, 86%);
+          height: auto;
+        }
+
+        .match-output-blueprint path,
+        .match-output-blueprint circle {
+          fill: none;
+          stroke: rgba(223,122,254,0.74);
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          filter: drop-shadow(0 0 7px rgba(223,122,254,0.36));
+        }
+
+        .match-output-blueprint circle {
+          fill: rgba(0,0,0,0.5);
+          animation: outputNodePulse 3.2s ease-in-out infinite;
+        }
+
+        .match-output-lines {
+          display: grid;
+          gap: 10px;
+          margin-top: 18px;
+        }
+
+        .match-output-lines span {
+          height: 8px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.1);
+        }
+
+        .match-output-lines span:nth-child(1) {
+          width: 86%;
+        }
+
+        .match-output-lines span:nth-child(2) {
+          width: 68%;
+        }
+
+        .match-output-lines span:nth-child(3) {
+          width: 76%;
+        }
+
+        .match-output-chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          justify-content: center;
+          margin-top: 14px;
+        }
+
+        .match-output-chips span {
+          border: 1px solid rgba(223,122,254,0.18);
+          border-radius: 999px;
+          background: rgba(129,74,200,0.1);
+          color: rgba(255,255,255,0.7);
+          padding: 8px 12px;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        @keyframes signalChipFloat {
+          0%, 100% { transform: translateY(0); border-color: rgba(255,255,255,0.11); }
+          50%      { transform: translateY(-3px); border-color: rgba(223,122,254,0.34); }
+        }
+
+        @keyframes engineFlowDraw {
+          0%   { stroke-dashoffset: 420; opacity: 0; }
+          18%  { opacity: 0.85; }
+          58%  { stroke-dashoffset: 0; opacity: 0.55; }
+          100% { stroke-dashoffset: -420; opacity: 0; }
+        }
+
+        @keyframes outputNodePulse {
+          0%, 100% { opacity: 0.68; transform: scale(1); transform-origin: center; }
+          50%      { opacity: 1; transform: scale(1.08); transform-origin: center; }
+        }
+
         @media (max-width: 1080px) {
           .home-hero-grid,
-          .principles-head {
+          .principles-head,
+          .home-final-panel {
             grid-template-columns: 1fr;
           }
 
@@ -518,6 +953,17 @@ export default async function HomePage() {
             min-height: 460px;
           }
 
+          .home-final-panel,
+          .home-final-panel p {
+            text-align: center;
+          }
+
+          .home-final-panel p,
+          .home-final-panel h2 {
+            margin-left: auto;
+            margin-right: auto;
+          }
+
         }
 
         @media (max-width: 720px) {
@@ -531,7 +977,8 @@ export default async function HomePage() {
           }
 
           .home-hero-title {
-            font-size: clamp(46px, 16vw, 76px);
+            font-size: clamp(42px, 13vw, 62px);
+            line-height: 1;
           }
 
           .home-hero-body {
@@ -576,8 +1023,62 @@ export default async function HomePage() {
           .table-proof {
             border-radius: 18px;
           }
+
+          .signal-intake-rail {
+            margin-top: 10px;
+            border-radius: 22px;
+          }
+
+          .engine-status-bar,
+          .engine-flow-preview {
+            grid-template-columns: 1fr;
+          }
+
+          .engine-status-stats {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .engine-flow-preview svg {
+            height: 56px;
+          }
+
+          .match-engine-frame {
+            padding: 10px;
+            border-radius: 22px;
+          }
+
+          .match-engine-table {
+            border-radius: 16px;
+          }
+
+          .home-final-panel {
+            border-radius: 22px;
+          }
+
+          .match-output-card {
+            min-height: 320px;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .home-scroll-progress {
+            display: none;
+          }
+
+          .signal-intake-chips span,
+          .engine-flow-preview path,
+          .match-output-blueprint circle {
+            animation: none !important;
+          }
+
+          .engine-flow-preview path {
+            stroke-dasharray: none;
+            opacity: 0.55;
+          }
         }
       ` }} />
+
+      <HomeSignalField />
 
       <section className="home-hero">
         <div className="home-hero-noise" aria-hidden="true" />
@@ -602,15 +1103,20 @@ export default async function HomePage() {
 
           <HomepageConstellation />
         </div>
+        <SignalIntakeRail />
       </section>
 
 
       <section id="match-tools" className="match-table-section">
         <div className="px-4 pb-12">
           <div className="match-table-header">
+            <p className="home-label">AI Match Engine console</p>
             <h2 className="home-section-title">
-              275 AI tools. Find what works for you.
+              {tools.length.toLocaleString("en-US")} AI tools. Find what works for you.
             </h2>
+            <p className="home-section-body">
+              The table is still yours to explore. The engine layer helps you narrow the field by fit, not noise.
+            </p>
             <div className="dir-steps-grid">
               <div className="dir-step">
                 <span className="dir-step-num">01</span>
@@ -630,7 +1136,9 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
+          <MatchEngineFrame toolCount={tools.length} categoryCount={categories.length}>
+            <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
+          </MatchEngineFrame>
         </div>
       </section>
 
@@ -638,15 +1146,19 @@ export default async function HomePage() {
       <section className="home-final">
         <div className="home-shell">
           <div className="home-final-panel">
-            <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
-            <p>
-              Don&apos;t have time to filter 275 tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.
-            </p>
-            <div className="home-cta-row" style={{ justifyContent: "center" }}>
-              <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
-                Start Free AI Match
-              </Link>
+            <div className="home-final-copy">
+              <p className="home-label">Match output</p>
+              <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
+              <p>
+                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.
+              </p>
+              <div className="home-cta-row">
+                <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
+                  Start Free AI Match
+                </Link>
+              </div>
             </div>
+            <MatchOutputPreview />
           </div>
         </div>
       </section>
