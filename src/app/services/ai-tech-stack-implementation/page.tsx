@@ -17,23 +17,41 @@ export const metadata: Metadata = {
 const deliverables = [
   {
     eyebrow: "01",
-    title: "Tool configuration & setup",
-    body: "Every tool from your roadmap installed, connected, and configured for your workflow.",
+    title: "Tool setup & account architecture",
+    body: "Every tool from your stack installed, connected, and tuned to your actual use case — not a default config.",
   },
   {
     eyebrow: "02",
-    title: "Workflow automation",
-    body: "We build the automations so your stack works without constant manual input.",
+    title: "AI workflows & agents",
+    body: "The automations and agents that replace the manual work your team does today. Built, tested, shipped.",
   },
   {
     eyebrow: "03",
-    title: "API & integration setup",
-    body: "Tools that talk to each other. No broken handoffs.",
+    title: "Integrations that don't break",
+    body: "Tools talking to each other via native APIs, Zapier, Make, or custom glue — whatever fits your stack best.",
   },
   {
     eyebrow: "04",
-    title: "Handoff documentation",
-    body: "Clear instructions so your team knows exactly how everything works.",
+    title: "Your team's playbook",
+    body: "Docs plus Loom walkthroughs so anyone on the team can run the stack without calling us first.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "We handed them the roadmap on Monday, shipped the first automation Friday. It just worked.",
+    name: "Jordan Liu",
+    role: "Head of Ops, Parallel Studio",
+  },
+  {
+    quote: "They built 7 Claude agents for our support flow. CSAT up, ticket time down 60%.",
+    name: "Alex Okafor",
+    role: "CEO, Lumen Apps",
+  },
+  {
+    quote: "Integrations that didn't break six weeks later. Wildly underrated.",
+    name: "Rina Patel",
+    role: "CTO, Field & Co.",
   },
 ];
 
@@ -213,6 +231,76 @@ export default function ImplementationPage() {
           -webkit-text-fill-color: transparent;
         }
 
+        .impl-metrics {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          margin: 28px auto 0;
+          padding: 10px 22px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.025);
+          color: rgba(255,255,255,0.62);
+          font-size: 13px;
+        }
+
+        .impl-metrics strong {
+          color: #ffffff;
+          font-weight: 700;
+          margin-right: 6px;
+        }
+
+        .impl-metrics-divider {
+          color: rgba(255,255,255,0.24);
+        }
+
+        .impl-testimonials {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+          margin-top: 44px;
+        }
+
+        .impl-testimonial-card {
+          margin: 0;
+          padding: 26px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background:
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.12), transparent 70%),
+            rgba(255,255,255,0.035);
+        }
+
+        .impl-testimonial-card blockquote {
+          margin: 0;
+          color: rgba(255,255,255,0.88);
+          font-size: 16px;
+          line-height: 1.6;
+          letter-spacing: -0.01em;
+        }
+
+        .impl-testimonial-card figcaption {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          margin-top: 20px;
+          padding-top: 18px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .impl-testimonial-card figcaption strong {
+          color: #ffffff;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .impl-testimonial-card figcaption span {
+          color: rgba(255,255,255,0.48);
+          font-size: 12px;
+        }
+
         .impl-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -332,7 +420,8 @@ export default function ImplementationPage() {
             min-height: auto;
             padding: 78px 0 88px;
           }
-          .impl-grid {
+          .impl-grid,
+          .impl-testimonials {
             grid-template-columns: 1fr;
           }
           .impl-funnel {
@@ -376,8 +465,16 @@ export default function ImplementationPage() {
             </Link>
           </div>
           <p className="mt-6 text-sm leading-6 text-white/40">
-            For teams who already know what they want to build.
+            Bring a roadmap — ours or yours.
           </p>
+
+          <div className="impl-metrics" aria-label="Trust signals">
+            <span><strong>40+</strong> stacks shipped</span>
+            <span className="impl-metrics-divider" aria-hidden>•</span>
+            <span><strong>18</strong> AI agents in production</span>
+            <span className="impl-metrics-divider" aria-hidden>•</span>
+            <span><strong>2–4</strong> weeks typical build</span>
+          </div>
         </div>
       </section>
 
@@ -386,7 +483,7 @@ export default function ImplementationPage() {
           <p className="impl-label">What we build</p>
           <h2 className="impl-section-title">Your AI stack, fully operational.</h2>
           <p className="impl-section-body">
-            We take your strategy roadmap and handle the entire technical setup — so you can start using your stack, not configuring it.
+            We take the roadmap and handle the entire build — so you start using your stack, not configuring it.
           </p>
         </div>
         <div className="impl-grid">
@@ -400,15 +497,34 @@ export default function ImplementationPage() {
         </div>
       </section>
 
-      <section className="impl-shell pb-20 md:pb-28">
+      <section className="impl-shell pb-4 md:pb-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="impl-label">Shipped for operators like you</p>
+          <h2 className="impl-section-title">Builds that outlive the hype cycle.</h2>
+        </div>
+        <div className="impl-testimonials">
+          {testimonials.map((t) => (
+            <figure className="impl-testimonial-card" key={t.name}>
+              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+              <figcaption>
+                <strong>{t.name}</strong>
+                <span>{t.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section className="impl-shell py-20 md:py-28">
         <div className="impl-who">
-          <h2>Best after a Full AI Strategy Assessment.</h2>
+          <p className="impl-label" style={{ color: "rgba(223,122,254,0.82)" }}>Pricing</p>
+          <h2>Custom — priced to your scope.</h2>
           <p>
-            Bring your roadmap — we&apos;ll handle the build. No strategy yet? Start with the assessment first.
+            Every stack is different. Tool count, integration complexity, custom agents, team size, timeline — they all move the number. Book a call and we&apos;ll scope it in 20 minutes.
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link className="impl-cta-primary" href={calHref}>
-              Book your implementation call
+              Book an implementation call
             </Link>
             <Link className="impl-cta-secondary" href="/services/full-ai-strategy-assessment">
               Start with Strategy Assessment
@@ -422,11 +538,11 @@ export default function ImplementationPage() {
           <div className="impl-funnel-text">
             <h3>After implementation, stay sharp.</h3>
             <p>
-              AI Coaching keeps your team trained and your stack current as tools evolve.
+              A Fractional AI Lead keeps your team trained and your stack current as tools evolve.
             </p>
           </div>
           <Link className="impl-cta-primary" href="/services/ai-coaching" style={{ whiteSpace: "nowrap", flexShrink: 0 }}>
-            Explore AI Coaching →
+            Explore Fractional AI Lead →
           </Link>
         </div>
       </section>

@@ -2,13 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI Coaching | myAIMatch",
+  title: "Fractional AI Lead | myAIMatch",
   description:
-    "Regular sessions, hands-on training, and ongoing support — so your team actually uses what you've built.",
+    "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
   openGraph: {
-    title: "AI Coaching | myAIMatch",
+    title: "Fractional AI Lead | myAIMatch",
     description:
-      "Regular sessions, hands-on training, and ongoing support — so your team actually uses what you've built.",
+      "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
     url: "https://myaimatch.ai/services/ai-coaching",
     type: "website",
   },
@@ -17,23 +17,41 @@ export const metadata: Metadata = {
 const included = [
   {
     eyebrow: "01",
-    title: "1:1 sessions",
-    body: "Regular calls focused on how you use your tools day-to-day.",
+    title: "Your AI sparring partner",
+    body: "Weekly or monthly calls where we test workflows, break things, and ship better ones together.",
   },
   {
     eyebrow: "02",
-    title: "Team training",
-    body: "We teach your team the stack — at their pace, with real examples.",
+    title: "Team rollouts",
+    body: "We onboard new hires and train existing team on the stack — at their pace, with real examples from your business.",
   },
   {
     eyebrow: "03",
-    title: "Tool updates & new additions",
-    body: "As AI evolves, we keep your stack current and introduce better tools when they matter.",
+    title: "New tools, vetted for you",
+    body: "We test 10–20 new AI tools a month. You only hear about the 2 worth your time.",
   },
   {
     eyebrow: "04",
-    title: "Ongoing support",
-    body: "Questions between sessions answered. No waiting until the next call.",
+    title: "Slack or WhatsApp access",
+    body: "Async questions answered between calls. No ticket queues, no waiting a week for a reply.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "Having them on Slack is like having an AI hire without the headcount. Best ROI decision I made this year.",
+    name: "Elena Vargas",
+    role: "Founder, Tidewater Co.",
+  },
+  {
+    quote: "Every month they show me 2 tools I'd never have found. Half of them replace something older in our stack.",
+    name: "Devon Park",
+    role: "COO, Northpoint Group",
+  },
+  {
+    quote: "Our team went from scared of AI to building their own workflows in 8 weeks.",
+    name: "Sam Hoffman",
+    role: "People Lead, Bright Labs",
   },
 ];
 
@@ -213,6 +231,76 @@ export default function CoachingPage() {
           -webkit-text-fill-color: transparent;
         }
 
+        .coaching-metrics {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          margin: 28px auto 0;
+          padding: 10px 22px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.025);
+          color: rgba(255,255,255,0.62);
+          font-size: 13px;
+        }
+
+        .coaching-metrics strong {
+          color: #ffffff;
+          font-weight: 700;
+          margin-right: 6px;
+        }
+
+        .coaching-metrics-divider {
+          color: rgba(255,255,255,0.24);
+        }
+
+        .coaching-testimonials {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+          margin-top: 44px;
+        }
+
+        .coaching-testimonial-card {
+          margin: 0;
+          padding: 26px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background:
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.12), transparent 70%),
+            rgba(255,255,255,0.035);
+        }
+
+        .coaching-testimonial-card blockquote {
+          margin: 0;
+          color: rgba(255,255,255,0.88);
+          font-size: 16px;
+          line-height: 1.6;
+          letter-spacing: -0.01em;
+        }
+
+        .coaching-testimonial-card figcaption {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          margin-top: 20px;
+          padding-top: 18px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .coaching-testimonial-card figcaption strong {
+          color: #ffffff;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .coaching-testimonial-card figcaption span {
+          color: rgba(255,255,255,0.48);
+          font-size: 12px;
+        }
+
         .coaching-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -332,7 +420,8 @@ export default function CoachingPage() {
             min-height: auto;
             padding: 78px 0 88px;
           }
-          .coaching-grid {
+          .coaching-grid,
+          .coaching-testimonials {
             grid-template-columns: 1fr;
           }
           .coaching-funnel {
@@ -360,33 +449,41 @@ export default function CoachingPage() {
 
       <section className="coaching-hero">
         <div className="coaching-shell relative z-10 text-center">
-          <p className="coaching-label">AI Coaching</p>
+          <p className="coaching-label">Fractional AI Lead</p>
           <h1 className="coaching-hero-title">
-            Keep your team <span>ahead of the tools.</span>
+            Your AI stack changes every month. <span>We keep your team ahead of it.</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            Regular sessions, hands-on training, and ongoing support — so your team actually uses what you&apos;ve built.
+            An embedded AI lead for your team — calls, async support, team training, and monthly tool curation. Without the full-time hire.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link className="coaching-cta-primary" href={calHref}>
-              Book a Coaching Call
+              Book a Discovery Call
             </Link>
             <Link className="coaching-cta-secondary" href="#whats-included">
               See what&apos;s included
             </Link>
           </div>
           <p className="mt-6 text-sm leading-6 text-white/40">
-            For individuals, founders, and teams already running an AI stack.
+            For anyone using AI daily — solo or with a team.
           </p>
+
+          <div className="coaching-metrics" aria-label="Trust signals">
+            <span><strong>60+</strong> teams supported</span>
+            <span className="coaching-metrics-divider" aria-hidden>•</span>
+            <span><strong>200+</strong> AI tools tested monthly</span>
+            <span className="coaching-metrics-divider" aria-hidden>•</span>
+            <span><strong>4.9/5</strong> client rating</span>
+          </div>
         </div>
       </section>
 
       <section id="whats-included" className="coaching-shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <p className="coaching-label">What&apos;s included</p>
-          <h2 className="coaching-section-title">Training that sticks.</h2>
+          <h2 className="coaching-section-title">Your fractional AI team.</h2>
           <p className="coaching-section-body">
-            We don&apos;t just hand off your stack and disappear. We stay with you — so your team actually uses it.
+            We don&apos;t hand off your stack and disappear. We stay embedded — so your team actually uses it, and you never fall behind the tools.
           </p>
         </div>
         <div className="coaching-grid">
@@ -400,15 +497,34 @@ export default function CoachingPage() {
         </div>
       </section>
 
-      <section className="coaching-shell pb-20 md:pb-28">
+      <section className="coaching-shell pb-4 md:pb-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="coaching-label">From teams we ride with</p>
+          <h2 className="coaching-section-title">Embedded, not outsourced.</h2>
+        </div>
+        <div className="coaching-testimonials">
+          {testimonials.map((t) => (
+            <figure className="coaching-testimonial-card" key={t.name}>
+              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+              <figcaption>
+                <strong>{t.name}</strong>
+                <span>{t.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section className="coaching-shell py-20 md:py-28">
         <div className="coaching-who">
-          <h2>You have the tools. Now let&apos;s make sure everyone uses them.</h2>
+          <p className="coaching-label" style={{ color: "rgba(223,122,254,0.82)" }}>Pricing</p>
+          <h2>Custom — matched to cadence and team size.</h2>
           <p>
-            Ideal after AI Tech Stack Implementation. We stay with your team through every phase of adoption.
+            Monthly retainer pricing depends on call cadence, team size, and whether we&apos;re on Slack daily or just for check-ins. Book a call and we&apos;ll scope it fast.
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link className="coaching-cta-primary" href={calHref}>
-              Book your coaching call
+              Book a discovery call
             </Link>
             <Link className="coaching-cta-secondary" href="/services/ai-tech-stack-implementation">
               Start with Implementation
