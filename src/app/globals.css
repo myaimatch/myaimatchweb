@@ -352,12 +352,12 @@
 
 .service-hero-title {
   margin: 0 auto;
-  max-width: 980px;
+  max-width: 920px;
   color: #ffffff;
-  font-size: clamp(48px, 8.4vw, 112px);
+  font-size: clamp(44px, 6.8vw, 88px);
   font-weight: 800;
   letter-spacing: -0.045em;
-  line-height: 0.93;
+  line-height: 0.98;
 }
 
 .service-hero-title span {
@@ -366,6 +366,16 @@
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+}
+
+.service-hero--lead .service-hero-visual {
+  opacity: 1;
+}
+
+.service-hero--lead .service-hero-visual::after {
+  background:
+    radial-gradient(ellipse 54% 36% at 50% 52%, transparent 0%, rgba(0,0,0,0.12) 54%, rgba(0,0,0,0.66) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.42));
 }
 
 .service-hero-metrics {
@@ -499,7 +509,7 @@
 
 @media (min-width: 981px) {
   .build-timeline-section {
-    min-height: 125vh;
+    min-height: 108vh;
   }
 
   .build-timeline-stage {
@@ -879,6 +889,14 @@
   mix-blend-mode: screen;
 }
 
+.global-cursor-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 240;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
 .service-grain {
   position: fixed;
   inset: -20%;
@@ -978,6 +996,7 @@
     animation: none !important;
   }
   .service-cursor-trail,
+  .global-cursor-trail,
   .service-scroll-progress {
     display: none;
   }

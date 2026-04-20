@@ -68,7 +68,7 @@ export default function BuildTimeline() {
   }, [reduced]);
 
   return (
-    <section ref={sectionRef} className="service-shell build-timeline-section py-20 md:py-28">
+    <section ref={sectionRef} className="service-shell build-timeline-section py-16 md:py-20">
       <div className="mx-auto max-w-3xl text-center">
         <p className="impl-label">How a build goes</p>
         <h2 className="impl-section-title">Four weeks from roadmap to working system.</h2>

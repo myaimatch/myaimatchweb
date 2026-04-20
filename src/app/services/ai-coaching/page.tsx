@@ -1,15 +1,12 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { fetchAllTools } from "@/lib/airtable";
 import CadenceSelector from "@/components/services/CadenceSelector";
 import CountUp from "@/components/services/CountUp";
-import JourneyIndicator from "@/components/services/JourneyIndicator";
 import OrbitalCore from "@/components/services/OrbitalCore";
 import Reveal from "@/components/services/Reveal";
 import ServiceHero from "@/components/services/ServiceHero";
 import TiltCard from "@/components/services/TiltCard";
 import ToolTicker from "@/components/services/ToolTicker";
-import WeekInTheLife from "@/components/services/WeekInTheLife";
 
 export const metadata: Metadata = {
   title: "Fractional AI Lead | myAIMatch",
@@ -473,12 +470,10 @@ export default async function CoachingPage() {
 
       <ServiceHero
         label="Fractional AI Lead"
-        title="Your AI stack changes every month."
-        highlightedTitle="We keep your team ahead of it."
+        title="Keep your AI stack current."
+        highlightedTitle="Without hiring full-time."
         body="An embedded AI lead for your team — calls, async support, team training, and monthly tool curation. Without the full-time hire."
         primaryCta={{ label: "Book a Discovery Call", href: calHref }}
-        secondaryCta={{ label: "See what's included", href: "#whats-included" }}
-        note="For anyone using AI daily — solo or with a team."
         variant="lead"
         visual={<OrbitalCore />}
         metrics={[
@@ -511,8 +506,6 @@ export default async function CoachingPage() {
         </div>
       </section>
 
-      <WeekInTheLife />
-
       <section className="coaching-shell pb-4 md:pb-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="coaching-label">From teams we ride with</p>
@@ -534,22 +527,6 @@ export default async function CoachingPage() {
       </section>
 
       <CadenceSelector ctaHref={calHref} />
-
-      <section className="coaching-shell pb-20 md:pb-28">
-        <div className="coaching-funnel">
-          <div className="coaching-funnel-text">
-            <h3>New to AI tools? Start here.</h3>
-            <p>
-              Use the free AI Match Engine to discover what tools fit your workflow before committing.
-            </p>
-          </div>
-          <Link className="coaching-cta-primary" href="/assessment" style={{ whiteSpace: "nowrap", flexShrink: 0 }}>
-            Try the AI Match Engine — Free →
-          </Link>
-        </div>
-      </section>
-
-      <JourneyIndicator />
     </div>
   );
 }

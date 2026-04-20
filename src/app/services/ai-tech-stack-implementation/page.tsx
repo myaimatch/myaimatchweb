@@ -1,8 +1,6 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import BuildTimeline from "@/components/services/BuildTimeline";
 import CountUp from "@/components/services/CountUp";
-import JourneyIndicator from "@/components/services/JourneyIndicator";
 import LivePipeline from "@/components/services/LivePipeline";
 import Reveal from "@/components/services/Reveal";
 import ServiceHero from "@/components/services/ServiceHero";
@@ -461,8 +459,6 @@ export default function ImplementationPage() {
         highlightedTitle="Now let's build it."
         body="We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one."
         primaryCta={{ label: "Book an Implementation Call", href: calHref }}
-        secondaryCta={{ label: "See what's included", href: "#what-we-build" }}
-        note="Bring a roadmap — ours or yours."
         variant="implementation"
         visual={<LivePipeline />}
         metrics={[
@@ -516,40 +512,6 @@ export default function ImplementationPage() {
       </section>
 
       <StackCalculator ctaHref={calHref} />
-
-      <section className="impl-shell py-20 md:py-28">
-        <div className="impl-who">
-          <p className="impl-label" style={{ color: "rgba(223,122,254,0.82)" }}>Pricing</p>
-          <h2>Custom — priced to your scope.</h2>
-          <p>
-            Every stack is different. Tool count, integration complexity, custom agents, team size, timeline — they all move the number. Book a call and we&apos;ll scope it in 20 minutes.
-          </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="impl-cta-primary" href={calHref}>
-              Book an implementation call
-            </Link>
-            <Link className="impl-cta-secondary" href="/services/full-ai-strategy-assessment">
-              Start with Strategy Assessment
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="impl-shell pb-20 md:pb-28">
-        <div className="impl-funnel">
-          <div className="impl-funnel-text">
-            <h3>After implementation, stay sharp.</h3>
-            <p>
-              A Fractional AI Lead keeps your team trained and your stack current as tools evolve.
-            </p>
-          </div>
-          <Link className="impl-cta-primary" href="/services/ai-coaching" style={{ whiteSpace: "nowrap", flexShrink: 0 }}>
-            Explore Fractional AI Lead →
-          </Link>
-        </div>
-      </section>
-
-      <JourneyIndicator />
     </div>
   );
 }

@@ -5,7 +5,6 @@ import DirectoryClient from "@/components/DirectoryClient";
 import HomeSignalField from "@/components/home/HomeSignalField";
 import MatchEngineFrame from "@/components/home/MatchEngineFrame";
 import MatchOutputPreview from "@/components/home/MatchOutputPreview";
-import SignalIntakeRail from "@/components/home/SignalIntakeRail";
 import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 
 export const dynamic = "force-dynamic";
@@ -149,66 +148,6 @@ export default async function HomePage() {
           transform: translateX(-50%);
           background: linear-gradient(180deg, rgba(223,122,254,0.72), transparent);
           pointer-events: none;
-        }
-
-        .signal-intake-rail {
-          position: relative;
-          z-index: 2;
-          width: min(980px, calc(100% - 32px));
-          flex-shrink: 0;
-          margin: -18px auto 0;
-          border: 1px solid rgba(223,122,254,0.18);
-          border-radius: 999px;
-          background: rgba(8,8,12,0.68);
-          padding: 10px 14px;
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          overflow: hidden;
-        }
-
-        .signal-intake-line {
-          position: absolute;
-          left: 8%;
-          right: 8%;
-          top: 50%;
-          height: 1px;
-          transform: translateY(-50%);
-          background: linear-gradient(90deg, transparent, rgba(223,122,254,0.4), transparent);
-        }
-
-        .signal-intake-chips {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 8px;
-        }
-
-        .signal-intake-chips span {
-          display: inline-flex;
-          align-items: center;
-          min-height: 30px;
-          border: 1px solid rgba(255,255,255,0.11);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.045);
-          color: rgba(255,255,255,0.74);
-          padding: 0 12px;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          animation: signalChipFloat 4.8s ease-in-out infinite;
-          animation-delay: var(--delay);
-        }
-
-        .signal-intake-rail p {
-          position: relative;
-          z-index: 1;
-          margin-top: 8px;
-          color: rgba(255,255,255,0.42);
-          font-size: 11px;
-          text-align: center;
         }
 
         .home-hero-grid {
@@ -595,8 +534,8 @@ export default async function HomePage() {
           position: relative;
           z-index: 2;
           display: grid;
-          grid-template-columns: auto minmax(0, 1fr);
-          gap: 16px;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
           align-items: center;
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 18px;
@@ -608,6 +547,9 @@ export default async function HomePage() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
+          justify-content: center;
+          min-height: 56px;
+          border-right: 1px solid rgba(255,255,255,0.08);
           color: rgba(255,255,255,0.72);
           font-size: 11px;
           font-weight: 800;
@@ -625,26 +567,20 @@ export default async function HomePage() {
           animation: orbPulse 2.2s ease-in-out infinite;
         }
 
-        .engine-status-stats {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 10px;
+        .engine-status-count {
+          min-height: 56px;
+          text-align: center;
         }
 
-        .engine-status-stats div {
-          border-left: 1px solid rgba(255,255,255,0.08);
-          padding-left: 12px;
-        }
-
-        .engine-status-stats strong {
+        .engine-status-count strong {
           display: block;
           color: #ffffff;
-          font-size: 15px;
+          font-size: 22px;
           font-weight: 800;
-          line-height: 1;
+          line-height: 1.1;
         }
 
-        .engine-status-stats span {
+        .engine-status-count span {
           display: block;
           margin-top: 5px;
           color: rgba(255,255,255,0.4);
@@ -657,45 +593,21 @@ export default async function HomePage() {
         .engine-flow-preview {
           position: relative;
           z-index: 1;
-          display: grid;
-          grid-template-columns: minmax(160px, 0.7fr) minmax(260px, 1fr) minmax(180px, 0.72fr);
-          gap: 14px;
-          align-items: center;
-          padding: 18px 10px 10px;
-        }
-
-        .engine-flow-inputs,
-        .engine-flow-output {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          justify-content: center;
-        }
-
-        .engine-flow-inputs span,
-        .engine-flow-output span {
-          display: inline-flex;
-          min-height: 28px;
-          align-items: center;
-          border: 1px solid rgba(223,122,254,0.16);
-          border-radius: 999px;
-          background: rgba(129,74,200,0.08);
-          color: rgba(255,255,255,0.64);
-          padding: 0 10px;
-          font-size: 11px;
-          font-weight: 700;
+          height: 112px;
+          margin: 0 8px -10px;
+          pointer-events: none;
         }
 
         .engine-flow-preview svg {
           width: 100%;
-          height: 96px;
+          height: 100%;
           overflow: visible;
         }
 
         .engine-flow-preview path {
           fill: none;
-          stroke: rgba(223,122,254,0.46);
-          stroke-width: 1.2;
+          stroke: rgba(223,122,254,0.5);
+          stroke-width: 1.4;
           stroke-linecap: round;
           stroke-dasharray: 420;
           animation: engineFlowDraw 5.8s ease-in-out infinite;
@@ -893,31 +805,6 @@ export default async function HomePage() {
           width: 76%;
         }
 
-        .match-output-chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          justify-content: center;
-          margin-top: 14px;
-        }
-
-        .match-output-chips span {
-          border: 1px solid rgba(223,122,254,0.18);
-          border-radius: 999px;
-          background: rgba(129,74,200,0.1);
-          color: rgba(255,255,255,0.7);
-          padding: 8px 12px;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-
-        @keyframes signalChipFloat {
-          0%, 100% { transform: translateY(0); border-color: rgba(255,255,255,0.11); }
-          50%      { transform: translateY(-3px); border-color: rgba(223,122,254,0.34); }
-        }
-
         @keyframes engineFlowDraw {
           0%   { stroke-dashoffset: 420; opacity: 0; }
           18%  { opacity: 0.85; }
@@ -1024,22 +911,17 @@ export default async function HomePage() {
             border-radius: 18px;
           }
 
-          .signal-intake-rail {
-            margin-top: 10px;
-            border-radius: 22px;
-          }
-
-          .engine-status-bar,
-          .engine-flow-preview {
+          .engine-status-bar {
             grid-template-columns: 1fr;
           }
 
-          .engine-status-stats {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+          .engine-status-live {
+            border-right: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
           }
 
           .engine-flow-preview svg {
-            height: 56px;
+            height: 88px;
           }
 
           .match-engine-frame {
@@ -1065,7 +947,6 @@ export default async function HomePage() {
             display: none;
           }
 
-          .signal-intake-chips span,
           .engine-flow-preview path,
           .match-output-blueprint circle {
             animation: none !important;
@@ -1103,20 +984,15 @@ export default async function HomePage() {
 
           <HomepageConstellation />
         </div>
-        <SignalIntakeRail />
       </section>
 
 
       <section id="match-tools" className="match-table-section">
         <div className="px-4 pb-12">
           <div className="match-table-header">
-            <p className="home-label">AI Match Engine console</p>
             <h2 className="home-section-title">
               {tools.length.toLocaleString("en-US")} AI tools. Find what works for you.
             </h2>
-            <p className="home-section-body">
-              The table is still yours to explore. The engine layer helps you narrow the field by fit, not noise.
-            </p>
             <div className="dir-steps-grid">
               <div className="dir-step">
                 <span className="dir-step-num">01</span>
@@ -1136,7 +1012,7 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          <MatchEngineFrame toolCount={tools.length} categoryCount={categories.length}>
+          <MatchEngineFrame toolCount={tools.length}>
             <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
           </MatchEngineFrame>
         </div>
@@ -1147,7 +1023,6 @@ export default async function HomePage() {
         <div className="home-shell">
           <div className="home-final-panel">
             <div className="home-final-copy">
-              <p className="home-label">Match output</p>
               <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
               <p>
                 Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.

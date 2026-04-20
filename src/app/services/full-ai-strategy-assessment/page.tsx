@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import CountUp from "@/components/services/CountUp";
 import BeforeAfterStack from "@/components/services/BeforeAfterStack";
 import BlueprintDiagram from "@/components/services/BlueprintDiagram";
-import JourneyIndicator from "@/components/services/JourneyIndicator";
 import Reveal from "@/components/services/Reveal";
 import ServiceHero from "@/components/services/ServiceHero";
 import StackConstellation from "@/components/services/StackConstellation";
@@ -677,11 +676,10 @@ export default function StrategyAssessmentPage() {
 
       <ServiceHero
         label="Full AI Strategy Assessment"
-        title="Stop guessing which AI tools to use."
-        highlightedTitle="Get a stack built for how you actually work."
+        title="Get your AI stack roadmap."
+        highlightedTitle="Built around how you work."
         body="A paid working session where we map your workflows and hand you the stack — the exact tools, the order to set them up, and what to ignore. No generic lists."
         primaryCta={{ label: "Book Your Strategy Session", href: strategyBookingHref }}
-        secondaryCta={{ label: "Use the AI Match Engine", href: "/#match-tools" }}
         variant="strategy"
         visual={<StackConstellation />}
         metrics={[
@@ -699,8 +697,8 @@ export default function StrategyAssessmentPage() {
               body: "No more tab overload. Just the stack that fits your role and how you work.",
             },
             {
-              title: "Know what to ship this week, month, quarter",
-              body: "A phased plan with sequence — not a 30-item to-do list.",
+              title: "Know what to set up first",
+              body: "A simple order of operations: what to configure now, what can wait, and what to ignore.",
             },
             {
               title: "Leave with a stack your team can execute",
@@ -790,33 +788,6 @@ export default function StrategyAssessmentPage() {
         </div>
       </section>
 
-      <section className="services-shell pb-20 md:pb-28">
-        <div className="next-services-panel">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="services-label">After the roadmap</p>
-            <h2 className="services-section-title">Your roadmap is clear. Now we can help you set it up.</h2>
-            <p className="services-section-body">
-              After the assessment, you know the priorities, tools, and implementation order. The natural next step is setup: configuring the stack, connecting workflows, and turning the plan into a working system.
-            </p>
-          </div>
-          <div className="next-services-grid">
-            <Link href="/services/ai-tech-stack-implementation" className="next-service-card primary">
-              <p className="next-service-label">Recommended next step</p>
-              <h3>AI Tech Stack Implementation</h3>
-              <p>We configure the tools, connect the workflows, and build the automations from your roadmap.</p>
-              <p className="next-service-arrow">Explore Implementation →</p>
-            </Link>
-            <Link href="/services/ai-coaching" className="next-service-card secondary">
-              <p className="next-service-label">Setting it up in-house?</p>
-              <h3>Fractional AI Lead</h3>
-              <p>We ride shotgun with your team — onboarding, tool updates, and async support as the stack evolves.</p>
-              <p className="next-service-arrow">Explore Fractional AI Lead →</p>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <JourneyIndicator />
     </div>
   );
 }

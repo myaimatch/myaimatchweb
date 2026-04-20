@@ -61,13 +61,13 @@ export default function StackCalculator({ ctaHref }: { ctaHref: string }) {
   }, [team, tools, workflows]);
 
   return (
-    <section className="impl-shell py-20 md:py-28">
+    <section className="impl-shell py-16 md:py-24">
       <div className="stack-calculator">
         <div className="stack-calculator-copy">
-          <p className="impl-label">Stack calculator</p>
-          <h2 className="impl-section-title">Get a feel for build shape before the call.</h2>
+          <p className="impl-label">Scope + pricing</p>
+          <h2 className="impl-section-title">Custom - priced to your scope.</h2>
           <p className="impl-section-body">
-            This is directional, not a quote. It helps us talk about scope in plain language.
+            Every stack is different. Tool count, integration complexity, custom agents, team size, and timeline all move the number. Use this as a directional read, then book a call and we will scope it in 20 minutes.
           </p>
         </div>
         <div className="stack-calculator-controls">
@@ -89,7 +89,7 @@ export default function StackCalculator({ ctaHref }: { ctaHref: string }) {
           </div>
           <p>{result.body}</p>
           <Link className="impl-cta-primary" href={ctaHref}>
-            Book a scoping call
+            Book an implementation call
           </Link>
         </div>
       </div>

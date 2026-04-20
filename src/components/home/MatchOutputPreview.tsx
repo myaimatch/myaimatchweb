@@ -26,11 +26,6 @@ export default function MatchOutputPreview() {
           <span />
         </div>
       </div>
-      <div className="match-output-chips">
-        <span>Shortlist</span>
-        <span>Fit notes</span>
-        <span>Next step</span>
-      </div>
     </div>
   );
 }
