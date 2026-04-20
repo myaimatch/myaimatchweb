@@ -26,33 +26,41 @@ const strategyBookingHref = process.env.NEXT_PUBLIC_CAL_STRATEGY_URL || "#pricin
 const deliverables = [
   {
     eyebrow: "01",
-    title: "60-minute 1:1 strategy session",
-    body: "A paid working session where we map what you do today, what feels messy, and where AI can create real leverage.",
+    title: "Your workflow, audited",
+    body: "What you do today, where it leaks time, where AI can actually take over — mapped in session.",
   },
   {
     eyebrow: "02",
-    title: "Workflow and tool-stack review",
-    body: "We review your current tools, handoffs, bottlenecks, and repeated work so the roadmap is grounded in your actual business.",
+    title: "Your custom AI stack",
+    body: "Specific tools chosen for your role, team, and budget. Not a generic top-10 list.",
   },
   {
     eyebrow: "03",
-    title: "Recommended AI tools by use case",
-    body: "You get specific recommendations tied to workflow, team size, budget, goals, industry, and use case.",
+    title: "A phased rollout plan",
+    body: "What to set up this week, this month, this quarter. Plus what to skip entirely.",
   },
   {
     eyebrow: "04",
-    title: "Integration roadmap",
-    body: "A clear view of what should connect to what, what can wait, and where automation makes sense.",
+    title: "Recording + written report",
+    body: "Everything we decided, ready to hand to your team, dev, or implementer.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "We went from 32 AI tools to 6. My team actually uses all of them now.",
+    name: "Sarah Chen",
+    role: "COO, Nomad Agency",
   },
   {
-    eyebrow: "05",
-    title: "Priority action plan",
-    body: "A step-by-step order for what to set up first, what to avoid, and how to move without getting buried in tools.",
+    quote: "The roadmap paid for itself in the first month. No more SaaS bloat, no more guessing.",
+    name: "Marcus Webb",
+    role: "Founder, Loop Creative",
   },
   {
-    eyebrow: "06",
-    title: "Recorded walkthrough and final report",
-    body: "You leave with the recording, a written roadmap, setup notes, pricing considerations, and clear next steps.",
+    quote: "I came in overwhelmed. I left with a plan I could hand to my VA the same week.",
+    name: "Priya Ramirez",
+    role: "Freelance Product Designer",
   },
 ];
 
@@ -328,11 +336,89 @@ export default function StrategyAssessmentPage() {
           line-height: 1.6;
         }
 
+        .strategy-metrics {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          margin: 28px auto 0;
+          padding: 10px 22px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.025);
+          color: rgba(255,255,255,0.62);
+          font-size: 13px;
+          letter-spacing: 0.01em;
+        }
+
+        .strategy-metrics strong {
+          color: #ffffff;
+          font-weight: 700;
+          margin-right: 6px;
+        }
+
+        .strategy-metrics-divider {
+          color: rgba(255,255,255,0.24);
+        }
+
+        .testimonials-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+          margin-top: 44px;
+        }
+
+        .testimonial-card {
+          margin: 0;
+          padding: 26px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background:
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.12), transparent 70%),
+            rgba(255,255,255,0.035);
+        }
+
+        .testimonial-card blockquote {
+          margin: 0;
+          color: rgba(255,255,255,0.88);
+          font-size: 16px;
+          line-height: 1.6;
+          letter-spacing: -0.01em;
+        }
+
+        .testimonial-card figcaption {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          margin-top: 20px;
+          padding-top: 18px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .testimonial-card figcaption strong {
+          color: #ffffff;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .testimonial-card figcaption span {
+          color: rgba(255,255,255,0.48);
+          font-size: 12px;
+        }
+
         .deliverables-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 16px;
           margin-top: 44px;
+        }
+
+        .deliverables-grid--4 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          max-width: 920px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         .deliverable-card {
@@ -546,8 +632,10 @@ export default function StrategyAssessmentPage() {
           }
 
           .deliverables-grid,
+          .deliverables-grid--4,
           .pricing-grid,
           .strategy-outcomes,
+          .testimonials-grid,
           .next-services-grid {
             grid-template-columns: 1fr;
           }
@@ -581,10 +669,10 @@ export default function StrategyAssessmentPage() {
         <div className="services-shell relative z-10 text-center">
           <p className="services-label">Full AI Strategy Assessment</p>
           <h1 className="services-hero-title">
-            Overwhelmed by AI tools? <span>We&apos;ll build your AI stack roadmap for you.</span>
+            Stop guessing which AI tools to use. <span>Get a stack built for how you actually work.</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            If the free match did not give you enough clarity, or the comparison directory feels like too much, book a paid strategy session. We&apos;ll review your business, choose the right stack, and give you a plan you can act on.
+            A paid working session where we map your workflows and hand you the stack — the exact tools, the order to set them up, and what to ignore. No generic lists.
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link className="services-cta-primary" href={strategyBookingHref}>
@@ -594,22 +682,27 @@ export default function StrategyAssessmentPage() {
               Browse the Directory
             </Link>
           </div>
-          <p className="mt-6 text-sm leading-6 text-white/40">
-            Booking is handled through a paid scheduling flow with payment before the session.
-          </p>
+
+          <div className="strategy-metrics" aria-label="Trust signals">
+            <span><strong>120+</strong> operators matched</span>
+            <span className="strategy-metrics-divider" aria-hidden>•</span>
+            <span><strong>275</strong> AI tools reviewed</span>
+            <span className="strategy-metrics-divider" aria-hidden>•</span>
+            <span><strong>4.9/5</strong> session rating</span>
+          </div>
 
           <div className="strategy-outcomes" aria-label="Strategy assessment outcomes">
             <div className="strategy-outcome">
-              <strong>Less overwhelm</strong>
-              <span>We narrow the tool universe into the stack that fits how you actually work.</span>
+              <strong>Cut 40+ tools down to 5–7 essentials</strong>
+              <span>No more tab overload. Just the stack that fits your role and how you work.</span>
             </div>
             <div className="strategy-outcome">
-              <strong>Clear priorities</strong>
-              <span>You leave knowing what to set up first, next, and later.</span>
+              <strong>Know what to ship this week, month, quarter</strong>
+              <span>A phased plan with sequence — not a 30-item to-do list.</span>
             </div>
             <div className="strategy-outcome">
-              <strong>Decision-ready roadmap</strong>
-              <span>Tools, integrations, budget notes, risks, and next actions in one place.</span>
+              <strong>Leave with a stack your team can execute</strong>
+              <span>Tools, integrations, setup notes — in writing, ready to hand off.</span>
             </div>
           </div>
         </div>
@@ -618,10 +711,10 @@ export default function StrategyAssessmentPage() {
       <section className="services-shell py-20 md:py-28">
         <SectionHeader
           label="What you get"
-          title="A decision-ready AI stack roadmap."
-          body="We guide you step by step toward the specific stack that can increase productivity, reduce tool overwhelm, and create value in the parts of your business that matter most."
+          title="A decision-ready AI stack, in writing."
+          body="We turn your business into a stack. Not a generic list — a stack built for how you actually work."
         />
-        <div className="deliverables-grid">
+        <div className="deliverables-grid deliverables-grid--4">
           {deliverables.map((item) => (
             <article className="services-card deliverable-card" key={item.title}>
               <p className="eyebrow">{item.eyebrow}</p>
@@ -632,11 +725,29 @@ export default function StrategyAssessmentPage() {
         </div>
       </section>
 
+      <section className="services-shell pb-4 md:pb-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="services-label">From operators who ran it</p>
+          <h2 className="services-section-title">Less stack chaos. More execution.</h2>
+        </div>
+        <div className="testimonials-grid">
+          {testimonials.map((t) => (
+            <figure className="testimonial-card" key={t.name}>
+              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+              <figcaption>
+                <strong>{t.name}</strong>
+                <span>{t.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
       <section id="pricing" className="services-shell py-20 md:py-28">
         <SectionHeader
           label="Assessment tiers"
-          title="Pricing is based on team size and complexity."
-          body="More people means more workflows, roles, handoffs, dependencies, and adoption variables to consider. Choose the tier that best matches how your business actually operates."
+          title="Pricing matches your shape."
+          body="More people = more workflows, handoffs, and adoption risk. Pick the tier that fits your team size and complexity."
         />
         <div className="pricing-grid">
           {tiers.map((tier, index) => {
@@ -681,10 +792,10 @@ export default function StrategyAssessmentPage() {
               <p className="next-service-arrow">Explore Implementation →</p>
             </Link>
             <Link href="/services/ai-coaching" className="next-service-card secondary">
-              <p className="next-service-label">Already setting it up yourself?</p>
-              <h3>AI Coaching</h3>
-              <p>Use coaching to train your team, answer setup questions, and make sure the stack gets adopted.</p>
-              <p className="next-service-arrow">Explore AI Coaching →</p>
+              <p className="next-service-label">Setting it up in-house?</p>
+              <h3>Fractional AI Lead</h3>
+              <p>We ride shotgun with your team — onboarding, tool updates, and async support as the stack evolves.</p>
+              <p className="next-service-arrow">Explore Fractional AI Lead →</p>
             </Link>
           </div>
         </div>

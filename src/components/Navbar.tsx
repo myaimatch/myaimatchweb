@@ -37,9 +37,9 @@ const serviceLinks = [
     desc: "We configure your tools and build the automations.",
   },
   {
-    label: "AI Coaching",
+    label: "Fractional AI Lead",
     href: "/services/ai-coaching",
-    desc: "Ongoing training so your team keeps up with AI.",
+    desc: "Embedded AI lead for your team — calls, async, and tool curation.",
   },
 ];
 

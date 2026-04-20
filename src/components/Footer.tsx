@@ -30,7 +30,7 @@ const linkColumns = [
     links: [
       { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },
       { label: "AI Tech Stack Implementation", href: "/services/ai-tech-stack-implementation" },
-      { label: "AI Coaching", href: "/services/ai-coaching" },
+      { label: "Fractional AI Lead", href: "/services/ai-coaching" },
     ],
   },
   {
