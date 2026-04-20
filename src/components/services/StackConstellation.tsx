@@ -40,8 +40,6 @@ const CONNECTIONS: Array<[number, number]> = [
 
 const TOTAL_NODES = 44;
 const CYCLE_MS = 9000;
-const PRIMARY = "#814ac8";
-const ACCENT = "#df7afe";
 
 function seededRandom(seed: number) {
   let s = seed;
