@@ -1,5 +1,12 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import { fetchAllTools } from "@/lib/airtable";
+import CadenceSelector from "@/components/services/CadenceSelector";
+import CountUp from "@/components/services/CountUp";
+import OrbitalCore from "@/components/services/OrbitalCore";
+import Reveal from "@/components/services/Reveal";
+import ServiceHero from "@/components/services/ServiceHero";
+import TiltCard from "@/components/services/TiltCard";
+import ToolTicker from "@/components/services/ToolTicker";
 
 export const metadata: Metadata = {
   title: "Fractional AI Lead | myAIMatch",
@@ -57,10 +64,24 @@ const testimonials = [
 
 const calHref = process.env.NEXT_PUBLIC_CAL_COACHING_URL || "#book";
 
-export default function CoachingPage() {
+async function getTickerTools() {
+  try {
+    const tools = await fetchAllTools();
+    return tools
+      .filter((tool) => tool.name)
+      .slice(0, 10)
+      .map((tool) => tool.name);
+  } catch {
+    return [];
+  }
+}
+
+export default async function CoachingPage() {
+  const tickerTools = await getTickerTools();
+
   return (
     <div className="coaching-page bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .coaching-page {
           --service-primary: #814ac8;
           --service-accent: #df7afe;
@@ -445,38 +466,24 @@ export default function CoachingPage() {
             width: 100%;
           }
         }
-      `}</style>
+      ` }} />
 
-      <section className="coaching-hero">
-        <div className="coaching-shell relative z-10 text-center">
-          <p className="coaching-label">Fractional AI Lead</p>
-          <h1 className="coaching-hero-title">
-            Your AI stack changes every month. <span>We keep your team ahead of it.</span>
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            An embedded AI lead for your team — calls, async support, team training, and monthly tool curation. Without the full-time hire.
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="coaching-cta-primary" href={calHref}>
-              Book a Discovery Call
-            </Link>
-            <Link className="coaching-cta-secondary" href="#whats-included">
-              See what&apos;s included
-            </Link>
-          </div>
-          <p className="mt-6 text-sm leading-6 text-white/40">
-            For anyone using AI daily — solo or with a team.
-          </p>
+      <ServiceHero
+        label="Fractional AI Lead"
+        title="Keep your AI stack current."
+        highlightedTitle="Without hiring full-time."
+        body="An embedded AI lead for your team — calls, async support, team training, and monthly tool curation. Without the full-time hire."
+        primaryCta={{ label: "Book a Discovery Call", href: calHref }}
+        variant="lead"
+        visual={<OrbitalCore />}
+        metrics={[
+          { value: <CountUp value={60} suffix="+" />, label: "teams supported" },
+          { value: <CountUp value={200} suffix="+" />, label: "AI tools tested monthly" },
+          { value: <CountUp value={4.9} decimals={1} suffix="/5" />, label: "client rating" },
+        ]}
+      />
 
-          <div className="coaching-metrics" aria-label="Trust signals">
-            <span><strong>60+</strong> teams supported</span>
-            <span className="coaching-metrics-divider" aria-hidden>•</span>
-            <span><strong>200+</strong> AI tools tested monthly</span>
-            <span className="coaching-metrics-divider" aria-hidden>•</span>
-            <span><strong>4.9/5</strong> client rating</span>
-          </div>
-        </div>
-      </section>
+      <ToolTicker tools={tickerTools} />
 
       <section id="whats-included" className="coaching-shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
@@ -487,12 +494,14 @@ export default function CoachingPage() {
           </p>
         </div>
         <div className="coaching-grid">
-          {included.map((item) => (
-            <article className="coaching-card coaching-item" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {included.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="coaching-card coaching-item">
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -503,49 +512,21 @@ export default function CoachingPage() {
           <h2 className="coaching-section-title">Embedded, not outsourced.</h2>
         </div>
         <div className="coaching-testimonials">
-          {testimonials.map((t) => (
-            <figure className="coaching-testimonial-card" key={t.name}>
-              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption>
-                <strong>{t.name}</strong>
-                <span>{t.role}</span>
-              </figcaption>
-            </figure>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="coaching-testimonial-card" maxTilt={4}>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="coaching-shell py-20 md:py-28">
-        <div className="coaching-who">
-          <p className="coaching-label" style={{ color: "rgba(223,122,254,0.82)" }}>Pricing</p>
-          <h2>Custom — matched to cadence and team size.</h2>
-          <p>
-            Monthly retainer pricing depends on call cadence, team size, and whether we&apos;re on Slack daily or just for check-ins. Book a call and we&apos;ll scope it fast.
-          </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="coaching-cta-primary" href={calHref}>
-              Book a discovery call
-            </Link>
-            <Link className="coaching-cta-secondary" href="/services/ai-tech-stack-implementation">
-              Start with Implementation
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="coaching-shell pb-20 md:pb-28">
-        <div className="coaching-funnel">
-          <div className="coaching-funnel-text">
-            <h3>New to AI tools? Start here.</h3>
-            <p>
-              Use the free AI Match Engine to discover what tools fit your workflow before committing.
-            </p>
-          </div>
-          <Link className="coaching-cta-primary" href="/assessment" style={{ whiteSpace: "nowrap", flexShrink: 0 }}>
-            Try the AI Match Engine — Free →
-          </Link>
-        </div>
-      </section>
+      <CadenceSelector ctaHref={calHref} />
     </div>
   );
 }

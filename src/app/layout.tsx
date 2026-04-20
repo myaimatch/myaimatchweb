@@ -4,6 +4,8 @@ import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ServicePolish from "@/components/services/ServicePolish";
+import GlobalCursorTrail from "@/components/GlobalCursorTrail";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -43,6 +45,8 @@ export default function RootLayout({
         <Script src="https://tally.so/widgets/embed.js" strategy="afterInteractive" />
         <Navbar />
         <main>{children}</main>
+        <GlobalCursorTrail />
+        <ServicePolish />
         <Footer />
       </body>
     </html>

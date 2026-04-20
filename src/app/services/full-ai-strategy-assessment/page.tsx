@@ -1,5 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import CountUp from "@/components/services/CountUp";
+import BeforeAfterStack from "@/components/services/BeforeAfterStack";
+import BlueprintDiagram from "@/components/services/BlueprintDiagram";
+import Reveal from "@/components/services/Reveal";
+import ServiceHero from "@/components/services/ServiceHero";
+import StackConstellation from "@/components/services/StackConstellation";
+import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
   title: "Full AI Strategy Assessment | myAIMatch",
@@ -45,6 +52,8 @@ const deliverables = [
     body: "Everything we decided, ready to hand to your team, dev, or implementer.",
   },
 ];
+
+const deliverableDiagrams = ["audit", "stack", "rollout", "report"] as const;
 
 const testimonials = [
   {
@@ -665,46 +674,42 @@ export default function StrategyAssessmentPage() {
         }
       ` }} />
 
-      <section className="services-hero">
-        <div className="services-shell relative z-10 text-center">
-          <p className="services-label">Full AI Strategy Assessment</p>
-          <h1 className="services-hero-title">
-            Stop guessing which AI tools to use. <span>Get a stack built for how you actually work.</span>
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            A paid working session where we map your workflows and hand you the stack — the exact tools, the order to set them up, and what to ignore. No generic lists.
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="services-cta-primary" href={strategyBookingHref}>
-              Book Your Strategy Session
-            </Link>
-            <Link className="services-cta-secondary" href="/#match-tools">
-              Browse the Directory
-            </Link>
-          </div>
+      <ServiceHero
+        label="Full AI Strategy Assessment"
+        title="Get your AI stack roadmap."
+        highlightedTitle="Built around how you work."
+        body="A paid working session where we map your workflows and hand you the stack — the exact tools, the order to set them up, and what to ignore. No generic lists."
+        primaryCta={{ label: "Book Your Strategy Session", href: strategyBookingHref }}
+        variant="strategy"
+        visual={<StackConstellation />}
+        metrics={[
+          { value: <CountUp value={120} suffix="+" />, label: "operators matched" },
+          { value: <CountUp value={275} />, label: "AI tools reviewed" },
+          { value: <CountUp value={4.9} decimals={1} suffix="/5" />, label: "session rating" },
+        ]}
+      />
 
-          <div className="strategy-metrics" aria-label="Trust signals">
-            <span><strong>120+</strong> operators matched</span>
-            <span className="strategy-metrics-divider" aria-hidden>•</span>
-            <span><strong>275</strong> AI tools reviewed</span>
-            <span className="strategy-metrics-divider" aria-hidden>•</span>
-            <span><strong>4.9/5</strong> session rating</span>
-          </div>
-
-          <div className="strategy-outcomes" aria-label="Strategy assessment outcomes">
-            <div className="strategy-outcome">
-              <strong>Cut 40+ tools down to 5–7 essentials</strong>
-              <span>No more tab overload. Just the stack that fits your role and how you work.</span>
-            </div>
-            <div className="strategy-outcome">
-              <strong>Know what to ship this week, month, quarter</strong>
-              <span>A phased plan with sequence — not a 30-item to-do list.</span>
-            </div>
-            <div className="strategy-outcome">
-              <strong>Leave with a stack your team can execute</strong>
-              <span>Tools, integrations, setup notes — in writing, ready to hand off.</span>
-            </div>
-          </div>
+      <section className="services-shell strategy-outcomes-section">
+        <div className="strategy-outcomes" aria-label="Strategy assessment outcomes">
+          {[
+            {
+              title: "Cut 40+ tools down to 5–7 essentials",
+              body: "No more tab overload. Just the stack that fits your role and how you work.",
+            },
+            {
+              title: "Know what to set up first",
+              body: "A simple order of operations: what to configure now, what can wait, and what to ignore.",
+            },
+            {
+              title: "Leave with a stack your team can execute",
+              body: "Tools, integrations, setup notes — in writing, ready to hand off.",
+            },
+          ].map((item, i) => (
+            <Reveal key={item.title} delay={120 + i * 90} className="strategy-outcome">
+              <strong>{item.title}</strong>
+              <span>{item.body}</span>
+            </Reveal>
+          ))}
         </div>
       </section>
 
@@ -715,12 +720,15 @@ export default function StrategyAssessmentPage() {
           body="We turn your business into a stack. Not a generic list — a stack built for how you actually work."
         />
         <div className="deliverables-grid deliverables-grid--4">
-          {deliverables.map((item) => (
-            <article className="services-card deliverable-card" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {deliverables.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="services-card deliverable-card">
+                <BlueprintDiagram type={deliverableDiagrams[i]} />
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -731,14 +739,17 @@ export default function StrategyAssessmentPage() {
           <h2 className="services-section-title">Less stack chaos. More execution.</h2>
         </div>
         <div className="testimonials-grid">
-          {testimonials.map((t) => (
-            <figure className="testimonial-card" key={t.name}>
-              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption>
-                <strong>{t.name}</strong>
-                <span>{t.role}</span>
-              </figcaption>
-            </figure>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="testimonial-card" maxTilt={4}>
+                <BeforeAfterStack compact />
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -753,53 +764,30 @@ export default function StrategyAssessmentPage() {
           {tiers.map((tier, index) => {
             const ctaClass = index === 1 ? "services-cta-primary" : "services-cta-secondary";
             return (
-              <article
-                className={`services-card pricing-card ${index === 1 ? "featured" : ""}`}
-                key={tier.name}
-              >
-                <p className="eyebrow">{index === 1 ? "Most common" : "Assessment"}</p>
-                <h3>{tier.name}</h3>
-                <div className="pricing-price">{tier.price}</div>
-                <p>{tier.description}</p>
-                <ul className="pricing-list">
-                  {tier.scope.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <Link className={ctaClass} href={strategyBookingHref}>
-                  Book Your Strategy Session
-                </Link>
-              </article>
+              <Reveal key={tier.name} delay={80 + index * 100}>
+                <TiltCard
+                  className={`services-card pricing-card ${index === 1 ? "featured" : ""}`}
+                  maxTilt={3}
+                >
+                  <p className="eyebrow">{index === 1 ? "Most common" : "Assessment"}</p>
+                  <h3>{tier.name}</h3>
+                  <div className="pricing-price">{tier.price}</div>
+                  <p>{tier.description}</p>
+                  <ul className="pricing-list">
+                    {tier.scope.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <Link className={ctaClass} href={strategyBookingHref}>
+                    Book Your Strategy Session
+                  </Link>
+                </TiltCard>
+              </Reveal>
             );
           })}
         </div>
       </section>
 
-      <section className="services-shell pb-20 md:pb-28">
-        <div className="next-services-panel">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="services-label">After the roadmap</p>
-            <h2 className="services-section-title">Your roadmap is clear. Now we can help you set it up.</h2>
-            <p className="services-section-body">
-              After the assessment, you know the priorities, tools, and implementation order. The natural next step is setup: configuring the stack, connecting workflows, and turning the plan into a working system.
-            </p>
-          </div>
-          <div className="next-services-grid">
-            <Link href="/services/ai-tech-stack-implementation" className="next-service-card primary">
-              <p className="next-service-label">Recommended next step</p>
-              <h3>AI Tech Stack Implementation</h3>
-              <p>We configure the tools, connect the workflows, and build the automations from your roadmap.</p>
-              <p className="next-service-arrow">Explore Implementation →</p>
-            </Link>
-            <Link href="/services/ai-coaching" className="next-service-card secondary">
-              <p className="next-service-label">Setting it up in-house?</p>
-              <h3>Fractional AI Lead</h3>
-              <p>We ride shotgun with your team — onboarding, tool updates, and async support as the stack evolves.</p>
-              <p className="next-service-arrow">Explore Fractional AI Lead →</p>
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

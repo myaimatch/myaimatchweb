@@ -1,5 +1,11 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import BuildTimeline from "@/components/services/BuildTimeline";
+import CountUp from "@/components/services/CountUp";
+import LivePipeline from "@/components/services/LivePipeline";
+import Reveal from "@/components/services/Reveal";
+import ServiceHero from "@/components/services/ServiceHero";
+import StackCalculator from "@/components/services/StackCalculator";
+import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
   title: "AI Tech Stack Implementation | myAIMatch",
@@ -60,7 +66,7 @@ const calHref = process.env.NEXT_PUBLIC_CAL_IMPLEMENTATION_URL || "#book";
 export default function ImplementationPage() {
   return (
     <div className="impl-page bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .impl-page {
           --service-primary: #814ac8;
           --service-accent: #df7afe;
@@ -445,38 +451,22 @@ export default function ImplementationPage() {
             width: 100%;
           }
         }
-      `}</style>
+      ` }} />
 
-      <section className="impl-hero">
-        <div className="impl-shell relative z-10 text-center">
-          <p className="impl-label">AI Tech Stack Implementation</p>
-          <h1 className="impl-hero-title">
-            Your roadmap is ready. <span>Now let&apos;s build it.</span>
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one.
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="impl-cta-primary" href={calHref}>
-              Book an Implementation Call
-            </Link>
-            <Link className="impl-cta-secondary" href="#what-we-build">
-              See what&apos;s included
-            </Link>
-          </div>
-          <p className="mt-6 text-sm leading-6 text-white/40">
-            Bring a roadmap — ours or yours.
-          </p>
-
-          <div className="impl-metrics" aria-label="Trust signals">
-            <span><strong>40+</strong> stacks shipped</span>
-            <span className="impl-metrics-divider" aria-hidden>•</span>
-            <span><strong>18</strong> AI agents in production</span>
-            <span className="impl-metrics-divider" aria-hidden>•</span>
-            <span><strong>2–4</strong> weeks typical build</span>
-          </div>
-        </div>
-      </section>
+      <ServiceHero
+        label="AI Tech Stack Implementation"
+        title="Your roadmap is ready."
+        highlightedTitle="Now let's build it."
+        body="We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one."
+        primaryCta={{ label: "Book an Implementation Call", href: calHref }}
+        variant="implementation"
+        visual={<LivePipeline />}
+        metrics={[
+          { value: <CountUp value={40} suffix="+" />, label: "stacks shipped" },
+          { value: <CountUp value={18} />, label: "AI agents in production" },
+          { value: "2-4", label: "weeks typical build" },
+        ]}
+      />
 
       <section id="what-we-build" className="impl-shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
@@ -487,15 +477,19 @@ export default function ImplementationPage() {
           </p>
         </div>
         <div className="impl-grid">
-          {deliverables.map((item) => (
-            <article className="impl-card impl-deliverable" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {deliverables.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="impl-card impl-deliverable">
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
+
+      <BuildTimeline />
 
       <section className="impl-shell pb-4 md:pb-8">
         <div className="mx-auto max-w-3xl text-center">
@@ -503,49 +497,21 @@ export default function ImplementationPage() {
           <h2 className="impl-section-title">Builds that outlive the hype cycle.</h2>
         </div>
         <div className="impl-testimonials">
-          {testimonials.map((t) => (
-            <figure className="impl-testimonial-card" key={t.name}>
-              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption>
-                <strong>{t.name}</strong>
-                <span>{t.role}</span>
-              </figcaption>
-            </figure>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="impl-testimonial-card" maxTilt={4}>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="impl-shell py-20 md:py-28">
-        <div className="impl-who">
-          <p className="impl-label" style={{ color: "rgba(223,122,254,0.82)" }}>Pricing</p>
-          <h2>Custom — priced to your scope.</h2>
-          <p>
-            Every stack is different. Tool count, integration complexity, custom agents, team size, timeline — they all move the number. Book a call and we&apos;ll scope it in 20 minutes.
-          </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="impl-cta-primary" href={calHref}>
-              Book an implementation call
-            </Link>
-            <Link className="impl-cta-secondary" href="/services/full-ai-strategy-assessment">
-              Start with Strategy Assessment
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="impl-shell pb-20 md:pb-28">
-        <div className="impl-funnel">
-          <div className="impl-funnel-text">
-            <h3>After implementation, stay sharp.</h3>
-            <p>
-              A Fractional AI Lead keeps your team trained and your stack current as tools evolve.
-            </p>
-          </div>
-          <Link className="impl-cta-primary" href="/services/ai-coaching" style={{ whiteSpace: "nowrap", flexShrink: 0 }}>
-            Explore Fractional AI Lead →
-          </Link>
-        </div>
-      </section>
+      <StackCalculator ctaHref={calHref} />
     </div>
   );
 }

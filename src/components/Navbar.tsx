@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
 
@@ -27,6 +28,11 @@ const navLinks = [
 
 const serviceLinks = [
   {
+    label: "Services Overview",
+    href: "/services",
+    desc: "See how strategy, implementation, and fractional support connect.",
+  },
+  {
     label: "Full AI Strategy Assessment",
     href: "/services/full-ai-strategy-assessment",
     desc: "Map your workflow and get a custom AI stack roadmap.",
@@ -44,10 +50,12 @@ const serviceLinks = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
+  const isServicesRoute = pathname === "/services" || pathname?.startsWith("/services/");
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 12);
@@ -282,41 +290,43 @@ export default function Navbar() {
             </div>
 
             {/* Desktop CTA */}
-            <div className="nav-desktop-cta" style={{ alignItems: "center", gap: "16px" }}>
-              <Link
-                href={TALLY_POPUP_HREF}
-                {...TALLY_POPUP_ATTRIBUTES}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
-                  color: "#ffffff",
-                  fontSize: "13.5px",
-                  fontWeight: 600,
-                  padding: "8px 20px",
-                  borderRadius: "999px",
-                  textDecoration: "none",
-                  letterSpacing: "0.01em",
-                  boxShadow:
-                    "0 0 0 1px rgba(129,74,200,0.4), 0 4px 16px rgba(129,74,200,0.25), 0 1px 4px rgba(0,0,0,0.4)",
-                  transition: "opacity 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.opacity = "0.9";
-                  el.style.boxShadow = "0 0 0 1px rgba(129,74,200,0.6), 0 6px 24px rgba(129,74,200,0.35), 0 1px 4px rgba(0,0,0,0.4)";
-                  el.style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLAnchorElement;
-                  el.style.opacity = "1";
-                  el.style.boxShadow = "0 0 0 1px rgba(129,74,200,0.4), 0 4px 16px rgba(129,74,200,0.25), 0 1px 4px rgba(0,0,0,0.4)";
-                  el.style.transform = "translateY(0)";
-                }}
-              >
-                Start Free AI Match
-              </Link>
+            <div className="nav-desktop-cta" style={{ alignItems: "center", justifyContent: "flex-end", gap: "16px", minWidth: "170px" }}>
+              {!isServicesRoute ? (
+                <Link
+                  href={TALLY_POPUP_HREF}
+                  {...TALLY_POPUP_ATTRIBUTES}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+                    color: "#ffffff",
+                    fontSize: "13.5px",
+                    fontWeight: 600,
+                    padding: "8px 20px",
+                    borderRadius: "999px",
+                    textDecoration: "none",
+                    letterSpacing: "0.01em",
+                    boxShadow:
+                      "0 0 0 1px rgba(129,74,200,0.4), 0 4px 16px rgba(129,74,200,0.25), 0 1px 4px rgba(0,0,0,0.4)",
+                    transition: "opacity 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.opacity = "0.9";
+                    el.style.boxShadow = "0 0 0 1px rgba(129,74,200,0.6), 0 6px 24px rgba(129,74,200,0.35), 0 1px 4px rgba(0,0,0,0.4)";
+                    el.style.transform = "translateY(-1px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.opacity = "1";
+                    el.style.boxShadow = "0 0 0 1px rgba(129,74,200,0.4), 0 4px 16px rgba(129,74,200,0.25), 0 1px 4px rgba(0,0,0,0.4)";
+                    el.style.transform = "translateY(0)";
+                  }}
+                >
+                  Start Free AI Match
+                </Link>
+              ) : null}
             </div>
 
             {/* Mobile hamburger */}
@@ -525,28 +535,30 @@ export default function Navbar() {
             </div>
 
             {/* Drawer CTA */}
-            <div style={{ marginTop: "auto", paddingTop: "24px" }}>
-              <Link
-                href={TALLY_POPUP_HREF}
-                {...TALLY_POPUP_ATTRIBUTES}
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
-                  color: "#ffffff",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  padding: "12px 20px",
-                  borderRadius: "999px",
-                  textDecoration: "none",
-                  boxShadow: "0 4px 16px rgba(129,74,200,0.3)",
-                }}
-              >
-                Start Free AI Match
-              </Link>
-            </div>
+            {!isServicesRoute ? (
+              <div style={{ marginTop: "auto", paddingTop: "24px" }}>
+                <Link
+                  href={TALLY_POPUP_HREF}
+                  {...TALLY_POPUP_ATTRIBUTES}
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+                    color: "#ffffff",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    padding: "12px 20px",
+                    borderRadius: "999px",
+                    textDecoration: "none",
+                    boxShadow: "0 4px 16px rgba(129,74,200,0.3)",
+                  }}
+                >
+                  Start Free AI Match
+                </Link>
+              </div>
+            ) : null}
           </div>
         </div>
       )}
