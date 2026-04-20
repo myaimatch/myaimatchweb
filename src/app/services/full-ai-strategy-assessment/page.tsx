@@ -1,5 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import CountUp from "@/components/services/CountUp";
+import JourneyIndicator from "@/components/services/JourneyIndicator";
+import Reveal from "@/components/services/Reveal";
+import StackConstellation from "@/components/services/StackConstellation";
+import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
   title: "Full AI Strategy Assessment | myAIMatch",
@@ -666,9 +671,10 @@ export default function StrategyAssessmentPage() {
       ` }} />
 
       <section className="services-hero">
+        <StackConstellation />
         <div className="services-shell relative z-10 text-center">
           <p className="services-label">Full AI Strategy Assessment</p>
-          <h1 className="services-hero-title">
+          <h1 className="services-hero-title shimmer-active">
             Stop guessing which AI tools to use. <span>Get a stack built for how you actually work.</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
@@ -684,26 +690,48 @@ export default function StrategyAssessmentPage() {
           </div>
 
           <div className="strategy-metrics" aria-label="Trust signals">
-            <span><strong>120+</strong> operators matched</span>
+            <span>
+              <strong>
+                <CountUp value={120} suffix="+" />
+              </strong>{" "}
+              operators matched
+            </span>
             <span className="strategy-metrics-divider" aria-hidden>•</span>
-            <span><strong>275</strong> AI tools reviewed</span>
+            <span>
+              <strong>
+                <CountUp value={275} />
+              </strong>{" "}
+              AI tools reviewed
+            </span>
             <span className="strategy-metrics-divider" aria-hidden>•</span>
-            <span><strong>4.9/5</strong> session rating</span>
+            <span>
+              <strong>
+                <CountUp value={4.9} decimals={1} suffix="/5" />
+              </strong>{" "}
+              session rating
+            </span>
           </div>
 
           <div className="strategy-outcomes" aria-label="Strategy assessment outcomes">
-            <div className="strategy-outcome">
-              <strong>Cut 40+ tools down to 5–7 essentials</strong>
-              <span>No more tab overload. Just the stack that fits your role and how you work.</span>
-            </div>
-            <div className="strategy-outcome">
-              <strong>Know what to ship this week, month, quarter</strong>
-              <span>A phased plan with sequence — not a 30-item to-do list.</span>
-            </div>
-            <div className="strategy-outcome">
-              <strong>Leave with a stack your team can execute</strong>
-              <span>Tools, integrations, setup notes — in writing, ready to hand off.</span>
-            </div>
+            {[
+              {
+                title: "Cut 40+ tools down to 5–7 essentials",
+                body: "No more tab overload. Just the stack that fits your role and how you work.",
+              },
+              {
+                title: "Know what to ship this week, month, quarter",
+                body: "A phased plan with sequence — not a 30-item to-do list.",
+              },
+              {
+                title: "Leave with a stack your team can execute",
+                body: "Tools, integrations, setup notes — in writing, ready to hand off.",
+              },
+            ].map((item, i) => (
+              <Reveal key={item.title} delay={120 + i * 90} className="strategy-outcome">
+                <strong>{item.title}</strong>
+                <span>{item.body}</span>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -715,12 +743,14 @@ export default function StrategyAssessmentPage() {
           body="We turn your business into a stack. Not a generic list — a stack built for how you actually work."
         />
         <div className="deliverables-grid deliverables-grid--4">
-          {deliverables.map((item) => (
-            <article className="services-card deliverable-card" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {deliverables.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="services-card deliverable-card">
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -731,14 +761,16 @@ export default function StrategyAssessmentPage() {
           <h2 className="services-section-title">Less stack chaos. More execution.</h2>
         </div>
         <div className="testimonials-grid">
-          {testimonials.map((t) => (
-            <figure className="testimonial-card" key={t.name}>
-              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption>
-                <strong>{t.name}</strong>
-                <span>{t.role}</span>
-              </figcaption>
-            </figure>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="testimonial-card" maxTilt={4}>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -753,23 +785,25 @@ export default function StrategyAssessmentPage() {
           {tiers.map((tier, index) => {
             const ctaClass = index === 1 ? "services-cta-primary" : "services-cta-secondary";
             return (
-              <article
-                className={`services-card pricing-card ${index === 1 ? "featured" : ""}`}
-                key={tier.name}
-              >
-                <p className="eyebrow">{index === 1 ? "Most common" : "Assessment"}</p>
-                <h3>{tier.name}</h3>
-                <div className="pricing-price">{tier.price}</div>
-                <p>{tier.description}</p>
-                <ul className="pricing-list">
-                  {tier.scope.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <Link className={ctaClass} href={strategyBookingHref}>
-                  Book Your Strategy Session
-                </Link>
-              </article>
+              <Reveal key={tier.name} delay={80 + index * 100}>
+                <TiltCard
+                  className={`services-card pricing-card ${index === 1 ? "featured" : ""}`}
+                  maxTilt={3}
+                >
+                  <p className="eyebrow">{index === 1 ? "Most common" : "Assessment"}</p>
+                  <h3>{tier.name}</h3>
+                  <div className="pricing-price">{tier.price}</div>
+                  <p>{tier.description}</p>
+                  <ul className="pricing-list">
+                    {tier.scope.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <Link className={ctaClass} href={strategyBookingHref}>
+                    Book Your Strategy Session
+                  </Link>
+                </TiltCard>
+              </Reveal>
             );
           })}
         </div>
@@ -800,6 +834,8 @@ export default function StrategyAssessmentPage() {
           </div>
         </div>
       </section>
+
+      <JourneyIndicator />
     </div>
   );
 }

@@ -1,5 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import CountUp from "@/components/services/CountUp";
+import JourneyIndicator from "@/components/services/JourneyIndicator";
+import Reveal from "@/components/services/Reveal";
+import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
   title: "AI Tech Stack Implementation | myAIMatch",
@@ -60,7 +64,7 @@ const calHref = process.env.NEXT_PUBLIC_CAL_IMPLEMENTATION_URL || "#book";
 export default function ImplementationPage() {
   return (
     <div className="impl-page bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .impl-page {
           --service-primary: #814ac8;
           --service-accent: #df7afe;
@@ -445,12 +449,12 @@ export default function ImplementationPage() {
             width: 100%;
           }
         }
-      `}</style>
+      ` }} />
 
       <section className="impl-hero">
         <div className="impl-shell relative z-10 text-center">
           <p className="impl-label">AI Tech Stack Implementation</p>
-          <h1 className="impl-hero-title">
+          <h1 className="impl-hero-title shimmer-active">
             Your roadmap is ready. <span>Now let&apos;s build it.</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
@@ -469,11 +473,23 @@ export default function ImplementationPage() {
           </p>
 
           <div className="impl-metrics" aria-label="Trust signals">
-            <span><strong>40+</strong> stacks shipped</span>
+            <span>
+              <strong>
+                <CountUp value={40} suffix="+" />
+              </strong>{" "}
+              stacks shipped
+            </span>
             <span className="impl-metrics-divider" aria-hidden>•</span>
-            <span><strong>18</strong> AI agents in production</span>
+            <span>
+              <strong>
+                <CountUp value={18} />
+              </strong>{" "}
+              AI agents in production
+            </span>
             <span className="impl-metrics-divider" aria-hidden>•</span>
-            <span><strong>2–4</strong> weeks typical build</span>
+            <span>
+              <strong>2–4</strong> weeks typical build
+            </span>
           </div>
         </div>
       </section>
@@ -487,12 +503,14 @@ export default function ImplementationPage() {
           </p>
         </div>
         <div className="impl-grid">
-          {deliverables.map((item) => (
-            <article className="impl-card impl-deliverable" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {deliverables.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="impl-card impl-deliverable">
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -503,14 +521,16 @@ export default function ImplementationPage() {
           <h2 className="impl-section-title">Builds that outlive the hype cycle.</h2>
         </div>
         <div className="impl-testimonials">
-          {testimonials.map((t) => (
-            <figure className="impl-testimonial-card" key={t.name}>
-              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption>
-                <strong>{t.name}</strong>
-                <span>{t.role}</span>
-              </figcaption>
-            </figure>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="impl-testimonial-card" maxTilt={4}>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -546,6 +566,8 @@ export default function ImplementationPage() {
           </Link>
         </div>
       </section>
+
+      <JourneyIndicator />
     </div>
   );
 }

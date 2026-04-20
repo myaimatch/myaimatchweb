@@ -111,3 +111,113 @@
   from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0);    }
 }
+
+/* ── Services: Ola 1 motion foundation ────────────────────── */
+
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.015); }
+}
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes scanSweep {
+  0%   { transform: translateY(-10%); opacity: 0; }
+  15%  { opacity: 0.9; }
+  85%  { opacity: 0.9; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+
+@keyframes haloBreathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%       { opacity: 0.95; transform: scale(1.06); }
+}
+
+.reveal-root {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-root.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tilt-root {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.tilt-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 260px at var(--tilt-mx, 50%) var(--tilt-my, 50%),
+    rgba(223, 122, 254, 0.18),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tilt-root.is-hovering::before {
+  opacity: 1;
+}
+
+.tilt-root > * {
+  position: relative;
+  z-index: 1;
+}
+
+.shimmer-active span {
+  background: linear-gradient(
+    110deg,
+    #ffffff 0%,
+    #ffffff 35%,
+    #df7afe 55%,
+    #ffffff 75%,
+    #ffffff 100%
+  );
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-root {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .tilt-root {
+    transform: none !important;
+    transition: none;
+  }
+  .shimmer-active span {
+    animation: none;
+    background: linear-gradient(135deg, #ffffff 8%, #df7afe 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}

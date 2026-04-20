@@ -1,5 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import CountUp from "@/components/services/CountUp";
+import JourneyIndicator from "@/components/services/JourneyIndicator";
+import Reveal from "@/components/services/Reveal";
+import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
   title: "Fractional AI Lead | myAIMatch",
@@ -60,7 +64,7 @@ const calHref = process.env.NEXT_PUBLIC_CAL_COACHING_URL || "#book";
 export default function CoachingPage() {
   return (
     <div className="coaching-page bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .coaching-page {
           --service-primary: #814ac8;
           --service-accent: #df7afe;
@@ -445,12 +449,12 @@ export default function CoachingPage() {
             width: 100%;
           }
         }
-      `}</style>
+      ` }} />
 
       <section className="coaching-hero">
         <div className="coaching-shell relative z-10 text-center">
           <p className="coaching-label">Fractional AI Lead</p>
-          <h1 className="coaching-hero-title">
+          <h1 className="coaching-hero-title shimmer-active">
             Your AI stack changes every month. <span>We keep your team ahead of it.</span>
           </h1>
           <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
@@ -469,11 +473,26 @@ export default function CoachingPage() {
           </p>
 
           <div className="coaching-metrics" aria-label="Trust signals">
-            <span><strong>60+</strong> teams supported</span>
+            <span>
+              <strong>
+                <CountUp value={60} suffix="+" />
+              </strong>{" "}
+              teams supported
+            </span>
             <span className="coaching-metrics-divider" aria-hidden>•</span>
-            <span><strong>200+</strong> AI tools tested monthly</span>
+            <span>
+              <strong>
+                <CountUp value={200} suffix="+" />
+              </strong>{" "}
+              AI tools tested monthly
+            </span>
             <span className="coaching-metrics-divider" aria-hidden>•</span>
-            <span><strong>4.9/5</strong> client rating</span>
+            <span>
+              <strong>
+                <CountUp value={4.9} decimals={1} suffix="/5" />
+              </strong>{" "}
+              client rating
+            </span>
           </div>
         </div>
       </section>
@@ -487,12 +506,14 @@ export default function CoachingPage() {
           </p>
         </div>
         <div className="coaching-grid">
-          {included.map((item) => (
-            <article className="coaching-card coaching-item" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {included.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="coaching-card coaching-item">
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -503,14 +524,16 @@ export default function CoachingPage() {
           <h2 className="coaching-section-title">Embedded, not outsourced.</h2>
         </div>
         <div className="coaching-testimonials">
-          {testimonials.map((t) => (
-            <figure className="coaching-testimonial-card" key={t.name}>
-              <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              <figcaption>
-                <strong>{t.name}</strong>
-                <span>{t.role}</span>
-              </figcaption>
-            </figure>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="coaching-testimonial-card" maxTilt={4}>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -546,6 +569,8 @@ export default function CoachingPage() {
           </Link>
         </div>
       </section>
+
+      <JourneyIndicator />
     </div>
   );
 }
