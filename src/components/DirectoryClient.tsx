@@ -1517,6 +1517,7 @@ function ToolRow({
               alt={tool.name}
               width={32}
               height={32}
+              referrerPolicy="no-referrer"
               className="w-8 h-8 rounded-lg object-contain flex-shrink-0"
               style={{ background: "#1a1a1a" }}
             />
@@ -1533,7 +1534,8 @@ function ToolRow({
               <a
                 href={visitUrl}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer nofollow"
+                referrerPolicy="no-referrer"
                 className="block text-sm font-semibold text-white truncate max-w-[150px] transition-colors duration-150 hover:text-[#b07de8]"
               >
                 {tool.name}
