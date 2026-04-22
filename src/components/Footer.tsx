@@ -2,26 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
 
-const TALLY_POPUP_HREF =
-  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
-
-const TALLY_POPUP_ATTRIBUTES = {
-  "data-tally-open": "xXNXNr",
-  "data-tally-layout": "modal",
-  "data-tally-hide-title": "1",
-  "data-tally-overlay": "1",
-  "data-tally-emoji-text": "👋",
-  "data-tally-emoji-animation": "wave",
-  "data-tally-auto-close": "1000",
-  "data-tally-form-events-forwarding": "1",
-} as const;
-
 const linkColumns = [
   {
     title: "Product",
     links: [
       { label: "Browse AI tools", href: "/#match-tools" },
-      { label: "Start Free AI Match", href: TALLY_POPUP_HREF, tally: true },
+      { label: "Start Free AI Match", href: "/assessment" },
       { label: "Deals", href: "/deals" },
     ],
   },
@@ -74,8 +60,7 @@ export default function Footer() {
               personalized stack match for your workflow, team, budget, and goals.
             </p>
             <Link
-              href={TALLY_POPUP_HREF}
-              {...TALLY_POPUP_ATTRIBUTES}
+              href="/assessment"
               className="inline-flex h-10 w-fit items-center justify-center rounded-full px-5 text-sm font-semibold text-white transition-opacity duration-150 hover:opacity-90"
               style={{
                 background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
@@ -98,7 +83,6 @@ export default function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        {...(link.tally ? TALLY_POPUP_ATTRIBUTES : {})}
                         className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
                       >
                         {link.label}

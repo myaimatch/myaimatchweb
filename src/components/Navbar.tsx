@@ -7,20 +7,6 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
 
-const TALLY_POPUP_HREF =
-  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
-
-const TALLY_POPUP_ATTRIBUTES = {
-  "data-tally-open": "xXNXNr",
-  "data-tally-layout": "modal",
-  "data-tally-hide-title": "1",
-  "data-tally-overlay": "1",
-  "data-tally-emoji-text": "👋",
-  "data-tally-emoji-animation": "wave",
-  "data-tally-auto-close": "1000",
-  "data-tally-form-events-forwarding": "1",
-} as const;
-
 const navLinks = [
   { label: "Deals", href: "/deals" },
   { label: "Blog", href: "/blog" },
@@ -293,8 +279,7 @@ export default function Navbar() {
             <div className="nav-desktop-cta" style={{ alignItems: "center", justifyContent: "flex-end", gap: "16px", minWidth: "170px" }}>
               {!isServicesRoute ? (
                 <Link
-                  href={TALLY_POPUP_HREF}
-                  {...TALLY_POPUP_ATTRIBUTES}
+                  href="/assessment"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -538,8 +523,7 @@ export default function Navbar() {
             {!isServicesRoute ? (
               <div style={{ marginTop: "auto", paddingTop: "24px" }}>
                 <Link
-                  href={TALLY_POPUP_HREF}
-                  {...TALLY_POPUP_ATTRIBUTES}
+                  href="/assessment"
                   onClick={() => setMobileOpen(false)}
                   style={{
                     display: "flex",
