@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(pkill:*)",
+      "Bash(curl -s*)",
+      "Read(*)",
+      "Write(.claude/memory/*)",
+      "Write(temporary screenshots/*)"
+    ],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(secrets/**)"
+    ]
+  },
+  "prefersReducedMotion": false
+}
