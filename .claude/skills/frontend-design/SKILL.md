@@ -22,26 +22,36 @@ Before coding, understand the context and commit to a clear direction:
 All components MUST use these values. Never deviate.
 
 ### Color
+
+**Official MYAM KIT 2026:**
+
 ```css
-/* Backgrounds — always true black, never gray */
---color-bg:      #000000;
---color-surface: #0d0d0dcc;
+/* Backgrounds — always deep black #111111, never gray */
+--color-bg:      #111111;
+--color-surface: rgba(17, 17, 17, 0.8);
 --color-card:    rgba(255, 255, 255, 0.04);
 --color-border:  rgba(255, 255, 255, 0.08);
 
-/* Purple — the only brand hue */
---color-primary: #814ac8;
---color-accent:  #df7afe;
+/* Purple — the only brand hue (official kit 2026) */
+--color-primary: #8468EB;
+--color-accent:  #C4B5FD;
+
+/* Color scale — 5 stops */
+--color-purple-50:  #F0EDFF;
+--color-purple-200: #C4B5FD;
+--color-purple-500: #8468EB;
+--color-purple-700: #5B42C3;
+--color-purple-900: #311B92;
 
 /* Text hierarchy */
 --color-text-primary: #ffffff;
 --color-text-muted:   rgba(255, 255, 255, 0.4);
 --color-text-dim:     rgba(255, 255, 255, 0.25);
 
-/* Gradients */
---gradient-cta:  linear-gradient(135deg, #814ac8, #a066d4);
---gradient-glow: radial-gradient(ellipse, rgba(129, 74, 200, 0.5), transparent 70%);
---gradient-beam: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(129, 74, 200, 0.45), transparent);
+/* Gradients — 135° angle, 15-20% opacity for glows */
+--gradient-cta:  linear-gradient(135deg, #8468EB, #5B42C3);
+--gradient-glow: radial-gradient(ellipse, rgba(132, 104, 235, 0.15), transparent 70%);
+--gradient-beam: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132, 104, 235, 0.18), transparent);
 ```
 
 **Rule**: Never introduce a second hue family. Purple is the only color. Section depth is created through glow intensity and surface opacity — not light/dark alternation.
@@ -57,10 +67,10 @@ font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 /* H3       */ font-size: 18–20px; font-weight: 600;
 /* Body     */ font-size: 15–16px; font-weight: 400; line-height: 1.65; color: rgba(255,255,255,.6);
 /* Small    */ font-size: 13px;    font-weight: 400; color: rgba(255,255,255,.4);
-/* Label    */ font-size: 10px;    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #814ac8;
+/* Label    */ font-size: 10px;    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8468EB;
 ```
 
-**Rule**: Inter is the primary and only typeface. Do not substitute or supplement with display fonts unless building a one-off marketing moment — and even then, Inter must remain the body font.
+**Rule**: Inter is the primary and only typeface. Do NOT substitute or supplement with display fonts under any circumstance — not even for marketing moments. Inter for all text, all sections, always.
 
 For scroll-driven hero sections, display text may go up to 6rem+ with tight line-height (0.9–1.0) — this is an extension of the scale, not a replacement.
 
@@ -75,7 +85,7 @@ For scroll-driven hero sections, display text may go up to 6rem+ with tight line
 
 /* Borders */
 /* Default card   */ border: 1px solid rgba(255,255,255,.08);
-/* Hover/active   */ border: 1px solid rgba(129,74,200,.4); box-shadow: 0 0 24px rgba(129,74,200,.25);
+/* Hover/active   */ border: 1px solid rgba(132,104,235,.4); box-shadow: 0 0 24px rgba(132,104,235,.20);
 /* Elevated modal */ box-shadow: 0 15px 35px rgba(0,0,0,.4);
 ```
 
@@ -84,8 +94,8 @@ For scroll-driven hero sections, display text may go up to 6rem+ with tight line
 ### Glow System (replaces shadows)
 Three glow types — use them, never flat box-shadows:
 - **Beam**: vertical purple beam at top-center of sections — `::before` pseudo-element, 2px wide, gradient to transparent. Used on footer, CTA sections.
-- **Bloom**: card-level radial glow at bottom-center — 200×80px, blur 8px, rgba(129,74,200,.5). Intensifies on hover.
-- **Ambient**: section-level breathing — `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(129,74,200,.45), transparent)`. Background of CTA and hero sections.
+- **Bloom**: card-level radial glow at bottom-center — 200×80px, blur 8px, rgba(132,104,235,.18). Intensifies on hover.
+- **Ambient**: section-level breathing — `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132,104,235,.18), transparent)`. Background of CTA and hero sections.
 
 ---
 
@@ -125,13 +135,13 @@ For scroll-animated pages and marketing sections.
 - Hero headings: **6rem minimum**, tight line-height (0.9–1.0), weight 700–800
 - Section headings: **3rem minimum**, weight 600–700
 - Horizontal marquee: **10–15vw**, uppercase, letter-spaced
-- Section labels: 0.7rem, uppercase, letter-spacing 0.15em+, `color: #814ac8`
+- Section labels: 0.7rem, uppercase, letter-spacing 0.15em+, `color: #8468EB`
 - Text hierarchy replaces card containers — size, weight, and opacity ARE the structure
 
 ### Section Depth (Not Light/Dark Zones)
 Sections don't alternate light/dark — they stay dark. Depth shifts via:
 - Glow beam presence/absence
-- Surface opacity: `rgba(255,255,255,.04)` card → `rgba(255,255,255,.02)` deep section → `#0d0d0d` solid panel
+- Surface opacity: `rgba(255,255,255,.04)` card → `rgba(255,255,255,.02)` deep section → `#111111` solid panel
 - Purple ambient intensity: faint glow → strong bloom → full radial beam
 
 ### Layout Variety

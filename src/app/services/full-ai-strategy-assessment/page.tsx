@@ -143,13 +143,13 @@ export default function StrategyAssessmentPage() {
     <div className="services-page bg-black text-white">
       <style dangerouslySetInnerHTML={{ __html: `
         .services-page {
-          --service-primary: #814ac8;
-          --service-accent: #df7afe;
+          --service-primary: #8468EB;
+          --service-accent: #C4B5FD;
           --service-surface: rgba(255,255,255,0.04);
           --service-border: rgba(255,255,255,0.08);
           --service-muted: rgba(255,255,255,0.6);
           --service-dim: rgba(255,255,255,0.4);
-          background-color: #000000;
+          background-color: #111111;
           color: #ffffff;
           overflow: hidden;
         }
@@ -200,7 +200,7 @@ export default function StrategyAssessmentPage() {
 
         .services-cta-primary {
           color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
+          background: linear-gradient(135deg, #8468EB, #5B42C3);
           border: 1px solid rgba(223,122,254,0.32);
         }
 
@@ -225,7 +225,7 @@ export default function StrategyAssessmentPage() {
 
         .services-cta-primary:focus-visible,
         .services-cta-secondary:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 3px;
         }
 
@@ -235,7 +235,7 @@ export default function StrategyAssessmentPage() {
           border: 1px solid var(--service-border);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.18), transparent 70%),
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.18), transparent 70%),
             var(--service-surface);
         }
 
@@ -247,7 +247,7 @@ export default function StrategyAssessmentPage() {
           width: 220px;
           height: 90px;
           transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(129,74,200,0.48), transparent 70%);
+          background: radial-gradient(ellipse, rgba(132,104,235,0.48), transparent 70%);
           filter: blur(10px);
           opacity: 0.28;
           pointer-events: none;
@@ -266,8 +266,8 @@ export default function StrategyAssessmentPage() {
           align-items: center;
           padding: 92px 0 110px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.18), transparent 34%),
-            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(129,74,200,0.34), transparent 68%),
+            linear-gradient(180deg, rgba(132,104,235,0.18), transparent 34%),
+            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(132,104,235,0.34), transparent 68%),
             #000000;
         }
 
@@ -306,7 +306,7 @@ export default function StrategyAssessmentPage() {
         }
 
         .services-hero-title span {
-          background: linear-gradient(135deg, #ffffff 8%, #df7afe 100%);
+          background: linear-gradient(135deg, #ffffff 8%, #C4B5FD 100%);
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
@@ -384,7 +384,7 @@ export default function StrategyAssessmentPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.12), transparent 70%),
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.12), transparent 70%),
             rgba(255,255,255,0.035);
         }
 
@@ -481,9 +481,9 @@ export default function StrategyAssessmentPage() {
         }
 
         .pricing-card.featured {
-          border-color: rgba(129,74,200,0.45);
+          border-color: rgba(132,104,235,0.45);
           background:
-            radial-gradient(ellipse 100% 58% at 50% 100%, rgba(129,74,200,0.26), transparent 70%),
+            radial-gradient(ellipse 100% 58% at 50% 100%, rgba(132,104,235,0.26), transparent 70%),
             rgba(255,255,255,0.055);
         }
 
@@ -521,7 +521,7 @@ export default function StrategyAssessmentPage() {
           height: 8px;
           margin-top: 7px;
           border-radius: 999px;
-          background: #814ac8;
+          background: #8468EB;
         }
 
         .pricing-card .services-cta-primary,
@@ -538,7 +538,7 @@ export default function StrategyAssessmentPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           background:
-            radial-gradient(ellipse 85% 70% at 50% 0%, rgba(129,74,200,0.26), transparent 72%),
+            radial-gradient(ellipse 85% 70% at 50% 0%, rgba(132,104,235,0.26), transparent 72%),
             rgba(255,255,255,0.035);
           padding: clamp(28px, 5vw, 48px);
         }
@@ -568,21 +568,21 @@ export default function StrategyAssessmentPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.14), transparent 70%),
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.14), transparent 70%),
             rgba(255,255,255,0.04);
           text-decoration: none;
           transition: border-color 200ms ease, transform 200ms ease;
         }
 
         .next-service-card:hover {
-          border-color: rgba(129,74,200,0.38);
+          border-color: rgba(132,104,235,0.38);
           transform: translateY(-3px);
         }
 
         .next-service-card.primary {
-          border-color: rgba(129,74,200,0.32);
+          border-color: rgba(132,104,235,0.32);
           background:
-            radial-gradient(ellipse 100% 62% at 50% 100%, rgba(129,74,200,0.26), transparent 70%),
+            radial-gradient(ellipse 100% 62% at 50% 100%, rgba(132,104,235,0.26), transparent 70%),
             rgba(255,255,255,0.055);
         }
 
@@ -597,7 +597,7 @@ export default function StrategyAssessmentPage() {
         }
 
         .next-service-card:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 3px;
         }
 
@@ -628,7 +628,7 @@ export default function StrategyAssessmentPage() {
         .next-service-arrow {
           margin-top: auto;
           padding-top: 24px;
-          color: #df7afe;
+          color: #C4B5FD;
           font-size: 13px;
           font-weight: 700;
           letter-spacing: 0.02em;

@@ -29,7 +29,7 @@ export default function AssessmentRouteOpener() {
       style={{
         minHeight: "calc(100vh - 72px)",
         background:
-          "radial-gradient(ellipse 72% 48% at 50% 0%, rgba(129,74,200,0.34), transparent 70%), #000000",
+          "radial-gradient(ellipse 72% 48% at 50% 0%, rgba(132,104,235,0.34), transparent 70%), #000000",
         color: "#ffffff",
       }}
     >
@@ -47,9 +47,9 @@ export default function AssessmentRouteOpener() {
             marginBottom: "16px",
             padding: "6px 14px",
             borderRadius: "999px",
-            border: "1px solid rgba(129,74,200,0.35)",
-            background: "rgba(129,74,200,0.12)",
-            color: "#df7afe",
+            border: "1px solid rgba(132,104,235,0.35)",
+            background: "rgba(132,104,235,0.12)",
+            color: "#C4B5FD",
             fontSize: "11px",
             fontWeight: 700,
             letterSpacing: "0.14em",
@@ -91,13 +91,13 @@ export default function AssessmentRouteOpener() {
             justifyContent: "center",
             borderRadius: "999px",
             padding: "14px 28px",
-            background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+            background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
             color: "#ffffff",
             fontSize: "15px",
             fontWeight: 600,
             textDecoration: "none",
             boxShadow:
-              "0 0 0 1px rgba(129,74,200,0.36), 0 10px 32px rgba(129,74,200,0.26)",
+              "0 0 0 1px rgba(132,104,235,0.36), 0 10px 32px rgba(132,104,235,0.26)",
           }}
         >
           Open the AI Match Engine

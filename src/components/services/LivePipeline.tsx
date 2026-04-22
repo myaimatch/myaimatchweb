@@ -104,8 +104,8 @@ export default function LivePipeline() {
       ctx.translate(pointer.x, pointer.y);
 
       const bg = ctx.createRadialGradient(width * 0.58, height * 0.42, 0, width * 0.58, height * 0.42, width * 0.42);
-      bg.addColorStop(0, "rgba(129,74,200,0.18)");
-      bg.addColorStop(1, "rgba(129,74,200,0)");
+      bg.addColorStop(0, "rgba(132,104,235,0.18)");
+      bg.addColorStop(1, "rgba(132,104,235,0)");
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, width, height);
 

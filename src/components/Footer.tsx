@@ -36,7 +36,7 @@ export default function Footer() {
       style={{
         borderTop: "1px solid transparent",
         backgroundImage:
-          "linear-gradient(#131313, #131313), linear-gradient(90deg, #814ac8 0%, transparent 60%)",
+          "linear-gradient(#131313, #131313), linear-gradient(90deg, #8468EB 0%, transparent 60%)",
         backgroundOrigin: "border-box",
         backgroundClip: "padding-box, border-box",
       }}
@@ -64,8 +64,8 @@ export default function Footer() {
               ctaLocation="footer_primary"
               className="inline-flex h-10 w-fit items-center justify-center rounded-full px-5 text-sm font-semibold text-white transition-opacity duration-150 hover:opacity-90"
               style={{
-                background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
-                boxShadow: "0 0 0 1px rgba(129,74,200,0.4), 0 6px 18px rgba(129,74,200,0.22)",
+                background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
+                boxShadow: "0 0 0 1px rgba(132,104,235,0.4), 0 6px 18px rgba(132,104,235,0.22)",
               }}
             >
               Start Free AI Match

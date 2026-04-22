@@ -440,15 +440,15 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
         <SearchParamsReader onParams={handleUrlParams} />
       </Suspense>
       {/* ── Category Cards ─────────────────────────────────────────────── */}
-      <div className="bg-[#0d0d0d] pt-5 pb-0">
+      <div className="bg-[#111111] pt-5 pb-0">
         <div className="relative">
           <div
             className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 z-10"
-            style={{ background: "linear-gradient(to right, #0d0d0d, transparent)" }}
+            style={{ background: "linear-gradient(to right, #111111, transparent)" }}
           />
           <div
             className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 z-10"
-            style={{ background: "linear-gradient(to left, #0d0d0d, transparent)" }}
+            style={{ background: "linear-gradient(to left, #111111, transparent)" }}
           />
 
           <div
@@ -496,7 +496,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 style={{
                   borderColor: "#1a1a1a",
                   scrollbarWidth: "none",
-                  background: "rgba(129,74,200,0.03)",
+                  background: "rgba(132,104,235,0.03)",
                 }}
               >
                 <span className="text-xs text-[#555] font-medium flex-shrink-0 flex items-center gap-1">
@@ -507,10 +507,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   onClick={() => setActiveSubcategory(null)}
                   className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150"
                   style={{
-                    borderColor: activeSubcategory === null ? "#814ac8" : "#2a2a2a",
+                    borderColor: activeSubcategory === null ? "#8468EB" : "#2a2a2a",
                     background:
                       activeSubcategory === null
-                        ? "rgba(129,74,200,0.15)"
+                        ? "rgba(132,104,235,0.15)"
                         : "transparent",
                     color: activeSubcategory === null ? "#b07de8" : "#666",
                   }}
@@ -525,10 +525,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     }
                     className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150 whitespace-nowrap"
                     style={{
-                      borderColor: activeSubcategory === sub ? "#814ac8" : "#2a2a2a",
+                      borderColor: activeSubcategory === sub ? "#8468EB" : "#2a2a2a",
                       background:
                         activeSubcategory === sub
-                          ? "rgba(129,74,200,0.15)"
+                          ? "rgba(132,104,235,0.15)"
                           : "transparent",
                       color: activeSubcategory === sub ? "#b07de8" : "#666",
                     }}
@@ -545,7 +545,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
       </div>
 
       {/* ── Toolbar ────────────────────────────────────────────────────── */}
-      <div className="bg-[#0d0d0d] border-b border-[#1a1a1a] px-4 sm:px-6 py-4">
+      <div className="bg-[#111111] border-b border-[#1a1a1a] px-4 sm:px-6 py-4">
         <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)_minmax(0,1fr)] lg:items-center">
           <div className="flex flex-wrap items-center gap-3 justify-start">
             {/* Filters toggle */}
@@ -555,9 +555,9 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               style={{
                 background:
                   filtersOpen || filterCount > 0
-                    ? "rgba(129,74,200,0.12)"
+                    ? "rgba(132,104,235,0.12)"
                     : "rgba(255,255,255,0.03)",
-                borderColor: filtersOpen || filterCount > 0 ? "#814ac8" : "#2a2a2a",
+                borderColor: filtersOpen || filterCount > 0 ? "#8468EB" : "#2a2a2a",
                 color: filtersOpen || filterCount > 0 ? "#b07de8" : "#777",
               }}
             >
@@ -566,7 +566,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               {filterCount > 0 && (
                 <span
                   className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center text-white"
-                  style={{ background: "#814ac8" }}
+                  style={{ background: "#8468EB" }}
                 >
                   {filterCount}
                 </span>
@@ -580,9 +580,9 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 className="h-12 min-w-[128px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-200"
                 style={{
                   background: columnPickerOpen || activeColumnCount > 0
-                    ? "rgba(129,74,200,0.12)"
+                    ? "rgba(132,104,235,0.12)"
                     : "rgba(255,255,255,0.03)",
-                  borderColor: columnPickerOpen || activeColumnCount > 0 ? "#814ac8" : "#2a2a2a",
+                  borderColor: columnPickerOpen || activeColumnCount > 0 ? "#8468EB" : "#2a2a2a",
                   color: columnPickerOpen || activeColumnCount > 0 ? "#b07de8" : "#777",
                 }}
               >
@@ -617,14 +617,14 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                           onClick={() => toggleColumn(key)}
                           className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-left transition-colors duration-100"
                           style={{
-                            background: visibleColumns[key] ? "rgba(129,74,200,0.08)" : "transparent",
+                            background: visibleColumns[key] ? "rgba(132,104,235,0.08)" : "transparent",
                           }}
                         >
                           <div
                             className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-150"
                             style={{
-                              borderColor: visibleColumns[key] ? "#814ac8" : "#333",
-                              background: visibleColumns[key] ? "#814ac8" : "transparent",
+                              borderColor: visibleColumns[key] ? "#8468EB" : "#333",
+                              background: visibleColumns[key] ? "#8468EB" : "transparent",
                             }}
                           >
                             {visibleColumns[key] && <Check className="w-2.5 h-2.5 text-white" />}
@@ -645,7 +645,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                           try { localStorage.setItem(LS_COLUMNS_KEY, JSON.stringify(DEFAULT_COLUMNS)) } catch { /* ignore */ }
                         }}
                         className="text-xs transition-colors"
-                        style={{ color: "#814ac8" }}
+                        style={{ color: "#8468EB" }}
                       >
                         Reset to default
                       </button>
@@ -660,8 +660,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               onClick={() => setShowFavoritesOnly((v) => !v)}
               className="h-12 min-w-[128px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-150"
               style={{
-                borderColor: showFavoritesOnly ? "#814ac8" : "#2a2a2a",
-                background: showFavoritesOnly ? "rgba(129,74,200,0.12)" : "rgba(255,255,255,0.03)",
+                borderColor: showFavoritesOnly ? "#8468EB" : "#2a2a2a",
+                background: showFavoritesOnly ? "rgba(132,104,235,0.12)" : "rgba(255,255,255,0.03)",
                 color: showFavoritesOnly ? "#b07de8" : "#777",
               }}
             >
@@ -671,7 +671,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 <span
                   className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center"
                   style={{
-                    background: showFavoritesOnly ? "#814ac8" : "#2a2a2a",
+                    background: showFavoritesOnly ? "#8468EB" : "#2a2a2a",
                     color: showFavoritesOnly ? "white" : "#888",
                   }}
                 >
@@ -696,17 +696,17 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             <div
               className="h-12 min-w-[190px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold"
               style={{
-                borderColor: "rgba(129,74,200,0.26)",
-                background: "rgba(129,74,200,0.06)",
+                borderColor: "rgba(132,104,235,0.26)",
+                background: "rgba(132,104,235,0.06)",
                 color: "#b07de8",
               }}
             >
             <span
               className="w-2 h-2 rounded-full flex-shrink-0"
               style={{
-                background: "#814ac8",
+                background: "#8468EB",
                 animation: "orbPulse 2s ease-in-out infinite",
-                boxShadow: "0 0 8px #814ac8",
+                boxShadow: "0 0 8px #8468EB",
               }}
             />
               Live Data · Updated just now
@@ -743,7 +743,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       <button
                         onClick={() => setActiveFilters(DEFAULT_FILTERS)}
                         className="text-xs transition-colors"
-                        style={{ color: "#814ac8" }}
+                        style={{ color: "#8468EB" }}
                       >
                         Clear all
                       </button>
@@ -778,8 +778,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                         }
                         className="px-2.5 py-1 rounded-lg border text-xs font-medium transition-all duration-150"
                         style={{
-                          borderColor: activeFilters.bestFor.includes(val) ? "#814ac8" : "#2a2a2a",
-                          background: activeFilters.bestFor.includes(val) ? "rgba(129,74,200,0.15)" : "transparent",
+                          borderColor: activeFilters.bestFor.includes(val) ? "#8468EB" : "#2a2a2a",
+                          background: activeFilters.bestFor.includes(val) ? "rgba(132,104,235,0.15)" : "transparent",
                           color: activeFilters.bestFor.includes(val) ? "#b07de8" : "#666",
                         }}
                       >
@@ -804,10 +804,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                         className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all duration-150"
                         style={{
                           borderColor:
-                            activeFilters.minRating === star ? "#814ac8" : "#2a2a2a",
+                            activeFilters.minRating === star ? "#8468EB" : "#2a2a2a",
                           background:
                             activeFilters.minRating === star
-                              ? "rgba(129,74,200,0.15)"
+                              ? "rgba(132,104,235,0.15)"
                               : "transparent",
                           color:
                             activeFilters.minRating === star ? "#b07de8" : "#666",
@@ -836,7 +836,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       }
                       className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
                       style={{
-                        background: activeFilters.hasFreePlan === true ? "#814ac8" : "#2a2a2a",
+                        background: activeFilters.hasFreePlan === true ? "#8468EB" : "#2a2a2a",
                         width: "36px",
                         height: "20px",
                       }}
@@ -864,7 +864,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       }
                       className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
                       style={{
-                        background: activeFilters.hasApi === true ? "#814ac8" : "#2a2a2a",
+                        background: activeFilters.hasApi === true ? "#8468EB" : "#2a2a2a",
                         width: "36px",
                         height: "20px",
                       }}
@@ -913,7 +913,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       }
                       className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
                       style={{
-                        background: activeFilters.gdprCompliant === true ? "#814ac8" : "#2a2a2a",
+                        background: activeFilters.gdprCompliant === true ? "#8468EB" : "#2a2a2a",
                         width: "36px",
                         height: "20px",
                       }}
@@ -954,7 +954,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
                       <span style={{ color: "#555" }}>$0</span>
-                      <span style={{ color: "#814ac8" }} className="font-medium">
+                      <span style={{ color: "#8468EB" }} className="font-medium">
                         ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? "+" : ""}
                       </span>
                       <span style={{ color: "#555" }}>$500+</span>
@@ -971,7 +971,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                           maxPrice: Number(e.target.value),
                         }))
                       }
-                      className="w-full accent-[#814ac8]"
+                      className="w-full accent-[#8468EB]"
                     />
                     <p className="text-[10px] text-[#444]">
                       Shows tools with starting price ≤ ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? " (all)" : ""}
@@ -1149,8 +1149,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 }
                 className="inline-flex h-12 items-center justify-center rounded-full border px-6 text-sm font-semibold transition-all duration-200 sm:ml-auto"
                 style={{
-                  borderColor: "rgba(129,74,200,0.35)",
-                  background: "rgba(129,74,200,0.12)",
+                  borderColor: "rgba(132,104,235,0.35)",
+                  background: "rgba(132,104,235,0.12)",
                   color: "#b07de8",
                 }}
               >
@@ -1173,10 +1173,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             transition={{ type: "spring", stiffness: 360, damping: 24 }}
             className="fixed bottom-6 right-5 z-50 inline-flex h-12 items-center justify-center gap-2 rounded-full border px-5 text-sm font-semibold"
             style={{
-              borderColor: "rgba(129,74,200,0.42)",
+              borderColor: "rgba(132,104,235,0.42)",
               background: "rgba(13,13,13,0.92)",
               color: "#ffffff",
-              boxShadow: "0 0 24px rgba(129,74,200,0.22)",
+              boxShadow: "0 0 24px rgba(132,104,235,0.22)",
               backdropFilter: "blur(14px)",
             }}
           >
@@ -1197,9 +1197,9 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
       <div
         className="overflow-hidden rounded-[18px] border"
         style={{
-          borderColor: "rgba(129,74,200,0.22)",
+          borderColor: "rgba(132,104,235,0.22)",
           background:
-            "radial-gradient(ellipse 70% 80% at 85% 0%, rgba(129,74,200,0.16), transparent 60%), rgba(255,255,255,0.03)",
+            "radial-gradient(ellipse 70% 80% at 85% 0%, rgba(132,104,235,0.16), transparent 60%), rgba(255,255,255,0.03)",
         }}
       >
         <button
@@ -1209,7 +1209,7 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
           className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-150 hover:bg-white/[0.03] md:px-6"
         >
           <span>
-            <span className="block text-[10px] font-bold uppercase tracking-widest text-[#814ac8]">
+            <span className="block text-[10px] font-bold uppercase tracking-widest text-[#8468EB]">
               Suggest a tool
             </span>
             <span className="mt-1 block text-sm font-semibold tracking-tight text-white md:text-base">
@@ -1244,7 +1244,7 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
                     name="toolName"
                     required
                     placeholder="Example: Granola"
-                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#8468EB]"
                     style={{ borderColor: "rgba(255,255,255,0.10)" }}
                   />
                 </label>
@@ -1255,7 +1255,7 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
                     type="url"
                     required
                     placeholder="https://..."
-                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#8468EB]"
                     style={{ borderColor: "rgba(255,255,255,0.10)" }}
                   />
                 </label>
@@ -1265,7 +1265,7 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
                     name="reason"
                     rows={3}
                     placeholder="Who should use it, and what makes it useful?"
-                    className="resize-none rounded-[18px] border bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#814ac8]"
+                    className="resize-none rounded-[18px] border bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#8468EB]"
                     style={{ borderColor: "rgba(255,255,255,0.10)" }}
                   />
                 </label>
@@ -1274,8 +1274,8 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
                     type="submit"
                     className="inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-200"
                     style={{
-                      background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
-                      boxShadow: "0 0 0 1px rgba(129,74,200,0.4), 0 8px 24px rgba(129,74,200,0.24)",
+                      background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
+                      boxShadow: "0 0 0 1px rgba(132,104,235,0.4), 0 8px 24px rgba(132,104,235,0.24)",
                     }}
                   >
                     Send tool suggestion
@@ -1357,12 +1357,12 @@ function CategoryCard({
       style={{
         minWidth: id === null ? "120px" : "170px",
         maxWidth: "200px",
-        borderColor: active ? "#814ac8" : "#1e1e1e",
+        borderColor: active ? "#8468EB" : "#1e1e1e",
         background: active
-          ? "rgba(129,74,200,0.10)"
+          ? "rgba(132,104,235,0.10)"
           : "rgba(255,255,255,0.02)",
         boxShadow: active
-          ? "0 0 0 1px rgba(129,74,200,0.3), 0 4px 20px rgba(129,74,200,0.10)"
+          ? "0 0 0 1px rgba(132,104,235,0.3), 0 4px 20px rgba(132,104,235,0.10)"
           : "none",
       }}
     >
@@ -1371,7 +1371,7 @@ function CategoryCard({
         <span
           className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full"
           style={{
-            background: active ? "rgba(129,74,200,0.2)" : "#1e1e1e",
+            background: active ? "rgba(132,104,235,0.2)" : "#1e1e1e",
             color: active ? "#b07de8" : "#555",
           }}
         >
@@ -1420,11 +1420,11 @@ function SortHeader({
       <div className="flex items-center gap-1.5">
         <span
           className="text-xs font-semibold uppercase tracking-wider transition-colors duration-150"
-          style={{ color: isActive ? "#814ac8" : "#666" }}
+          style={{ color: isActive ? "#8468EB" : "#666" }}
         >
           {label}
         </span>
-        <span style={{ color: isActive ? "#814ac8" : "#333" }}>
+        <span style={{ color: isActive ? "#8468EB" : "#333" }}>
           {isActive ? (
             sortDir === "asc" ? (
               <ChevronUp className="w-3.5 h-3.5" />
@@ -1454,7 +1454,7 @@ function ExpandableText({ text, maxLength }: { text: string; maxLength: number }
         <button
           onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v) }}
           className="flex-shrink-0 mt-0.5 transition-colors duration-150"
-          style={{ color: "#814ac8" }}
+          style={{ color: "#8468EB" }}
           title={expanded ? "Show less" : "Show more"}
         >
           {expanded
@@ -1499,7 +1499,7 @@ function ToolRow({
       style={{ borderColor: "#1e1e1e", background: isEven ? "#161616" : "#1a1a1a" }}
       onMouseEnter={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background =
-          "rgba(129,74,200,0.10)"
+          "rgba(132,104,235,0.10)"
       }}
       onMouseLeave={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background = isEven
@@ -1524,7 +1524,7 @@ function ToolRow({
           ) : (
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0"
-              style={{ background: "#1a1a1a", color: "#814ac8" }}
+              style={{ background: "#1a1a1a", color: "#8468EB" }}
             >
               {initials}
             </div>
@@ -1547,7 +1547,7 @@ function ToolRow({
             )}
             <div className="flex items-center gap-1 mt-0.5 flex-wrap">
               {tool.featured && (
-                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(129,74,200,0.15)", color: "#9d6ed4" }}>
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(132,104,235,0.15)", color: "rgba(132,104,235,0.7)" }}>
                   ✦ Featured
                 </span>
               )}
@@ -1577,7 +1577,7 @@ function ToolRow({
           {categoryName ? (
             <span
               className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
-              style={{ background: "rgba(129,74,200,0.10)", color: "#9d6ed4" }}
+              style={{ background: "rgba(132,104,235,0.10)", color: "rgba(132,104,235,0.7)" }}
             >
               {categoryName}
             </span>
@@ -1620,7 +1620,7 @@ function ToolRow({
             <span
               className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
               style={{
-                background: "rgba(129,74,200,0.08)",
+                background: "rgba(132,104,235,0.08)",
                 color: "#b07de8",
               }}
             >
@@ -1639,7 +1639,7 @@ function ToolRow({
             <div className="flex items-center gap-1.5">
               <Star
                 className="w-3.5 h-3.5"
-                style={{ color: "#814ac8", fill: "#814ac8" }}
+                style={{ color: "#8468EB", fill: "#8468EB" }}
               />
               <span className="text-sm font-medium text-white">
                 {tool.communityReputation.toFixed(1)}
@@ -1723,15 +1723,15 @@ function ToolRow({
           }}
           className="w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-150"
           style={{
-            background: isFavorite ? "rgba(129,74,200,0.12)" : "transparent",
+            background: isFavorite ? "rgba(132,104,235,0.12)" : "transparent",
           }}
           title={isFavorite ? "Remove from saved" : "Save tool"}
         >
           <Bookmark
             className="w-3.5 h-3.5 transition-all duration-150"
             style={{
-              color: isFavorite ? "#814ac8" : "#333",
-              fill: isFavorite ? "#814ac8" : "none",
+              color: isFavorite ? "#8468EB" : "#333",
+              fill: isFavorite ? "#8468EB" : "none",
             }}
           />
         </button>
@@ -1746,22 +1746,22 @@ function ToolRow({
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150"
             style={{
-              background: "rgba(129,74,200,0.08)",
-              color: "#9d6ed4",
-              border: "1px solid rgba(129,74,200,0.18)",
+              background: "rgba(132,104,235,0.08)",
+              color: "rgba(132,104,235,0.7)",
+              border: "1px solid rgba(132,104,235,0.18)",
             }}
             onMouseEnter={(e) => {
               ;(e.currentTarget as HTMLAnchorElement).style.background =
-                "rgba(129,74,200,0.20)"
-              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = "#814ac8"
+                "rgba(132,104,235,0.20)"
+              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = "#8468EB"
               ;(e.currentTarget as HTMLAnchorElement).style.color = "#c497f0"
             }}
             onMouseLeave={(e) => {
               ;(e.currentTarget as HTMLAnchorElement).style.background =
-                "rgba(129,74,200,0.08)"
+                "rgba(132,104,235,0.08)"
               ;(e.currentTarget as HTMLAnchorElement).style.borderColor =
-                "rgba(129,74,200,0.18)"
-              ;(e.currentTarget as HTMLAnchorElement).style.color = "#9d6ed4"
+                "rgba(132,104,235,0.18)"
+              ;(e.currentTarget as HTMLAnchorElement).style.color = "rgba(132,104,235,0.7)"
             }}
           >
             Visit
@@ -1804,8 +1804,8 @@ function CheckboxRow({
       <div
         className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-150"
         style={{
-          borderColor: checked ? "#814ac8" : "#333",
-          background: checked ? "#814ac8" : "transparent",
+          borderColor: checked ? "#8468EB" : "#333",
+          background: checked ? "#8468EB" : "transparent",
         }}
         onClick={() => onChange(!checked)}
       >

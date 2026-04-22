@@ -68,12 +68,12 @@ export default function ImplementationPage() {
     <div className="impl-page bg-black text-white">
       <style dangerouslySetInnerHTML={{ __html: `
         .impl-page {
-          --service-primary: #814ac8;
-          --service-accent: #df7afe;
+          --service-primary: #8468EB;
+          --service-accent: #C4B5FD;
           --service-surface: rgba(255,255,255,0.04);
           --service-border: rgba(255,255,255,0.08);
           --service-muted: rgba(255,255,255,0.6);
-          background-color: #000000;
+          background-color: #111111;
           color: #ffffff;
           overflow: hidden;
         }
@@ -124,7 +124,7 @@ export default function ImplementationPage() {
 
         .impl-cta-primary {
           color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
+          background: linear-gradient(135deg, #8468EB, #5B42C3);
           border: 1px solid rgba(223,122,254,0.32);
         }
 
@@ -149,7 +149,7 @@ export default function ImplementationPage() {
 
         .impl-cta-primary:focus-visible,
         .impl-cta-secondary:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 3px;
         }
 
@@ -159,7 +159,7 @@ export default function ImplementationPage() {
           border: 1px solid var(--service-border);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.18), transparent 70%),
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.18), transparent 70%),
             var(--service-surface);
         }
 
@@ -171,7 +171,7 @@ export default function ImplementationPage() {
           width: 220px;
           height: 90px;
           transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(129,74,200,0.48), transparent 70%);
+          background: radial-gradient(ellipse, rgba(132,104,235,0.48), transparent 70%);
           filter: blur(10px);
           opacity: 0.28;
           pointer-events: none;
@@ -190,8 +190,8 @@ export default function ImplementationPage() {
           align-items: center;
           padding: 92px 0 110px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.18), transparent 34%),
-            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(129,74,200,0.34), transparent 68%),
+            linear-gradient(180deg, rgba(132,104,235,0.18), transparent 34%),
+            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(132,104,235,0.34), transparent 68%),
             #000000;
         }
 
@@ -230,7 +230,7 @@ export default function ImplementationPage() {
         }
 
         .impl-hero-title span {
-          background: linear-gradient(135deg, #ffffff 8%, #df7afe 100%);
+          background: linear-gradient(135deg, #ffffff 8%, #C4B5FD 100%);
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
@@ -275,7 +275,7 @@ export default function ImplementationPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.12), transparent 70%),
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.12), transparent 70%),
             rgba(255,255,255,0.035);
         }
 
@@ -353,9 +353,9 @@ export default function ImplementationPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.14), rgba(129,74,200,0.04) 44%, transparent),
-            radial-gradient(ellipse 70% 58% at 50% 0%, rgba(129,74,200,0.32), transparent 70%),
-            #0d0d0d;
+            linear-gradient(180deg, rgba(132,104,235,0.14), rgba(132,104,235,0.04) 44%, transparent),
+            radial-gradient(ellipse 70% 58% at 50% 0%, rgba(132,104,235,0.32), transparent 70%),
+            #111111;
           padding: clamp(48px, 6vw, 80px) 24px;
           text-align: center;
         }
@@ -368,7 +368,7 @@ export default function ImplementationPage() {
           width: 2px;
           height: 80px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, #df7afe, transparent);
+          background: linear-gradient(180deg, #C4B5FD, transparent);
         }
 
         .impl-who h2 {
@@ -394,10 +394,10 @@ export default function ImplementationPage() {
         .impl-funnel {
           position: relative;
           overflow: hidden;
-          border: 1px solid rgba(129,74,200,0.22);
+          border: 1px solid rgba(132,104,235,0.22);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(129,74,200,0.16), transparent 70%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(132,104,235,0.16), transparent 70%),
             rgba(255,255,255,0.035);
           padding: 40px 36px;
           display: flex;

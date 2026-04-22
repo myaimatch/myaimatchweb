@@ -13,10 +13,15 @@ const config: Config = {
         foreground: "var(--foreground)",
         brand: {
           purple: "#8468EB",
-          bg: "#131313",
+          bg: "#111111",
           card: "#232323",
           surface: "#2F2F2F",
           border: "#343434",
+          purple50: "#F0EDFF",
+          purple200: "#C4B5FD",
+          purple500: "#8468EB",
+          purple700: "#5B42C3",
+          purple900: "#311B92",
         },
       },
       fontFamily: {

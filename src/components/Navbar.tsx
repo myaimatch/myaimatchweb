@@ -113,7 +113,7 @@ export default function Navbar() {
             width: "320px",
             height: "1px",
             background:
-              "linear-gradient(90deg, transparent, rgba(129,74,200,0.6), rgba(223,122,254,0.4), rgba(129,74,200,0.6), transparent)",
+              "linear-gradient(90deg, transparent, rgba(132,104,235,0.6), rgba(223,122,254,0.4), rgba(132,104,235,0.6), transparent)",
             pointerEvents: "none",
           }}
         />
@@ -201,7 +201,7 @@ export default function Navbar() {
                       left: "50%",
                       transform: "translateX(-50%)",
                       minWidth: "280px",
-                      background: "#0d0d0d",
+                      background: "#111111",
                       border: "1px solid rgba(255,255,255,0.08)",
                       borderRadius: "14px",
                       padding: "8px",
@@ -285,7 +285,7 @@ export default function Navbar() {
                     display: "inline-flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+                    background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
                     color: "#ffffff",
                     fontSize: "13.5px",
                     fontWeight: 600,
@@ -294,19 +294,19 @@ export default function Navbar() {
                     textDecoration: "none",
                     letterSpacing: "0.01em",
                     boxShadow:
-                      "0 0 0 1px rgba(129,74,200,0.4), 0 4px 16px rgba(129,74,200,0.25), 0 1px 4px rgba(0,0,0,0.4)",
+                      "0 0 0 1px rgba(132,104,235,0.4), 0 4px 16px rgba(132,104,235,0.25), 0 1px 4px rgba(0,0,0,0.4)",
                     transition: "opacity 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease",
                   }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLAnchorElement;
                     el.style.opacity = "0.9";
-                    el.style.boxShadow = "0 0 0 1px rgba(129,74,200,0.6), 0 6px 24px rgba(129,74,200,0.35), 0 1px 4px rgba(0,0,0,0.4)";
+                    el.style.boxShadow = "0 0 0 1px rgba(132,104,235,0.6), 0 6px 24px rgba(132,104,235,0.35), 0 1px 4px rgba(0,0,0,0.4)";
                     el.style.transform = "translateY(-1px)";
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLAnchorElement;
                     el.style.opacity = "1";
-                    el.style.boxShadow = "0 0 0 1px rgba(129,74,200,0.4), 0 4px 16px rgba(129,74,200,0.25), 0 1px 4px rgba(0,0,0,0.4)";
+                    el.style.boxShadow = "0 0 0 1px rgba(132,104,235,0.4), 0 4px 16px rgba(132,104,235,0.25), 0 1px 4px rgba(0,0,0,0.4)";
                     el.style.transform = "translateY(0)";
                   }}
                 >
@@ -371,7 +371,7 @@ export default function Navbar() {
               top: 0,
               height: "100%",
               width: "288px",
-              backgroundColor: "#0d0d0d",
+              backgroundColor: "#111111",
               borderLeft: "1px solid rgba(255,255,255,0.07)",
               display: "flex",
               flexDirection: "column",
@@ -452,7 +452,7 @@ export default function Navbar() {
                   style={{
                     display: "block",
                     padding: "4px 14px 8px",
-                    color: "rgba(129,74,200,0.9)",
+                    color: "rgba(132,104,235,0.9)",
                     fontSize: "10px",
                     fontWeight: 700,
                     letterSpacing: "0.12em",
@@ -530,14 +530,14 @@ export default function Navbar() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
+                    background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
                     color: "#ffffff",
                     fontSize: "14px",
                     fontWeight: 600,
                     padding: "12px 20px",
                     borderRadius: "999px",
                     textDecoration: "none",
-                    boxShadow: "0 4px 16px rgba(129,74,200,0.3)",
+                    boxShadow: "0 4px 16px rgba(132,104,235,0.3)",
                   }}
                 >
                   Start Free AI Match

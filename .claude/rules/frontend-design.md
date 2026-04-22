@@ -23,7 +23,7 @@ Reglas de comportamiento al diseñar UI. Los valores concretos (colores, tokens)
 |---|---|
 | **Colors** | Nunca paleta default de Tailwind (indigo-500, blue-600). Usar brand color custom y derivar. |
 | **Shadows** | Nunca `shadow-md` plano. Layered, color-tinted, baja opacidad. |
-| **Typography** | Nunca misma fuente para heading y body. Pairing display/serif + sans limpia. Tracking `-0.03em` en headings grandes, line-height `1.7` en body. |
+| **Typography** | Inter only — no display/serif pairing. Tracking `-0.03em` en headings grandes, line-height `1.7` en body. |
 | **Gradients** | Layer múltiples radial gradients. Añadir noise/grain vía SVG filter. |
 | **Animations** | Solo `transform` y `opacity`. Nunca `transition-all`. Spring easing. |
 | **Interactive states** | Todo clickable: hover, focus-visible, active. Sin excepciones. |

@@ -44,7 +44,7 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
           {/* Radial gradient overlay */}
           <div className="absolute inset-0"
             style={{
-              background: "radial-gradient(circle at center, rgba(129,74,200,0.25) 0%, transparent 70%)"
+              background: "radial-gradient(circle at center, rgba(132,104,235,0.25) 0%, transparent 70%)"
             }}
           />
 
@@ -68,7 +68,7 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
             ) : (
               <div
                 className="w-16 h-16 rounded-xl flex items-center justify-center text-xs font-bold"
-                style={{ backgroundColor: "#814ac8", color: "white" }}
+                style={{ backgroundColor: "#8468EB", color: "white" }}
               >
                 {initials}
               </div>
@@ -78,7 +78,7 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
           {/* Category tag pill */}
           <div
             className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold text-white"
-            style={{ backgroundColor: "rgba(129,74,200,0.85)", backdropFilter: "blur(8px)" }}
+            style={{ backgroundColor: "rgba(132,104,235,0.85)", backdropFilter: "blur(8px)" }}
           >
             <Tag className="w-3 h-3" />
             {deal.tag}
@@ -87,7 +87,7 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
           {/* Deal label badge */}
           {deal.dealLabel && (
             <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold text-white"
-              style={{ backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", border: "1px solid rgba(129,74,200,0.5)" }}
+              style={{ backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", border: "1px solid rgba(132,104,235,0.5)" }}
             >
               {deal.dealLabel}
             </div>
@@ -124,7 +124,7 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
         {/* Subtle border glow on hover */}
         <div
           className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ boxShadow: "inset 0 0 0 1px rgba(129,74,200,0.5)" }}
+          style={{ boxShadow: "inset 0 0 0 1px rgba(132,104,235,0.5)" }}
         />
       </motion.a>
     );
@@ -169,8 +169,8 @@ const OfferCarousel = React.forwardRef<HTMLDivElement, OfferCarouselProps>(
             color: "rgba(255,255,255,0.8)",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#814ac8";
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "#814ac8";
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#8468EB";
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "#8468EB";
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLButtonElement).style.backgroundColor = "rgba(0,0,0,0.75)";
@@ -205,8 +205,8 @@ const OfferCarousel = React.forwardRef<HTMLDivElement, OfferCarouselProps>(
             color: "rgba(255,255,255,0.8)",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#814ac8";
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "#814ac8";
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#8468EB";
+            (e.currentTarget as HTMLButtonElement).style.borderColor = "#8468EB";
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLButtonElement).style.backgroundColor = "rgba(0,0,0,0.75)";

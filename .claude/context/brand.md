@@ -10,22 +10,37 @@ Siempre chequear `brand_assets/` antes de diseñar. Contiene logos, design syste
 
 ## Color
 
+**Official MYAM KIT 2026 — Escala completa:**
+
 ```css
-/* Backgrounds — siempre true black, nunca gris */
---color-bg:      #000000;
---color-surface: #0d0d0dcc;
+/* Backgrounds — siempre deep black #111111, nunca gris */
+--color-bg:      #111111;
+--color-surface: rgba(17, 17, 17, 0.8);
 --color-card:    rgba(255, 255, 255, 0.04);
 --color-border:  rgba(255, 255, 255, 0.08);
 
-/* Primary — púrpura de marca */
---color-primary: #814ac8;  /* NO #8468EB — ese era el valor incorrecto */
+/* Primary — púrpura de marca (oficial kit 2026) */
+--color-primary: #8468EB;
+
+/* Color scale — 5 stops */
+--color-purple-50:  #F0EDFF;   /* lightest tint */
+--color-purple-200: #C4B5FD;   /* light accent */
+--color-purple-500: #8468EB;   /* primary (main brand) */
+--color-purple-700: #5B42C3;   /* mid-dark for gradients */
+--color-purple-900: #311B92;   /* darkest depth */
 ```
 
 ## Typography
 
-- Pairing: display/serif + clean sans. Nunca misma fuente para heading y body.
+- **Inter only** — no display/serif pairing. Misma familia para headings y body.
 - Headings grandes: tracking `-0.03em`.
 - Body: line-height `1.7`.
+
+## Gradients
+
+- Ángulo: preferentemente 135° para transiciones naturales.
+- Opacidad de glow: máximo 15-20% para efectos de profundidad sutiles.
+- Propósito: guiar atención y añadir profundidad sin saturar.
 
 ## Animaciones
 

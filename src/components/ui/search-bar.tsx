@@ -254,14 +254,14 @@ const SearchBar = ({
           className={cn(
             "flex items-center w-full rounded-full border relative overflow-hidden backdrop-blur-md",
             isFocused
-              ? "border-[#814ac8]/60"
+              ? "border-[#8468EB]/60"
               : "border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)]"
           )}
           animate={{
             boxShadow: isClicked
-              ? "0 0 40px rgba(129,74,200,0.5), 0 0 15px rgba(223,122,254,0.4) inset"
+              ? "0 0 40px rgba(132,104,235,0.5), 0 0 15px rgba(223,122,254,0.4) inset"
               : isFocused
-              ? "0 0 32px rgba(129,74,200,0.3), 0 15px 35px rgba(0,0,0,0.4)"
+              ? "0 0 32px rgba(132,104,235,0.3), 0 15px 35px rgba(0,0,0,0.4)"
               : "0 0 0 rgba(0,0,0,0)",
           }}
           onClick={handleClick}
@@ -275,9 +275,9 @@ const SearchBar = ({
               animate={{
                 opacity: 0.08,
                 background: [
-                  "linear-gradient(90deg, #814ac8 0%, #df7afe 100%)",
-                  "linear-gradient(90deg, #3c3489 0%, #a066d4 100%)",
-                  "linear-gradient(90deg, #814ac8 0%, #df7afe 100%)",
+                  "linear-gradient(90deg, #8468EB 0%, #C4B5FD 100%)",
+                  "linear-gradient(90deg, #3c3489 0%, #5B42C3 100%)",
+                  "linear-gradient(90deg, #8468EB 0%, #C4B5FD 100%)",
                 ],
               }}
               transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
@@ -314,7 +314,7 @@ const SearchBar = ({
                   top: `${p.top}%`,
                   filter: "blur(2px)",
                   background: p.isPrimary
-                    ? "rgba(129,74,200,0.7)"
+                    ? "rgba(132,104,235,0.7)"
                     : "rgba(223,122,254,0.6)",
                 }}
               />
@@ -326,14 +326,14 @@ const SearchBar = ({
             <>
               <motion.div
                 className="absolute inset-0 rounded-full"
-                style={{ background: "rgba(129,74,200,0.15)" }}
+                style={{ background: "rgba(132,104,235,0.15)" }}
                 initial={{ scale: 0, opacity: 0.7 }}
                 animate={{ scale: 2, opacity: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
               />
               <motion.div
                 className="absolute inset-0 rounded-full"
-                style={{ background: "rgba(129,74,200,0.1)" }}
+                style={{ background: "rgba(132,104,235,0.1)" }}
                 initial={{ opacity: 0.5 }}
                 animate={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
@@ -355,8 +355,8 @@ const SearchBar = ({
               transition={{ duration: p.duration, ease: "easeOut" }}
               className="absolute w-2 h-2 rounded-full"
               style={{
-                background: p.isPrimary ? "rgba(129,74,200,0.9)" : "rgba(223,122,254,0.9)",
-                boxShadow: "0 0 8px rgba(129,74,200,0.8)",
+                background: p.isPrimary ? "rgba(132,104,235,0.9)" : "rgba(223,122,254,0.9)",
+                boxShadow: "0 0 8px rgba(132,104,235,0.8)",
               }}
             />
           ))}
@@ -373,9 +373,9 @@ const SearchBar = ({
               strokeWidth={isFocused ? 2.5 : 2}
               style={{
                 color: isAnimating
-                  ? "#df7afe"
+                  ? "#C4B5FD"
                   : isFocused
-                  ? "#814ac8"
+                  ? "#8468EB"
                   : "rgba(255,255,255,0.4)",
                 transition: "color 0.3s",
               }}
@@ -413,13 +413,13 @@ const SearchBar = ({
                 exit={{ opacity: 0, scale: 0.8, x: -20 }}
                 whileHover={{
                   scale: 1.05,
-                  boxShadow: "0 10px 25px -5px rgba(129,74,200,0.5)",
+                  boxShadow: "0 10px 25px -5px rgba(132,104,235,0.5)",
                 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-5 py-2 mr-2 text-sm font-semibold rounded-full text-white backdrop-blur-sm flex-shrink-0"
                 style={{
-                  background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
-                  boxShadow: "0 4px 14px rgba(129,74,200,0.35)",
+                  background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
+                  boxShadow: "0 4px 14px rgba(132,104,235,0.35)",
                   zIndex: 10,
                 }}
               >
@@ -456,8 +456,8 @@ const SearchBar = ({
             style={{
               background: "rgba(13,13,13,0.95)",
               backdropFilter: "blur(16px)",
-              borderColor: "rgba(129,74,200,0.3)",
-              boxShadow: "0 20px 40px rgba(0,0,0,0.5), 0 0 24px rgba(129,74,200,0.15)",
+              borderColor: "rgba(132,104,235,0.3)",
+              boxShadow: "0 20px 40px rgba(0,0,0,0.5), 0 0 24px rgba(132,104,235,0.15)",
               maxHeight: "300px",
               overflowY: "auto",
             }}
@@ -480,7 +480,7 @@ const SearchBar = ({
                   style={{ transition: "background 0.15s" }}
                   onMouseEnter={(e) =>
                     ((e.currentTarget as HTMLElement).style.background =
-                      "rgba(129,74,200,0.12)")
+                      "rgba(132,104,235,0.12)")
                   }
                   onMouseLeave={(e) =>
                     ((e.currentTarget as HTMLElement).style.background = "transparent")
@@ -491,7 +491,7 @@ const SearchBar = ({
                     animate={{ scale: 1 }}
                     transition={{ delay: index * 0.06 }}
                   >
-                    <CircleDot size={15} style={{ color: "#814ac8" }} />
+                    <CircleDot size={15} style={{ color: "#8468EB" }} />
                   </motion.div>
                   <motion.span
                     className="text-sm font-medium"

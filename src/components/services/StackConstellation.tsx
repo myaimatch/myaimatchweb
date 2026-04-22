@@ -180,7 +180,7 @@ export default function StackConstellation() {
 
           const grad = ctx.createLinearGradient(ax, ay, bx, by);
           grad.addColorStop(0, `rgba(223, 122, 254, ${0.55 * holdFade})`);
-          grad.addColorStop(1, `rgba(129, 74, 200, ${0.18 * holdFade})`);
+          grad.addColorStop(1, `rgba(132, 104, 235, ${0.18 * holdFade})`);
           ctx.strokeStyle = grad;
           ctx.lineWidth = 1;
           ctx.beginPath();
