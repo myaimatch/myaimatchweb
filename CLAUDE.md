@@ -69,8 +69,8 @@ A universal AI matching engine and consultancy that eliminates "AI overwhelm." T
 | Styling | Tailwind CSS + shadcn/ui |
 | Data / CMS | Airtable API |
 | AI | Claude API (Anthropic) |
-| Forms | Tally |
-| Automation | Make.com or Claude Code + PaperClip |
+| Forms | Typeform |
+| Automation | Zapier |
 | Email | Klaviyo |
 | Payments | Stripe |
 | Scheduling | Cal.com |
@@ -124,7 +124,7 @@ Every page must include:
 | `/directory` | Tool grid with filters and categories (data from Airtable) |
 | `/tools/[slug]` | Individual tool detail pages (static, generated from Airtable) |
 | `/compare/[tool-a]-vs-[tool-b]` | Side-by-side comparison (Versus-style, SEO URL) |
-| `/assessment` | Free Tech Stack Assessment (Tally embed) |
+| `/assessment` | Compatibility opener route that launches the Free AI Match popup |
 | `/services` | Full Strategy Assessment + AI Stack Setup pages with Cal.com + Stripe |
 | `/blog/[slug]` | MDX blog posts (comparison articles, "Tool A vs Tool B") |
 
@@ -142,6 +142,5 @@ Every page must include:
 
 ## Assessment Automation Flow
 
-Tally form submission → Make.com webhook → Claude API (generate personalized recommendations) → Klaviyo (deliver email with branded PDF report) → Airtable CRM (log lead)
-
+Typeform submission → Zapier → Claude API (generate personalized recommendations) → Klaviyo → Airtable CRM
 

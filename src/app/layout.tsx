@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "@typeform/embed/build/css/popup.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AssessmentPopupProvider from "@/components/assessment/AssessmentPopupProvider";
 import ServicePolish from "@/components/services/ServicePolish";
 import GlobalCursorTrail from "@/components/GlobalCursorTrail";
 
@@ -41,11 +43,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="antialiased">
-        <Navbar />
-        <main>{children}</main>
-        <GlobalCursorTrail />
-        <ServicePolish />
-        <Footer />
+        <AssessmentPopupProvider>
+          <Navbar />
+          <main>{children}</main>
+          <GlobalCursorTrail />
+          <ServicePolish />
+          <Footer />
+        </AssessmentPopupProvider>
       </body>
     </html>
   );

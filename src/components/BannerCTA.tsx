@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
+import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 
 export default function BannerCTA() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -77,8 +77,8 @@ export default function BannerCTA() {
             Free. 2 minutes. No sales call required.
           </p>
           <div data-animate>
-            <Link
-              href="/assessment"
+            <AssessmentPopupTrigger
+              ctaLocation="banner_cta"
               className="inline-block font-semibold text-base px-8 py-4 rounded-full transition-all"
               style={{
                 background: "white",
@@ -94,7 +94,7 @@ export default function BannerCTA() {
               }}
             >
               Start the AI Match Engine
-            </Link>
+            </AssessmentPopupTrigger>
           </div>
         </div>
 

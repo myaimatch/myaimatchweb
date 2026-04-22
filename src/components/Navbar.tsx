@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
+import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
 
 const navLinks = [
@@ -278,8 +279,8 @@ export default function Navbar() {
             {/* Desktop CTA */}
             <div className="nav-desktop-cta" style={{ alignItems: "center", justifyContent: "flex-end", gap: "16px", minWidth: "170px" }}>
               {!isServicesRoute ? (
-                <Link
-                  href="/assessment"
+                <AssessmentPopupTrigger
+                  ctaLocation="navbar_desktop"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -310,7 +311,7 @@ export default function Navbar() {
                   }}
                 >
                   Start Free AI Match
-                </Link>
+                </AssessmentPopupTrigger>
               ) : null}
             </div>
 
@@ -522,8 +523,8 @@ export default function Navbar() {
             {/* Drawer CTA */}
             {!isServicesRoute ? (
               <div style={{ marginTop: "auto", paddingTop: "24px" }}>
-                <Link
-                  href="/assessment"
+                <AssessmentPopupTrigger
+                  ctaLocation="navbar_mobile"
                   onClick={() => setMobileOpen(false)}
                   style={{
                     display: "flex",
@@ -540,7 +541,7 @@ export default function Navbar() {
                   }}
                 >
                   Start Free AI Match
-                </Link>
+                </AssessmentPopupTrigger>
               </div>
             ) : null}
           </div>
