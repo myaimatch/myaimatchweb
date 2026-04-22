@@ -83,10 +83,10 @@ function AssessmentPopupHand({ isVisible }: { isVisible: boolean }) {
             height: "88px",
             borderRadius: "999px",
             background:
-              "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.18), rgba(129,74,200,0.18) 55%, rgba(13,13,13,0.96) 100%)",
+              "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.18), rgba(132,104,235,0.18) 55%, rgba(13,13,13,0.96) 100%)",
             border: "1px solid rgba(223,122,254,0.28)",
             boxShadow:
-              "0 0 0 1px rgba(223,122,254,0.12), 0 24px 60px rgba(0,0,0,0.45), 0 0 42px rgba(129,74,200,0.28)",
+              "0 0 0 1px rgba(223,122,254,0.12), 0 24px 60px rgba(0,0,0,0.45), 0 0 42px rgba(132,104,235,0.28)",
             animation: "assessmentHandFloat 3.4s ease-in-out infinite",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",

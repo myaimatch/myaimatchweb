@@ -19,8 +19,8 @@ export default function BlueprintDiagram({ type }: BlueprintDiagramProps) {
             <path d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
           </pattern>
           <linearGradient id={`line-${id}`} x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="#df7afe" />
-            <stop offset="100%" stopColor="#814ac8" />
+            <stop offset="0%" stopColor="#C4B5FD" />
+            <stop offset="100%" stopColor="#8468EB" />
           </linearGradient>
         </defs>
         <rect width="220" height="120" rx="14" fill={`url(#grid-${id})`} />

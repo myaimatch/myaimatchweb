@@ -10,16 +10,18 @@ out/
 .env.local
 .env.*.local
 
-# misc
+# os / editor
 .DS_Store
-temporary screenshots/
 
-# design reference files
-*.pdf
-*.png
+# screenshots y referencias (no committear)
+temporary screenshots/
+docs/references/
 
 # build cache
 tsconfig.tsbuildinfo
 
-# superpowers docs (auto-generated)
-docs/superpowers/
+# claude project-local state
+.claude/memory/*
+!.claude/memory/.gitkeep
+.claude/settings.local.json
+CLAUDE.local.md

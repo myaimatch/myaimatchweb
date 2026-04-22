@@ -53,7 +53,7 @@ export default function JourneyIndicator() {
           background: rgba(12, 12, 16, 0.72);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(129, 74, 200, 0.18);
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(132, 104, 235, 0.18);
           transform: translateY(${mounted ? "0" : "32px"});
           opacity: ${mounted ? 1 : 0};
           transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1) 600ms,
@@ -111,9 +111,9 @@ export default function JourneyIndicator() {
 
         .dot.current {
           color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
+          background: linear-gradient(135deg, #8468EB, #5B42C3);
           border-color: rgba(223, 122, 254, 0.65);
-          box-shadow: 0 0 0 3px rgba(223, 122, 254, 0.18), 0 6px 18px rgba(129, 74, 200, 0.45);
+          box-shadow: 0 0 0 3px rgba(223, 122, 254, 0.18), 0 6px 18px rgba(132, 104, 235, 0.45);
         }
 
         .dot.current::after {

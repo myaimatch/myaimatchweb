@@ -43,13 +43,13 @@ export default function ServicesPage() {
     <div className="services-overview bg-black text-white">
       <style dangerouslySetInnerHTML={{ __html: `
         .services-overview {
-          --service-primary: #814ac8;
-          --service-accent: #df7afe;
+          --service-primary: #8468EB;
+          --service-accent: #C4B5FD;
           --service-muted: rgba(255,255,255,0.62);
           min-height: 100vh;
           overflow: hidden;
           background:
-            radial-gradient(ellipse 72% 42% at 50% 0%, rgba(129,74,200,0.32), transparent 70%),
+            radial-gradient(ellipse 72% 42% at 50% 0%, rgba(132,104,235,0.32), transparent 70%),
             #000000;
         }
 
@@ -95,7 +95,7 @@ export default function ServicesPage() {
         }
 
         .services-overview-title span {
-          background: linear-gradient(135deg, #ffffff 8%, #df7afe 100%);
+          background: linear-gradient(135deg, #ffffff 8%, #C4B5FD 100%);
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
@@ -121,7 +121,7 @@ export default function ServicesPage() {
           background:
             linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
-            radial-gradient(ellipse 72% 62% at 50% 50%, rgba(129,74,200,0.32), transparent 72%),
+            radial-gradient(ellipse 72% 62% at 50% 50%, rgba(132,104,235,0.32), transparent 72%),
             rgba(255,255,255,0.035);
           background-size: 64px 64px, 64px 64px, auto, auto;
           display: grid;
@@ -158,7 +158,7 @@ export default function ServicesPage() {
           margin: 0 auto 20px;
           border: 1px solid rgba(223,122,254,0.38);
           border-radius: 999px;
-          background: radial-gradient(circle, rgba(223,122,254,0.32), rgba(129,74,200,0.12));
+          background: radial-gradient(circle, rgba(223,122,254,0.32), rgba(132,104,235,0.12));
           color: #ffffff;
           font-size: 13px;
           font-weight: 800;
@@ -215,7 +215,7 @@ export default function ServicesPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 22px;
           background:
-            radial-gradient(ellipse 90% 56% at 50% 100%, rgba(129,74,200,0.2), transparent 70%),
+            radial-gradient(ellipse 90% 56% at 50% 100%, rgba(132,104,235,0.2), transparent 70%),
             rgba(255,255,255,0.035);
           padding: 26px;
           text-decoration: none;
@@ -229,7 +229,7 @@ export default function ServicesPage() {
         }
 
         .services-path-card:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 4px;
         }
 
@@ -260,7 +260,7 @@ export default function ServicesPage() {
         .services-path-card strong {
           margin-top: auto;
           padding-top: 28px;
-          color: #df7afe;
+          color: #C4B5FD;
           font-size: 13px;
           font-weight: 800;
           letter-spacing: 0.02em;

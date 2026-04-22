@@ -35,8 +35,8 @@ export default async function HomePage() {
     <div className="home-ramp bg-black text-white">
       <style dangerouslySetInnerHTML={{ __html: `
         .home-ramp {
-          --home-primary: #814ac8;
-          --home-accent: #df7afe;
+          --home-primary: #8468EB;
+          --home-accent: #C4B5FD;
           --home-card: rgba(255,255,255,0.04);
           --home-border: rgba(255,255,255,0.08);
           --home-muted: rgba(255,255,255,0.6);
@@ -58,7 +58,7 @@ export default async function HomePage() {
           width: 100%;
           height: 2px;
           transform-origin: left center;
-          background: linear-gradient(90deg, #814ac8, #df7afe);
+          background: linear-gradient(90deg, #8468EB, #C4B5FD);
           pointer-events: none;
         }
 
@@ -95,9 +95,9 @@ export default async function HomePage() {
           align-items: center;
           padding: 36px 0 64px;
           background:
-            radial-gradient(ellipse 80% 54% at 50% 0%, rgba(129,74,200,0.42), transparent 68%),
+            radial-gradient(ellipse 80% 54% at 50% 0%, rgba(132,104,235,0.15), transparent 68%),
             radial-gradient(ellipse 56% 44% at 78% 34%, rgba(223,122,254,0.14), transparent 68%),
-            radial-gradient(ellipse 40% 30% at 12% 82%, rgba(129,74,200,0.08), transparent 60%),
+            radial-gradient(ellipse 40% 30% at 12% 82%, rgba(132,104,235,0.08), transparent 60%),
             #000000;
         }
 
@@ -166,7 +166,7 @@ export default async function HomePage() {
           width: 7px;
           height: 7px;
           border-radius: 999px;
-          background: #814ac8;
+          background: #8468EB;
           box-shadow: 0 0 18px rgba(223,122,254,0.72);
           animation: orbPulse 2.4s ease-in-out infinite;
         }
@@ -182,7 +182,7 @@ export default async function HomePage() {
         }
 
         .home-hero-title span {
-          background: linear-gradient(135deg, #ffffff 4%, #df7afe 58%, #a066d4 100%);
+          background: linear-gradient(135deg, #ffffff 4%, #C4B5FD 58%, #5B42C3 100%);
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
@@ -222,7 +222,7 @@ export default async function HomePage() {
         .home-cta-primary {
           border: 1px solid rgba(223,122,254,0.34);
           color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
+          background: linear-gradient(135deg, #8468EB, #5B42C3);
         }
 
         .home-cta-secondary {
@@ -246,7 +246,7 @@ export default async function HomePage() {
 
         .home-cta-primary:focus-visible,
         .home-cta-secondary:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 3px;
         }
 
@@ -263,7 +263,7 @@ export default async function HomePage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           background:
-            radial-gradient(ellipse 86% 70% at 50% 50%, rgba(129,74,200,0.2), transparent 68%),
+            radial-gradient(ellipse 86% 70% at 50% 50%, rgba(132,104,235,0.2), transparent 68%),
             rgba(255,255,255,0.025);
           overflow: hidden;
         }
@@ -272,7 +272,7 @@ export default async function HomePage() {
           content: "";
           position: absolute;
           inset: 14%;
-          border: 1px solid rgba(129,74,200,0.18);
+          border: 1px solid rgba(132,104,235,0.18);
           border-radius: 999px;
         }
 
@@ -284,7 +284,7 @@ export default async function HomePage() {
           bottom: 0;
           width: 1px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, transparent, rgba(129,74,200,0.42), transparent);
+          background: linear-gradient(180deg, transparent, rgba(132,104,235,0.15), transparent);
         }
 
         .homepage-constellation-canvas {
@@ -326,7 +326,7 @@ export default async function HomePage() {
           border-radius: 999px;
           background:
             radial-gradient(ellipse at center, rgba(223,122,254,0.18), transparent 62%),
-            rgba(129,74,200,0.08);
+            rgba(132,104,235,0.08);
           box-shadow:
             0 0 0 8px rgba(223,122,254,0.08),
             0 0 34px rgba(223,122,254,0.36),
@@ -347,7 +347,7 @@ export default async function HomePage() {
           top: calc(50% + 66px);
           z-index: 6;
           transform: translateX(-50%);
-          color: #df7afe;
+          color: #C4B5FD;
           font-size: 16px;
           font-weight: 800;
           letter-spacing: 0;
@@ -369,7 +369,7 @@ export default async function HomePage() {
           font-weight: 700;
           line-height: 1;
           backdrop-filter: blur(12px);
-          box-shadow: 0 0 18px rgba(129,74,200,0.12);
+          box-shadow: 0 0 18px rgba(132,104,235,0.12);
           transform-origin: center;
           white-space: nowrap;
           will-change: left, top, transform, opacity;
@@ -380,7 +380,7 @@ export default async function HomePage() {
           inset: 0;
           z-index: 5;
           background:
-            radial-gradient(ellipse 70% 60% at 50% 48%, rgba(129,74,200,0.24), transparent 68%),
+            radial-gradient(ellipse 70% 60% at 50% 48%, rgba(132,104,235,0.24), transparent 68%),
             rgba(0,0,0,0.18);
         }
 
@@ -388,7 +388,7 @@ export default async function HomePage() {
           position: absolute;
           left: 50%;
           top: 50%;
-          border: 1px solid rgba(129,74,200,0.22);
+          border: 1px solid rgba(132,104,235,0.22);
           border-radius: 999px;
           transform: translate(-50%, -50%);
         }
@@ -402,9 +402,9 @@ export default async function HomePage() {
           position: relative;
           overflow: hidden;
           background:
-            radial-gradient(ellipse 78% 42% at 50% 0%, rgba(129,74,200,0.25), transparent 72%),
-            linear-gradient(180deg, rgba(129,74,200,0.06), transparent 22%),
-            #0d0d0d;
+            radial-gradient(ellipse 78% 42% at 50% 0%, rgba(132,104,235,0.25), transparent 72%),
+            linear-gradient(180deg, rgba(132,104,235,0.06), transparent 22%),
+            #111111;
         }
 
         .match-table-section::before {
@@ -452,7 +452,7 @@ export default async function HomePage() {
         .dir-step {
           position: relative;
           overflow: hidden;
-          border: 1px solid rgba(129,74,200,0.18);
+          border: 1px solid rgba(132,104,235,0.18);
           border-radius: 14px;
           background: rgba(255,255,255,0.02);
           padding: 16px 18px;
@@ -467,7 +467,7 @@ export default async function HomePage() {
           width: 160px;
           height: 70px;
           transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(129,74,200,0.35), transparent 70%);
+          background: radial-gradient(ellipse, rgba(132,104,235,0.35), transparent 70%);
           filter: blur(8px);
           opacity: 0.25;
           pointer-events: none;
@@ -501,7 +501,7 @@ export default async function HomePage() {
           border: 1px solid rgba(223,122,254,0.18);
           border-radius: 28px;
           background:
-            radial-gradient(ellipse 90% 42% at 50% 0%, rgba(129,74,200,0.18), transparent 72%),
+            radial-gradient(ellipse 90% 42% at 50% 0%, rgba(132,104,235,0.18), transparent 72%),
             rgba(255,255,255,0.025);
           padding: 16px;
           overflow: hidden;
@@ -548,7 +548,7 @@ export default async function HomePage() {
           width: 8px;
           height: 8px;
           border-radius: 999px;
-          background: #df7afe;
+          background: #C4B5FD;
           box-shadow: 0 0 20px rgba(223,122,254,0.72);
           animation: orbPulse 2.2s ease-in-out infinite;
         }
@@ -621,7 +621,7 @@ export default async function HomePage() {
         .home-final {
           padding: 0 0 96px;
           background:
-            radial-gradient(ellipse 72% 36% at 50% 0%, rgba(129,74,200,0.14), transparent 72%),
+            radial-gradient(ellipse 72% 36% at 50% 0%, rgba(132,104,235,0.14), transparent 72%),
             #000000;
         }
 
@@ -635,9 +635,9 @@ export default async function HomePage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.25), rgba(129,74,200,0.07) 44%, transparent),
-            radial-gradient(ellipse 85% 58% at 50% 0%, rgba(129,74,200,0.45), transparent 70%),
-            #0d0d0d;
+            linear-gradient(180deg, rgba(132,104,235,0.25), rgba(132,104,235,0.07) 44%, transparent),
+            radial-gradient(ellipse 85% 58% at 50% 0%, rgba(132,104,235,0.15), transparent 70%),
+            #111111;
           padding: clamp(48px, 8vw, 88px) 24px;
           text-align: left;
         }
@@ -651,7 +651,7 @@ export default async function HomePage() {
           width: 2px;
           height: 96px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, #df7afe, transparent);
+          background: linear-gradient(180deg, #C4B5FD, transparent);
           pointer-events: none;
         }
 
@@ -692,7 +692,7 @@ export default async function HomePage() {
           border: 1px solid rgba(223,122,254,0.24);
           border-radius: 22px;
           background:
-            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(129,74,200,0.24), transparent 72%),
+            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(132,104,235,0.24), transparent 72%),
             rgba(255,255,255,0.04);
           padding: 20px;
         }
