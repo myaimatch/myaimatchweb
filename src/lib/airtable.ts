@@ -172,6 +172,14 @@ function allRecords(table: Airtable.Table<Airtable.FieldSet>, opts: Airtable.Sel
   })
 }
 
+function escapeAirtableFormulaString(value: string): string {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/\r/g, '\\r')
+    .replace(/\n/g, '\\n')
+}
+
 function mapTool(record: Airtable.Record<Airtable.FieldSet>): AirtableTool {
   const f = record.fields
   const tool = {
@@ -253,10 +261,11 @@ export async function fetchAllTools(): Promise<AirtableTool[]> {
 
 export async function fetchToolsByCategory(categorySlug: string): Promise<AirtableTool[]> {
   const base = getBase()
+  const safeCategorySlug = escapeAirtableFormulaString(categorySlug)
 
   // Resolve slug → record ID
   const catRecords = await allRecords(base('Categories'), {
-    filterByFormula: `{Slug} = "${categorySlug}"`,
+    filterByFormula: `{Slug} = "${safeCategorySlug}"`,
     maxRecords: 1,
   })
   if (catRecords.length === 0) return []
@@ -272,8 +281,9 @@ export async function fetchToolsByCategory(categorySlug: string): Promise<Airtab
 
 export async function fetchToolBySlug(slug: string): Promise<AirtableTool | null> {
   const base = getBase()
+  const safeSlug = escapeAirtableFormulaString(slug)
   const records = await allRecords(base('Tools'), {
-    filterByFormula: `{Slug} = "${slug}"`,
+    filterByFormula: `{Slug} = "${safeSlug}"`,
     maxRecords: 1,
   })
   return records.length > 0 ? mapTool(records[0]) : null

@@ -5,21 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
+import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
-
-const TALLY_POPUP_HREF =
-  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
-
-const TALLY_POPUP_ATTRIBUTES = {
-  "data-tally-open": "xXNXNr",
-  "data-tally-layout": "modal",
-  "data-tally-hide-title": "1",
-  "data-tally-overlay": "1",
-  "data-tally-emoji-text": "👋",
-  "data-tally-emoji-animation": "wave",
-  "data-tally-auto-close": "1000",
-  "data-tally-form-events-forwarding": "1",
-} as const;
 
 const navLinks = [
   { label: "Deals", href: "/deals" },
@@ -292,9 +279,8 @@ export default function Navbar() {
             {/* Desktop CTA */}
             <div className="nav-desktop-cta" style={{ alignItems: "center", justifyContent: "flex-end", gap: "16px", minWidth: "170px" }}>
               {!isServicesRoute ? (
-                <Link
-                  href={TALLY_POPUP_HREF}
-                  {...TALLY_POPUP_ATTRIBUTES}
+                <AssessmentPopupTrigger
+                  ctaLocation="navbar_desktop"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -325,7 +311,7 @@ export default function Navbar() {
                   }}
                 >
                   Start Free AI Match
-                </Link>
+                </AssessmentPopupTrigger>
               ) : null}
             </div>
 
@@ -537,9 +523,8 @@ export default function Navbar() {
             {/* Drawer CTA */}
             {!isServicesRoute ? (
               <div style={{ marginTop: "auto", paddingTop: "24px" }}>
-                <Link
-                  href={TALLY_POPUP_HREF}
-                  {...TALLY_POPUP_ATTRIBUTES}
+                <AssessmentPopupTrigger
+                  ctaLocation="navbar_mobile"
                   onClick={() => setMobileOpen(false)}
                   style={{
                     display: "flex",
@@ -556,7 +541,7 @@ export default function Navbar() {
                   }}
                 >
                   Start Free AI Match
-                </Link>
+                </AssessmentPopupTrigger>
               </div>
             ) : null}
           </div>

@@ -1,6 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { lookup } from 'dns/promises'
 import Airtable from 'airtable'
 import * as fs from 'fs'
+import { isIP } from 'net'
 import * as path from 'path'
 
 // ─── Load .env.local ──────────────────────────────────────────────────────────
@@ -52,6 +54,185 @@ interface EnrichedData {
   gdpr_compliant: boolean | null
   has_mobile_app: boolean | null
   soc2_certified: boolean | null
+}
+
+const ALLOWED_BEST_FOR = new Set(['Solo', 'Small Team', 'Mid-Market', 'Enterprise', 'All'])
+const ALLOWED_INTEGRATIONS = new Set([
+  'Zapier',
+  'Slack',
+  'Make',
+  'Google Workspace',
+  'HubSpot',
+  'Notion',
+  'Stripe',
+  'Other',
+])
+const ALLOWED_COMPANY_HQ = new Set(['USA', 'EU', 'UK', 'Canada', 'LATAM', 'Asia', 'Other'])
+const ALLOWED_EMPLOYEE_COUNT = new Set(['1-10', '11-50', '51-200', '200+'])
+
+function isPrivateHostname(hostname: string): boolean {
+  const normalized = hostname.toLowerCase()
+  return (
+    normalized === 'localhost' ||
+    normalized.endsWith('.localhost') ||
+    normalized.endsWith('.local') ||
+    normalized.endsWith('.internal')
+  )
+}
+
+function isPrivateIpv4(ip: string): boolean {
+  const parts = ip.split('.').map(Number)
+  if (parts.length !== 4 || parts.some((part) => Number.isNaN(part) || part < 0 || part > 255)) {
+    return true
+  }
+
+  const [a, b] = parts
+  return (
+    a === 0 ||
+    a === 10 ||
+    a === 127 ||
+    (a === 169 && b === 254) ||
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 168)
+  )
+}
+
+function isPrivateIpv6(ip: string): boolean {
+  const normalized = ip.toLowerCase()
+  return (
+    normalized === '::1' ||
+    normalized === '::' ||
+    normalized.startsWith('fc') ||
+    normalized.startsWith('fd') ||
+    normalized.startsWith('fe80:')
+  )
+}
+
+function isPrivateIpAddress(ip: string): boolean {
+  const family = isIP(ip)
+  if (family === 4) return isPrivateIpv4(ip)
+  if (family === 6) return isPrivateIpv6(ip)
+  return true
+}
+
+async function assertSafeRemoteUrl(rawUrl: string): Promise<URL> {
+  const url = new URL(rawUrl)
+
+  if (url.protocol !== 'https:') {
+    throw new Error(`Unsafe protocol for enrichment fetch: ${url.protocol}`)
+  }
+
+  if (url.username || url.password) {
+    throw new Error('Refusing URLs with embedded credentials')
+  }
+
+  if (isPrivateHostname(url.hostname)) {
+    throw new Error(`Refusing private hostname: ${url.hostname}`)
+  }
+
+  if (isIP(url.hostname) && isPrivateIpAddress(url.hostname)) {
+    throw new Error(`Refusing private IP address: ${url.hostname}`)
+  }
+
+  if (!isIP(url.hostname)) {
+    const resolved = await lookup(url.hostname, { all: true })
+    if (!resolved.length) {
+      throw new Error(`Could not resolve hostname: ${url.hostname}`)
+    }
+
+    for (const entry of resolved) {
+      if (isPrivateIpAddress(entry.address)) {
+        throw new Error(`Hostname resolves to private IP: ${url.hostname}`)
+      }
+    }
+  }
+
+  return url
+}
+
+async function fetchTextWithValidation(
+  rawUrl: string,
+  transform?: (html: string) => string
+): Promise<string> {
+  let currentUrl = await assertSafeRemoteUrl(rawUrl)
+
+  for (let redirectCount = 0; redirectCount < 4; redirectCount++) {
+    try {
+      const res = await fetch(currentUrl, {
+        signal: AbortSignal.timeout(10000),
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MyAIMatch/1.0; +https://myaimatch.ai)' },
+        redirect: 'manual',
+      })
+
+      if (res.status >= 300 && res.status < 400) {
+        const location = res.headers.get('location')
+        if (!location) return ''
+        currentUrl = await assertSafeRemoteUrl(new URL(location, currentUrl).toString())
+        continue
+      }
+
+      if (!res.ok) return ''
+
+      const text = await res.text()
+      return transform ? transform(text) : text
+    } catch {
+      return ''
+    }
+  }
+
+  return ''
+}
+
+function normalizeEnum(value: unknown, allowedValues: Set<string>): string | null {
+  if (typeof value !== 'string') return null
+  const normalized = value.trim()
+  return allowedValues.has(normalized) ? normalized : null
+}
+
+function normalizeBoolean(value: unknown): boolean | null {
+  return typeof value === 'boolean' ? value : null
+}
+
+function normalizeNumber(value: unknown, opts: { min?: number; max?: number } = {}): number | null {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return null
+  if (opts.min != null && value < opts.min) return null
+  if (opts.max != null && value > opts.max) return null
+  return value
+}
+
+function normalizeStringArray(value: unknown, allowedValues?: Set<string>): string[] | null {
+  if (!Array.isArray(value)) return null
+
+  const cleaned = value
+    .filter((item): item is string => typeof item === 'string')
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .filter((item, index, array) => array.indexOf(item) === index)
+    .filter((item) => !allowedValues || allowedValues.has(item))
+
+  return cleaned.length ? cleaned : null
+}
+
+function sanitizeEnrichedData(data: unknown): EnrichedData | null {
+  if (!data || typeof data !== 'object') return null
+
+  const candidate = data as Record<string, unknown>
+
+  return {
+    support_languages: normalizeStringArray(candidate.support_languages),
+    ui_languages: normalizeStringArray(candidate.ui_languages),
+    founded_year: normalizeNumber(candidate.founded_year, { min: 1950, max: new Date().getFullYear() + 1 }),
+    has_free_plan: normalizeBoolean(candidate.has_free_plan),
+    trial_days: normalizeNumber(candidate.trial_days, { min: 0, max: 365 }),
+    best_for: normalizeEnum(candidate.best_for, ALLOWED_BEST_FOR),
+    has_api: normalizeBoolean(candidate.has_api),
+    integrations: normalizeStringArray(candidate.integrations, ALLOWED_INTEGRATIONS),
+    company_hq: normalizeEnum(candidate.company_hq, ALLOWED_COMPANY_HQ),
+    employee_count: normalizeEnum(candidate.employee_count, ALLOWED_EMPLOYEE_COUNT),
+    gdpr_compliant: normalizeBoolean(candidate.gdpr_compliant),
+    has_mobile_app: normalizeBoolean(candidate.has_mobile_app),
+    soc2_certified: normalizeBoolean(candidate.soc2_certified),
+  }
 }
 
 // ─── Language Hints Extractor ─────────────────────────────────────────────────
@@ -171,8 +352,8 @@ Rules:
 
     const parsed = JSON.parse(text) as { support_languages?: string[]; ui_languages?: string[] }
     return {
-      support_languages: parsed.support_languages?.length ? parsed.support_languages : fallback.support_languages,
-      ui_languages: parsed.ui_languages?.length ? parsed.ui_languages : fallback.ui_languages,
+      support_languages: normalizeStringArray(parsed.support_languages)?.slice(0, 12) ?? fallback.support_languages,
+      ui_languages: normalizeStringArray(parsed.ui_languages)?.slice(0, 12) ?? fallback.ui_languages,
     }
   } catch (err) {
     console.error(`  ⚠️  Language research error for ${toolName}:`, err)
@@ -196,30 +377,11 @@ function htmlToText(html: string): string {
 }
 
 async function fetchRawHtml(url: string): Promise<string> {
-  try {
-    const res = await fetch(url, {
-      signal: AbortSignal.timeout(10000),
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MyAIMatch/1.0; +https://myaimatch.ai)' },
-    })
-    if (!res.ok) return ''
-    return await res.text()
-  } catch {
-    return ''
-  }
+  return fetchTextWithValidation(url)
 }
 
 async function fetchPage(url: string): Promise<string> {
-  try {
-    const res = await fetch(url, {
-      signal: AbortSignal.timeout(10000),
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MyAIMatch/1.0; +https://myaimatch.ai)' },
-    })
-    if (!res.ok) return ''
-    const html = await res.text()
-    return htmlToText(html)
-  } catch {
-    return ''
-  }
+  return fetchTextWithValidation(url, htmlToText)
 }
 
 async function fetchToolPages(websiteUrl: string): Promise<{ home: string; pricing: string; about: string; homeRawHtml: string }> {
@@ -291,7 +453,7 @@ Rules:
       text = jsonMatch[1].trim()
     }
 
-    return JSON.parse(text) as EnrichedData
+    return sanitizeEnrichedData(JSON.parse(text))
   } catch (err) {
     console.error(`  ⚠️  Claude parse error for ${toolName}:`, err)
     return null
@@ -367,6 +529,7 @@ async function main() {
     process.stdout.write(`${progress} ${tool.name} ... `)
 
     try {
+      await assertSafeRemoteUrl(tool.websiteUrl)
       const { home, pricing, about, homeRawHtml } = await fetchToolPages(tool.websiteUrl)
 
       if (!home && !pricing && !about) {
