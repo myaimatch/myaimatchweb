@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 import HomepageConstellation from "@/components/HomepageConstellation";
