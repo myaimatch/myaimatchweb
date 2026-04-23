@@ -2,13 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI Services | myAIMatch",
+  title: "AI Services | myAImatch",
   description:
-    "See how myAIMatch connects AI strategy, stack implementation, and fractional AI leadership into one clear path.",
+    "See how myAImatch connects AI strategy, tool implementation, and fractional AI leadership into one clear path.",
   openGraph: {
-    title: "AI Services | myAIMatch",
+    title: "AI Services | myAImatch",
     description:
-      "See how myAIMatch connects AI strategy, stack implementation, and fractional AI leadership into one clear path.",
+      "See how myAImatch connects AI strategy, tool implementation, and fractional AI leadership into one clear path.",
     url: "https://myaimatch.ai/services",
     type: "website",
   },
@@ -18,21 +18,21 @@ const services = [
   {
     step: "01",
     title: "Full AI Strategy Assessment",
-    body: "Decide the right stack, the order to set it up, and what to ignore.",
+    body: "Decide the right AI tools, the order to set them up, and what to ignore.",
     href: "/services/full-ai-strategy-assessment",
     cta: "Explore Strategy",
   },
   {
     step: "02",
-    title: "AI Tech Stack Implementation",
-    body: "Build, connect, document, and launch the stack your team will actually use.",
-    href: "/services/ai-tech-stack-implementation",
+    title: "AI Tools Implementation",
+    body: "Build, connect, document, and launch the tools your team will actually use.",
+    href: "/services/ai-tools-implementation",
     cta: "Explore Implementation",
   },
   {
     step: "03",
     title: "Fractional AI Lead",
-    body: "Keep your team trained, your tools current, and your stack improving every month.",
+    body: "Keep your team trained, your tools current, and your AI setup improving every month.",
     href: "/services/ai-coaching",
     cta: "Explore Fractional Lead",
   },
@@ -299,7 +299,7 @@ export default function ServicesPage() {
         <div className="services-overview-shell">
           <p className="services-overview-label">AI services</p>
           <h1 className="services-overview-title">
-            From AI overwhelm to <span>working stack.</span>
+            From AI overwhelm to <span>Your AI Match.</span>
           </h1>
           <p className="services-overview-body">
             Start with the right roadmap, build the system, then keep your team moving as the tools change.
@@ -310,7 +310,7 @@ export default function ServicesPage() {
               <div className="services-play" aria-hidden>Play</div>
               <h2>Three services. One clear path.</h2>
               <p>
-                A short walkthrough will explain when to use Strategy, when to move into Implementation, and when a Fractional AI Lead keeps the stack sharp.
+                A short walkthrough will explain when to use Strategy, when to move into Implementation, and when a Fractional AI Lead keeps your AI setup sharp.
               </p>
             </div>
           </div>

@@ -56,7 +56,7 @@ export default function AssessmentRouteOpener() {
             textTransform: "uppercase",
           }}
         >
-          AI Match Engine
+          AI Match Free Assessment
         </div>
         <h1
           style={{
@@ -100,7 +100,7 @@ export default function AssessmentRouteOpener() {
               "0 0 0 1px rgba(132,104,235,0.36), 0 10px 32px rgba(132,104,235,0.26)",
           }}
         >
-          Open the AI Match Engine
+          Start Free AI Match
         </AssessmentPopupTrigger>
       </section>
     </div>

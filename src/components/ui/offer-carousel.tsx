@@ -49,10 +49,10 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
             }}
           />
 
-          {/* MyAIMatch logo watermark */}
+          {/* myAImatch logo watermark */}
           <Image
             src="/logo.png"
-            alt="MyAIMatch"
+            alt="myAImatch"
             width={64}
             height={64}
             className="absolute bottom-3 right-3 w-16 h-auto opacity-10"

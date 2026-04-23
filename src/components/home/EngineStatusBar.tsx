@@ -4,7 +4,7 @@ type EngineStatusBarProps = {
 
 export default function EngineStatusBar({ toolCount }: EngineStatusBarProps) {
   return (
-    <div className="engine-status-bar" aria-label="AI Match Engine status">
+    <div className="engine-status-bar" aria-label="Directory status">
       <div className="engine-status-live">
         <span aria-hidden />
         Live engine

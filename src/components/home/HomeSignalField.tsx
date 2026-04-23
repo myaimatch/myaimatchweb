@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type Signal = {
   x: number;
@@ -18,22 +18,6 @@ function prefersReducedMotion() {
 
 export default function HomeSignalField() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const updateProgress = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(scrollable > 0 ? window.scrollY / scrollable : 0);
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
-    return () => {
-      window.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("resize", updateProgress);
-    };
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -100,10 +84,5 @@ export default function HomeSignalField() {
     };
   }, []);
 
-  return (
-    <>
-      <div className="home-scroll-progress" style={{ transform: `scaleX(${progress})` }} aria-hidden />
-      <canvas ref={canvasRef} className="home-signal-field" aria-hidden />
-    </>
-  );
+  return <canvas ref={canvasRef} className="home-signal-field" aria-hidden />;
 }

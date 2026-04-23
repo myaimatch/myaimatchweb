@@ -14,7 +14,7 @@ const STAGES = [
   {
     id: "implementation",
     label: "Implementation",
-    href: "/services/ai-tech-stack-implementation",
+    href: "/services/ai-tools-implementation",
     short: "02",
   },
   {

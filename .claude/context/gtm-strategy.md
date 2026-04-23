@@ -1,4 +1,4 @@
-# Go To Market Strategy Canvas for MyAIMatch
+# Go To Market Strategy Canvas for myAImatch
 
 ## Business Overview
 

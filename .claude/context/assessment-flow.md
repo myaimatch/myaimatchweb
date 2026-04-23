@@ -22,3 +22,5 @@ Typeform submission
 
 - Typeform setup: `.claude/context/ai-match-engine-tally-setup.md` (nombre legacy — ya no usamos Tally, el doc cubre la migración a Typeform).
 - Airtable setup: `.claude/context/airtable-setup.md`.
+- Zapier debe parsear el JSON de Claude y aplanar solo las properties que usa Klaviyo (`summary`, `tool_*`, `avoid_*`, `services_cta`).
+- Zapier no debe enviar `implementation_order` ni `cost_notes` al email premium actual.

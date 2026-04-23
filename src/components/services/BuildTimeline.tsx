@@ -12,9 +12,9 @@ const weeks = [
   },
   {
     week: "Week 2",
-    title: "Configure the core stack",
+    title: "Configure the core tools",
     body: "Tools get installed, connected, and tuned around your actual operating workflow.",
-    output: "Working stack foundation",
+    output: "Working AI setup foundation",
   },
   {
     week: "Week 3",
@@ -25,7 +25,7 @@ const weeks = [
   {
     week: "Week 4",
     title: "Train, document, launch",
-    body: "Your team gets the playbook, walkthroughs, and the confidence to run the stack.",
+    body: "Your team gets the playbook, walkthroughs, and the confidence to run your AI setup.",
     output: "Launch handoff + Loom library",
   },
 ];
@@ -73,7 +73,7 @@ export default function BuildTimeline() {
         <p className="impl-label">How a build goes</p>
         <h2 className="impl-section-title">Four weeks from roadmap to working system.</h2>
         <p className="impl-section-body">
-          The exact shape depends on your stack, but the rhythm is simple: scope, build, test, train.
+          The exact shape depends on your AI setup, but the rhythm is simple: scope, build, test, train.
         </p>
       </div>
       <div className="build-timeline-stage">

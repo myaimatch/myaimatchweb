@@ -9,13 +9,13 @@ import TiltCard from "@/components/services/TiltCard";
 import ToolTicker from "@/components/services/ToolTicker";
 
 export const metadata: Metadata = {
-  title: "Fractional AI Lead | myAIMatch",
+  title: "Fractional AI Lead | myAImatch",
   description:
-    "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
+    "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your AI setup evolves.",
   openGraph: {
-    title: "Fractional AI Lead | myAIMatch",
+    title: "Fractional AI Lead | myAImatch",
     description:
-      "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
+      "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your AI setup evolves.",
     url: "https://myaimatch.ai/services/ai-coaching",
     type: "website",
   },
@@ -30,7 +30,7 @@ const included = [
   {
     eyebrow: "02",
     title: "Team rollouts",
-    body: "We onboard new hires and train existing team on the stack — at their pace, with real examples from your business.",
+    body: "We onboard new hires and train existing team on your AI setup — at their pace, with real examples from your business.",
   },
   {
     eyebrow: "03",
@@ -51,7 +51,7 @@ const testimonials = [
     role: "Founder, Tidewater Co.",
   },
   {
-    quote: "Every month they show me 2 tools I'd never have found. Half of them replace something older in our stack.",
+    quote: "Every month they show me 2 tools I'd never have found. Half of them replace something older in our AI setup.",
     name: "Devon Park",
     role: "COO, Northpoint Group",
   },
@@ -470,7 +470,7 @@ export default async function CoachingPage() {
 
       <ServiceHero
         label="Fractional AI Lead"
-        title="Keep your AI stack current."
+        title="Keep your AI setup current."
         highlightedTitle="Without hiring full-time."
         body="An embedded AI lead for your team — calls, async support, team training, and monthly tool curation. Without the full-time hire."
         primaryCta={{ label: "Book a Discovery Call", href: calHref }}
@@ -490,7 +490,7 @@ export default async function CoachingPage() {
           <p className="coaching-label">What&apos;s included</p>
           <h2 className="coaching-section-title">Your fractional AI team.</h2>
           <p className="coaching-section-body">
-            We don&apos;t hand off your stack and disappear. We stay embedded — so your team actually uses it, and you never fall behind the tools.
+            We don&apos;t hand off your AI setup and disappear. We stay embedded — so your team actually uses it, and you never fall behind the tools.
           </p>
         </div>
         <div className="coaching-grid">

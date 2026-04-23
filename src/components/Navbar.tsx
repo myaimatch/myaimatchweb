@@ -17,11 +17,11 @@ const serviceLinks = [
   {
     label: "Full AI Strategy Assessment",
     href: "/services/full-ai-strategy-assessment",
-    desc: "Map your workflow and get a custom AI stack roadmap.",
+    desc: "Map your workflow and get a custom AI roadmap.",
   },
   {
-    label: "AI Tech Stack Implementation",
-    href: "/services/ai-tech-stack-implementation",
+    label: "AI Tools Implementation",
+    href: "/services/ai-tools-implementation",
     desc: "We configure your tools and build the automations.",
   },
   {
@@ -538,10 +538,10 @@ export default function Navbar() {
 
         <div className="site-nav__inner">
           <div className="site-nav__shell">
-            <Link href="/" className="site-nav__logo" aria-label="myAIMatch home">
+            <Link href="/" className="site-nav__logo" aria-label="myAImatch home">
               <Image
                 src={myAiMatchWordmark}
-                alt="myAIMatch"
+                alt="myAImatch"
                 width={152}
                 height={22}
                 priority
@@ -585,12 +585,6 @@ export default function Navbar() {
                 ) : null}
               </div>
 
-              <Link
-                href="/blog"
-                className={`site-nav__link ${pathname === "/blog" ? "is-active" : ""}`}
-              >
-                Blog
-              </Link>
             </div>
 
             <div className="site-nav__actions">
@@ -626,7 +620,7 @@ export default function Navbar() {
             <div className="site-nav__drawer-header">
               <Image
                 src={myAiMatchWordmark}
-                alt="myAIMatch"
+                alt="myAImatch"
                 width={138}
                 height={20}
                 style={{ width: "138px", height: "auto" }}
@@ -647,12 +641,6 @@ export default function Navbar() {
                 className={`site-nav__drawer-link ${pathname === "/deals" ? "is-active" : ""}`}
               >
                 Deals
-              </Link>
-              <Link
-                href="/blog"
-                className={`site-nav__drawer-link ${pathname === "/blog" ? "is-active" : ""}`}
-              >
-                Blog
               </Link>
             </div>
 
