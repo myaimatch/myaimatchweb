@@ -17,11 +17,11 @@ const serviceLinks = [
   {
     label: "Full AI Strategy Assessment",
     href: "/services/full-ai-strategy-assessment",
-    desc: "Map your workflow and get a custom AI stack roadmap.",
+    desc: "Map your workflow and get a custom AI roadmap.",
   },
   {
-    label: "AI Tools Setup",
-    href: "/services/ai-tools-setup",
+    label: "AI Tools Implementation",
+    href: "/services/ai-tools-implementation",
     desc: "We configure your tools and build the automations.",
   },
   {

@@ -8,14 +8,14 @@ import StackCalculator from "@/components/services/StackCalculator";
 import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
-  title: "AI Tools Setup | myAImatch",
+  title: "AI Tools Implementation | myAImatch",
   description:
     "We configure your tools, connect your workflows, and build the automations — so your AI tools work from day one.",
   openGraph: {
-    title: "AI Tools Setup | myAImatch",
+    title: "AI Tools Implementation | myAImatch",
     description:
       "We configure your tools, connect your workflows, and build the automations — so your AI tools work from day one.",
-    url: "https://myaimatch.ai/services/ai-tools-setup",
+    url: "https://myaimatch.ai/services/ai-tools-implementation",
     type: "website",
   },
 };
@@ -24,7 +24,7 @@ const deliverables = [
   {
     eyebrow: "01",
     title: "Tool setup & account architecture",
-    body: "Every tool from your stack installed, connected, and tuned to your actual use case — not a default config.",
+    body: "Every tool from your AI setup installed, connected, and tuned to your actual use case — not a default config.",
   },
   {
     eyebrow: "02",
@@ -34,12 +34,12 @@ const deliverables = [
   {
     eyebrow: "03",
     title: "Integrations that don't break",
-    body: "Tools talking to each other via native APIs, Zapier, Make, or custom glue — whatever fits your stack best.",
+    body: "Tools talking to each other via native APIs, Zapier, Make, or custom glue — whatever fits your AI setup best.",
   },
   {
     eyebrow: "04",
     title: "Your team's playbook",
-    body: "Docs plus Loom walkthroughs so anyone on the team can run the stack without calling us first.",
+    body: "Docs plus Loom walkthroughs so anyone on the team can run your AI setup without calling us first.",
   },
 ];
 
@@ -454,15 +454,15 @@ export default function ImplementationPage() {
       ` }} />
 
       <ServiceHero
-        label="AI Tools Setup"
+        label="AI Tools Implementation"
         title="Your roadmap is ready."
         highlightedTitle="Now let's build it."
-        body="We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one."
+        body="We configure your tools, connect your workflows, and build the automations — so your AI setup works from day one."
         primaryCta={{ label: "Book an Implementation Call", href: calHref }}
         variant="implementation"
         visual={<LivePipeline />}
         metrics={[
-          { value: <CountUp value={40} suffix="+" />, label: "stacks shipped" },
+          { value: <CountUp value={40} suffix="+" />, label: "implementations shipped" },
           { value: <CountUp value={18} />, label: "AI agents in production" },
           { value: "2-4", label: "weeks typical build" },
         ]}
@@ -471,9 +471,9 @@ export default function ImplementationPage() {
       <section id="what-we-build" className="impl-shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <p className="impl-label">What we build</p>
-          <h2 className="impl-section-title">Your AI stack, fully operational.</h2>
+          <h2 className="impl-section-title">Your AI setup, fully operational.</h2>
           <p className="impl-section-body">
-            We take the roadmap and handle the entire build — so you start using your stack, not configuring it.
+            We take the roadmap and handle the entire build — so you start using your AI setup, not configuring it.
           </p>
         </div>
         <div className="impl-grid">

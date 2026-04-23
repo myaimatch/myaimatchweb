@@ -7,7 +7,7 @@ export default function MatchOutputPreview() {
           <span />
           <span />
         </div>
-        <p>Recommended stack</p>
+        <p>Your AI Match</p>
         <div className="match-output-blueprint">
           <svg viewBox="0 0 260 150">
             <path d="M130 70 L78 42 L70 106 L130 122 L190 104 L182 42 Z" />

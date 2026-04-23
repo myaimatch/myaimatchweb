@@ -8,7 +8,7 @@
 The first live funnel should be:
 
 ```
-MyAIMatch CTA
+myAImatch CTA
   → /assessment
   → embedded Tally questionnaire
   → Tally submission
@@ -86,7 +86,7 @@ Use these fields as the minimum required question set.
 Recommended consent copy:
 
 ```text
-I agree to let MyAIMatch use my answers to generate and email my AI Match results. I can unsubscribe anytime.
+I agree to let myAImatch use my answers to generate and email my AI Match results. I can unsubscribe anytime.
 ```
 
 Recommended submit button:

@@ -151,7 +151,7 @@ export default function LivePipeline() {
       ctx.stroke();
       ctx.fillStyle = "rgba(255,255,255,0.82)";
       ctx.font = "800 12px Inter, sans-serif";
-      ctx.fillText("Working stack", width * 0.82, height * 0.36);
+      ctx.fillText("Your AI Match", width * 0.82, height * 0.36);
       for (let i = 0; i < 4; i++) {
         const progress = reduce ? 0.78 : 0.34 + 0.5 * Math.abs(Math.sin(now * 0.001 + i));
         ctx.fillStyle = "rgba(255,255,255,0.12)";

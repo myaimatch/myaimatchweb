@@ -27,7 +27,12 @@ const nextConfig = {
     return [
       {
         source: '/services/ai-tech-stack-implementation',
-        destination: '/services/ai-tools-setup',
+        destination: '/services/ai-tools-implementation',
+        permanent: true,
+      },
+      {
+        source: '/services/ai-tools-setup',
+        destination: '/services/ai-tools-implementation',
         permanent: true,
       },
     ]

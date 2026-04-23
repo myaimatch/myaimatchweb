@@ -11,11 +11,11 @@ import TiltCard from "@/components/services/TiltCard";
 export const metadata: Metadata = {
   title: "Full AI Strategy Assessment | myAImatch",
   description:
-    "Book a paid 60-minute strategy session and get a clear AI stack roadmap built around your workflows, team, budget, goals, industry, and use case.",
+    "Book a paid 60-minute strategy session and get a clear AI roadmap built around your workflows, team, budget, goals, industry, and use case.",
   openGraph: {
     title: "Full AI Strategy Assessment | myAImatch",
     description:
-      "Book a paid 60-minute strategy session and get a clear AI stack roadmap built around your workflows, team, budget, goals, industry, and use case.",
+      "Book a paid 60-minute strategy session and get a clear AI roadmap built around your workflows, team, budget, goals, industry, and use case.",
     url: "https://myaimatch.ai/services/full-ai-strategy-assessment",
     type: "website",
   },
@@ -38,7 +38,7 @@ const deliverables = [
   },
   {
     eyebrow: "02",
-    title: "Your custom AI stack",
+    title: "Your custom AI Match",
     body: "Specific tools chosen for your role, team, and budget. Not a generic top-10 list.",
   },
   {
@@ -78,7 +78,7 @@ const tiers: Tier[] = [
     name: "Solo / Freelancer",
     price: "$2,000",
     description:
-      "For one operator who needs a focused stack for personal productivity, client delivery, or one core workflow.",
+      "For one operator who needs a focused AI setup for personal productivity, client delivery, or one core workflow.",
     scope: [
       "Paid 60-minute 1:1 strategy session",
       "Review of 1 primary workflow and current tools",
@@ -96,7 +96,7 @@ const tiers: Tier[] = [
     scope: [
       "Paid 60-minute team strategy session",
       "Review of shared workflows, bottlenecks, and current tools",
-      "Recommended stack by role, workflow, and use case",
+      "Recommended AI setup by role, workflow, and use case",
       "Integration roadmap for shared tools and handoffs",
       "Team adoption notes and what-to-avoid guidance",
       "Final roadmap, recording, and priority action plan",
@@ -109,7 +109,7 @@ const tiers: Tier[] = [
       "For businesses with multiple workflows, teams, or departments where implementation order and risk reduction matter.",
     scope: [
       "Paid 60-minute executive strategy session",
-      "Cross-team workflow and tool-stack review",
+      "Cross-team workflow and AI setup review",
       "Use-case recommendations across teams or departments",
       "Phased integration roadmap and rollout sequence",
       "Risk, budget, and adoption considerations",
@@ -676,9 +676,9 @@ export default function StrategyAssessmentPage() {
 
       <ServiceHero
         label="Full AI Strategy Assessment"
-        title="Get your AI stack roadmap."
+        title="Get your AI roadmap."
         highlightedTitle="Built around how you work."
-        body="A paid working session where we map your workflows and hand you the stack — the exact tools, the order to set them up, and what to ignore. No generic lists."
+        body="A paid working session where we map your workflows and hand you Your AI Match — the exact tools, the order to set them up, and what to ignore. No generic lists."
         primaryCta={{ label: "Book Your Strategy Session", href: strategyBookingHref }}
         variant="strategy"
         visual={<StackConstellation />}
@@ -694,14 +694,14 @@ export default function StrategyAssessmentPage() {
           {[
             {
               title: "Cut 40+ tools down to 5–7 essentials",
-              body: "No more tab overload. Just the stack that fits your role and how you work.",
+              body: "No more tab overload. Just Your AI Match — built for your role and how you work.",
             },
             {
               title: "Know what to set up first",
               body: "A simple order of operations: what to configure now, what can wait, and what to ignore.",
             },
             {
-              title: "Leave with a stack your team can execute",
+              title: "Leave with an AI setup your team can execute",
               body: "Tools, integrations, setup notes — in writing, ready to hand off.",
             },
           ].map((item, i) => (
@@ -716,8 +716,8 @@ export default function StrategyAssessmentPage() {
       <section className="services-shell py-20 md:py-28">
         <SectionHeader
           label="What you get"
-          title="A decision-ready AI stack, in writing."
-          body="We turn your business into a stack. Not a generic list — a stack built for how you actually work."
+          title="A decision-ready AI Match, in writing."
+          body="We turn your business into Your AI Match. Not a generic list — an AI setup built for how you actually work."
         />
         <div className="deliverables-grid deliverables-grid--4">
           {deliverables.map((item, i) => (
@@ -736,7 +736,7 @@ export default function StrategyAssessmentPage() {
       <section className="services-shell pb-4 md:pb-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="services-label">From operators who ran it</p>
-          <h2 className="services-section-title">Less stack chaos. More execution.</h2>
+          <h2 className="services-section-title">Less AI chaos. More execution.</h2>
         </div>
         <div className="testimonials-grid">
           {testimonials.map((t, i) => (

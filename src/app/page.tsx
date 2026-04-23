@@ -12,11 +12,11 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "myAImatch - Find AI Tools You'll Actually Use",
   description:
-    "Use the AI Match Engine to get AI tool recommendations for your workflow, team, budget, and implementation goals.",
+    "Take the AI Match Free Assessment to get Your AI Match — personalized tool recommendations for your workflow, team, budget, and implementation goals.",
   openGraph: {
     title: "myAImatch - Find AI Tools You'll Actually Use",
     description:
-      "Use the AI Match Engine to get AI tool recommendations for your workflow, team, budget, and implementation goals.",
+      "Take the AI Match Free Assessment to get Your AI Match — personalized tool recommendations for your workflow, team, budget, and implementation goals.",
     url: "https://myaimatch.ai",
     type: "website",
   },
@@ -961,13 +961,13 @@ export default async function HomePage() {
           <div className="home-hero-copy">
             <div className="home-badge">
               <span className="home-badge-dot" />
-              AI Match Engine
+              AI Match Free Assessment
             </div>
             <h1 className="home-hero-title">
               Find Your Perfect <span>AI Match</span>
             </h1>
             <p className="home-hero-body">
-              Explore AI tools for free, get personalized recommendations, or work with us to design and implement the right AI stack for your business.
+              Explore AI tools for free, get personalized recommendations, or work with us to design and implement Your AI Match.
             </p>
             <div className="home-cta-row">
               <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_hero">
@@ -985,7 +985,7 @@ export default async function HomePage() {
         <div className="px-4 pb-12">
           <div className="match-table-header">
             <h2 className="home-section-title">
-              Find Your AI Match with our AI tool directory.
+              Find Your AI Match with our AI Tool Directory.
             </h2>
           </div>
           <MatchEngineFrame toolCount={tools.length}>
@@ -999,9 +999,9 @@ export default async function HomePage() {
         <div className="home-shell">
           <div className="home-final-panel">
             <div className="home-final-copy">
-              <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
+              <h2>Skip the spreadsheet. Get Your AI Match in minutes.</h2>
               <p>
-                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.
+                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward Your AI Match — built around your workflow, team, budget, goals, industry, and use case.
               </p>
               <div className="home-cta-row">
                 <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_final">

@@ -5,7 +5,7 @@ import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
 
 const serviceLinks = [
   { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },
-  { label: "AI Tools Setup", href: "/services/ai-tools-setup" },
+  { label: "AI Tools Implementation", href: "/services/ai-tools-implementation" },
   { label: "Fractional AI Lead", href: "/services/ai-coaching" },
 ];
 
@@ -209,7 +209,7 @@ export default function Footer() {
               />
             </Link>
             <p className="site-footer__tagline">
-              Browse the AI tool landscape, or answer a few questions and get a personalized tool match for your workflow, team, and current tools.
+              Explore the AI Tool Directory, or answer a few questions and get Your AI Match — built around your workflow, team, and current tools.
             </p>
             <AssessmentPopupTrigger ctaLocation="footer_primary" className="site-footer__cta">
               Start Free AI Match

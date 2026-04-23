@@ -1,67 +1,178 @@
 # myAImatch — Copywriting Guide
 
+Documento central. Define cada palabra que usamos en la web y el email. Si una palabra no está acá, revisá la taxonomía antes de inventar otra.
+
+---
+
 ## Brand Positioning
 
-myAImatch is **not a directory**. It is an AI matching engine — a system that actively connects people and businesses with the right AI tools based on their specific role, workflow, team, budget, and goals. The experience should feel like a knowledgeable advisor doing the legwork for you, not a catalog you have to scroll through and figure out yourself. Every word on the site should reinforce this: we match, we guide, we recommend. We do not list, browse, or catalog.
+myAImatch conecta a personas y negocios con las herramientas de IA correctas, según su rol, workflow, equipo, presupuesto y metas. No somos un catálogo que se navega — somos el **match** entre cada persona y las tools que realmente le sirven. Toda palabra en el sitio debe reforzar esto: hacemos match, guiamos, recomendamos. No listamos, no buscamos, no catalogamos.
 
 ## Voice & Tone
 
-Smart, direct, and trustworthy — like a senior colleague who has already done the research and is cutting straight to what matters. Avoid generic SaaS superlatives ("powerful", "seamless", "robust"). Instead, speak to the specific pain: wasted trial periods, tools that don't fit the team, AI promises that don't pay off. The user should feel understood, not sold to.
+Smart, direct, trustworthy — como un colega senior que ya hizo la research y va directo al grano. Evitar superlativos SaaS genéricos ("powerful", "seamless", "robust"). Hablar de pain específico: trial periods desperdiciados, tools que no encajan en el equipo, promesas de IA que no se materializan. El usuario debe sentirse entendido, no vendido.
 
 ---
 
-## Core Naming Conventions
+## Taxonomía Oficial
 
-| Concept | Use This | Never Use |
+### Producto y marca
+
+| Concepto | Palabra oficial | Nunca usar |
 |---|---|---|
-| The product/engine | **AI Match Engine** | "directory", "catalog", "list" |
-| The user outcome | **Find Your Perfect AI Match** | "browse tools", "explore catalog" |
-| The process | **matching**, **filtering by fit** | "searching", "scrolling", "discovering" |
-| The section (browse) | **Find Your Perfect AI Match** | "AI Tools Directory", "Tool Index" |
+| Marca | **myAImatch** | MyAIMatch, myAIMatch, MyAiMatch |
+| Dominio | myaimatch.ai | — |
+| El questionnaire gratis | **AI Match Free Assessment** | AI Match Engine, form, questionnaire, quiz |
+| El output del gratis | **Your AI Match** | AI stack recommendation, AI results |
+| El directorio navegable | **AI Tool Directory** | catalog, tool index, list |
+| Conjunto de tools del usuario | **your AI setup** (o **Your AI Match**) | stack, tech stack, toolkit |
 
-"AI Match Engine" is always capitalized. It is the product name, not a generic description.
+### Los 3 servicios (en este orden)
 
----
-
-## CTA Copy Rules
-
-- **Primary CTAs (hero, banner):** Use action verbs — `Use`, `Try`, `Start`, `Get`
-  - ✅ "Use the AI Match Engine — Free"
-  - ✅ "Start the AI Match Engine"
-  - ✅ "Try the AI Match Engine"
-  - ❌ "Browse", "Explore", "View", "See"
-
-- **Secondary CTAs / navigation:** Can be softer and directional
-  - ✅ "Explore & Match"
-  - ✅ "Find Your Match"
-  - ❌ "Browse the Directory"
-
-- **Nav bar CTA:** Should reference the engine
-  - ✅ "Try the AI Match Engine"
+| # | Nombre oficial | Qué es | CTA principal |
+|---|---|---|---|
+| 01 | **Full AI Strategy Assessment** | Sesión pagada con nuestro equipo: roadmap, decisiones, no construimos todavía | Book Your Strategy Session |
+| 02 | **AI Tools Implementation** | Construimos, conectamos y lanzamos las tools del roadmap | Book an Implementation Call |
+| 03 | **Fractional AI Lead** | Soporte mensual embebido: training, actualizaciones, tool curation | Book a Discovery Call |
 
 ---
 
-## Approved Copy (Current Site)
+## Regla de oro para reemplazar "stack"
 
-| Location | Text |
+Nunca uses "stack" ni "tech stack" en copy user-facing. Reemplazá así, en orden de preferencia:
+
+1. **Primera opción:** `Your AI Match`
+   - Refuerza el brand concept.
+   - Ej: `Get Your AI Match in minutes.` / `Just Your AI Match — built for your workflow.`
+
+2. **Si ya se repitió en el mismo párrafo/sección:** `your AI setup`
+   - Ej: `We don't hand off your AI setup and disappear.`
+
+3. **Si se refiere a tools concretas (instalar, configurar, listar):** `your AI tools` / `your tools`
+   - Ej: `Every tool from your AI setup installed, connected, and tuned.`
+
+---
+
+## Diferenciación crítica: Free Assessment vs Full AI Strategy
+
+Ambos toman input del usuario y recomiendan tools, pero deben sonar muy distintos.
+
+| Eje | AI Match Free Assessment (gratis) | Full AI Strategy Assessment (pagado) |
+|---|---|---|
+| Formato | Formulario → email automático | Sesión live con nuestro equipo |
+| Tiempo | Minutos | 60 min + deliverables |
+| Output | Your AI Match (email) | Roadmap, decisiones, prioridades |
+| Verbo CTA | "Get" / "Start" | "Book" |
+| CTA | **Start Free AI Match** | **Book Your Strategy Session** |
+| Frase clave | "Your AI Match in minutes" | "A custom roadmap built around your workflow" |
+| Tono | Instant, personalized | Senior, deliberate, hands-on |
+
+**Regla de uso:**
+- En badges, labels, metadata formal → **"AI Match Free Assessment"**.
+- En CTAs y copy de acción → **"Start Free AI Match"** / **"Your AI Match"**.
+- Nunca "AI Match Engine".
+
+---
+
+## CTAs — jerarquía completa
+
+| Tipo | Texto exacto | Dónde |
+|---|---|---|
+| Primary universal | `Start Free AI Match` | Navbar, hero, final CTA, footer, banner |
+| Servicio 01 | `Book Your Strategy Session` | Página /services/full-ai-strategy-assessment |
+| Servicio 02 | `Book an Implementation Call` | Página /services/ai-tools-implementation |
+| Servicio 03 | `Book a Discovery Call` | Página /services/ai-coaching |
+| Service card explore | `Explore Strategy` / `Explore Implementation` / `Explore Fractional Lead` | /services overview |
+| Nav dropdown secondary | `Services Overview`, nombre del servicio | Dropdown Services |
+
+---
+
+## Approved Copy (referencia por sección)
+
+### Homepage
+
+| Location | Texto oficial |
 |---|---|
-| Badge (hero) | "AI tool matching, not another directory" |
-| Headline | "Find the AI tools you'll actually use." |
-| Primary CTA | "Use the AI Match Engine — Free" |
-| Secondary CTA | "Explore & Match" |
-| Section heading | "Find Your Perfect AI Match" |
-| Section subheading | "Use our Match Engine to filter tools by your role, workflow, budget, and goals — not just categories." |
-| Banner CTA | "Start the AI Match Engine" |
-| Navbar CTA | "Try the AI Match Engine" |
-| Footer product link | "Find Your Match" |
-| Footer tagline | "The universal AI matching engine. Find, compare, and implement the right AI tools for your business." |
+| Hero badge | `AI Match Free Assessment` |
+| Hero title | `Find Your Perfect AI Match` |
+| Hero subtitle | `Explore AI tools for free, get personalized recommendations, or work with us to design and implement Your AI Match.` |
+| Hero primary CTA | `Start Free AI Match` |
+| Directory section heading | `Find Your AI Match with our AI Tool Directory.` |
+| Final CTA title | `Skip the spreadsheet. Get Your AI Match in minutes.` |
+| Final CTA body | `Your AI Match — built around your workflow, team, budget, and goals.` |
+| Final CTA button | `Start Free AI Match` |
+
+### Services Overview
+
+| Location | Texto oficial |
+|---|---|
+| Eyebrow | `AI services` |
+| Hero | `From AI overwhelm to Your AI Match.` |
+| Service 01 body | `Decide the right AI tools, the order to set them up, and what to ignore.` |
+| Service 02 body | `Build, connect, document, and launch the tools your team will actually use.` |
+| Service 03 body | `Keep your team trained, your tools current, and your AI setup improving every month.` |
+
+### Navbar
+
+| Location | Texto oficial |
+|---|---|
+| Link 1 | `Deals` |
+| Link 2 | `Services` (dropdown) |
+| Dropdown: Overview | `Services Overview` |
+| Dropdown: Service 01 | `Full AI Strategy Assessment` — _Map your workflow and get a custom AI roadmap._ |
+| Dropdown: Service 02 | `AI Tools Implementation` — _We configure your tools and build the automations._ |
+| Dropdown: Service 03 | `Fractional AI Lead` — _Embedded AI lead for your team — calls, async, and tool curation._ |
+| Primary CTA | `Start Free AI Match` |
+
+### Footer
+
+| Location | Texto oficial |
+|---|---|
+| Tagline | `Your AI Match — built around your workflow, team, and current tools.` |
+| Services column | 3 links a los servicios |
+| CTA | `Start Free AI Match` |
+| Copyright | `© 2026 myAImatch. All rights reserved.` |
+
+### Email (Klaviyo template)
+
+| Location | Texto oficial |
+|---|---|
+| Subject | `Your AI Match is ready` |
+| Section badge | `AI Match Free Assessment` |
+| Hero title | `Your AI Match is ready.` |
+| CTA secondary | `Learn More` (link a /services) |
+| Footer copyright | `© 2026 myAImatch. All rights reserved.` |
+| Unsubscribe | `Unsubscribe` |
 
 ---
 
 ## What to Avoid
 
-- Do not use **"directory"** anywhere in user-facing copy — not in headings, CTAs, links, or descriptions.
-- Do not use **"catalog"** — implies passive browsing, not active matching.
-- Do not say **"there are X tools"** as the main value — say "the right tools for you."
-- Do not use generic filler: "powerful", "seamless", "all-in-one", "next-generation."
-- Do not frame the assessment as a form — frame it as **the engine doing its job**.
+### Palabras prohibidas
+
+- **stack**, **tech stack** — no se entiende, técnica
+- **directory**, **catalog**, **list** como verbo o CTA — implica navegar pasivo
+- **browse**, **explore catalog**, **view list** — sugiere scrolling sin match
+- **AI Match Engine** — legacy, reemplazado por "AI Match Free Assessment"
+- **form**, **questionnaire**, **quiz** para el free — framearlo como "your AI Match"
+- **powerful**, **seamless**, **robust**, **all-in-one**, **next-generation**, **game-changing** — SaaS filler
+
+### Patrones prohibidos
+
+- ❌ "There are X tools" como main value prop — decí "the right tools for you"
+- ❌ "Submit the form" — decí "Get Your AI Match" / "Start Free AI Match"
+- ❌ Primary CTAs con "Browse", "Explore", "View", "See"
+- ❌ Describir el free assessment como un form — siempre framearlo como el engine / assessment haciendo su trabajo
+- ❌ Mezclar "AI Tools Setup" y "AI Tools Implementation" — solo Implementation
+
+---
+
+## Checklist antes de publicar cualquier copy nuevo
+
+1. ¿La marca está escrita `myAImatch` (exacto)?
+2. ¿Aparece la palabra "stack" o "tech stack"? Si sí, reemplazá.
+3. ¿Aparece "AI Match Engine"? Si sí, reemplazá por "AI Match Free Assessment" o "Start Free AI Match".
+4. ¿El nombre del servicio 02 es "AI Tools Implementation" (no "Setup")?
+5. ¿El CTA principal es uno de la tabla de arriba (no inventado)?
+6. ¿El nombre del output del free es "Your AI Match"?
+7. ¿Se frame el free como un engine/assessment que trabaja por ti, no un formulario que llenás?
