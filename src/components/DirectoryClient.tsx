@@ -25,7 +25,7 @@ const SearchBar = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-10 rounded-lg bg-white/5 border border-white/10 animate-pulse w-56" />
+      <div className="h-12 w-full rounded-full border border-white/10 bg-white/5 animate-pulse" />
     ),
   }
 )
@@ -228,17 +228,6 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
       return next
     })
   }, [])
-
-  // Tool count per category (for category cards)
-  const toolCountByCategory = useMemo(() => {
-    const map: Record<string, number> = {}
-    tools.forEach((t) => {
-      t.category.forEach((catId) => {
-        map[catId] = (map[catId] ?? 0) + 1
-      })
-    })
-    return map
-  }, [tools])
 
   // Subcategories available in the currently selected category
   const availableSubcategories = useMemo(() => {
@@ -458,9 +447,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             <CategoryCard
               id={null}
               name="All Matches"
-              description="Match across every AI category"
               icon="✦"
-              count={tools.length}
               active={activeCategory === null}
               onClick={() => handleCategorySelect(null)}
             />
@@ -469,9 +456,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 key={cat.id}
                 id={cat.id}
                 name={cat.name}
-                description={cat.description ?? "Match tools to this work type"}
                 icon={cat.icon ?? "🤖"}
-                count={toolCountByCategory[cat.id] ?? 0}
                 active={activeCategory === cat.id}
                 onClick={() =>
                   handleCategorySelect(activeCategory === cat.id ? null : cat.id)
@@ -546,7 +531,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
 
       {/* ── Toolbar ────────────────────────────────────────────────────── */}
       <div className="bg-[#111111] border-b border-[#1a1a1a] px-4 sm:px-6 py-4">
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)_minmax(0,1fr)] lg:items-center">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-3 justify-start">
             {/* Filters toggle */}
             <button
@@ -682,35 +667,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           </div>
 
           {/* Search */}
-          <div className="w-full max-w-[420px] justify-self-center">
+          <div className="w-full lg:ml-auto lg:w-[420px] lg:flex-none">
             <SearchBar
               placeholder="Search tools..."
               onSearch={(q) => setSearch(q)}
               onChange={(q) => setSearch(q)}
               suggestions={tools.map((t) => t.name).slice(0, 20)}
             />
-          </div>
-
-          <div className="flex justify-start lg:justify-end">
-            {/* Live Data badge */}
-            <div
-              className="h-12 min-w-[190px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold"
-              style={{
-                borderColor: "rgba(132,104,235,0.26)",
-                background: "rgba(132,104,235,0.06)",
-                color: "#b07de8",
-              }}
-            >
-            <span
-              className="w-2 h-2 rounded-full flex-shrink-0"
-              style={{
-                background: "#8468EB",
-                animation: "orbPulse 2s ease-in-out infinite",
-                boxShadow: "0 0 8px #8468EB",
-              }}
-            />
-              Live Data · Updated just now
-            </div>
           </div>
         </div>
       </div>
@@ -1336,27 +1299,22 @@ function getIcon(icon?: string): string {
 function CategoryCard({
   id,
   name,
-  description,
   icon,
-  count,
   active,
   onClick,
 }: {
   id: string | null
   name: string
-  description: string
   icon: string
-  count: number
   active: boolean
   onClick: () => void
 }) {
   return (
     <button
       onClick={onClick}
-      className="flex-shrink-0 flex flex-col items-start gap-1.5 px-4 py-3.5 rounded-xl border text-left transition-all duration-200"
+      className="flex-shrink-0 flex items-center gap-3 px-4 py-3.5 rounded-xl border text-left transition-all duration-200"
       style={{
-        minWidth: id === null ? "120px" : "170px",
-        maxWidth: "200px",
+        minWidth: id === null ? "136px" : "164px",
         borderColor: active ? "#8468EB" : "#1e1e1e",
         background: active
           ? "rgba(132,104,235,0.10)"
@@ -1366,29 +1324,12 @@ function CategoryCard({
           : "none",
       }}
     >
-      <div className="flex items-center justify-between w-full gap-2">
-        <span className="text-base leading-none">{getIcon(icon)}</span>
-        <span
-          className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full"
-          style={{
-            background: active ? "rgba(132,104,235,0.2)" : "#1e1e1e",
-            color: active ? "#b07de8" : "#555",
-          }}
-        >
-          {count}
-        </span>
-      </div>
+      <span className="text-base leading-none">{getIcon(icon)}</span>
       <span
         className="text-sm font-semibold leading-tight"
         style={{ color: active ? "#fff" : "#bbb" }}
       >
         {name}
-      </span>
-      <span
-        className="text-[11px] leading-snug line-clamp-2"
-        style={{ color: active ? "#888" : "#444" }}
-      >
-        {description}
       </span>
     </button>
   )

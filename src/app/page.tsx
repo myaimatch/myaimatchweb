@@ -260,20 +260,25 @@ export default async function HomePage() {
         .homepage-constellation {
           position: relative;
           min-height: 560px;
-          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
-          background:
-            radial-gradient(ellipse 86% 70% at 50% 50%, rgba(132,104,235,0.2), transparent 68%),
-            rgba(255,255,255,0.025);
-          overflow: hidden;
+          background: transparent;
+          overflow: visible;
         }
 
         .homepage-constellation::before {
           content: "";
           position: absolute;
-          inset: 14%;
-          border: 1px solid rgba(132,104,235,0.18);
+          inset: -8% -6% -10%;
           border-radius: 999px;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(132,104,235,0.26),
+            rgba(132,104,235,0.12) 42%,
+            transparent 72%
+          );
+          filter: blur(34px);
+          opacity: 0.95;
+          pointer-events: none;
         }
 
         .homepage-constellation::after {
@@ -440,58 +445,6 @@ export default async function HomePage() {
           color: rgba(255,255,255,0.6);
           font-size: 16px;
           line-height: 1.75;
-        }
-
-        .dir-steps-grid {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 12px;
-          margin-top: 26px;
-        }
-
-        .dir-step {
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(132,104,235,0.18);
-          border-radius: 14px;
-          background: rgba(255,255,255,0.02);
-          padding: 16px 18px;
-          text-align: left;
-        }
-
-        .dir-step::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: -42px;
-          width: 160px;
-          height: 70px;
-          transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(132,104,235,0.35), transparent 70%);
-          filter: blur(8px);
-          opacity: 0.25;
-          pointer-events: none;
-        }
-
-        .dir-step-num {
-          color: rgba(223,122,254,0.8);
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        .dir-step p {
-          margin-top: 8px;
-          color: rgba(255,255,255,0.6);
-          font-size: 13px;
-          line-height: 1.6;
-        }
-
-        @media (max-width: 720px) {
-          .dir-steps-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
         }
 
         .match-engine-frame {
@@ -977,26 +930,8 @@ export default async function HomePage() {
         <div className="px-4 pb-12">
           <div className="match-table-header">
             <h2 className="home-section-title">
-              {tools.length.toLocaleString("en-US")} AI tools. Find what works for you.
+              Find Your AI Match with our AI tool directory.
             </h2>
-            <div className="dir-steps-grid">
-              <div className="dir-step">
-                <span className="dir-step-num">01</span>
-                <p>Select your category and subcategory to narrow your focus.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">02</span>
-                <p>Apply filters based on pricing, free plan, API access, and more.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">03</span>
-                <p>Compare tools side by side and customize columns as needed.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">04</span>
-                <p>Bookmark your top picks and choose the best match for you.</p>
-              </div>
-            </div>
           </div>
           <MatchEngineFrame toolCount={tools.length}>
             <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
