@@ -1,24 +1,13 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 import HomepageConstellation from "@/components/HomepageConstellation";
 import DirectoryClient from "@/components/DirectoryClient";
+import HomeSignalField from "@/components/home/HomeSignalField";
+import MatchEngineFrame from "@/components/home/MatchEngineFrame";
+import MatchOutputPreview from "@/components/home/MatchOutputPreview";
 import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 
 export const dynamic = "force-dynamic";
-
-const TALLY_POPUP_HREF =
-  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
-
-const TALLY_POPUP_ATTRIBUTES = {
-  "data-tally-open": "xXNXNr",
-  "data-tally-layout": "modal",
-  "data-tally-hide-title": "1",
-  "data-tally-overlay": "1",
-  "data-tally-emoji-text": "👋",
-  "data-tally-emoji-animation": "wave",
-  "data-tally-auto-close": "1000",
-  "data-tally-form-events-forwarding": "1",
-} as const;
 
 export const metadata: Metadata = {
   title: "myAIMatch - Find AI Tools You'll Actually Use",
@@ -46,13 +35,73 @@ export default async function HomePage() {
     <div className="home-ramp bg-black text-white">
       <style dangerouslySetInnerHTML={{ __html: `
         .home-ramp {
-          --home-primary: #814ac8;
-          --home-accent: #df7afe;
-          --home-card: rgba(255,255,255,0.04);
-          --home-border: rgba(255,255,255,0.08);
-          --home-muted: rgba(255,255,255,0.6);
-          --home-dim: rgba(255,255,255,0.4);
+          --home-primary: #8468EB;
+          --home-accent: #C4B5FD;
+          --home-card: var(--brand-surface-soft);
+          --home-border: var(--brand-border-soft);
+          --home-muted: var(--brand-text-muted);
+          --home-dim: var(--brand-text-dim);
+          position: relative;
           overflow: hidden;
+        }
+
+        .home-ramp::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: -18px;
+          z-index: 0;
+          width: min(1320px, 100vw);
+          height: 230px;
+          transform: translateX(-50%);
+          background:
+            radial-gradient(ellipse 68% 72% at 50% 0%, rgba(132,104,235,0.34), rgba(91,66,195,0.16) 42%, transparent 74%);
+          filter: blur(18px);
+          pointer-events: none;
+          opacity: 0.96;
+        }
+
+        .home-ramp::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: -1px;
+          z-index: 0;
+          width: min(1180px, 92vw);
+          height: 1px;
+          transform: translateX(-50%);
+          background:
+            linear-gradient(90deg, transparent, rgba(196,181,253,0.12), rgba(132,104,235,0.8), rgba(196,181,253,0.12), transparent);
+          box-shadow: 0 0 22px rgba(132,104,235,0.55);
+          pointer-events: none;
+        }
+
+        .home-ramp > section {
+          position: relative;
+          z-index: 1;
+        }
+
+        .home-scroll-progress {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 250;
+          width: 100%;
+          height: 2px;
+          transform-origin: left center;
+          background: linear-gradient(90deg, #8468EB, #C4B5FD);
+          pointer-events: none;
+        }
+
+        .home-signal-field {
+          position: absolute;
+          inset: 0 auto auto 0;
+          z-index: 0;
+          width: 100%;
+          min-height: 180vh;
+          pointer-events: none;
+          opacity: 0.9;
+          mix-blend-mode: screen;
         }
 
         .home-shell {
@@ -72,12 +121,15 @@ export default async function HomePage() {
           position: relative;
           min-height: calc(100vh - 72px);
           display: flex;
+          flex-direction: column;
+          justify-content: center;
           align-items: center;
-          padding: 36px 0 64px;
+          padding: 28px 0 72px;
           background:
-            radial-gradient(ellipse 80% 54% at 50% 0%, rgba(129,74,200,0.42), transparent 68%),
-            radial-gradient(ellipse 56% 44% at 78% 34%, rgba(223,122,254,0.14), transparent 68%),
-            radial-gradient(ellipse 40% 30% at 12% 82%, rgba(129,74,200,0.08), transparent 60%),
+            radial-gradient(ellipse 78% 58% at 50% -4%, rgba(132,104,235,0.26), rgba(91,66,195,0.1) 38%, transparent 72%),
+            radial-gradient(ellipse 54% 44% at 78% 30%, rgba(223,122,254,0.16), transparent 68%),
+            radial-gradient(ellipse 42% 32% at 14% 84%, rgba(132,104,235,0.1), transparent 62%),
+            linear-gradient(180deg, rgba(132,104,235,0.06), transparent 22%),
             #000000;
         }
 
@@ -100,7 +152,7 @@ export default async function HomePage() {
             linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
           background-size: 82px 82px;
-          mask-image: radial-gradient(ellipse 72% 58% at 50% 16%, black, transparent 76%);
+          mask-image: radial-gradient(ellipse 74% 60% at 50% 12%, black, transparent 76%);
           pointer-events: none;
         }
 
@@ -108,11 +160,12 @@ export default async function HomePage() {
           content: "";
           position: absolute;
           left: 50%;
-          top: 0;
+          top: -8px;
           width: 2px;
-          height: 170px;
+          height: 192px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, rgba(223,122,254,0.72), transparent);
+          background: linear-gradient(180deg, rgba(196,181,253,0.94), rgba(132,104,235,0.54), transparent);
+          box-shadow: 0 0 16px rgba(132,104,235,0.34);
           pointer-events: none;
         }
 
@@ -146,7 +199,7 @@ export default async function HomePage() {
           width: 7px;
           height: 7px;
           border-radius: 999px;
-          background: #814ac8;
+          background: #8468EB;
           box-shadow: 0 0 18px rgba(223,122,254,0.72);
           animation: orbPulse 2.4s ease-in-out infinite;
         }
@@ -162,7 +215,7 @@ export default async function HomePage() {
         }
 
         .home-hero-title span {
-          background: linear-gradient(135deg, #ffffff 4%, #df7afe 58%, #a066d4 100%);
+          background: linear-gradient(135deg, #ffffff 4%, #C4B5FD 58%, #5B42C3 100%);
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
@@ -202,7 +255,7 @@ export default async function HomePage() {
         .home-cta-primary {
           border: 1px solid rgba(223,122,254,0.34);
           color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
+          background: linear-gradient(135deg, #8468EB, #5B42C3);
         }
 
         .home-cta-secondary {
@@ -226,7 +279,7 @@ export default async function HomePage() {
 
         .home-cta-primary:focus-visible,
         .home-cta-secondary:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 3px;
         }
 
@@ -240,20 +293,25 @@ export default async function HomePage() {
         .homepage-constellation {
           position: relative;
           min-height: 560px;
-          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
-          background:
-            radial-gradient(ellipse 86% 70% at 50% 50%, rgba(129,74,200,0.2), transparent 68%),
-            rgba(255,255,255,0.025);
-          overflow: hidden;
+          background: transparent;
+          overflow: visible;
         }
 
         .homepage-constellation::before {
           content: "";
           position: absolute;
-          inset: 14%;
-          border: 1px solid rgba(129,74,200,0.18);
+          inset: -8% -6% -10%;
           border-radius: 999px;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(132,104,235,0.26),
+            rgba(132,104,235,0.12) 42%,
+            transparent 72%
+          );
+          filter: blur(34px);
+          opacity: 0.95;
+          pointer-events: none;
         }
 
         .homepage-constellation::after {
@@ -264,7 +322,7 @@ export default async function HomePage() {
           bottom: 0;
           width: 1px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, transparent, rgba(129,74,200,0.42), transparent);
+          background: linear-gradient(180deg, transparent, rgba(132,104,235,0.15), transparent);
         }
 
         .homepage-constellation-canvas {
@@ -306,7 +364,7 @@ export default async function HomePage() {
           border-radius: 999px;
           background:
             radial-gradient(ellipse at center, rgba(223,122,254,0.18), transparent 62%),
-            rgba(129,74,200,0.08);
+            rgba(132,104,235,0.08);
           box-shadow:
             0 0 0 8px rgba(223,122,254,0.08),
             0 0 34px rgba(223,122,254,0.36),
@@ -327,7 +385,7 @@ export default async function HomePage() {
           top: calc(50% + 66px);
           z-index: 6;
           transform: translateX(-50%);
-          color: #df7afe;
+          color: #C4B5FD;
           font-size: 16px;
           font-weight: 800;
           letter-spacing: 0;
@@ -349,7 +407,7 @@ export default async function HomePage() {
           font-weight: 700;
           line-height: 1;
           backdrop-filter: blur(12px);
-          box-shadow: 0 0 18px rgba(129,74,200,0.12);
+          box-shadow: 0 0 18px rgba(132,104,235,0.12);
           transform-origin: center;
           white-space: nowrap;
           will-change: left, top, transform, opacity;
@@ -360,7 +418,7 @@ export default async function HomePage() {
           inset: 0;
           z-index: 5;
           background:
-            radial-gradient(ellipse 70% 60% at 50% 48%, rgba(129,74,200,0.24), transparent 68%),
+            radial-gradient(ellipse 70% 60% at 50% 48%, rgba(132,104,235,0.24), transparent 68%),
             rgba(0,0,0,0.18);
         }
 
@@ -368,7 +426,7 @@ export default async function HomePage() {
           position: absolute;
           left: 50%;
           top: 50%;
-          border: 1px solid rgba(129,74,200,0.22);
+          border: 1px solid rgba(132,104,235,0.22);
           border-radius: 999px;
           transform: translate(-50%, -50%);
         }
@@ -382,13 +440,40 @@ export default async function HomePage() {
           position: relative;
           overflow: hidden;
           background:
-            radial-gradient(ellipse 70% 38% at 50% 0%, rgba(129,74,200,0.18), transparent 72%),
-            #0d0d0d;
+            radial-gradient(ellipse 74% 40% at 50% 0%, rgba(132,104,235,0.3), transparent 70%),
+            radial-gradient(ellipse 56% 44% at 50% 100%, rgba(91,66,195,0.12), transparent 76%),
+            linear-gradient(180deg, rgba(132,104,235,0.08), transparent 22%),
+            #0b0b0d;
+        }
+
+        .match-table-section::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 2px;
+          height: 156px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, rgba(196,181,253,0.9), rgba(132,104,235,0.5), transparent);
+          box-shadow: 0 0 18px rgba(132,104,235,0.3);
+        }
+
+        .match-table-section::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 58px;
+          width: min(1180px, 92vw);
+          height: 120px;
+          transform: translateX(-50%);
+          background: radial-gradient(ellipse 50% 70% at 50% 0%, rgba(132,104,235,0.16), transparent 74%);
+          filter: blur(16px);
+          pointer-events: none;
         }
 
         .match-table-header {
           max-width: 900px;
-          margin: 0 auto 30px;
+          margin: 0 auto 34px;
           padding-top: 64px;
           text-align: center;
         }
@@ -410,75 +495,201 @@ export default async function HomePage() {
           line-height: 1.75;
         }
 
-        .dir-steps-grid {
+        .match-engine-frame {
+          position: relative;
+          width: min(1420px, 100%);
+          margin: 0 auto;
+          border: 1px solid rgba(255,255,255,0.09);
+          border-radius: 28px;
+          background:
+            radial-gradient(ellipse 88% 42% at 50% 0%, rgba(132,104,235,0.22), transparent 72%),
+            linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+            rgba(9,9,11,0.74);
+          padding: 16px;
+          overflow: hidden;
+          box-shadow:
+            0 30px 64px rgba(0,0,0,0.42),
+            0 0 0 1px rgba(255,255,255,0.02) inset,
+            0 0 48px rgba(132,104,235,0.1);
+        }
+
+        .match-engine-frame::before {
+          content: "";
+          position: absolute;
+          inset: 14px;
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 22px;
+          pointer-events: none;
+        }
+
+        .engine-status-bar {
+          position: relative;
+          z-index: 2;
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 12px;
-          margin-top: 26px;
+          align-items: center;
+          border: 1px solid rgba(255,255,255,0.09);
+          border-radius: 18px;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
+            rgba(10,10,12,0.78);
+          padding: 12px 14px;
+          box-shadow: 0 14px 34px rgba(0,0,0,0.24);
         }
 
-        .dir-step {
-          border: 1px solid rgba(129,74,200,0.18);
-          border-radius: 14px;
-          background: rgba(255,255,255,0.02);
-          padding: 16px 18px;
-          text-align: left;
-        }
-
-        .dir-step-num {
-          color: rgba(223,122,254,0.8);
-          font-size: 10px;
+        .engine-status-live {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          justify-content: center;
+          min-height: 56px;
+          border-right: 1px solid rgba(255,255,255,0.08);
+          color: rgba(255,255,255,0.72);
+          font-size: 11px;
           font-weight: 800;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        .engine-status-live span {
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          background: #C4B5FD;
+          box-shadow: 0 0 20px rgba(223,122,254,0.72);
+          animation: orbPulse 2.2s ease-in-out infinite;
+        }
+
+        .engine-status-count {
+          min-height: 56px;
+          text-align: center;
+        }
+
+        .engine-status-count strong {
+          display: block;
+          color: #ffffff;
+          font-size: 22px;
+          font-weight: 800;
+          line-height: 1.1;
+        }
+
+        .engine-status-count span {
+          display: block;
+          margin-top: 5px;
+          color: rgba(255,255,255,0.4);
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.09em;
           text-transform: uppercase;
         }
 
-        .dir-step p {
-          margin-top: 8px;
-          color: rgba(255,255,255,0.6);
-          font-size: 13px;
-          line-height: 1.6;
+        .engine-flow-preview {
+          position: relative;
+          z-index: 1;
+          height: 112px;
+          margin: 0 8px -10px;
+          pointer-events: none;
         }
 
-        @media (max-width: 720px) {
-          .dir-steps-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
+        .engine-flow-preview svg {
+          width: 100%;
+          height: 100%;
+          overflow: visible;
         }
 
+        .engine-flow-preview path {
+          fill: none;
+          stroke: rgba(223,122,254,0.5);
+          stroke-width: 1.4;
+          stroke-linecap: round;
+          stroke-dasharray: 420;
+          animation: engineFlowDraw 5.8s ease-in-out infinite;
+        }
+
+        .engine-flow-preview path:nth-child(2) {
+          animation-delay: 620ms;
+          opacity: 0.72;
+        }
+
+        .engine-flow-preview path:nth-child(3) {
+          animation-delay: 1180ms;
+          opacity: 0.52;
+        }
+
+        .match-engine-table {
+          position: relative;
+          z-index: 2;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 20px;
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)),
+            rgba(8,8,10,0.88);
+          overflow: hidden;
+          box-shadow:
+            0 18px 46px rgba(0,0,0,0.34),
+            0 0 0 1px rgba(255,255,255,0.02) inset;
+        }
 
         .home-final {
-          padding: 0 0 88px;
-          background: #000000;
+          padding: 0 0 96px;
+          background:
+            radial-gradient(ellipse 54% 72% at 10% 52%, rgba(196,181,253,0.28), rgba(132,104,235,0.14) 36%, transparent 72%),
+            radial-gradient(ellipse 58% 62% at 88% 18%, rgba(132,104,235,0.18), transparent 72%),
+            linear-gradient(90deg, rgba(132,104,235,0.08), transparent 26%),
+            #070709;
         }
 
         .home-final-panel {
           position: relative;
           overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.08);
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.74fr);
+          gap: clamp(24px, 5vw, 56px);
+          align-items: center;
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 28px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.25), rgba(129,74,200,0.07) 44%, transparent),
-            radial-gradient(ellipse 85% 58% at 50% 0%, rgba(129,74,200,0.45), transparent 70%),
-            #0d0d0d;
+            radial-gradient(ellipse 56% 80% at 18% 50%, rgba(196,181,253,0.24), rgba(132,104,235,0.16) 34%, transparent 72%),
+            radial-gradient(ellipse 70% 60% at 86% 16%, rgba(132,104,235,0.16), transparent 72%),
+            linear-gradient(135deg, rgba(196,181,253,0.14), rgba(132,104,235,0.14) 24%, rgba(49,27,146,0.44) 100%);
           padding: clamp(48px, 8vw, 88px) 24px;
-          text-align: center;
+          text-align: left;
+          box-shadow:
+            0 30px 72px rgba(0,0,0,0.48),
+            0 0 0 1px rgba(255,255,255,0.03) inset,
+            0 0 44px rgba(132,104,235,0.12);
         }
 
         .home-final-panel::before {
           content: "";
           position: absolute;
+          z-index: 0;
           left: 50%;
           top: 0;
           width: 2px;
-          height: 96px;
+          height: 118px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, #df7afe, transparent);
+          background: linear-gradient(180deg, rgba(240,237,255,0.94), rgba(132,104,235,0.38), transparent);
+          box-shadow: 0 0 18px rgba(196,181,253,0.3);
+          pointer-events: none;
+        }
+
+        .home-final-panel::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(circle at 16% 50%, rgba(240,237,255,0.14), transparent 22%),
+            linear-gradient(90deg, rgba(255,255,255,0.06), transparent 36%);
+          pointer-events: none;
+          opacity: 0.9;
         }
 
         .home-final-panel h2 {
           position: relative;
-          margin: 0 auto;
+          margin: 0;
           max-width: 820px;
           color: #ffffff;
           font-size: clamp(36px, 6vw, 72px);
@@ -489,16 +700,150 @@ export default async function HomePage() {
 
         .home-final-panel p {
           position: relative;
-          margin: 22px auto 0;
+          margin: 22px 0 0;
           max-width: 660px;
-          color: rgba(255,255,255,0.62);
+          color: rgba(255,255,255,0.76);
           font-size: 16px;
           line-height: 1.75;
         }
 
+        .home-final-copy {
+          position: relative;
+          z-index: 2;
+        }
+
+        .match-output-preview {
+          position: relative;
+          z-index: 2;
+        }
+
+        .match-output-card {
+          position: relative;
+          overflow: hidden;
+          min-height: 390px;
+          border: 1px solid rgba(196,181,253,0.22);
+          border-radius: 22px;
+          background:
+            radial-gradient(ellipse 78% 62% at 50% 0%, rgba(240,237,255,0.14), transparent 72%),
+            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(132,104,235,0.26), transparent 72%),
+            linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035)),
+            rgba(57,38,102,0.34);
+          padding: 20px;
+          box-shadow:
+            0 18px 46px rgba(0,0,0,0.26),
+            0 0 0 1px rgba(255,255,255,0.02) inset;
+        }
+
+        .match-output-card::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: -80px;
+          width: 240px;
+          height: 140px;
+          transform: translateX(-50%);
+          background: radial-gradient(ellipse, rgba(240,237,255,0.34), rgba(196,181,253,0.24) 52%, transparent 74%);
+          filter: blur(10px);
+          opacity: 0.58;
+        }
+
+        .match-output-header {
+          position: relative;
+          display: flex;
+          gap: 7px;
+        }
+
+        .match-output-header span {
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.18);
+        }
+
+        .match-output-card p {
+          position: relative;
+          margin-top: 24px;
+          color: rgba(223,122,254,0.84);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.13em;
+          text-transform: uppercase;
+        }
+
+        .match-output-blueprint {
+          position: relative;
+          display: grid;
+          place-items: center;
+          min-height: 190px;
+          margin-top: 16px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 16px;
+          background:
+            linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+          background-size: 18px 18px;
+        }
+
+        .match-output-blueprint svg {
+          width: min(260px, 86%);
+          height: auto;
+        }
+
+        .match-output-blueprint path,
+        .match-output-blueprint circle {
+          fill: none;
+          stroke: rgba(223,122,254,0.74);
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          filter: drop-shadow(0 0 7px rgba(223,122,254,0.36));
+        }
+
+        .match-output-blueprint circle {
+          fill: rgba(0,0,0,0.5);
+          animation: outputNodePulse 3.2s ease-in-out infinite;
+        }
+
+        .match-output-lines {
+          display: grid;
+          gap: 10px;
+          margin-top: 18px;
+        }
+
+        .match-output-lines span {
+          height: 8px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.1);
+        }
+
+        .match-output-lines span:nth-child(1) {
+          width: 86%;
+        }
+
+        .match-output-lines span:nth-child(2) {
+          width: 68%;
+        }
+
+        .match-output-lines span:nth-child(3) {
+          width: 76%;
+        }
+
+        @keyframes engineFlowDraw {
+          0%   { stroke-dashoffset: 420; opacity: 0; }
+          18%  { opacity: 0.85; }
+          58%  { stroke-dashoffset: 0; opacity: 0.55; }
+          100% { stroke-dashoffset: -420; opacity: 0; }
+        }
+
+        @keyframes outputNodePulse {
+          0%, 100% { opacity: 0.68; transform: scale(1); transform-origin: center; }
+          50%      { opacity: 1; transform: scale(1.08); transform-origin: center; }
+        }
+
         @media (max-width: 1080px) {
           .home-hero-grid,
-          .principles-head {
+          .principles-head,
+          .home-final-panel {
             grid-template-columns: 1fr;
           }
 
@@ -518,6 +863,17 @@ export default async function HomePage() {
             min-height: 460px;
           }
 
+          .home-final-panel,
+          .home-final-panel p {
+            text-align: center;
+          }
+
+          .home-final-panel p,
+          .home-final-panel h2 {
+            margin-left: auto;
+            margin-right: auto;
+          }
+
         }
 
         @media (max-width: 720px) {
@@ -527,11 +883,12 @@ export default async function HomePage() {
 
           .home-hero {
             min-height: auto;
-            padding: 40px 0 52px;
+            padding: 28px 0 52px;
           }
 
           .home-hero-title {
-            font-size: clamp(46px, 16vw, 76px);
+            font-size: clamp(42px, 13vw, 62px);
+            line-height: 1;
           }
 
           .home-hero-body {
@@ -576,8 +933,56 @@ export default async function HomePage() {
           .table-proof {
             border-radius: 18px;
           }
+
+          .engine-status-bar {
+            grid-template-columns: 1fr;
+          }
+
+          .engine-status-live {
+            border-right: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+          }
+
+          .engine-flow-preview svg {
+            height: 88px;
+          }
+
+          .match-engine-frame {
+            padding: 10px;
+            border-radius: 22px;
+          }
+
+          .match-engine-table {
+            border-radius: 16px;
+          }
+
+          .home-final-panel {
+            border-radius: 22px;
+          }
+
+          .match-output-card {
+            min-height: 320px;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .home-scroll-progress {
+            display: none;
+          }
+
+          .engine-flow-preview path,
+          .match-output-blueprint circle {
+            animation: none !important;
+          }
+
+          .engine-flow-preview path {
+            stroke-dasharray: none;
+            opacity: 0.55;
+          }
         }
       ` }} />
+
+      <HomeSignalField />
 
       <section className="home-hero">
         <div className="home-hero-noise" aria-hidden="true" />
@@ -594,9 +999,9 @@ export default async function HomePage() {
               Explore AI tools for free, get personalized recommendations, or work with us to design and implement the right AI stack for your business.
             </p>
             <div className="home-cta-row">
-              <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
+              <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_hero">
                 Start Free AI Match
-              </Link>
+              </AssessmentPopupTrigger>
             </div>
           </div>
 
@@ -609,28 +1014,12 @@ export default async function HomePage() {
         <div className="px-4 pb-12">
           <div className="match-table-header">
             <h2 className="home-section-title">
-              275 AI tools. Find what works for you.
+              Find Your AI Match with our AI tool directory.
             </h2>
-            <div className="dir-steps-grid">
-              <div className="dir-step">
-                <span className="dir-step-num">01</span>
-                <p>Select your category and subcategory to narrow your focus.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">02</span>
-                <p>Apply filters based on pricing, free plan, API access, and more.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">03</span>
-                <p>Compare tools side by side and customize columns as needed.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">04</span>
-                <p>Bookmark your top picks and choose the best match for you.</p>
-              </div>
-            </div>
           </div>
-          <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
+          <MatchEngineFrame toolCount={tools.length}>
+            <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
+          </MatchEngineFrame>
         </div>
       </section>
 
@@ -638,15 +1027,18 @@ export default async function HomePage() {
       <section className="home-final">
         <div className="home-shell">
           <div className="home-final-panel">
-            <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
-            <p>
-              Don&apos;t have time to filter 275 tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.
-            </p>
-            <div className="home-cta-row" style={{ justifyContent: "center" }}>
-              <Link href={TALLY_POPUP_HREF} className="home-cta-primary" {...TALLY_POPUP_ATTRIBUTES}>
-                Start Free AI Match
-              </Link>
+            <div className="home-final-copy">
+              <h2>Skip the spreadsheet. Get your AI stack match in minutes.</h2>
+              <p>
+                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward the AI stack that fits your workflow, team, budget, goals, industry, and use case.
+              </p>
+              <div className="home-cta-row">
+                <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_final">
+                  Start Free AI Match
+                </AssessmentPopupTrigger>
+              </div>
             </div>
+            <MatchOutputPreview />
           </div>
         </div>
       </section>

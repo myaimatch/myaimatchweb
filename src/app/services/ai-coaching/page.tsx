@@ -1,14 +1,21 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import { fetchAllTools } from "@/lib/airtable";
+import CadenceSelector from "@/components/services/CadenceSelector";
+import CountUp from "@/components/services/CountUp";
+import OrbitalCore from "@/components/services/OrbitalCore";
+import Reveal from "@/components/services/Reveal";
+import ServiceHero from "@/components/services/ServiceHero";
+import TiltCard from "@/components/services/TiltCard";
+import ToolTicker from "@/components/services/ToolTicker";
 
 export const metadata: Metadata = {
-  title: "AI Coaching | myAIMatch",
+  title: "Fractional AI Lead | myAIMatch",
   description:
-    "Regular sessions, hands-on training, and ongoing support — so your team actually uses what you've built.",
+    "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
   openGraph: {
-    title: "AI Coaching | myAIMatch",
+    title: "Fractional AI Lead | myAIMatch",
     description:
-      "Regular sessions, hands-on training, and ongoing support — so your team actually uses what you've built.",
+      "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
     url: "https://myaimatch.ai/services/ai-coaching",
     type: "website",
   },
@@ -17,39 +24,71 @@ export const metadata: Metadata = {
 const included = [
   {
     eyebrow: "01",
-    title: "1:1 sessions",
-    body: "Regular calls focused on how you use your tools day-to-day.",
+    title: "Your AI sparring partner",
+    body: "Weekly or monthly calls where we test workflows, break things, and ship better ones together.",
   },
   {
     eyebrow: "02",
-    title: "Team training",
-    body: "We teach your team the stack — at their pace, with real examples.",
+    title: "Team rollouts",
+    body: "We onboard new hires and train existing team on the stack — at their pace, with real examples from your business.",
   },
   {
     eyebrow: "03",
-    title: "Tool updates & new additions",
-    body: "As AI evolves, we keep your stack current and introduce better tools when they matter.",
+    title: "New tools, vetted for you",
+    body: "We test 10–20 new AI tools a month. You only hear about the 2 worth your time.",
   },
   {
     eyebrow: "04",
-    title: "Ongoing support",
-    body: "Questions between sessions answered. No waiting until the next call.",
+    title: "Slack or WhatsApp access",
+    body: "Async questions answered between calls. No ticket queues, no waiting a week for a reply.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "Having them on Slack is like having an AI hire without the headcount. Best ROI decision I made this year.",
+    name: "Elena Vargas",
+    role: "Founder, Tidewater Co.",
+  },
+  {
+    quote: "Every month they show me 2 tools I'd never have found. Half of them replace something older in our stack.",
+    name: "Devon Park",
+    role: "COO, Northpoint Group",
+  },
+  {
+    quote: "Our team went from scared of AI to building their own workflows in 8 weeks.",
+    name: "Sam Hoffman",
+    role: "People Lead, Bright Labs",
   },
 ];
 
 const calHref = process.env.NEXT_PUBLIC_CAL_COACHING_URL || "#book";
 
-export default function CoachingPage() {
+async function getTickerTools() {
+  try {
+    const tools = await fetchAllTools();
+    return tools
+      .filter((tool) => tool.name)
+      .slice(0, 10)
+      .map((tool) => tool.name);
+  } catch {
+    return [];
+  }
+}
+
+export default async function CoachingPage() {
+  const tickerTools = await getTickerTools();
+
   return (
     <div className="coaching-page bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .coaching-page {
-          --service-primary: #814ac8;
-          --service-accent: #df7afe;
+          --service-primary: #8468EB;
+          --service-accent: #C4B5FD;
           --service-surface: rgba(255,255,255,0.04);
           --service-border: rgba(255,255,255,0.08);
           --service-muted: rgba(255,255,255,0.6);
-          background-color: #000000;
+          background-color: #111111;
           color: #ffffff;
           overflow: hidden;
         }
@@ -100,7 +139,7 @@ export default function CoachingPage() {
 
         .coaching-cta-primary {
           color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
+          background: linear-gradient(135deg, #8468EB, #5B42C3);
           border: 1px solid rgba(223,122,254,0.32);
         }
 
@@ -125,7 +164,7 @@ export default function CoachingPage() {
 
         .coaching-cta-primary:focus-visible,
         .coaching-cta-secondary:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 3px;
         }
 
@@ -135,7 +174,7 @@ export default function CoachingPage() {
           border: 1px solid var(--service-border);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.18), transparent 70%),
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.18), transparent 70%),
             var(--service-surface);
         }
 
@@ -147,7 +186,7 @@ export default function CoachingPage() {
           width: 220px;
           height: 90px;
           transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(129,74,200,0.48), transparent 70%);
+          background: radial-gradient(ellipse, rgba(132,104,235,0.48), transparent 70%);
           filter: blur(10px);
           opacity: 0.28;
           pointer-events: none;
@@ -166,8 +205,8 @@ export default function CoachingPage() {
           align-items: center;
           padding: 92px 0 110px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.18), transparent 34%),
-            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(129,74,200,0.34), transparent 68%),
+            linear-gradient(180deg, rgba(132,104,235,0.18), transparent 34%),
+            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(132,104,235,0.34), transparent 68%),
             #000000;
         }
 
@@ -206,11 +245,81 @@ export default function CoachingPage() {
         }
 
         .coaching-hero-title span {
-          background: linear-gradient(135deg, #ffffff 8%, #df7afe 100%);
+          background: linear-gradient(135deg, #ffffff 8%, #C4B5FD 100%);
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
           -webkit-text-fill-color: transparent;
+        }
+
+        .coaching-metrics {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          margin: 28px auto 0;
+          padding: 10px 22px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.025);
+          color: rgba(255,255,255,0.62);
+          font-size: 13px;
+        }
+
+        .coaching-metrics strong {
+          color: #ffffff;
+          font-weight: 700;
+          margin-right: 6px;
+        }
+
+        .coaching-metrics-divider {
+          color: rgba(255,255,255,0.24);
+        }
+
+        .coaching-testimonials {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+          margin-top: 44px;
+        }
+
+        .coaching-testimonial-card {
+          margin: 0;
+          padding: 26px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background:
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.12), transparent 70%),
+            rgba(255,255,255,0.035);
+        }
+
+        .coaching-testimonial-card blockquote {
+          margin: 0;
+          color: rgba(255,255,255,0.88);
+          font-size: 16px;
+          line-height: 1.6;
+          letter-spacing: -0.01em;
+        }
+
+        .coaching-testimonial-card figcaption {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          margin-top: 20px;
+          padding-top: 18px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .coaching-testimonial-card figcaption strong {
+          color: #ffffff;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .coaching-testimonial-card figcaption span {
+          color: rgba(255,255,255,0.48);
+          font-size: 12px;
         }
 
         .coaching-grid {
@@ -259,9 +368,9 @@ export default function CoachingPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.14), rgba(129,74,200,0.04) 44%, transparent),
-            radial-gradient(ellipse 70% 58% at 50% 0%, rgba(129,74,200,0.32), transparent 70%),
-            #0d0d0d;
+            linear-gradient(180deg, rgba(132,104,235,0.14), rgba(132,104,235,0.04) 44%, transparent),
+            radial-gradient(ellipse 70% 58% at 50% 0%, rgba(132,104,235,0.32), transparent 70%),
+            #111111;
           padding: clamp(48px, 6vw, 80px) 24px;
           text-align: center;
         }
@@ -274,7 +383,7 @@ export default function CoachingPage() {
           width: 2px;
           height: 80px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, #df7afe, transparent);
+          background: linear-gradient(180deg, #C4B5FD, transparent);
         }
 
         .coaching-who h2 {
@@ -300,10 +409,10 @@ export default function CoachingPage() {
         .coaching-funnel {
           position: relative;
           overflow: hidden;
-          border: 1px solid rgba(129,74,200,0.22);
+          border: 1px solid rgba(132,104,235,0.22);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(129,74,200,0.16), transparent 70%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(132,104,235,0.16), transparent 70%),
             rgba(255,255,255,0.035);
           padding: 40px 36px;
           display: flex;
@@ -332,7 +441,8 @@ export default function CoachingPage() {
             min-height: auto;
             padding: 78px 0 88px;
           }
-          .coaching-grid {
+          .coaching-grid,
+          .coaching-testimonials {
             grid-template-columns: 1fr;
           }
           .coaching-funnel {
@@ -356,80 +466,67 @@ export default function CoachingPage() {
             width: 100%;
           }
         }
-      `}</style>
+      ` }} />
 
-      <section className="coaching-hero">
-        <div className="coaching-shell relative z-10 text-center">
-          <p className="coaching-label">AI Coaching</p>
-          <h1 className="coaching-hero-title">
-            Keep your team <span>ahead of the tools.</span>
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            Regular sessions, hands-on training, and ongoing support — so your team actually uses what you&apos;ve built.
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="coaching-cta-primary" href={calHref}>
-              Book a Coaching Call
-            </Link>
-            <Link className="coaching-cta-secondary" href="#whats-included">
-              See what&apos;s included
-            </Link>
-          </div>
-          <p className="mt-6 text-sm leading-6 text-white/40">
-            For individuals, founders, and teams already running an AI stack.
-          </p>
-        </div>
-      </section>
+      <ServiceHero
+        label="Fractional AI Lead"
+        title="Keep your AI stack current."
+        highlightedTitle="Without hiring full-time."
+        body="An embedded AI lead for your team — calls, async support, team training, and monthly tool curation. Without the full-time hire."
+        primaryCta={{ label: "Book a Discovery Call", href: calHref }}
+        variant="lead"
+        visual={<OrbitalCore />}
+        metrics={[
+          { value: <CountUp value={60} suffix="+" />, label: "teams supported" },
+          { value: <CountUp value={200} suffix="+" />, label: "AI tools tested monthly" },
+          { value: <CountUp value={4.9} decimals={1} suffix="/5" />, label: "client rating" },
+        ]}
+      />
+
+      <ToolTicker tools={tickerTools} />
 
       <section id="whats-included" className="coaching-shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <p className="coaching-label">What&apos;s included</p>
-          <h2 className="coaching-section-title">Training that sticks.</h2>
+          <h2 className="coaching-section-title">Your fractional AI team.</h2>
           <p className="coaching-section-body">
-            We don&apos;t just hand off your stack and disappear. We stay with you — so your team actually uses it.
+            We don&apos;t hand off your stack and disappear. We stay embedded — so your team actually uses it, and you never fall behind the tools.
           </p>
         </div>
         <div className="coaching-grid">
-          {included.map((item) => (
-            <article className="coaching-card coaching-item" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {included.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="coaching-card coaching-item">
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="coaching-shell pb-20 md:pb-28">
-        <div className="coaching-who">
-          <h2>You have the tools. Now let&apos;s make sure everyone uses them.</h2>
-          <p>
-            Ideal after AI Tech Stack Implementation. We stay with your team through every phase of adoption.
-          </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="coaching-cta-primary" href={calHref}>
-              Book your coaching call
-            </Link>
-            <Link className="coaching-cta-secondary" href="/services/ai-tech-stack-implementation">
-              Start with Implementation
-            </Link>
-          </div>
+      <section className="coaching-shell pb-4 md:pb-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="coaching-label">From teams we ride with</p>
+          <h2 className="coaching-section-title">Embedded, not outsourced.</h2>
+        </div>
+        <div className="coaching-testimonials">
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="coaching-testimonial-card" maxTilt={4}>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      <section className="coaching-shell pb-20 md:pb-28">
-        <div className="coaching-funnel">
-          <div className="coaching-funnel-text">
-            <h3>New to AI tools? Start here.</h3>
-            <p>
-              Use the free AI Match Engine to discover what tools fit your workflow before committing.
-            </p>
-          </div>
-          <Link className="coaching-cta-primary" href="/assessment" style={{ whiteSpace: "nowrap", flexShrink: 0 }}>
-            Try the AI Match Engine — Free →
-          </Link>
-        </div>
-      </section>
+      <CadenceSelector ctaHref={calHref} />
     </div>
   );
 }

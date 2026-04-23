@@ -95,7 +95,7 @@ export default function DealsPage() {
             transform: "translateX(-50%)",
             width: "700px",
             height: "350px",
-            background: "radial-gradient(ellipse 60% 60% at 50% 30%, rgba(129,74,200,0.28) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse 60% 60% at 50% 30%, rgba(132,104,235,0.28) 0%, transparent 70%)",
             animation: "orbPulse 8s ease-in-out infinite",
             pointerEvents: "none",
           }}
@@ -113,11 +113,11 @@ export default function DealsPage() {
         />
 
         <div className="relative max-w-3xl mx-auto">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#814ac8] mb-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#8468EB] mb-4">
             Deals
           </p>
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-4">
-            Featured <span className="text-[#814ac8]">Deals</span>
+            Featured <span className="text-[#8468EB]">Deals</span>
           </h1>
           <p className="text-base text-[#888] max-w-2xl mx-auto leading-relaxed">
             Exclusive offers on the best AI tools, updated regularly.

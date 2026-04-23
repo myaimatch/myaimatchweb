@@ -231,7 +231,7 @@ export default function HomepageConstellation() {
           stars.rotation.y = t * 0.03;
 
           const nextPositions: SignalPosition[] = [];
-          nodes.forEach((node, index) => {
+          nodes.forEach((node) => {
             const theta = node.angle - t * 0.34;
             node.mesh.position.set(
               Math.cos(theta) * 3.08,

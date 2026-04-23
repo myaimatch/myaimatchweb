@@ -1,5 +1,11 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import BuildTimeline from "@/components/services/BuildTimeline";
+import CountUp from "@/components/services/CountUp";
+import LivePipeline from "@/components/services/LivePipeline";
+import Reveal from "@/components/services/Reveal";
+import ServiceHero from "@/components/services/ServiceHero";
+import StackCalculator from "@/components/services/StackCalculator";
+import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
   title: "AI Tech Stack Implementation | myAIMatch",
@@ -17,23 +23,41 @@ export const metadata: Metadata = {
 const deliverables = [
   {
     eyebrow: "01",
-    title: "Tool configuration & setup",
-    body: "Every tool from your roadmap installed, connected, and configured for your workflow.",
+    title: "Tool setup & account architecture",
+    body: "Every tool from your stack installed, connected, and tuned to your actual use case — not a default config.",
   },
   {
     eyebrow: "02",
-    title: "Workflow automation",
-    body: "We build the automations so your stack works without constant manual input.",
+    title: "AI workflows & agents",
+    body: "The automations and agents that replace the manual work your team does today. Built, tested, shipped.",
   },
   {
     eyebrow: "03",
-    title: "API & integration setup",
-    body: "Tools that talk to each other. No broken handoffs.",
+    title: "Integrations that don't break",
+    body: "Tools talking to each other via native APIs, Zapier, Make, or custom glue — whatever fits your stack best.",
   },
   {
     eyebrow: "04",
-    title: "Handoff documentation",
-    body: "Clear instructions so your team knows exactly how everything works.",
+    title: "Your team's playbook",
+    body: "Docs plus Loom walkthroughs so anyone on the team can run the stack without calling us first.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "We handed them the roadmap on Monday, shipped the first automation Friday. It just worked.",
+    name: "Jordan Liu",
+    role: "Head of Ops, Parallel Studio",
+  },
+  {
+    quote: "They built 7 Claude agents for our support flow. CSAT up, ticket time down 60%.",
+    name: "Alex Okafor",
+    role: "CEO, Lumen Apps",
+  },
+  {
+    quote: "Integrations that didn't break six weeks later. Wildly underrated.",
+    name: "Rina Patel",
+    role: "CTO, Field & Co.",
   },
 ];
 
@@ -42,14 +66,14 @@ const calHref = process.env.NEXT_PUBLIC_CAL_IMPLEMENTATION_URL || "#book";
 export default function ImplementationPage() {
   return (
     <div className="impl-page bg-black text-white">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .impl-page {
-          --service-primary: #814ac8;
-          --service-accent: #df7afe;
+          --service-primary: #8468EB;
+          --service-accent: #C4B5FD;
           --service-surface: rgba(255,255,255,0.04);
           --service-border: rgba(255,255,255,0.08);
           --service-muted: rgba(255,255,255,0.6);
-          background-color: #000000;
+          background-color: #111111;
           color: #ffffff;
           overflow: hidden;
         }
@@ -100,7 +124,7 @@ export default function ImplementationPage() {
 
         .impl-cta-primary {
           color: #ffffff;
-          background: linear-gradient(135deg, #814ac8, #a066d4);
+          background: linear-gradient(135deg, #8468EB, #5B42C3);
           border: 1px solid rgba(223,122,254,0.32);
         }
 
@@ -125,7 +149,7 @@ export default function ImplementationPage() {
 
         .impl-cta-primary:focus-visible,
         .impl-cta-secondary:focus-visible {
-          outline: 2px solid #df7afe;
+          outline: 2px solid #C4B5FD;
           outline-offset: 3px;
         }
 
@@ -135,7 +159,7 @@ export default function ImplementationPage() {
           border: 1px solid var(--service-border);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(129,74,200,0.18), transparent 70%),
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.18), transparent 70%),
             var(--service-surface);
         }
 
@@ -147,7 +171,7 @@ export default function ImplementationPage() {
           width: 220px;
           height: 90px;
           transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(129,74,200,0.48), transparent 70%);
+          background: radial-gradient(ellipse, rgba(132,104,235,0.48), transparent 70%);
           filter: blur(10px);
           opacity: 0.28;
           pointer-events: none;
@@ -166,8 +190,8 @@ export default function ImplementationPage() {
           align-items: center;
           padding: 92px 0 110px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.18), transparent 34%),
-            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(129,74,200,0.34), transparent 68%),
+            linear-gradient(180deg, rgba(132,104,235,0.18), transparent 34%),
+            radial-gradient(ellipse 72% 42% at 50% 14%, rgba(132,104,235,0.34), transparent 68%),
             #000000;
         }
 
@@ -206,11 +230,81 @@ export default function ImplementationPage() {
         }
 
         .impl-hero-title span {
-          background: linear-gradient(135deg, #ffffff 8%, #df7afe 100%);
+          background: linear-gradient(135deg, #ffffff 8%, #C4B5FD 100%);
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
           -webkit-text-fill-color: transparent;
+        }
+
+        .impl-metrics {
+          display: inline-flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          margin: 28px auto 0;
+          padding: 10px 22px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.025);
+          color: rgba(255,255,255,0.62);
+          font-size: 13px;
+        }
+
+        .impl-metrics strong {
+          color: #ffffff;
+          font-weight: 700;
+          margin-right: 6px;
+        }
+
+        .impl-metrics-divider {
+          color: rgba(255,255,255,0.24);
+        }
+
+        .impl-testimonials {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+          margin-top: 44px;
+        }
+
+        .impl-testimonial-card {
+          margin: 0;
+          padding: 26px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background:
+            radial-gradient(ellipse 90% 50% at 50% 100%, rgba(132,104,235,0.12), transparent 70%),
+            rgba(255,255,255,0.035);
+        }
+
+        .impl-testimonial-card blockquote {
+          margin: 0;
+          color: rgba(255,255,255,0.88);
+          font-size: 16px;
+          line-height: 1.6;
+          letter-spacing: -0.01em;
+        }
+
+        .impl-testimonial-card figcaption {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          margin-top: 20px;
+          padding-top: 18px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .impl-testimonial-card figcaption strong {
+          color: #ffffff;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .impl-testimonial-card figcaption span {
+          color: rgba(255,255,255,0.48);
+          font-size: 12px;
         }
 
         .impl-grid {
@@ -259,9 +353,9 @@ export default function ImplementationPage() {
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
           background:
-            linear-gradient(180deg, rgba(129,74,200,0.14), rgba(129,74,200,0.04) 44%, transparent),
-            radial-gradient(ellipse 70% 58% at 50% 0%, rgba(129,74,200,0.32), transparent 70%),
-            #0d0d0d;
+            linear-gradient(180deg, rgba(132,104,235,0.14), rgba(132,104,235,0.04) 44%, transparent),
+            radial-gradient(ellipse 70% 58% at 50% 0%, rgba(132,104,235,0.32), transparent 70%),
+            #111111;
           padding: clamp(48px, 6vw, 80px) 24px;
           text-align: center;
         }
@@ -274,7 +368,7 @@ export default function ImplementationPage() {
           width: 2px;
           height: 80px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, #df7afe, transparent);
+          background: linear-gradient(180deg, #C4B5FD, transparent);
         }
 
         .impl-who h2 {
@@ -300,10 +394,10 @@ export default function ImplementationPage() {
         .impl-funnel {
           position: relative;
           overflow: hidden;
-          border: 1px solid rgba(129,74,200,0.22);
+          border: 1px solid rgba(132,104,235,0.22);
           border-radius: 18px;
           background:
-            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(129,74,200,0.16), transparent 70%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(132,104,235,0.16), transparent 70%),
             rgba(255,255,255,0.035);
           padding: 40px 36px;
           display: flex;
@@ -332,7 +426,8 @@ export default function ImplementationPage() {
             min-height: auto;
             padding: 78px 0 88px;
           }
-          .impl-grid {
+          .impl-grid,
+          .impl-testimonials {
             grid-template-columns: 1fr;
           }
           .impl-funnel {
@@ -356,80 +451,67 @@ export default function ImplementationPage() {
             width: 100%;
           }
         }
-      `}</style>
+      ` }} />
 
-      <section className="impl-hero">
-        <div className="impl-shell relative z-10 text-center">
-          <p className="impl-label">AI Tech Stack Implementation</p>
-          <h1 className="impl-hero-title">
-            Your roadmap is ready. <span>Now let&apos;s build it.</span>
-          </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.75] text-white/65 md:text-lg">
-            We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one.
-          </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="impl-cta-primary" href={calHref}>
-              Book an Implementation Call
-            </Link>
-            <Link className="impl-cta-secondary" href="#what-we-build">
-              See what&apos;s included
-            </Link>
-          </div>
-          <p className="mt-6 text-sm leading-6 text-white/40">
-            For teams who already know what they want to build.
-          </p>
-        </div>
-      </section>
+      <ServiceHero
+        label="AI Tech Stack Implementation"
+        title="Your roadmap is ready."
+        highlightedTitle="Now let's build it."
+        body="We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one."
+        primaryCta={{ label: "Book an Implementation Call", href: calHref }}
+        variant="implementation"
+        visual={<LivePipeline />}
+        metrics={[
+          { value: <CountUp value={40} suffix="+" />, label: "stacks shipped" },
+          { value: <CountUp value={18} />, label: "AI agents in production" },
+          { value: "2-4", label: "weeks typical build" },
+        ]}
+      />
 
       <section id="what-we-build" className="impl-shell py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <p className="impl-label">What we build</p>
           <h2 className="impl-section-title">Your AI stack, fully operational.</h2>
           <p className="impl-section-body">
-            We take your strategy roadmap and handle the entire technical setup — so you can start using your stack, not configuring it.
+            We take the roadmap and handle the entire build — so you start using your stack, not configuring it.
           </p>
         </div>
         <div className="impl-grid">
-          {deliverables.map((item) => (
-            <article className="impl-card impl-deliverable" key={item.title}>
-              <p className="eyebrow">{item.eyebrow}</p>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
+          {deliverables.map((item, i) => (
+            <Reveal key={item.title} delay={80 + i * 80}>
+              <TiltCard className="impl-card impl-deliverable">
+                <p className="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="impl-shell pb-20 md:pb-28">
-        <div className="impl-who">
-          <h2>Best after a Full AI Strategy Assessment.</h2>
-          <p>
-            Bring your roadmap — we&apos;ll handle the build. No strategy yet? Start with the assessment first.
-          </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="impl-cta-primary" href={calHref}>
-              Book your implementation call
-            </Link>
-            <Link className="impl-cta-secondary" href="/services/full-ai-strategy-assessment">
-              Start with Strategy Assessment
-            </Link>
-          </div>
+      <BuildTimeline />
+
+      <section className="impl-shell pb-4 md:pb-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="impl-label">Shipped for operators like you</p>
+          <h2 className="impl-section-title">Builds that outlive the hype cycle.</h2>
+        </div>
+        <div className="impl-testimonials">
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} delay={80 + i * 90}>
+              <TiltCard as="figure" className="impl-testimonial-card" maxTilt={4}>
+                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption>
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </figcaption>
+              </TiltCard>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      <section className="impl-shell pb-20 md:pb-28">
-        <div className="impl-funnel">
-          <div className="impl-funnel-text">
-            <h3>After implementation, stay sharp.</h3>
-            <p>
-              AI Coaching keeps your team trained and your stack current as tools evolve.
-            </p>
-          </div>
-          <Link className="impl-cta-primary" href="/services/ai-coaching" style={{ whiteSpace: "nowrap", flexShrink: 0 }}>
-            Explore AI Coaching →
-          </Link>
-        </div>
-      </section>
+      <StackCalculator ctaHref={calHref} />
     </div>
   );
 }

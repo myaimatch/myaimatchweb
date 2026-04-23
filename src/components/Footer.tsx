@@ -1,27 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
+import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
-
-const TALLY_POPUP_HREF =
-  "#tally-open=xXNXNr&tally-layout=modal&tally-hide-title=1&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000&tally-form-events-forwarding=1";
-
-const TALLY_POPUP_ATTRIBUTES = {
-  "data-tally-open": "xXNXNr",
-  "data-tally-layout": "modal",
-  "data-tally-hide-title": "1",
-  "data-tally-overlay": "1",
-  "data-tally-emoji-text": "👋",
-  "data-tally-emoji-animation": "wave",
-  "data-tally-auto-close": "1000",
-  "data-tally-form-events-forwarding": "1",
-} as const;
 
 const linkColumns = [
   {
     title: "Product",
     links: [
       { label: "Browse AI tools", href: "/#match-tools" },
-      { label: "Start Free AI Match", href: TALLY_POPUP_HREF, tally: true },
+      { label: "Start Free AI Match", href: "/assessment", popup: true, ctaLocation: "footer_column" },
       { label: "Deals", href: "/deals" },
     ],
   },
@@ -30,7 +17,7 @@ const linkColumns = [
     links: [
       { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },
       { label: "AI Tech Stack Implementation", href: "/services/ai-tech-stack-implementation" },
-      { label: "AI Coaching", href: "/services/ai-coaching" },
+      { label: "Fractional AI Lead", href: "/services/ai-coaching" },
     ],
   },
   {
@@ -49,7 +36,7 @@ export default function Footer() {
       style={{
         borderTop: "1px solid transparent",
         backgroundImage:
-          "linear-gradient(#131313, #131313), linear-gradient(90deg, #814ac8 0%, transparent 60%)",
+          "linear-gradient(#131313, #131313), linear-gradient(90deg, #8468EB 0%, transparent 60%)",
         backgroundOrigin: "border-box",
         backgroundClip: "padding-box, border-box",
       }}
@@ -71,19 +58,18 @@ export default function Footer() {
             </Link>
             <p className="text-[#A0A0A0] text-sm leading-relaxed">
               Browse the AI tool landscape, or answer a few questions and get a
-              personalized stack match for your workflow, team, budget, and goals.
+              personalized stack match for your workflow, team, and current tools.
             </p>
-            <Link
-              href={TALLY_POPUP_HREF}
-              {...TALLY_POPUP_ATTRIBUTES}
+            <AssessmentPopupTrigger
+              ctaLocation="footer_primary"
               className="inline-flex h-10 w-fit items-center justify-center rounded-full px-5 text-sm font-semibold text-white transition-opacity duration-150 hover:opacity-90"
               style={{
-                background: "linear-gradient(135deg, #814ac8 0%, #a066d4 100%)",
-                boxShadow: "0 0 0 1px rgba(129,74,200,0.4), 0 6px 18px rgba(129,74,200,0.22)",
+                background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
+                boxShadow: "0 0 0 1px rgba(132,104,235,0.4), 0 6px 18px rgba(132,104,235,0.22)",
               }}
             >
               Start Free AI Match
-            </Link>
+            </AssessmentPopupTrigger>
           </div>
 
           {/* Link columns */}
@@ -95,14 +81,23 @@ export default function Footer() {
                 </p>
                 <ul className="flex flex-col gap-2">
                   {col.links.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        {...(link.tally ? TALLY_POPUP_ATTRIBUTES : {})}
-                        className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
-                      >
-                        {link.label}
-                      </Link>
+                    <li key={`${link.href}-${link.label}`}>
+                      {"popup" in link && link.popup ? (
+                        <AssessmentPopupTrigger
+                          href={link.href}
+                          ctaLocation={link.ctaLocation}
+                          className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
+                        >
+                          {link.label}
+                        </AssessmentPopupTrigger>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
+                        >
+                          {link.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
