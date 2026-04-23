@@ -255,16 +255,22 @@ const SearchBar = ({
             "flex items-center w-full rounded-full border relative overflow-hidden backdrop-blur-md",
             isFocused
               ? "border-[#8468EB]/60"
-              : "border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)]"
+              : "border-[rgba(255,255,255,0.12)] bg-transparent"
           )}
           animate={{
             boxShadow: isClicked
               ? "0 0 40px rgba(132,104,235,0.5), 0 0 15px rgba(223,122,254,0.4) inset"
               : isFocused
               ? "0 0 32px rgba(132,104,235,0.3), 0 15px 35px rgba(0,0,0,0.4)"
-              : "0 0 0 rgba(0,0,0,0)",
+              : "0 14px 32px rgba(0,0,0,0.18)",
           }}
           onClick={handleClick}
+          style={{
+            background:
+              isFocused
+                ? "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)), rgba(9,9,11,0.82)"
+                : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)), rgba(7,7,9,0.74)",
+          }}
         >
           {/* Animated gradient background on focus */}
           {isFocused && (
@@ -376,7 +382,7 @@ const SearchBar = ({
                   ? "#C4B5FD"
                   : isFocused
                   ? "#8468EB"
-                  : "rgba(255,255,255,0.4)",
+                  : "rgba(255,255,255,0.46)",
                 transition: "color 0.3s",
               }}
             />

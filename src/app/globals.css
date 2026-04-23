@@ -11,6 +11,31 @@
     --border: #222222;
     --accent: #8468EB;
     --muted-foreground: #A0A0A0;
+    --brand-text-primary: #ffffff;
+    --brand-text-muted: rgba(255, 255, 255, 0.64);
+    --brand-text-dim: rgba(255, 255, 255, 0.42);
+    --brand-surface-soft: rgba(255, 255, 255, 0.03);
+    --brand-surface-glass: rgba(255, 255, 255, 0.05);
+    --brand-surface-elevated: rgba(255, 255, 255, 0.075);
+    --brand-border-soft: rgba(255, 255, 255, 0.08);
+    --brand-border-strong: rgba(132, 104, 235, 0.28);
+    --brand-glow-ambient: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(132, 104, 235, 0.18),
+      transparent 72%
+    );
+    --brand-glow-ambient-strong: radial-gradient(
+      ellipse 74% 56% at 50% 0%,
+      rgba(132, 104, 235, 0.26),
+      rgba(91, 66, 195, 0.12) 44%,
+      transparent 74%
+    );
+    --brand-beam: linear-gradient(
+      180deg,
+      rgba(196, 181, 253, 0.92),
+      rgba(132, 104, 235, 0.46),
+      transparent
+    );
     /* Color scale — official MYAM KIT 2026 */
     --color-purple-50: #F0EDFF;
     --color-purple-200: #C4B5FD;
@@ -41,6 +66,53 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.myam-glass-surface {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
+    rgba(255,255,255,0.02);
+  border: 1px solid var(--brand-border-soft);
+}
+
+.myam-elevated-surface {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.03)),
+    rgba(12,12,14,0.88);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow:
+    0 18px 60px rgba(0,0,0,0.48),
+    0 0 0 1px rgba(255,255,255,0.02) inset;
+}
+
+.myam-section-beam {
+  position: relative;
+}
+
+.myam-section-beam::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 132px;
+  transform: translateX(-50%);
+  background: var(--brand-beam);
+  pointer-events: none;
+}
+
+.myam-ambient-glow {
+  position: relative;
+}
+
+.myam-ambient-glow::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--brand-glow-ambient);
+  pointer-events: none;
+  opacity: 0.95;
 }
 
 /* ── Hero CTA buttons ─────────────────────────────────────── */
