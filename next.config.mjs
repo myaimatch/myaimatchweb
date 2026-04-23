@@ -23,6 +23,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/services/ai-tech-stack-implementation',
+        destination: '/services/ai-tools-setup',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {

@@ -8,14 +8,14 @@ import StackCalculator from "@/components/services/StackCalculator";
 import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
-  title: "AI Tech Stack Implementation | myAIMatch",
+  title: "AI Tools Setup | myAImatch",
   description:
-    "We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one.",
+    "We configure your tools, connect your workflows, and build the automations — so your AI tools work from day one.",
   openGraph: {
-    title: "AI Tech Stack Implementation | myAIMatch",
+    title: "AI Tools Setup | myAImatch",
     description:
-      "We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one.",
-    url: "https://myaimatch.ai/services/ai-tech-stack-implementation",
+      "We configure your tools, connect your workflows, and build the automations — so your AI tools work from day one.",
+    url: "https://myaimatch.ai/services/ai-tools-setup",
     type: "website",
   },
 };
@@ -454,7 +454,7 @@ export default function ImplementationPage() {
       ` }} />
 
       <ServiceHero
-        label="AI Tech Stack Implementation"
+        label="AI Tools Setup"
         title="Your roadmap is ready."
         highlightedTitle="Now let's build it."
         body="We configure your tools, connect your workflows, and build the automations — so your AI stack works from day one."

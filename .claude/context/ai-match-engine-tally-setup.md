@@ -12,7 +12,7 @@ MyAIMatch CTA
   → /assessment
   → embedded Tally questionnaire
   → Tally submission
-  → Make.com
+  → Zapier
   → Claude recommendation
   → Klaviyo email
   → Airtable lead record
@@ -30,7 +30,7 @@ This guide is the setup checklist for the external tools. Do not build webhook/A
 | Website UX | Embedded Tally form inside `/assessment` |
 | User-facing name | AI Match Engine |
 | Recommendation delivery | Email |
-| Automation tool | Make.com |
+| Automation tool | Zapier |
 | AI generation | Claude API |
 | Email delivery | Klaviyo |
 | CRM/logging | Airtable Leads table |
@@ -70,7 +70,7 @@ Use these fields as the minimum required question set.
 | # | User-facing question | Tally field key / internal name | Type |
 |---|---|---|---|
 | 1 | What is your name? | `name` | Short answer |
-| 2 | What email should receive your AI stack? | `email` | Email |
+| 2 | What email should receive your AI Match results? | `email` | Email |
 | 3 | What best describes your role? | `role` | Multiple choice or dropdown |
 | 4 | What type of business are you building or operating? | `business_type` | Multiple choice or dropdown |
 | 5 | How many people are on your team? | `team_size` | Multiple choice or dropdown |
@@ -86,7 +86,7 @@ Use these fields as the minimum required question set.
 Recommended consent copy:
 
 ```text
-I agree to let MyAIMatch use my answers to generate and email my AI stack recommendation. I can unsubscribe anytime.
+I agree to let MyAIMatch use my answers to generate and email my AI Match results. I can unsubscribe anytime.
 ```
 
 Recommended submit button:
@@ -152,13 +152,13 @@ https://myaimatch.ai/assessment/thanks
 Future thank-you page message:
 
 ```text
-Your AI stack is being prepared.
+Your AI Match is being prepared.
 ```
 
 Supporting copy:
 
 ```text
-The AI Match Engine is reviewing your workflow and recommendations. Your AI stack will arrive by email.
+The AI Match Engine is reviewing your workflow and recommendations. Your AI Match results will arrive by email.
 ```
 
 Secondary CTA:
@@ -175,9 +175,9 @@ Target:
 
 ---
 
-## Step 6: Create The Make.com Scenario
+## Step 6: Create The Zapier Workflow
 
-Create the scenario after the Tally form is finalized.
+Create the workflow after the Tally form is finalized.
 
 Recommended scenario name:
 
@@ -190,11 +190,14 @@ Scenario flow:
 1. **Trigger:** Tally submission webhook.
 2. **Normalize answers:** map Tally field names into clean keys.
 3. **Generate recommendation:** send structured prompt to Claude.
-4. **Save lead:** create/update record in Airtable Leads table.
-5. **Send email:** trigger Klaviyo email with the recommendation.
-6. **Log status:** update Airtable `status` after email send.
+4. **Parse JSON:** validate the Claude response before sending anything to Klaviyo.
+5. **Flatten properties:** map `summary`, `tool_1_*` ... `tool_5_*`, `avoid_*`, and `services_cta`.
+6. **Do not send:** `implementation_order` or `cost_notes`.
+7. **Save lead:** create/update record in Airtable Leads table.
+8. **Send email:** trigger Klaviyo email with the recommendation.
+9. **Log status:** update Airtable `status` after email send.
 
-Suggested Make.com normalized payload:
+Suggested normalized payload:
 
 ```json
 {
@@ -224,19 +227,18 @@ Use Claude to generate a recommendation that is useful, direct, and not hype-dri
 
 Required output sections:
 
-1. Recommended AI stack
+1. Recommended AI tools
 2. Why each tool fits
-3. Implementation order
-4. Cost or complexity notes
-5. What to avoid
-6. Next step
+3. Smart tip for each tool
+4. What to avoid
+5. Next step
 
 Prompt guardrails:
 
 - Recommend tools based on workflow fit, role, budget, team size, and implementation readiness.
 - Do not promise exact ROI.
 - Do not recommend too many tools.
-- Prefer a focused stack the user can actually adopt.
+- Prefer a focused set of tools the user can actually adopt.
 - If the answers are vague, give a conservative recommendation and explain what extra context would improve it.
 
 Suggested JSON output shape:
@@ -253,8 +255,6 @@ Suggested JSON output shape:
       "notes": ""
     }
   ],
-  "implementation_order": [],
-  "cost_notes": "",
   "what_to_avoid": [],
   "services_cta": ""
 }
@@ -292,7 +292,7 @@ Recommended `status` options:
 
 ## Step 9: Create The Klaviyo Email
 
-Create a Klaviyo flow or transactional-style email triggered by Make.com.
+Create a Klaviyo flow or transactional-style email triggered by Zapier.
 
 Recommended subject:
 
@@ -303,11 +303,10 @@ Your AI Match is ready
 Email sections:
 
 1. Short intro: "The AI Match Engine reviewed your workflow."
-2. Recommended stack
+2. Your AI Match tools
 3. Why each tool fits
-4. First, second, third implementation order
-5. Notes on budget or complexity
-6. CTA to services:
+4. One smart tip per tool
+5. CTA to services:
 
 ```text
 Want help setting this up?
@@ -349,7 +348,7 @@ Only start this after the Tally form URL exists.
 - [ ] Consent checkbox is present
 - [ ] Privacy Policy is linked near the consent step
 - [ ] Tally redirect points to `/assessment/thanks`
-- [ ] Make.com scenario receives a test submission
+- [ ] Zapier workflow receives a test submission
 - [ ] Claude returns valid structured output
 - [ ] Airtable lead record is created
 - [ ] Klaviyo email sends successfully

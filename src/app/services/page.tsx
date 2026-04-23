@@ -2,13 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI Services | myAIMatch",
+  title: "AI Services | myAImatch",
   description:
-    "See how myAIMatch connects AI strategy, stack implementation, and fractional AI leadership into one clear path.",
+    "See how myAImatch connects AI strategy, stack implementation, and fractional AI leadership into one clear path.",
   openGraph: {
-    title: "AI Services | myAIMatch",
+    title: "AI Services | myAImatch",
     description:
-      "See how myAIMatch connects AI strategy, stack implementation, and fractional AI leadership into one clear path.",
+      "See how myAImatch connects AI strategy, stack implementation, and fractional AI leadership into one clear path.",
     url: "https://myaimatch.ai/services",
     type: "website",
   },
@@ -24,9 +24,9 @@ const services = [
   },
   {
     step: "02",
-    title: "AI Tech Stack Implementation",
-    body: "Build, connect, document, and launch the stack your team will actually use.",
-    href: "/services/ai-tech-stack-implementation",
+    title: "AI Tools Setup",
+    body: "Build, connect, document, and launch the tools your team will actually use.",
+    href: "/services/ai-tools-setup",
     cta: "Explore Implementation",
   },
   {

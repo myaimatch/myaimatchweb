@@ -99,7 +99,6 @@ export default function ServicePolish() {
 
   return (
     <>
-      <ScrollProgress disabled={reduced} />
       <div className="service-grain" aria-hidden />
       <div className={`service-page-tint ${transitioning ? "is-active" : ""}`} aria-hidden />
       <button type="button" className="service-sound-toggle" onClick={toggleSound} aria-pressed={soundOn}>
@@ -115,25 +114,4 @@ export default function ServicePolish() {
       ) : null}
     </>
   );
-}
-
-function ScrollProgress({ disabled }: { disabled: boolean }) {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if (disabled) return;
-    const update = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(scrollable > 0 ? window.scrollY / scrollable : 0);
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, [disabled]);
-
-  return <div className="service-scroll-progress" style={{ transform: `scaleX(${disabled ? 0 : progress})` }} aria-hidden />;
 }

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Use the AI Match Engine to get a free personalized AI stack recommendation for your workflow and team.",
   openGraph: {
-    title: "myAIMatch — AI Match Engine",
+    title: "myAImatch — AI Match Engine",
     description:
       "Use the AI Match Engine to get a free personalized AI stack recommendation for your workflow and team.",
     url: "https://myaimatch.ai/assessment",

@@ -12,23 +12,23 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: {
-    default: "myAIMatch — Find Your Perfect AI Stack",
-    template: "%s | myAIMatch",
+    default: "myAImatch — Find Your Perfect AI Stack",
+    template: "%s | myAImatch",
   },
   description:
     "Stop guessing which AI tools are right for you. Get a personalized AI stack recommendation in minutes — free.",
   keywords: ["AI tools", "AI directory", "AI recommendations", "AI stack"],
   openGraph: {
-    title: "myAIMatch — Find Your Perfect AI Stack",
+    title: "myAImatch — Find Your Perfect AI Stack",
     description:
       "Stop guessing which AI tools are right for you. Get a personalized AI stack recommendation in minutes — free.",
     url: "https://myaimatch.ai",
-    siteName: "myAIMatch",
+    siteName: "myAImatch",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "myAIMatch — Find Your Perfect AI Stack",
+    title: "myAImatch — Find Your Perfect AI Stack",
     description:
       "Stop guessing which AI tools are right for you. Get a personalized AI stack recommendation in minutes — free.",
   },

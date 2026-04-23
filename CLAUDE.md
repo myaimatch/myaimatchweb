@@ -2,7 +2,7 @@
 
 Entry point para Claude Code y Codex. Solo delega — el contenido vive en `.claude/`.
 
-**Proyecto:** MyAIMatch (`myaimatch.ai`) — AI Tools Directory + Assessment Funnel. Ver `.claude/context/project-overview.md`.
+**Proyecto:** myAImatch (`myaimatch.ai`) — AI Tools Directory + Assessment Funnel. Ver `.claude/context/project-overview.md`.
 
 ## Always Do First
 

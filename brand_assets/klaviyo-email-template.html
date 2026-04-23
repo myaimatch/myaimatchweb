@@ -13,7 +13,7 @@
     tool_3_name, tool_3_use_case, tool_3_why, tool_3_notes,
     tool_4_name, tool_4_use_case, tool_4_why, tool_4_notes,
     tool_5_name, tool_5_use_case, tool_5_why, tool_5_notes,
-    impl_order, cost_notes, avoid_1, avoid_2, avoid_3, services_cta
+    avoid_1, avoid_2, avoid_3, services_cta
   -->
   <!--[if mso]>
   <noscript>
@@ -47,7 +47,7 @@
 <body style="margin:0;padding:0;background-color:#000000;font-family:'Inter',Arial,sans-serif;">
 
   <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
-    Your AI Match is ready. We reviewed your workflow and picked the AI stack worth setting up first.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+    Your AI Match is ready. We reviewed your workflow and picked the AI tools worth setting up first.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
   </div>
 
   <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#000000;">
@@ -68,17 +68,13 @@
                       </span>
                     </div>
 
-                    <div style="display:inline-block;margin:0 auto 14px auto;padding:10px 14px;border-radius:18px;background:linear-gradient(135deg,#814ac8,#a066d4);font-size:18px;font-weight:700;letter-spacing:0.06em;color:#ffffff;">
-                      M
-                    </div>
-
-                    <div style="font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#9f7bd7;margin-bottom:16px;">
-                      myAIMatch
+                    <div style="margin:0 0 18px 0;">
+                      <img src="https://myaimatch.ai/myaimatch-logo-wordmark.png" alt="MyAIMatch" width="221" style="display:block;width:221px;max-width:100%;height:auto;margin:0 auto;">
                     </div>
 
                     {% if event.first_name %}
                     <div class="hero-title" style="font-size:34px;font-weight:700;letter-spacing:-0.04em;line-height:1.1;color:#ffffff;margin:0 0 10px 0;">
-                      {{ event.first_name }}, your AI Match is ready.
+                      {{ event.first_name }} Your AI Match is ready
                     </div>
                     {% else %}
                     <div class="hero-title" style="font-size:34px;font-weight:700;letter-spacing:-0.04em;line-height:1.1;color:#ffffff;margin:0 0 10px 0;">
@@ -87,7 +83,7 @@
                     {% endif %}
 
                     <div class="hero-subtitle" style="max-width:430px;margin:0 auto;font-size:16px;line-height:1.7;color:#b9b9c2;">
-                      We reviewed your workflow and built a practical stack you can actually adopt without adding more tool chaos.
+                      We reviewed your workflow and built a practical set of AI tools you can actually adopt without adding more tool chaos.
                     </div>
 
                   </td>
@@ -124,13 +120,10 @@
                 <tr>
                   <td class="mobile-padding" style="padding:32px 40px 14px 40px;background:#000000;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;">
                     <div style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9f7bd7;margin-bottom:10px;">
-                      Recommended Stack
+                      Your AI Match Tools
                     </div>
                     <div class="stack-title" style="font-size:24px;font-weight:700;letter-spacing:-0.03em;line-height:1.2;color:#ffffff;margin-bottom:6px;">
                       Start with the tools that remove the biggest friction first.
-                    </div>
-                    <div style="font-size:14px;line-height:1.7;color:#8f8f98;">
-                      We ordered these for fast adoption, not for maximum complexity.
                     </div>
                   </td>
                 </tr>
@@ -160,14 +153,17 @@
                           <div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#df7afe;margin:0 0 6px 0;">
                             Why it fits
                           </div>
-                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 {% if event.tool_1_notes %}12px{% else %}0{% endif %} 0;">
+                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 12px 0;">
                             {{ event.tool_1_why }}
                           </div>
-                          {% if event.tool_1_notes %}
-                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;font-size:12px;line-height:1.6;color:#ead2ff;">
+                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;">
+                            <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c89bff;margin:0 0 6px 0;">
+                              Smart Tip
+                            </div>
+                            <div style="font-size:12px;line-height:1.6;color:#ead2ff;">
                             {{ event.tool_1_notes }}
+                            </div>
                           </div>
-                          {% endif %}
                         </td>
                       </tr>
                     </table>
@@ -199,14 +195,17 @@
                           <div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#df7afe;margin:0 0 6px 0;">
                             Why it fits
                           </div>
-                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 {% if event.tool_2_notes %}12px{% else %}0{% endif %} 0;">
+                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 12px 0;">
                             {{ event.tool_2_why }}
                           </div>
-                          {% if event.tool_2_notes %}
-                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;font-size:12px;line-height:1.6;color:#ead2ff;">
+                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;">
+                            <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c89bff;margin:0 0 6px 0;">
+                              Smart Tip
+                            </div>
+                            <div style="font-size:12px;line-height:1.6;color:#ead2ff;">
                             {{ event.tool_2_notes }}
+                            </div>
                           </div>
-                          {% endif %}
                         </td>
                       </tr>
                     </table>
@@ -238,14 +237,17 @@
                           <div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#df7afe;margin:0 0 6px 0;">
                             Why it fits
                           </div>
-                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 {% if event.tool_3_notes %}12px{% else %}0{% endif %} 0;">
+                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 12px 0;">
                             {{ event.tool_3_why }}
                           </div>
-                          {% if event.tool_3_notes %}
-                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;font-size:12px;line-height:1.6;color:#ead2ff;">
+                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;">
+                            <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c89bff;margin:0 0 6px 0;">
+                              Smart Tip
+                            </div>
+                            <div style="font-size:12px;line-height:1.6;color:#ead2ff;">
                             {{ event.tool_3_notes }}
+                            </div>
                           </div>
-                          {% endif %}
                         </td>
                       </tr>
                     </table>
@@ -278,14 +280,17 @@
                           <div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#df7afe;margin:0 0 6px 0;">
                             Why it fits
                           </div>
-                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 {% if event.tool_4_notes %}12px{% else %}0{% endif %} 0;">
+                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 12px 0;">
                             {{ event.tool_4_why }}
                           </div>
-                          {% if event.tool_4_notes %}
-                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;font-size:12px;line-height:1.6;color:#ead2ff;">
+                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;">
+                            <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c89bff;margin:0 0 6px 0;">
+                              Smart Tip
+                            </div>
+                            <div style="font-size:12px;line-height:1.6;color:#ead2ff;">
                             {{ event.tool_4_notes }}
+                            </div>
                           </div>
-                          {% endif %}
                         </td>
                       </tr>
                     </table>
@@ -319,14 +324,17 @@
                           <div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#df7afe;margin:0 0 6px 0;">
                             Why it fits
                           </div>
-                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 {% if event.tool_5_notes %}12px{% else %}0{% endif %} 0;">
+                          <div style="font-size:13px;line-height:1.75;color:#b7b7c1;margin:0 0 12px 0;">
                             {{ event.tool_5_why }}
                           </div>
-                          {% if event.tool_5_notes %}
-                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;font-size:12px;line-height:1.6;color:#ead2ff;">
+                          <div style="padding:10px 12px;border-radius:12px;background:#171021;border:1px solid #312043;">
+                            <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#c89bff;margin:0 0 6px 0;">
+                              Smart Tip
+                            </div>
+                            <div style="font-size:12px;line-height:1.6;color:#ead2ff;">
                             {{ event.tool_5_notes }}
+                            </div>
                           </div>
-                          {% endif %}
                         </td>
                       </tr>
                     </table>
@@ -339,43 +347,6 @@
 
           <tr>
             <td class="mobile-padding" style="padding:8px 40px 0 40px;background:#000000;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#0d0d0d;border:1px solid #232323;border-radius:18px;">
-                <tr>
-                  <td class="card-padding" style="padding:24px;">
-                    <div style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9f7bd7;margin-bottom:10px;">
-                      Implementation Order
-                    </div>
-                    <div style="font-size:17px;font-weight:600;letter-spacing:-0.02em;line-height:1.55;color:#ffffff;">
-                      {{ event.impl_order }}
-                    </div>
-                    <div style="font-size:12px;line-height:1.7;color:#80808a;margin-top:8px;">
-                      Set these up in this sequence so the stack starts paying off quickly.
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <tr>
-            <td class="mobile-padding" style="padding:12px 40px 0 40px;background:#000000;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#0d0d0d;border:1px solid #232323;border-radius:18px;">
-                <tr>
-                  <td class="card-padding" style="padding:24px;">
-                    <div style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9f7bd7;margin-bottom:10px;">
-                      Cost Estimate
-                    </div>
-                    <div style="font-size:14px;line-height:1.8;color:#d2d2d8;">
-                      {{ event.cost_notes }}
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <tr>
-            <td class="mobile-padding" style="padding:12px 40px 0 40px;background:#000000;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;">
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#100d11;border:1px solid #3a1724;border-radius:18px;">
                 <tr>
                   <td class="card-padding" style="padding:24px;">
@@ -435,7 +406,7 @@
                 <tr>
                   <td class="cta-padding" style="padding:34px 30px;text-align:center;">
                     <div style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#9f7bd7;margin-bottom:10px;">
-                      Implementation Support
+                      Learn More
                     </div>
                     <div style="font-size:22px;font-weight:700;letter-spacing:-0.03em;color:#ffffff;margin-bottom:10px;">
                       Want us to help set this up?
@@ -444,7 +415,7 @@
                       {{ event.services_cta }}
                     </p>
                     <a href="https://myaimatch.ai/services" style="display:inline-block;padding:13px 28px;border-radius:999px;background:linear-gradient(135deg,#814ac8,#a066d4);color:#ffffff;font-size:14px;font-weight:600;letter-spacing:0.01em;">
-                      View Implementation Services
+                      Learn More
                     </a>
                   </td>
                 </tr>
@@ -457,8 +428,8 @@
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                 <tr>
                   <td style="padding:24px 0 26px 0;border-top:1px solid #171717;text-align:center;">
-                    <div style="font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#9f7bd7;margin-bottom:8px;">
-                      myAIMatch
+                    <div style="margin:0 0 10px 0;">
+                      <img src="https://d3k81ch9hvuctc.cloudfront.net/company/STCDXz/images/228eff9b-65b4-4074-9625-08d95a56500d.png" alt="MyAIMatch" width="180" style="display:block;width:180px;max-width:100%;height:auto;margin:0 auto;">
                     </div>
                     <div style="font-size:11px;line-height:1.7;color:#66666f;margin-bottom:16px;">
                       The AI matching engine that recommends and helps implement the right AI tools for your business.

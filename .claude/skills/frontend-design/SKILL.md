@@ -1,9 +1,9 @@
 ---
 name: frontend-design
-description: Create distinctive, production-grade frontend interfaces aligned with the MyAIMatch design system. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code within the dark-first, purple-led brand identity.
+description: Create distinctive, production-grade frontend interfaces aligned with the myAImatch design system. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code within the dark-first, purple-led brand identity.
 ---
 
-This skill guides creation of distinctive, production-grade frontend interfaces for MyAIMatch. Implement real working code with exceptional attention to aesthetic detail — always within the established brand system.
+This skill guides creation of distinctive, production-grade frontend interfaces for myAImatch. Implement real working code with exceptional attention to aesthetic detail — always within the established brand system.
 
 ## Design Thinking
 
@@ -17,7 +17,7 @@ Before coding, understand the context and commit to a clear direction:
 
 ---
 
-## MyAIMatch Design System (Required Tokens)
+## myAImatch Design System (Required Tokens)
 
 All components MUST use these values. Never deviate.
 

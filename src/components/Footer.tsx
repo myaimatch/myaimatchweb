@@ -3,125 +3,240 @@ import Image from "next/image";
 import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
 
-const linkColumns = [
-  {
-    title: "Product",
-    links: [
-      { label: "Browse AI tools", href: "/#match-tools" },
-      { label: "Start Free AI Match", href: "/assessment", popup: true, ctaLocation: "footer_column" },
-      { label: "Deals", href: "/deals" },
-    ],
-  },
-  {
-    title: "Services",
-    links: [
-      { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },
-      { label: "AI Tech Stack Implementation", href: "/services/ai-tech-stack-implementation" },
-      { label: "Fractional AI Lead", href: "/services/ai-coaching" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
+const serviceLinks = [
+  { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },
+  { label: "AI Tools Setup", href: "/services/ai-tools-setup" },
+  { label: "Fractional AI Lead", href: "/services/ai-coaching" },
 ];
 
 export default function Footer() {
   return (
-    <footer
-      className="bg-[#131313] relative"
-      style={{
-        borderTop: "1px solid transparent",
-        backgroundImage:
-          "linear-gradient(#131313, #131313), linear-gradient(90deg, #8468EB 0%, transparent 60%)",
-        backgroundOrigin: "border-box",
-        backgroundClip: "padding-box, border-box",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Top section */}
-        <div className="flex flex-col md:flex-row justify-between gap-10">
-          {/* Logo + tagline */}
-          <div className="flex max-w-sm flex-col gap-4">
-            <Link href="/" className="inline-block">
+    <footer className="site-footer">
+      <style>{`
+        .site-footer {
+          position: relative;
+          isolation: isolate;
+          background:
+            radial-gradient(ellipse 72% 60% at 50% 0%, rgba(132,104,235,0.14), transparent 72%),
+            #0d0d0d;
+          border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .site-footer::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: -1px;
+          width: 2px;
+          height: 168px;
+          transform: translateX(-50%);
+          background: linear-gradient(180deg, rgba(196,181,253,0.78), rgba(132,104,235,0.32), transparent);
+          box-shadow: 0 0 20px rgba(132,104,235,0.42);
+          pointer-events: none;
+        }
+
+        .site-footer__inner {
+          position: relative;
+          width: min(1180px, calc(100% - 32px));
+          margin: 0 auto;
+          padding: 72px 0 32px;
+        }
+
+        .site-footer__grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+          gap: 64px;
+          align-items: start;
+        }
+
+        .site-footer__brand {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          max-width: 460px;
+        }
+
+        .site-footer__logo {
+          display: inline-block;
+        }
+
+        .site-footer__tagline {
+          color: rgba(255,255,255,0.6);
+          font-size: 15px;
+          line-height: 1.7;
+          max-width: 420px;
+        }
+
+        .site-footer__cta {
+          display: inline-flex;
+          width: fit-content;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          padding: 0 26px;
+          margin-top: 4px;
+          border: 1px solid rgba(196,181,253,0.22);
+          border-radius: 999px;
+          background: linear-gradient(135deg, #8468EB 0%, #5B42C3 100%);
+          color: #ffffff;
+          font-size: 14px;
+          font-weight: 700;
+          letter-spacing: 0.01em;
+          text-decoration: none;
+          box-shadow:
+            0 12px 28px rgba(91,66,195,0.28),
+            0 0 24px rgba(132,104,235,0.2);
+          transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+        }
+
+        .site-footer__cta:hover,
+        .site-footer__cta:focus-visible {
+          transform: translateY(-1px);
+          box-shadow:
+            0 18px 34px rgba(91,66,195,0.38),
+            0 0 32px rgba(132,104,235,0.3);
+          outline: none;
+        }
+
+        .site-footer__services {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        .site-footer__label {
+          color: #8468EB;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        .site-footer__links {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .site-footer__link {
+          color: rgba(255,255,255,0.72);
+          font-size: 15px;
+          font-weight: 500;
+          letter-spacing: -0.005em;
+          text-decoration: none;
+          transition: color 180ms ease, transform 180ms ease;
+          width: fit-content;
+        }
+
+        .site-footer__link:hover,
+        .site-footer__link:focus-visible {
+          color: #ffffff;
+          transform: translateX(2px);
+          outline: none;
+        }
+
+        .site-footer__divider {
+          margin: 56px 0 20px;
+          border: none;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+        }
+
+        .site-footer__bottom {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+        }
+
+        .site-footer__legal {
+          color: rgba(255,255,255,0.42);
+          font-size: 12px;
+        }
+
+        .site-footer__legal-links {
+          display: flex;
+          gap: 22px;
+        }
+
+        .site-footer__legal-link {
+          color: rgba(255,255,255,0.42);
+          font-size: 12px;
+          text-decoration: none;
+          transition: color 180ms ease;
+        }
+
+        .site-footer__legal-link:hover,
+        .site-footer__legal-link:focus-visible {
+          color: #ffffff;
+          outline: none;
+        }
+
+        @media (max-width: 760px) {
+          .site-footer__inner {
+            padding: 56px 0 24px;
+          }
+
+          .site-footer__grid {
+            grid-template-columns: 1fr;
+            gap: 44px;
+          }
+
+          .site-footer__divider {
+            margin: 44px 0 18px;
+          }
+
+          .site-footer__bottom {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+          }
+        }
+      `}</style>
+
+      <div className="site-footer__inner">
+        <div className="site-footer__grid">
+          <div className="site-footer__brand">
+            <Link href="/" className="site-footer__logo" aria-label="myAImatch home">
               <Image
                 src={myAiMatchWordmark}
-                alt="myAIMatch"
-                width={176}
-                height={24}
-                style={{ width: "176px", height: "auto", objectFit: "contain" }}
+                alt="myAImatch"
+                width={188}
+                height={26}
+                style={{ width: "188px", height: "auto", objectFit: "contain" }}
                 priority
               />
             </Link>
-            <p className="text-[#A0A0A0] text-sm leading-relaxed">
-              Browse the AI tool landscape, or answer a few questions and get a
-              personalized stack match for your workflow, team, and current tools.
+            <p className="site-footer__tagline">
+              Browse the AI tool landscape, or answer a few questions and get a personalized tool match for your workflow, team, and current tools.
             </p>
-            <AssessmentPopupTrigger
-              ctaLocation="footer_primary"
-              className="inline-flex h-10 w-fit items-center justify-center rounded-full px-5 text-sm font-semibold text-white transition-opacity duration-150 hover:opacity-90"
-              style={{
-                background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
-                boxShadow: "0 0 0 1px rgba(132,104,235,0.4), 0 6px 18px rgba(132,104,235,0.22)",
-              }}
-            >
+            <AssessmentPopupTrigger ctaLocation="footer_primary" className="site-footer__cta">
               Start Free AI Match
             </AssessmentPopupTrigger>
           </div>
 
-          {/* Link columns */}
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            {linkColumns.map((col) => (
-              <div key={col.title} className="flex flex-col gap-3">
-                <p className="text-white text-sm font-semibold tracking-wide">
-                  {col.title}
-                </p>
-                <ul className="flex flex-col gap-2">
-                  {col.links.map((link) => (
-                    <li key={`${link.href}-${link.label}`}>
-                      {"popup" in link && link.popup ? (
-                        <AssessmentPopupTrigger
-                          href={link.href}
-                          ctaLocation={link.ctaLocation}
-                          className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
-                        >
-                          {link.label}
-                        </AssessmentPopupTrigger>
-                      ) : (
-                        <Link
-                          href={link.href}
-                          className="text-[#A0A0A0] hover:text-white text-sm transition-colors duration-150"
-                        >
-                          {link.label}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="site-footer__services">
+            <p className="site-footer__label">Services</p>
+            <div className="site-footer__links">
+              {serviceLinks.map((link) => (
+                <Link key={link.href} href={link.href} className="site-footer__link">
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-8 pt-5 border-t border-[#1e1e1e] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[#A0A0A0] text-xs">
-            © 2026 myAIMatch. All rights reserved.
-          </p>
-          <div className="flex gap-5">
-            <Link
-              href="/privacy"
-              className="text-[#A0A0A0] hover:text-white text-xs transition-colors duration-150"
-            >
+        <hr className="site-footer__divider" />
+
+        <div className="site-footer__bottom">
+          <p className="site-footer__legal">© 2026 myAImatch. All rights reserved.</p>
+          <div className="site-footer__legal-links">
+            <Link href="/privacy" className="site-footer__legal-link">
               Privacy Policy
             </Link>
-            <Link
-              href="/terms"
-              className="text-[#A0A0A0] hover:text-white text-xs transition-colors duration-150"
-            >
+            <Link href="/terms" className="site-footer__legal-link">
               Terms of Service
             </Link>
           </div>

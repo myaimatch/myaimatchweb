@@ -9,11 +9,11 @@ import TiltCard from "@/components/services/TiltCard";
 import ToolTicker from "@/components/services/ToolTicker";
 
 export const metadata: Metadata = {
-  title: "Fractional AI Lead | myAIMatch",
+  title: "Fractional AI Lead | myAImatch",
   description:
     "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
   openGraph: {
-    title: "Fractional AI Lead | myAIMatch",
+    title: "Fractional AI Lead | myAImatch",
     description:
       "Your fractional AI lead. We ride shotgun with your team — training, tool updates, and async support as your stack evolves.",
     url: "https://myaimatch.ai/services/ai-coaching",

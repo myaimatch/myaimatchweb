@@ -1,6 +1,6 @@
 # Project Overview
 
-## Qué es MyAIMatch
+## Qué es myAImatch
 
 AI Tools Directory + Assessment Funnel en `myaimatch.ai`.
 

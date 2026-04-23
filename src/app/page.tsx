@@ -10,11 +10,11 @@ import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "myAIMatch - Find AI Tools You'll Actually Use",
+  title: "myAImatch - Find AI Tools You'll Actually Use",
   description:
     "Use the AI Match Engine to get AI tool recommendations for your workflow, team, budget, and implementation goals.",
   openGraph: {
-    title: "myAIMatch - Find AI Tools You'll Actually Use",
+    title: "myAImatch - Find AI Tools You'll Actually Use",
     description:
       "Use the AI Match Engine to get AI tool recommendations for your workflow, team, budget, and implementation goals.",
     url: "https://myaimatch.ai",
@@ -81,18 +81,6 @@ export default async function HomePage() {
           z-index: 1;
         }
 
-        .home-scroll-progress {
-          position: fixed;
-          left: 0;
-          top: 0;
-          z-index: 250;
-          width: 100%;
-          height: 2px;
-          transform-origin: left center;
-          background: linear-gradient(90deg, #8468EB, #C4B5FD);
-          pointer-events: none;
-        }
-
         .home-signal-field {
           position: absolute;
           inset: 0 auto auto 0;
@@ -153,19 +141,6 @@ export default async function HomePage() {
             linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
           background-size: 82px 82px;
           mask-image: radial-gradient(ellipse 74% 60% at 50% 12%, black, transparent 76%);
-          pointer-events: none;
-        }
-
-        .home-hero::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          top: -8px;
-          width: 2px;
-          height: 192px;
-          transform: translateX(-50%);
-          background: linear-gradient(180deg, rgba(196,181,253,0.94), rgba(132,104,235,0.54), transparent);
-          box-shadow: 0 0 16px rgba(132,104,235,0.34);
           pointer-events: none;
         }
 
@@ -966,10 +941,6 @@ export default async function HomePage() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .home-scroll-progress {
-            display: none;
-          }
-
           .engine-flow-preview path,
           .match-output-blueprint circle {
             animation: none !important;

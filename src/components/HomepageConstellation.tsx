@@ -61,7 +61,7 @@ function StaticConstellation() {
       <div className="constellation-core">
         <Image src={myAiMatchMark} alt="" width={64} height={24} />
       </div>
-      <div className="constellation-match-label">myAIMatch</div>
+      <div className="constellation-match-label">myAImatch</div>
       {matchSignals.map((signal, index) => (
         <div
           className="constellation-chip"
@@ -295,7 +295,7 @@ export default function HomepageConstellation() {
       <div className="constellation-core constellation-core-live">
         <Image src={myAiMatchMark} alt="" width={64} height={24} />
       </div>
-      <div className="constellation-match-label">myAIMatch</div>
+      <div className="constellation-match-label">myAImatch</div>
       {matchSignals.map((signal, index) => (
         <div
           className="constellation-label"

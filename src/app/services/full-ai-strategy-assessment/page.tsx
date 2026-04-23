@@ -9,11 +9,11 @@ import StackConstellation from "@/components/services/StackConstellation";
 import TiltCard from "@/components/services/TiltCard";
 
 export const metadata: Metadata = {
-  title: "Full AI Strategy Assessment | myAIMatch",
+  title: "Full AI Strategy Assessment | myAImatch",
   description:
     "Book a paid 60-minute strategy session and get a clear AI stack roadmap built around your workflows, team, budget, goals, industry, and use case.",
   openGraph: {
-    title: "Full AI Strategy Assessment | myAIMatch",
+    title: "Full AI Strategy Assessment | myAImatch",
     description:
       "Book a paid 60-minute strategy session and get a clear AI stack roadmap built around your workflows, team, budget, goals, industry, and use case.",
     url: "https://myaimatch.ai/services/full-ai-strategy-assessment",

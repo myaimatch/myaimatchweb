@@ -1,8 +1,8 @@
-# myAIMatch — Copywriting Guide
+# myAImatch — Copywriting Guide
 
 ## Brand Positioning
 
-myAIMatch is **not a directory**. It is an AI matching engine — a system that actively connects people and businesses with the right AI tools based on their specific role, workflow, team, budget, and goals. The experience should feel like a knowledgeable advisor doing the legwork for you, not a catalog you have to scroll through and figure out yourself. Every word on the site should reinforce this: we match, we guide, we recommend. We do not list, browse, or catalog.
+myAImatch is **not a directory**. It is an AI matching engine — a system that actively connects people and businesses with the right AI tools based on their specific role, workflow, team, budget, and goals. The experience should feel like a knowledgeable advisor doing the legwork for you, not a catalog you have to scroll through and figure out yourself. Every word on the site should reinforce this: we match, we guide, we recommend. We do not list, browse, or catalog.
 
 ## Voice & Tone
 

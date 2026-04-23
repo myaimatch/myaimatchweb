@@ -6,10 +6,10 @@ export const metadata: Metadata = {
   title: "Deals",
   description: "Exclusive offers on the best AI tools, updated regularly.",
   openGraph: {
-    title: "Deals | myAIMatch",
+    title: "Deals | myAImatch",
     description: "Exclusive offers on the best AI tools, updated regularly.",
     url: "https://myaimatch.ai/deals",
-    siteName: "myAIMatch",
+    siteName: "myAImatch",
     type: "website",
   },
 };
