@@ -49,7 +49,7 @@ export default async function HomePage() {
           content: "";
           position: absolute;
           left: 50%;
-          top: 0;
+          top: -18px;
           z-index: 0;
           width: min(1320px, 100vw);
           height: 230px;
@@ -65,7 +65,7 @@ export default async function HomePage() {
           content: "";
           position: absolute;
           left: 50%;
-          top: 0;
+          top: -1px;
           z-index: 0;
           width: min(1180px, 92vw);
           height: 1px;
@@ -124,7 +124,7 @@ export default async function HomePage() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          padding: 44px 0 72px;
+          padding: 28px 0 72px;
           background:
             radial-gradient(ellipse 78% 58% at 50% -4%, rgba(132,104,235,0.26), rgba(91,66,195,0.1) 38%, transparent 72%),
             radial-gradient(ellipse 54% 44% at 78% 30%, rgba(223,122,254,0.16), transparent 68%),
@@ -160,7 +160,7 @@ export default async function HomePage() {
           content: "";
           position: absolute;
           left: 50%;
-          top: 0;
+          top: -8px;
           width: 2px;
           height: 192px;
           transform: translateX(-50%);
@@ -883,7 +883,7 @@ export default async function HomePage() {
 
           .home-hero {
             min-height: auto;
-            padding: 40px 0 52px;
+            padding: 28px 0 52px;
           }
 
           .home-hero-title {

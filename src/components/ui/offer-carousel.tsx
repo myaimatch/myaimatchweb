@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -49,20 +50,25 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
           />
 
           {/* MyAIMatch logo watermark */}
-          <img
+          <Image
             src="/logo.png"
             alt="MyAIMatch"
+            width={64}
+            height={64}
             className="absolute bottom-3 right-3 w-16 h-auto opacity-10"
           />
 
           {/* Tool logo from Clearbit */}
           <div className="relative z-10">
             {!logoError ? (
-              <img
+              <Image
                 src={`https://logo.clearbit.com/${deal.website}`}
                 alt={deal.name}
+                width={64}
+                height={64}
                 className="w-16 h-16 rounded-xl object-contain"
                 loading="lazy"
+                unoptimized={false}
                 onError={() => setLogoError(true)}
               />
             ) : (

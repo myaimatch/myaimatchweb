@@ -8,11 +8,6 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
 import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
 
-const navLinks = [
-  { label: "Deals", href: "/deals" },
-  { label: "Blog", href: "/blog" },
-];
-
 const serviceLinks = [
   {
     label: "Services Overview",
@@ -132,7 +127,7 @@ export default function Navbar() {
           position: relative;
           width: min(1280px, calc(100% - 24px));
           margin: 0 auto;
-          padding: 14px 0 16px;
+          padding: 10px 0 6px;
         }
 
         .site-nav__shell {
@@ -494,8 +489,8 @@ export default function Navbar() {
         @media (max-width: 920px) {
           .site-nav__inner {
             width: min(100% - 18px, 1280px);
-            padding-top: 10px;
-            padding-bottom: 12px;
+            padding-top: 8px;
+            padding-bottom: 4px;
           }
 
           .site-nav__shell {
@@ -518,6 +513,11 @@ export default function Navbar() {
         }
 
         @media (max-width: 640px) {
+          .site-nav__inner {
+            padding-top: 8px;
+            padding-bottom: 2px;
+          }
+
           .site-nav__shell {
             min-height: 62px;
             padding-left: 14px;
