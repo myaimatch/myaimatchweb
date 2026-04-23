@@ -25,7 +25,7 @@ const SearchBar = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-10 rounded-lg bg-white/5 border border-white/10 animate-pulse w-56" />
+      <div className="h-12 w-full rounded-full border border-white/10 bg-white/5 animate-pulse" />
     ),
   }
 )
@@ -229,17 +229,6 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     })
   }, [])
 
-  // Tool count per category (for category cards)
-  const toolCountByCategory = useMemo(() => {
-    const map: Record<string, number> = {}
-    tools.forEach((t) => {
-      t.category.forEach((catId) => {
-        map[catId] = (map[catId] ?? 0) + 1
-      })
-    })
-    return map
-  }, [tools])
-
   // Subcategories available in the currently selected category
   const availableSubcategories = useMemo(() => {
     if (!activeCategory) return []
@@ -434,21 +423,27 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   ).length
 
   return (
-    <div ref={directoryTopRef} className="relative scroll-mt-24">
+    <div ref={directoryTopRef} className="relative scroll-mt-24 overflow-hidden rounded-[22px]">
       {/* Read URL search params inside its own Suspense to avoid RSC encoding issues */}
       <Suspense fallback={null}>
         <SearchParamsReader onParams={handleUrlParams} />
       </Suspense>
       {/* ── Category Cards ─────────────────────────────────────────────── */}
-      <div className="bg-[#111111] pt-5 pb-0">
+      <div
+        className="pt-5 pb-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)), rgba(10,10,12,0.94)",
+        }}
+      >
         <div className="relative">
           <div
             className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 z-10"
-            style={{ background: "linear-gradient(to right, #111111, transparent)" }}
+            style={{ background: "linear-gradient(to right, rgba(10,10,12,0.96), transparent)" }}
           />
           <div
             className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 z-10"
-            style={{ background: "linear-gradient(to left, #111111, transparent)" }}
+            style={{ background: "linear-gradient(to left, rgba(10,10,12,0.96), transparent)" }}
           />
 
           <div
@@ -458,9 +453,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             <CategoryCard
               id={null}
               name="All Matches"
-              description="Match across every AI category"
               icon="✦"
-              count={tools.length}
               active={activeCategory === null}
               onClick={() => handleCategorySelect(null)}
             />
@@ -469,9 +462,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 key={cat.id}
                 id={cat.id}
                 name={cat.name}
-                description={cat.description ?? "Match tools to this work type"}
                 icon={cat.icon ?? "🤖"}
-                count={toolCountByCategory[cat.id] ?? 0}
                 active={activeCategory === cat.id}
                 onClick={() =>
                   handleCategorySelect(activeCategory === cat.id ? null : cat.id)
@@ -494,12 +485,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               <div
                 className="flex items-center gap-2 px-6 py-3 overflow-x-auto border-t"
                 style={{
-                  borderColor: "#1a1a1a",
+                  borderColor: "rgba(255,255,255,0.06)",
                   scrollbarWidth: "none",
-                  background: "rgba(132,104,235,0.03)",
+                  background:
+                    "linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)), rgba(20,16,32,0.58)",
                 }}
               >
-                <span className="text-xs text-[#555] font-medium flex-shrink-0 flex items-center gap-1">
+                <span className="text-xs font-medium flex-shrink-0 flex items-center gap-1 text-white/40">
                   <ChevronRight className="w-3 h-3" />
                   Subcategory
                 </span>
@@ -507,12 +499,12 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   onClick={() => setActiveSubcategory(null)}
                   className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150"
                   style={{
-                    borderColor: activeSubcategory === null ? "#8468EB" : "#2a2a2a",
+                    borderColor: activeSubcategory === null ? "rgba(132,104,235,0.85)" : "rgba(255,255,255,0.12)",
                     background:
                       activeSubcategory === null
-                        ? "rgba(132,104,235,0.15)"
-                        : "transparent",
-                    color: activeSubcategory === null ? "#b07de8" : "#666",
+                        ? "linear-gradient(180deg, rgba(132,104,235,0.22), rgba(132,104,235,0.12))"
+                        : "rgba(255,255,255,0.02)",
+                    color: activeSubcategory === null ? "#d4c8ff" : "rgba(255,255,255,0.5)",
                   }}
                 >
                   All
@@ -525,12 +517,12 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     }
                     className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150 whitespace-nowrap"
                     style={{
-                      borderColor: activeSubcategory === sub ? "#8468EB" : "#2a2a2a",
+                      borderColor: activeSubcategory === sub ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
                       background:
                         activeSubcategory === sub
-                          ? "rgba(132,104,235,0.15)"
-                          : "transparent",
-                      color: activeSubcategory === sub ? "#b07de8" : "#666",
+                          ? "linear-gradient(180deg, rgba(132,104,235,0.22), rgba(132,104,235,0.12))"
+                          : "rgba(255,255,255,0.02)",
+                      color: activeSubcategory === sub ? "#d4c8ff" : "rgba(255,255,255,0.5)",
                     }}
                   >
                     {sub}
@@ -540,13 +532,19 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             </motion.div>
           )}
         </AnimatePresence>
-
-        <div className="border-b border-[#1a1a1a]" />
+        <div className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }} />
       </div>
 
       {/* ── Toolbar ────────────────────────────────────────────────────── */}
-      <div className="bg-[#111111] border-b border-[#1a1a1a] px-4 sm:px-6 py-4">
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)_minmax(0,1fr)] lg:items-center">
+      <div
+        className="border-b px-4 sm:px-6 py-4"
+        style={{
+          borderColor: "rgba(255,255,255,0.06)",
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02)), rgba(11,11,13,0.96)",
+        }}
+      >
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-3 justify-start">
             {/* Filters toggle */}
             <button
@@ -555,10 +553,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               style={{
                 background:
                   filtersOpen || filterCount > 0
-                    ? "rgba(132,104,235,0.12)"
-                    : "rgba(255,255,255,0.03)",
-                borderColor: filtersOpen || filterCount > 0 ? "#8468EB" : "#2a2a2a",
-                color: filtersOpen || filterCount > 0 ? "#b07de8" : "#777",
+                    ? "linear-gradient(180deg, rgba(132,104,235,0.2), rgba(132,104,235,0.12))"
+                    : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+                borderColor: filtersOpen || filterCount > 0 ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
+                color: filtersOpen || filterCount > 0 ? "#d8cbff" : "rgba(255,255,255,0.62)",
               }}
             >
               <SlidersHorizontal className="w-4 h-4" />
@@ -580,10 +578,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 className="h-12 min-w-[128px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-200"
                 style={{
                   background: columnPickerOpen || activeColumnCount > 0
-                    ? "rgba(132,104,235,0.12)"
-                    : "rgba(255,255,255,0.03)",
-                  borderColor: columnPickerOpen || activeColumnCount > 0 ? "#8468EB" : "#2a2a2a",
-                  color: columnPickerOpen || activeColumnCount > 0 ? "#b07de8" : "#777",
+                    ? "linear-gradient(180deg, rgba(132,104,235,0.2), rgba(132,104,235,0.12))"
+                    : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+                  borderColor: columnPickerOpen || activeColumnCount > 0 ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
+                  color: columnPickerOpen || activeColumnCount > 0 ? "#d8cbff" : "rgba(255,255,255,0.62)",
                 }}
               >
                 <Columns className="w-4 h-4" />
@@ -599,14 +597,15 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     transition={{ duration: 0.15 }}
                     className="absolute left-0 top-full mt-2 z-50 rounded-xl border overflow-hidden"
                     style={{
-                      background: "#0f0f0f",
-                      borderColor: "#2a2a2a",
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)), rgba(11,11,13,0.97)",
+                      borderColor: "rgba(255,255,255,0.1)",
                       minWidth: "220px",
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                      boxShadow: "0 18px 44px rgba(0,0,0,0.5), 0 0 28px rgba(132,104,235,0.12)",
                     }}
                   >
-                    <div className="px-4 py-3 border-b" style={{ borderColor: "#1a1a1a" }}>
-                      <span className="text-[10px] font-semibold text-[#444] uppercase tracking-widest">
+                    <div className="px-4 py-3 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                      <span className="text-[10px] font-semibold text-white/35 uppercase tracking-widest">
                         Visible Columns
                       </span>
                     </div>
@@ -617,13 +616,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                           onClick={() => toggleColumn(key)}
                           className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-left transition-colors duration-100"
                           style={{
-                            background: visibleColumns[key] ? "rgba(132,104,235,0.08)" : "transparent",
+                            background: visibleColumns[key] ? "rgba(132,104,235,0.14)" : "transparent",
                           }}
                         >
                           <div
                             className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-150"
                             style={{
-                              borderColor: visibleColumns[key] ? "#8468EB" : "#333",
+                              borderColor: visibleColumns[key] ? "#8468EB" : "rgba(255,255,255,0.16)",
                               background: visibleColumns[key] ? "#8468EB" : "transparent",
                             }}
                           >
@@ -631,14 +630,14 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                           </div>
                           <span
                             className="text-xs"
-                            style={{ color: visibleColumns[key] ? "#ccc" : "#666" }}
+                            style={{ color: visibleColumns[key] ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.46)" }}
                           >
                             {COLUMN_LABELS[key]}
                           </span>
                         </button>
                       ))}
                     </div>
-                    <div className="px-4 py-2.5 border-t" style={{ borderColor: "#1a1a1a" }}>
+                    <div className="px-4 py-2.5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                       <button
                         onClick={() => {
                           setVisibleColumns(DEFAULT_COLUMNS)
@@ -660,9 +659,11 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               onClick={() => setShowFavoritesOnly((v) => !v)}
               className="h-12 min-w-[128px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-150"
               style={{
-                borderColor: showFavoritesOnly ? "#8468EB" : "#2a2a2a",
-                background: showFavoritesOnly ? "rgba(132,104,235,0.12)" : "rgba(255,255,255,0.03)",
-                color: showFavoritesOnly ? "#b07de8" : "#777",
+                borderColor: showFavoritesOnly ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
+                background: showFavoritesOnly
+                  ? "linear-gradient(180deg, rgba(132,104,235,0.2), rgba(132,104,235,0.12))"
+                  : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+                color: showFavoritesOnly ? "#d8cbff" : "rgba(255,255,255,0.62)",
               }}
             >
               <Bookmark className="w-4 h-4" fill={showFavoritesOnly ? "#b07de8" : "none"} />
@@ -671,8 +672,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 <span
                   className="w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center"
                   style={{
-                    background: showFavoritesOnly ? "#8468EB" : "#2a2a2a",
-                    color: showFavoritesOnly ? "white" : "#888",
+                    background: showFavoritesOnly ? "#8468EB" : "rgba(255,255,255,0.09)",
+                    color: showFavoritesOnly ? "white" : "rgba(255,255,255,0.62)",
                   }}
                 >
                   {favorites.size}
@@ -682,35 +683,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           </div>
 
           {/* Search */}
-          <div className="w-full max-w-[420px] justify-self-center">
+          <div className="w-full lg:ml-auto lg:w-[420px] lg:flex-none">
             <SearchBar
               placeholder="Search tools..."
               onSearch={(q) => setSearch(q)}
               onChange={(q) => setSearch(q)}
               suggestions={tools.map((t) => t.name).slice(0, 20)}
             />
-          </div>
-
-          <div className="flex justify-start lg:justify-end">
-            {/* Live Data badge */}
-            <div
-              className="h-12 min-w-[190px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold"
-              style={{
-                borderColor: "rgba(132,104,235,0.26)",
-                background: "rgba(132,104,235,0.06)",
-                color: "#b07de8",
-              }}
-            >
-            <span
-              className="w-2 h-2 rounded-full flex-shrink-0"
-              style={{
-                background: "#8468EB",
-                animation: "orbPulse 2s ease-in-out infinite",
-                boxShadow: "0 0 8px #8468EB",
-              }}
-            />
-              Live Data · Updated just now
-            </div>
           </div>
         </div>
       </div>
@@ -727,7 +706,11 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               exit={{ width: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
               className="flex-shrink-0 overflow-hidden"
-              style={{ borderRight: "1px solid #1a1a1a", background: "#0a0a0a" }}
+              style={{
+                borderRight: "1px solid rgba(255,255,255,0.06)",
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)), rgba(9,9,11,0.96)",
+              }}
             >
               <div
                 className="w-[260px] sticky top-[64px] overflow-y-auto px-5 py-5 space-y-7"
@@ -735,7 +718,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               >
                 {/* Panel header */}
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-[#666] uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">
                     Filters
                   </span>
                   <div className="flex items-center gap-2">
@@ -751,9 +734,9 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     <button
                       onClick={() => setFiltersOpen(false)}
                       className="w-6 h-6 flex items-center justify-center rounded-md transition-colors"
-                      style={{ background: "#1e1e1e" }}
+                      style={{ background: "rgba(255,255,255,0.06)" }}
                     >
-                      <X className="w-3.5 h-3.5 text-[#666]" />
+                      <X className="w-3.5 h-3.5 text-white/45" />
                     </button>
                   </div>
                 </div>
@@ -778,9 +761,9 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                         }
                         className="px-2.5 py-1 rounded-lg border text-xs font-medium transition-all duration-150"
                         style={{
-                          borderColor: activeFilters.bestFor.includes(val) ? "#8468EB" : "#2a2a2a",
+                          borderColor: activeFilters.bestFor.includes(val) ? "#8468EB" : "rgba(255,255,255,0.12)",
                           background: activeFilters.bestFor.includes(val) ? "rgba(132,104,235,0.15)" : "transparent",
-                          color: activeFilters.bestFor.includes(val) ? "#b07de8" : "#666",
+                          color: activeFilters.bestFor.includes(val) ? "#d4c8ff" : "rgba(255,255,255,0.48)",
                         }}
                       >
                         {val}
@@ -804,13 +787,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                         className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all duration-150"
                         style={{
                           borderColor:
-                            activeFilters.minRating === star ? "#8468EB" : "#2a2a2a",
+                            activeFilters.minRating === star ? "#8468EB" : "rgba(255,255,255,0.12)",
                           background:
                             activeFilters.minRating === star
                               ? "rgba(132,104,235,0.15)"
                               : "transparent",
                           color:
-                            activeFilters.minRating === star ? "#b07de8" : "#666",
+                            activeFilters.minRating === star ? "#d4c8ff" : "rgba(255,255,255,0.48)",
                         }}
                       >
                         <Star
@@ -826,7 +809,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 {/* Free Plan */}
                 <FilterSection title="Free Plan">
                   <label className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-[#888]">Has free plan</span>
+                    <span className="text-sm text-white/58">Has free plan</span>
                     <div
                       onClick={() =>
                         setActiveFilters((prev) => ({
@@ -836,7 +819,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       }
                       className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
                       style={{
-                        background: activeFilters.hasFreePlan === true ? "#8468EB" : "#2a2a2a",
+                        background: activeFilters.hasFreePlan === true ? "#8468EB" : "rgba(255,255,255,0.14)",
                         width: "36px",
                         height: "20px",
                       }}
@@ -854,7 +837,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 {/* Has API */}
                 <FilterSection title="API Access">
                   <label className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-[#888]">Has public API</span>
+                    <span className="text-sm text-white/58">Has public API</span>
                     <div
                       onClick={() =>
                         setActiveFilters((prev) => ({
@@ -864,7 +847,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       }
                       className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
                       style={{
-                        background: activeFilters.hasApi === true ? "#8468EB" : "#2a2a2a",
+                        background: activeFilters.hasApi === true ? "#8468EB" : "rgba(255,255,255,0.14)",
                         width: "36px",
                         height: "20px",
                       }}
@@ -903,7 +886,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 {/* GDPR */}
                 <FilterSection title="Compliance">
                   <label className="flex items-center justify-between cursor-pointer">
-                    <span className="text-sm text-[#888]">GDPR compliant</span>
+                    <span className="text-sm text-white/58">GDPR compliant</span>
                     <div
                       onClick={() =>
                         setActiveFilters((prev) => ({
@@ -913,7 +896,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       }
                       className="cursor-pointer relative flex-shrink-0 rounded-full transition-all duration-200"
                       style={{
-                        background: activeFilters.gdprCompliant === true ? "#8468EB" : "#2a2a2a",
+                        background: activeFilters.gdprCompliant === true ? "#8468EB" : "rgba(255,255,255,0.14)",
                         width: "36px",
                         height: "20px",
                       }}
@@ -953,11 +936,11 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 <FilterSection title="Max Monthly Price">
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
-                      <span style={{ color: "#555" }}>$0</span>
+                      <span style={{ color: "rgba(255,255,255,0.32)" }}>$0</span>
                       <span style={{ color: "#8468EB" }} className="font-medium">
                         ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? "+" : ""}
                       </span>
-                      <span style={{ color: "#555" }}>$500+</span>
+                      <span style={{ color: "rgba(255,255,255,0.32)" }}>$500+</span>
                     </div>
                     <input
                       type="range"
@@ -973,7 +956,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                       }
                       className="w-full accent-[#8468EB]"
                     />
-                    <p className="text-[10px] text-[#444]">
+                    <p className="text-[10px] text-white/30">
                       Shows tools with starting price ≤ ${activeFilters.maxPrice}{activeFilters.maxPrice === 500 ? " (all)" : ""}
                     </p>
                   </div>
@@ -988,7 +971,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr style={{ background: "#141414", borderBottom: "1px solid #222222" }}>
+                <tr
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)), rgba(10,10,12,0.98)",
+                    borderBottom: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
                   {/* Tool — always visible */}
                   <SortHeader
                     label="Tool"
@@ -1010,14 +999,14 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   )}
                   {visibleColumns.fullDescription && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>
                         Full Description
                       </span>
                     </th>
                   )}
                   {visibleColumns.pricingSummary && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>
                         Pricing Summary
                       </span>
                     </th>
@@ -1042,7 +1031,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   )}
                   {visibleColumns.freePlan && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>
                         Free Plan
                       </span>
                     </th>
@@ -1050,47 +1039,47 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   {/* Extra optional columns */}
                   {visibleColumns.hasApi && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>API</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>API</span>
                     </th>
                   )}
                   {visibleColumns.foundedYear && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Founded</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>Founded</span>
                     </th>
                   )}
                   {visibleColumns.companyHq && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>HQ</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>HQ</span>
                     </th>
                   )}
                   {visibleColumns.employeeCount && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Team Size</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>Team Size</span>
                     </th>
                   )}
                   {visibleColumns.gdprCompliant && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>GDPR</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>GDPR</span>
                     </th>
                   )}
                   {visibleColumns.soc2Certified && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>SOC2</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>SOC2</span>
                     </th>
                   )}
                   {visibleColumns.hasMobileApp && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Mobile</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>Mobile</span>
                     </th>
                   )}
                   {visibleColumns.trialDays && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Trial</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>Trial</span>
                     </th>
                   )}
                   {visibleColumns.supportLanguages && (
                     <th className="px-4 py-3 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#666" }}>Languages</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.38)" }}>Languages</span>
                     </th>
                   )}
                   {visibleColumns.minMonthlyPrice && (
@@ -1103,8 +1092,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     />
                   )}
                   {/* Always-visible: bookmark + visit */}
-                  <th className="px-3 py-3 text-xs font-semibold text-[#444] uppercase tracking-wider w-10" />
-                  <th className="px-4 py-3 text-xs font-semibold text-[#444] uppercase tracking-wider text-right pr-5">
+                  <th className="px-3 py-3 text-xs font-semibold text-white/30 uppercase tracking-wider w-10" />
+                  <th className="px-4 py-3 text-xs font-semibold text-white/30 uppercase tracking-wider text-right pr-5">
                     Visit
                   </th>
                 </tr>
@@ -1114,7 +1103,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   <tr>
                     <td colSpan={20} className="text-center py-20">
                       <p className="text-white font-medium mb-1">No tools found</p>
-                      <p className="text-sm text-[#555]">
+                      <p className="text-sm text-white/36">
                         Try a different category or adjust filters.
                       </p>
                     </td>
@@ -1136,7 +1125,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             </table>
           </div>
           <div className="flex flex-col gap-4 px-5 py-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-[#777]">
+            <p className="text-sm text-white/50">
               Showing <span className="font-semibold text-white">{shownToolCount}</span> of{" "}
               <span className="font-semibold text-white">{filteredTools.length}</span> tools
             </p>
@@ -1149,9 +1138,9 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                 }
                 className="inline-flex h-12 items-center justify-center rounded-full border px-6 text-sm font-semibold transition-all duration-200 sm:ml-auto"
                 style={{
-                  borderColor: "rgba(132,104,235,0.35)",
-                  background: "rgba(132,104,235,0.12)",
-                  color: "#b07de8",
+                  borderColor: "rgba(132,104,235,0.38)",
+                  background: "linear-gradient(180deg, rgba(132,104,235,0.18), rgba(132,104,235,0.12))",
+                  color: "#d4c8ff",
                 }}
               >
                 Show more
@@ -1197,16 +1186,16 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
       <div
         className="overflow-hidden rounded-[18px] border"
         style={{
-          borderColor: "rgba(132,104,235,0.22)",
+          borderColor: "rgba(132,104,235,0.26)",
           background:
-            "radial-gradient(ellipse 70% 80% at 85% 0%, rgba(132,104,235,0.16), transparent 60%), rgba(255,255,255,0.03)",
+            "radial-gradient(ellipse 74% 84% at 86% 0%, rgba(132,104,235,0.24), transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025)), rgba(11,11,13,0.96)",
         }}
       >
         <button
           type="button"
           aria-expanded={isOpen}
           onClick={() => setIsOpen((value) => !value)}
-          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-150 hover:bg-white/[0.03] md:px-6"
+          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-150 hover:bg-white/[0.04] md:px-6"
         >
           <span>
             <span className="block text-[10px] font-bold uppercase tracking-widest text-[#8468EB]">
@@ -1215,7 +1204,7 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
             <span className="mt-1 block text-sm font-semibold tracking-tight text-white md:text-base">
               Know an AI tool worth adding?
             </span>
-            <span className="mt-1 block text-xs text-white/45">
+            <span className="mt-1 block text-xs text-white/55">
               Suggest it in a few seconds.
             </span>
           </span>
@@ -1235,38 +1224,53 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
               className="border-t"
-              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              style={{ borderColor: "rgba(255,255,255,0.1)" }}
             >
               <div className="grid gap-3 px-5 py-5 md:grid-cols-2 md:px-6 md:py-6">
                 <label className="flex flex-col gap-2">
-                  <span className="text-xs font-semibold text-white/45">Tool name</span>
+                  <span className="text-xs font-semibold text-white/52">Tool name</span>
                   <input
                     name="toolName"
                     required
                     placeholder="Example: Granola"
-                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#8468EB]"
-                    style={{ borderColor: "rgba(255,255,255,0.10)" }}
+                    className="h-12 rounded-full border px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/28 focus:border-[#8468EB]"
+                    style={{
+                      borderColor: "rgba(255,255,255,0.12)",
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), rgba(5,5,7,0.72)",
+                      boxShadow: "0 0 0 1px rgba(255,255,255,0.015) inset",
+                    }}
                   />
                 </label>
                 <label className="flex flex-col gap-2">
-                  <span className="text-xs font-semibold text-white/45">Website link</span>
+                  <span className="text-xs font-semibold text-white/52">Website link</span>
                   <input
                     name="websiteLink"
                     type="url"
                     required
                     placeholder="https://..."
-                    className="h-12 rounded-full border bg-black/30 px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#8468EB]"
-                    style={{ borderColor: "rgba(255,255,255,0.10)" }}
+                    className="h-12 rounded-full border px-4 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/28 focus:border-[#8468EB]"
+                    style={{
+                      borderColor: "rgba(255,255,255,0.12)",
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), rgba(5,5,7,0.72)",
+                      boxShadow: "0 0 0 1px rgba(255,255,255,0.015) inset",
+                    }}
                   />
                 </label>
                 <label className="flex flex-col gap-2 md:col-span-2">
-                  <span className="text-xs font-semibold text-white/45">Why is it worth adding?</span>
+                  <span className="text-xs font-semibold text-white/52">Why is it worth adding?</span>
                   <textarea
                     name="reason"
                     rows={3}
                     placeholder="Who should use it, and what makes it useful?"
-                    className="resize-none rounded-[18px] border bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/25 focus:border-[#8468EB]"
-                    style={{ borderColor: "rgba(255,255,255,0.10)" }}
+                    className="resize-none rounded-[18px] border px-4 py-3 text-sm text-white outline-none transition-colors duration-150 placeholder:text-white/28 focus:border-[#8468EB]"
+                    style={{
+                      borderColor: "rgba(255,255,255,0.12)",
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), rgba(5,5,7,0.72)",
+                      boxShadow: "0 0 0 1px rgba(255,255,255,0.015) inset",
+                    }}
                   />
                 </label>
                 <div className="flex justify-end md:col-span-2">
@@ -1275,7 +1279,7 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
                     className="inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-200"
                     style={{
                       background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
-                      boxShadow: "0 0 0 1px rgba(132,104,235,0.4), 0 8px 24px rgba(132,104,235,0.24)",
+                      boxShadow: "0 0 0 1px rgba(132,104,235,0.46), 0 12px 28px rgba(132,104,235,0.28), 0 0 28px rgba(132,104,235,0.12)",
                     }}
                   >
                     Send tool suggestion
@@ -1336,59 +1340,37 @@ function getIcon(icon?: string): string {
 function CategoryCard({
   id,
   name,
-  description,
   icon,
-  count,
   active,
   onClick,
 }: {
   id: string | null
   name: string
-  description: string
   icon: string
-  count: number
   active: boolean
   onClick: () => void
 }) {
   return (
     <button
       onClick={onClick}
-      className="flex-shrink-0 flex flex-col items-start gap-1.5 px-4 py-3.5 rounded-xl border text-left transition-all duration-200"
+      className="flex-shrink-0 flex items-center gap-3 px-4 py-3.5 rounded-xl border text-left transition-all duration-200"
       style={{
-        minWidth: id === null ? "120px" : "170px",
-        maxWidth: "200px",
-        borderColor: active ? "#8468EB" : "#1e1e1e",
+        minWidth: id === null ? "136px" : "164px",
+        borderColor: active ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.08)",
         background: active
-          ? "rgba(132,104,235,0.10)"
-          : "rgba(255,255,255,0.02)",
+          ? "linear-gradient(180deg, rgba(132,104,235,0.18), rgba(132,104,235,0.08)), rgba(30,22,52,0.78)"
+          : "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), rgba(18,18,20,0.74)",
         boxShadow: active
-          ? "0 0 0 1px rgba(132,104,235,0.3), 0 4px 20px rgba(132,104,235,0.10)"
-          : "none",
+          ? "0 0 0 1px rgba(132,104,235,0.24), 0 16px 34px rgba(0,0,0,0.24), 0 0 24px rgba(132,104,235,0.12)"
+          : "0 10px 24px rgba(0,0,0,0.14)",
       }}
     >
-      <div className="flex items-center justify-between w-full gap-2">
-        <span className="text-base leading-none">{getIcon(icon)}</span>
-        <span
-          className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full"
-          style={{
-            background: active ? "rgba(132,104,235,0.2)" : "#1e1e1e",
-            color: active ? "#b07de8" : "#555",
-          }}
-        >
-          {count}
-        </span>
-      </div>
+      <span className="text-base leading-none">{getIcon(icon)}</span>
       <span
         className="text-sm font-semibold leading-tight"
-        style={{ color: active ? "#fff" : "#bbb" }}
+        style={{ color: active ? "#fff" : "rgba(255,255,255,0.74)" }}
       >
         {name}
-      </span>
-      <span
-        className="text-[11px] leading-snug line-clamp-2"
-        style={{ color: active ? "#888" : "#444" }}
-      >
-        {description}
       </span>
     </button>
   )
@@ -1420,11 +1402,11 @@ function SortHeader({
       <div className="flex items-center gap-1.5">
         <span
           className="text-xs font-semibold uppercase tracking-wider transition-colors duration-150"
-          style={{ color: isActive ? "#8468EB" : "#666" }}
+          style={{ color: isActive ? "#a88cff" : "rgba(255,255,255,0.38)" }}
         >
           {label}
         </span>
-        <span style={{ color: isActive ? "#8468EB" : "#333" }}>
+        <span style={{ color: isActive ? "#a88cff" : "rgba(255,255,255,0.18)" }}>
           {isActive ? (
             sortDir === "asc" ? (
               <ChevronUp className="w-3.5 h-3.5" />
@@ -1449,7 +1431,7 @@ function ExpandableText({ text, maxLength }: { text: string; maxLength: number }
 
   return (
     <div className="flex items-start gap-1">
-      <span className="text-xs text-[#888] leading-relaxed">{display}</span>
+      <span className="text-xs leading-relaxed text-white/58">{display}</span>
       {isLong && (
         <button
           onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v) }}
@@ -1471,7 +1453,7 @@ function BoolCell({ value }: { value: boolean | undefined }) {
   if (value === true) {
     return <Check className="w-4 h-4" style={{ color: "#4ade80" }} />
   }
-  return <Minus className="w-4 h-4" style={{ color: "#333" }} />
+  return <Minus className="w-4 h-4" style={{ color: "rgba(255,255,255,0.16)" }} />
 }
 
 function ToolRow({
@@ -1496,15 +1478,20 @@ function ToolRow({
   return (
     <tr
       className="border-b transition-colors duration-100"
-      style={{ borderColor: "#1e1e1e", background: isEven ? "#161616" : "#1a1a1a" }}
+      style={{
+        borderColor: "rgba(255,255,255,0.05)",
+        background: isEven
+          ? "linear-gradient(180deg, rgba(255,255,255,0.028), rgba(255,255,255,0.018)), rgba(18,18,20,0.94)"
+          : "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), rgba(23,23,26,0.94)",
+      }}
       onMouseEnter={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background =
-          "rgba(132,104,235,0.10)"
+          "linear-gradient(90deg, rgba(132,104,235,0.14), rgba(132,104,235,0.06) 52%, rgba(255,255,255,0.02))"
       }}
       onMouseLeave={(e) => {
         ;(e.currentTarget as HTMLTableRowElement).style.background = isEven
-          ? "#161616"
-          : "#1a1a1a"
+          ? "linear-gradient(180deg, rgba(255,255,255,0.028), rgba(255,255,255,0.018)), rgba(18,18,20,0.94)"
+          : "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)), rgba(23,23,26,0.94)"
       }}
     >
       {/* Tool — always visible */}
@@ -1519,12 +1506,12 @@ function ToolRow({
               height={32}
               referrerPolicy="no-referrer"
               className="w-8 h-8 rounded-lg object-contain flex-shrink-0"
-              style={{ background: "#1a1a1a" }}
+              style={{ background: "rgba(255,255,255,0.05)" }}
             />
           ) : (
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0"
-              style={{ background: "#1a1a1a", color: "#8468EB" }}
+              style={{ background: "rgba(255,255,255,0.05)", color: "#a88cff" }}
             >
               {initials}
             </div>
@@ -1552,17 +1539,17 @@ function ToolRow({
                 </span>
               )}
               {tool.hasFreePlan && (
-                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(34,197,94,0.10)", color: "#4ade80" }}>
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(34,197,94,0.12)", color: "#61e892" }}>
                   Free
                 </span>
               )}
               {tool.hasApi && (
-                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(59,130,246,0.10)", color: "#60a5fa" }}>
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(59,130,246,0.12)", color: "#86b7ff" }}>
                   API
                 </span>
               )}
               {tool.supportLanguages?.includes("Spanish") && (
-                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(251,146,60,0.10)", color: "#fb923c" }}>
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(251,146,60,0.12)", color: "#ffb169" }}>
                   ES
                 </span>
               )}
@@ -1577,12 +1564,16 @@ function ToolRow({
           {categoryName ? (
             <span
               className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
-              style={{ background: "rgba(132,104,235,0.10)", color: "rgba(132,104,235,0.7)" }}
+              style={{
+                background: "linear-gradient(180deg, rgba(132,104,235,0.18), rgba(132,104,235,0.1))",
+                color: "#c7b6ff",
+                border: "1px solid rgba(132,104,235,0.18)",
+              }}
             >
               {categoryName}
             </span>
           ) : (
-            <span className="text-[#333] text-xs">—</span>
+            <span className="text-white/18 text-xs">—</span>
           )}
         </td>
       )}
@@ -1593,7 +1584,7 @@ function ToolRow({
           {tool.fullDescription ? (
             <ExpandableText text={tool.fullDescription} maxLength={80} />
           ) : (
-            <span className="text-[#333] text-xs">—</span>
+            <span className="text-white/18 text-xs">—</span>
           )}
         </td>
       )}
@@ -1602,13 +1593,13 @@ function ToolRow({
       {visibleColumns.pricingSummary && (
         <td className="px-4 py-3.5 max-w-[200px]">
           {tool.pricingSummary ? (
-            <span className="text-xs text-[#888] leading-relaxed line-clamp-2">
+            <span className="text-xs leading-relaxed line-clamp-2 text-white/62">
               {tool.pricingSummary.length > 60
                 ? tool.pricingSummary.slice(0, 60) + "…"
                 : tool.pricingSummary}
             </span>
           ) : (
-            <span className="text-[#333] text-xs">—</span>
+            <span className="text-white/18 text-xs">—</span>
           )}
         </td>
       )}
@@ -1620,14 +1611,15 @@ function ToolRow({
             <span
               className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
               style={{
-                background: "rgba(132,104,235,0.08)",
-                color: "#b07de8",
+                background: "linear-gradient(180deg, rgba(132,104,235,0.16), rgba(132,104,235,0.08))",
+                color: "#d3c5ff",
+                border: "1px solid rgba(132,104,235,0.18)",
               }}
             >
               {tool.bestFor}
             </span>
           ) : (
-            <span className="text-[#333] text-xs">—</span>
+            <span className="text-white/18 text-xs">—</span>
           )}
         </td>
       )}
@@ -1639,15 +1631,15 @@ function ToolRow({
             <div className="flex items-center gap-1.5">
               <Star
                 className="w-3.5 h-3.5"
-                style={{ color: "#8468EB", fill: "#8468EB" }}
+                style={{ color: "#a88cff", fill: "#a88cff" }}
               />
               <span className="text-sm font-medium text-white">
                 {tool.communityReputation.toFixed(1)}
               </span>
-              <span className="text-xs text-[#444]">/ 5</span>
+              <span className="text-xs text-white/26">/ 5</span>
             </div>
           ) : (
-            <span className="text-[#333] text-xs">—</span>
+            <span className="text-white/18 text-xs">—</span>
           )}
         </td>
       )}
@@ -1665,17 +1657,17 @@ function ToolRow({
       )}
       {visibleColumns.foundedYear && (
         <td className="px-4 py-3.5">
-          <span className="text-xs text-[#888]">{tool.foundedYear ?? "—"}</span>
+          <span className="text-xs text-white/58">{tool.foundedYear ?? "—"}</span>
         </td>
       )}
       {visibleColumns.companyHq && (
         <td className="px-4 py-3.5">
-          <span className="text-xs text-[#888]">{tool.companyHq ?? "—"}</span>
+          <span className="text-xs text-white/58">{tool.companyHq ?? "—"}</span>
         </td>
       )}
       {visibleColumns.employeeCount && (
         <td className="px-4 py-3.5">
-          <span className="text-xs text-[#888]">{tool.employeeCount ?? "—"}</span>
+          <span className="text-xs text-white/58">{tool.employeeCount ?? "—"}</span>
         </td>
       )}
       {visibleColumns.gdprCompliant && (
@@ -1689,7 +1681,7 @@ function ToolRow({
       )}
       {visibleColumns.trialDays && (
         <td className="px-4 py-3.5">
-          <span className="text-xs text-[#888]">
+          <span className="text-xs text-white/58">
             {tool.trialDays ? `${tool.trialDays}d` : "—"}
           </span>
         </td>
@@ -1697,18 +1689,18 @@ function ToolRow({
       {visibleColumns.supportLanguages && (
         <td className="px-4 py-3.5 max-w-[140px]">
           {tool.supportLanguages?.length ? (
-            <span className="text-xs text-[#888] line-clamp-2">
+            <span className="text-xs text-white/58 line-clamp-2">
               {tool.supportLanguages.slice(0, 3).join(", ")}
               {tool.supportLanguages.length > 3 ? ` +${tool.supportLanguages.length - 3}` : ""}
             </span>
           ) : (
-            <span className="text-[#333] text-xs">—</span>
+            <span className="text-white/18 text-xs">—</span>
           )}
         </td>
       )}
       {visibleColumns.minMonthlyPrice && (
         <td className="px-4 py-3.5">
-          <span className="text-xs text-[#888]">
+          <span className="text-xs text-white/58">
             {tool.minMonthlyPrice != null ? `$${tool.minMonthlyPrice}` : "—"}
           </span>
         </td>
@@ -1723,14 +1715,14 @@ function ToolRow({
           }}
           className="w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-150"
           style={{
-            background: isFavorite ? "rgba(132,104,235,0.12)" : "transparent",
+            background: isFavorite ? "rgba(132,104,235,0.14)" : "rgba(255,255,255,0.015)",
           }}
           title={isFavorite ? "Remove from saved" : "Save tool"}
         >
           <Bookmark
             className="w-3.5 h-3.5 transition-all duration-150"
             style={{
-              color: isFavorite ? "#8468EB" : "#333",
+              color: isFavorite ? "#a88cff" : "rgba(255,255,255,0.2)",
               fill: isFavorite ? "#8468EB" : "none",
             }}
           />
@@ -1746,29 +1738,30 @@ function ToolRow({
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150"
             style={{
-              background: "rgba(132,104,235,0.08)",
-              color: "rgba(132,104,235,0.7)",
-              border: "1px solid rgba(132,104,235,0.18)",
+              background: "linear-gradient(180deg, rgba(132,104,235,0.14), rgba(132,104,235,0.08))",
+              color: "#cbbcff",
+              border: "1px solid rgba(132,104,235,0.24)",
+              boxShadow: "0 0 0 1px rgba(255,255,255,0.015) inset",
             }}
             onMouseEnter={(e) => {
               ;(e.currentTarget as HTMLAnchorElement).style.background =
-                "rgba(132,104,235,0.20)"
-              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = "#8468EB"
-              ;(e.currentTarget as HTMLAnchorElement).style.color = "#c497f0"
+                "linear-gradient(180deg, rgba(132,104,235,0.24), rgba(132,104,235,0.14))"
+              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(132,104,235,0.9)"
+              ;(e.currentTarget as HTMLAnchorElement).style.color = "#efe9ff"
             }}
             onMouseLeave={(e) => {
               ;(e.currentTarget as HTMLAnchorElement).style.background =
-                "rgba(132,104,235,0.08)"
+                "linear-gradient(180deg, rgba(132,104,235,0.14), rgba(132,104,235,0.08))"
               ;(e.currentTarget as HTMLAnchorElement).style.borderColor =
-                "rgba(132,104,235,0.18)"
-              ;(e.currentTarget as HTMLAnchorElement).style.color = "rgba(132,104,235,0.7)"
+                "rgba(132,104,235,0.24)"
+              ;(e.currentTarget as HTMLAnchorElement).style.color = "#cbbcff"
             }}
           >
             Visit
             <ArrowUpRight className="w-3 h-3" />
           </a>
         ) : (
-          <span className="text-[#333] text-xs">—</span>
+          <span className="text-white/18 text-xs">—</span>
         )}
       </td>
     </tr>
@@ -1780,7 +1773,7 @@ function ToolRow({
 function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-[10px] font-semibold text-[#444] uppercase tracking-widest mb-3">
+      <h3 className="text-[10px] font-semibold text-white/30 uppercase tracking-widest mb-3">
         {title}
       </h3>
       {children}
@@ -1804,7 +1797,7 @@ function CheckboxRow({
       <div
         className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-all duration-150"
         style={{
-          borderColor: checked ? "#8468EB" : "#333",
+          borderColor: checked ? "#8468EB" : "rgba(255,255,255,0.16)",
           background: checked ? "#8468EB" : "transparent",
         }}
         onClick={() => onChange(!checked)}
@@ -1823,7 +1816,7 @@ function CheckboxRow({
       </div>
       <span
         className="text-xs transition-colors duration-150"
-        style={{ color: checked ? "#ccc" : "#666" }}
+        style={{ color: checked ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.5)" }}
       >
         {label}
       </span>

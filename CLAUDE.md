@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Entry point para Claude Code. Solo delega — el contenido vive en `.claude/`.
+Entry point para Claude Code y Codex. Solo delega — el contenido vive en `.claude/`.
 
 **Proyecto:** MyAIMatch (`myaimatch.ai`) — AI Tools Directory + Assessment Funnel. Ver `.claude/context/project-overview.md`.
 

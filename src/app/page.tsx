@@ -37,12 +37,43 @@ export default async function HomePage() {
         .home-ramp {
           --home-primary: #8468EB;
           --home-accent: #C4B5FD;
-          --home-card: rgba(255,255,255,0.04);
-          --home-border: rgba(255,255,255,0.08);
-          --home-muted: rgba(255,255,255,0.6);
-          --home-dim: rgba(255,255,255,0.4);
+          --home-card: var(--brand-surface-soft);
+          --home-border: var(--brand-border-soft);
+          --home-muted: var(--brand-text-muted);
+          --home-dim: var(--brand-text-dim);
           position: relative;
           overflow: hidden;
+        }
+
+        .home-ramp::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          z-index: 0;
+          width: min(1320px, 100vw);
+          height: 230px;
+          transform: translateX(-50%);
+          background:
+            radial-gradient(ellipse 68% 72% at 50% 0%, rgba(132,104,235,0.34), rgba(91,66,195,0.16) 42%, transparent 74%);
+          filter: blur(18px);
+          pointer-events: none;
+          opacity: 0.96;
+        }
+
+        .home-ramp::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 0;
+          z-index: 0;
+          width: min(1180px, 92vw);
+          height: 1px;
+          transform: translateX(-50%);
+          background:
+            linear-gradient(90deg, transparent, rgba(196,181,253,0.12), rgba(132,104,235,0.8), rgba(196,181,253,0.12), transparent);
+          box-shadow: 0 0 22px rgba(132,104,235,0.55);
+          pointer-events: none;
         }
 
         .home-ramp > section {
@@ -93,11 +124,12 @@ export default async function HomePage() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          padding: 36px 0 64px;
+          padding: 44px 0 72px;
           background:
-            radial-gradient(ellipse 80% 54% at 50% 0%, rgba(132,104,235,0.15), transparent 68%),
-            radial-gradient(ellipse 56% 44% at 78% 34%, rgba(223,122,254,0.14), transparent 68%),
-            radial-gradient(ellipse 40% 30% at 12% 82%, rgba(132,104,235,0.08), transparent 60%),
+            radial-gradient(ellipse 78% 58% at 50% -4%, rgba(132,104,235,0.26), rgba(91,66,195,0.1) 38%, transparent 72%),
+            radial-gradient(ellipse 54% 44% at 78% 30%, rgba(223,122,254,0.16), transparent 68%),
+            radial-gradient(ellipse 42% 32% at 14% 84%, rgba(132,104,235,0.1), transparent 62%),
+            linear-gradient(180deg, rgba(132,104,235,0.06), transparent 22%),
             #000000;
         }
 
@@ -120,7 +152,7 @@ export default async function HomePage() {
             linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
           background-size: 82px 82px;
-          mask-image: radial-gradient(ellipse 72% 58% at 50% 16%, black, transparent 76%);
+          mask-image: radial-gradient(ellipse 74% 60% at 50% 12%, black, transparent 76%);
           pointer-events: none;
         }
 
@@ -130,9 +162,10 @@ export default async function HomePage() {
           left: 50%;
           top: 0;
           width: 2px;
-          height: 170px;
+          height: 192px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, rgba(223,122,254,0.72), transparent);
+          background: linear-gradient(180deg, rgba(196,181,253,0.94), rgba(132,104,235,0.54), transparent);
+          box-shadow: 0 0 16px rgba(132,104,235,0.34);
           pointer-events: none;
         }
 
@@ -260,20 +293,25 @@ export default async function HomePage() {
         .homepage-constellation {
           position: relative;
           min-height: 560px;
-          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 28px;
-          background:
-            radial-gradient(ellipse 86% 70% at 50% 50%, rgba(132,104,235,0.2), transparent 68%),
-            rgba(255,255,255,0.025);
-          overflow: hidden;
+          background: transparent;
+          overflow: visible;
         }
 
         .homepage-constellation::before {
           content: "";
           position: absolute;
-          inset: 14%;
-          border: 1px solid rgba(132,104,235,0.18);
+          inset: -8% -6% -10%;
           border-radius: 999px;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(132,104,235,0.26),
+            rgba(132,104,235,0.12) 42%,
+            transparent 72%
+          );
+          filter: blur(34px);
+          opacity: 0.95;
+          pointer-events: none;
         }
 
         .homepage-constellation::after {
@@ -402,9 +440,10 @@ export default async function HomePage() {
           position: relative;
           overflow: hidden;
           background:
-            radial-gradient(ellipse 78% 42% at 50% 0%, rgba(132,104,235,0.25), transparent 72%),
-            linear-gradient(180deg, rgba(132,104,235,0.06), transparent 22%),
-            #111111;
+            radial-gradient(ellipse 74% 40% at 50% 0%, rgba(132,104,235,0.3), transparent 70%),
+            radial-gradient(ellipse 56% 44% at 50% 100%, rgba(91,66,195,0.12), transparent 76%),
+            linear-gradient(180deg, rgba(132,104,235,0.08), transparent 22%),
+            #0b0b0d;
         }
 
         .match-table-section::before {
@@ -413,9 +452,23 @@ export default async function HomePage() {
           left: 50%;
           top: 0;
           width: 2px;
-          height: 140px;
+          height: 156px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, rgba(223,122,254,0.65), transparent);
+          background: linear-gradient(180deg, rgba(196,181,253,0.9), rgba(132,104,235,0.5), transparent);
+          box-shadow: 0 0 18px rgba(132,104,235,0.3);
+        }
+
+        .match-table-section::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 58px;
+          width: min(1180px, 92vw);
+          height: 120px;
+          transform: translateX(-50%);
+          background: radial-gradient(ellipse 50% 70% at 50% 0%, rgba(132,104,235,0.16), transparent 74%);
+          filter: blur(16px);
+          pointer-events: none;
         }
 
         .match-table-header {
@@ -442,76 +495,29 @@ export default async function HomePage() {
           line-height: 1.75;
         }
 
-        .dir-steps-grid {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 12px;
-          margin-top: 26px;
-        }
-
-        .dir-step {
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(132,104,235,0.18);
-          border-radius: 14px;
-          background: rgba(255,255,255,0.02);
-          padding: 16px 18px;
-          text-align: left;
-        }
-
-        .dir-step::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: -42px;
-          width: 160px;
-          height: 70px;
-          transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(132,104,235,0.35), transparent 70%);
-          filter: blur(8px);
-          opacity: 0.25;
-          pointer-events: none;
-        }
-
-        .dir-step-num {
-          color: rgba(223,122,254,0.8);
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        .dir-step p {
-          margin-top: 8px;
-          color: rgba(255,255,255,0.6);
-          font-size: 13px;
-          line-height: 1.6;
-        }
-
-        @media (max-width: 720px) {
-          .dir-steps-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-        }
-
         .match-engine-frame {
           position: relative;
           width: min(1420px, 100%);
           margin: 0 auto;
-          border: 1px solid rgba(223,122,254,0.18);
+          border: 1px solid rgba(255,255,255,0.09);
           border-radius: 28px;
           background:
-            radial-gradient(ellipse 90% 42% at 50% 0%, rgba(132,104,235,0.18), transparent 72%),
-            rgba(255,255,255,0.025);
+            radial-gradient(ellipse 88% 42% at 50% 0%, rgba(132,104,235,0.22), transparent 72%),
+            linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+            rgba(9,9,11,0.74);
           padding: 16px;
           overflow: hidden;
+          box-shadow:
+            0 30px 64px rgba(0,0,0,0.42),
+            0 0 0 1px rgba(255,255,255,0.02) inset,
+            0 0 48px rgba(132,104,235,0.1);
         }
 
         .match-engine-frame::before {
           content: "";
           position: absolute;
           inset: 14px;
-          border: 1px solid rgba(255,255,255,0.045);
+          border: 1px solid rgba(255,255,255,0.05);
           border-radius: 22px;
           pointer-events: none;
         }
@@ -523,10 +529,13 @@ export default async function HomePage() {
           grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 12px;
           align-items: center;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.09);
           border-radius: 18px;
-          background: rgba(0,0,0,0.26);
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
+            rgba(10,10,12,0.78);
           padding: 12px 14px;
+          box-shadow: 0 14px 34px rgba(0,0,0,0.24);
         }
 
         .engine-status-live {
@@ -612,17 +621,24 @@ export default async function HomePage() {
         .match-engine-table {
           position: relative;
           z-index: 2;
-          border: 1px solid rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 20px;
-          background: rgba(0,0,0,0.24);
+          background:
+            linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)),
+            rgba(8,8,10,0.88);
           overflow: hidden;
+          box-shadow:
+            0 18px 46px rgba(0,0,0,0.34),
+            0 0 0 1px rgba(255,255,255,0.02) inset;
         }
 
         .home-final {
           padding: 0 0 96px;
           background:
-            radial-gradient(ellipse 72% 36% at 50% 0%, rgba(132,104,235,0.14), transparent 72%),
-            #000000;
+            radial-gradient(ellipse 54% 72% at 10% 52%, rgba(196,181,253,0.28), rgba(132,104,235,0.14) 36%, transparent 72%),
+            radial-gradient(ellipse 58% 62% at 88% 18%, rgba(132,104,235,0.18), transparent 72%),
+            linear-gradient(90deg, rgba(132,104,235,0.08), transparent 26%),
+            #070709;
         }
 
         .home-final-panel {
@@ -632,14 +648,18 @@ export default async function HomePage() {
           grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.74fr);
           gap: clamp(24px, 5vw, 56px);
           align-items: center;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 28px;
           background:
-            linear-gradient(180deg, rgba(132,104,235,0.25), rgba(132,104,235,0.07) 44%, transparent),
-            radial-gradient(ellipse 85% 58% at 50% 0%, rgba(132,104,235,0.15), transparent 70%),
-            #111111;
+            radial-gradient(ellipse 56% 80% at 18% 50%, rgba(196,181,253,0.24), rgba(132,104,235,0.16) 34%, transparent 72%),
+            radial-gradient(ellipse 70% 60% at 86% 16%, rgba(132,104,235,0.16), transparent 72%),
+            linear-gradient(135deg, rgba(196,181,253,0.14), rgba(132,104,235,0.14) 24%, rgba(49,27,146,0.44) 100%);
           padding: clamp(48px, 8vw, 88px) 24px;
           text-align: left;
+          box-shadow:
+            0 30px 72px rgba(0,0,0,0.48),
+            0 0 0 1px rgba(255,255,255,0.03) inset,
+            0 0 44px rgba(132,104,235,0.12);
         }
 
         .home-final-panel::before {
@@ -649,10 +669,22 @@ export default async function HomePage() {
           left: 50%;
           top: 0;
           width: 2px;
-          height: 96px;
+          height: 118px;
           transform: translateX(-50%);
-          background: linear-gradient(180deg, #C4B5FD, transparent);
+          background: linear-gradient(180deg, rgba(240,237,255,0.94), rgba(132,104,235,0.38), transparent);
+          box-shadow: 0 0 18px rgba(196,181,253,0.3);
           pointer-events: none;
+        }
+
+        .home-final-panel::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(circle at 16% 50%, rgba(240,237,255,0.14), transparent 22%),
+            linear-gradient(90deg, rgba(255,255,255,0.06), transparent 36%);
+          pointer-events: none;
+          opacity: 0.9;
         }
 
         .home-final-panel h2 {
@@ -670,7 +702,7 @@ export default async function HomePage() {
           position: relative;
           margin: 22px 0 0;
           max-width: 660px;
-          color: rgba(255,255,255,0.62);
+          color: rgba(255,255,255,0.76);
           font-size: 16px;
           line-height: 1.75;
         }
@@ -689,12 +721,17 @@ export default async function HomePage() {
           position: relative;
           overflow: hidden;
           min-height: 390px;
-          border: 1px solid rgba(223,122,254,0.24);
+          border: 1px solid rgba(196,181,253,0.22);
           border-radius: 22px;
           background:
-            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(132,104,235,0.24), transparent 72%),
-            rgba(255,255,255,0.04);
+            radial-gradient(ellipse 78% 62% at 50% 0%, rgba(240,237,255,0.14), transparent 72%),
+            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(132,104,235,0.26), transparent 72%),
+            linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035)),
+            rgba(57,38,102,0.34);
           padding: 20px;
+          box-shadow:
+            0 18px 46px rgba(0,0,0,0.26),
+            0 0 0 1px rgba(255,255,255,0.02) inset;
         }
 
         .match-output-card::before {
@@ -705,9 +742,9 @@ export default async function HomePage() {
           width: 240px;
           height: 140px;
           transform: translateX(-50%);
-          background: radial-gradient(ellipse, rgba(223,122,254,0.52), transparent 70%);
+          background: radial-gradient(ellipse, rgba(240,237,255,0.34), rgba(196,181,253,0.24) 52%, transparent 74%);
           filter: blur(10px);
-          opacity: 0.44;
+          opacity: 0.58;
         }
 
         .match-output-header {
@@ -977,26 +1014,8 @@ export default async function HomePage() {
         <div className="px-4 pb-12">
           <div className="match-table-header">
             <h2 className="home-section-title">
-              {tools.length.toLocaleString("en-US")} AI tools. Find what works for you.
+              Find Your AI Match with our AI tool directory.
             </h2>
-            <div className="dir-steps-grid">
-              <div className="dir-step">
-                <span className="dir-step-num">01</span>
-                <p>Select your category and subcategory to narrow your focus.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">02</span>
-                <p>Apply filters based on pricing, free plan, API access, and more.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">03</span>
-                <p>Compare tools side by side and customize columns as needed.</p>
-              </div>
-              <div className="dir-step">
-                <span className="dir-step-num">04</span>
-                <p>Bookmark your top picks and choose the best match for you.</p>
-              </div>
-            </div>
           </div>
           <MatchEngineFrame toolCount={tools.length}>
             <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
