@@ -26,9 +26,16 @@ type Tier = {
   price: string;
   description: string;
   scope: string[];
+  bookingHref: string;
 };
 
-const strategyBookingHref = process.env.NEXT_PUBLIC_CAL_STRATEGY_URL || "#pricing";
+const strategyBookingHrefs = {
+  solo: process.env.NEXT_PUBLIC_CAL_STRATEGY_SOLO_URL || "#pricing",
+  team: process.env.NEXT_PUBLIC_CAL_STRATEGY_TEAM_URL || "#pricing",
+  smb: process.env.NEXT_PUBLIC_CAL_STRATEGY_SMB_URL || "#pricing",
+};
+
+const heroBookingHref = "#pricing";
 
 const deliverables = [
   {
@@ -87,6 +94,7 @@ const tiers: Tier[] = [
       "Budget and setup complexity notes",
       "Final roadmap, recording, and next-step action plan",
     ],
+    bookingHref: strategyBookingHrefs.solo,
   },
   {
     name: "Small Team",
@@ -101,6 +109,7 @@ const tiers: Tier[] = [
       "Team adoption notes and what-to-avoid guidance",
       "Final roadmap, recording, and priority action plan",
     ],
+    bookingHref: strategyBookingHrefs.team,
   },
   {
     name: "SMB / Multi-Team",
@@ -115,6 +124,7 @@ const tiers: Tier[] = [
       "Risk, budget, and adoption considerations",
       "Final report, recording, and clear implementation priorities",
     ],
+    bookingHref: strategyBookingHrefs.smb,
   },
 ];
 
@@ -679,7 +689,7 @@ export default function StrategyAssessmentPage() {
         title="Get your AI roadmap."
         highlightedTitle="Built around how you work."
         body="A paid working session where we map your workflows and hand you Your AI Match — the exact tools, the order to set them up, and what to ignore. No generic lists."
-        primaryCta={{ label: "Book Your Strategy Session", href: strategyBookingHref }}
+        primaryCta={{ label: "Book Your Strategy Session", href: heroBookingHref }}
         variant="strategy"
         visual={<StackConstellation />}
         metrics={[
@@ -778,7 +788,7 @@ export default function StrategyAssessmentPage() {
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                  <Link className={ctaClass} href={strategyBookingHref}>
+                  <Link className={ctaClass} href={tier.bookingHref}>
                     Book Your Strategy Session
                   </Link>
                 </TiltCard>

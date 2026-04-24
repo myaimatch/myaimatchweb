@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
-import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
+import myAiMatchWordmark from "../../brand_assets/Group 97.png";
 
 const serviceLinks = [
   { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },

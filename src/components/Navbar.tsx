@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigger";
-import myAiMatchWordmark from "../../brand_assets/Capa_1.png";
+import myAiMatchWordmark from "../../brand_assets/Group 97.png";
 
 const serviceLinks = [
   {
