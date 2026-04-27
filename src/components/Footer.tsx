@@ -4,8 +4,8 @@ import AssessmentPopupTrigger from "@/components/assessment/AssessmentPopupTrigg
 import myAiMatchWordmark from "../../brand_assets/Group 97.png";
 
 const serviceLinks = [
-  { label: "Full AI Strategy Assessment", href: "/services/full-ai-strategy-assessment" },
-  { label: "AI Tools Implementation", href: "/services/ai-tools-implementation" },
+  { label: "AI Strategy Roadmap", href: "/ai-strategy-roadmap" },
+  { label: "AI Implementation", href: "/ai-implementation" },
   { label: "Fractional AI Lead", href: "/services/ai-coaching" },
 ];
 

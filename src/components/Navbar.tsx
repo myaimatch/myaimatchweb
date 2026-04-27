@@ -15,14 +15,14 @@ const serviceLinks = [
     desc: "See how strategy, implementation, and fractional support connect.",
   },
   {
-    label: "Full AI Strategy Assessment",
-    href: "/services/full-ai-strategy-assessment",
-    desc: "Map your workflow and get a custom AI roadmap.",
+    label: "AI Strategy Roadmap",
+    href: "/ai-strategy-roadmap",
+    desc: "Map your highest-ROI AI opportunities before you spend a dollar.",
   },
   {
-    label: "AI Tools Implementation",
-    href: "/services/ai-tools-implementation",
-    desc: "We configure your tools and build the automations.",
+    label: "AI Implementation",
+    href: "/ai-implementation",
+    desc: "Deploy AI systems, workflows, copilots, and adoption processes.",
   },
   {
     label: "Fractional AI Lead",
@@ -37,7 +37,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement>(null);
-  const isServicesRoute = pathname === "/services" || pathname?.startsWith("/services/");
+  const isServicesRoute =
+    pathname === "/services" ||
+    pathname?.startsWith("/services/") ||
+    pathname === "/ai-strategy-roadmap" ||
+    pathname === "/ai-implementation";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 14);

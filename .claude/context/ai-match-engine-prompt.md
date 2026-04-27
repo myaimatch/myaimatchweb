@@ -110,18 +110,12 @@ Return ONLY a valid JSON object with this exact shape:
       "setup_priority": 1,
       "notes": "Required smart tip. One short tactical tip tied to the user's workflow. Never generic. Max 20 words."
     }
-  ],
-  "what_to_avoid": [
-    "Specific pitfall 1",
-    "Specific pitfall 2"
-  ],
   "services_cta": "One short sentence suggesting hands-off implementation help. Max 30 words."
 }
 
 HARD RULES
 - recommended_stack must have between 3 and 5 items.
 - setup_priority must start at 1 and increase sequentially.
-- what_to_avoid must contain 2 or 3 items.
 - Summary must feel personal, not generic.
 - Each why_it_fits must be meaningfully different.
 - Each notes field must contain a specific smart tip, not generic advice.

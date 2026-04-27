@@ -27,12 +27,22 @@ const nextConfig = {
     return [
       {
         source: '/services/ai-tech-stack-implementation',
-        destination: '/services/ai-tools-implementation',
+        destination: '/ai-implementation',
         permanent: true,
       },
       {
         source: '/services/ai-tools-setup',
-        destination: '/services/ai-tools-implementation',
+        destination: '/ai-implementation',
+        permanent: true,
+      },
+      {
+        source: '/services/ai-tools-implementation',
+        destination: '/ai-implementation',
+        permanent: true,
+      },
+      {
+        source: '/services/full-ai-strategy-assessment',
+        destination: '/ai-strategy-roadmap',
         permanent: true,
       },
     ]

@@ -4,11 +4,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "AI Services | myAImatch",
   description:
-    "See how myAImatch connects AI strategy, tool implementation, and fractional AI leadership into one clear path.",
+    "See how myAImatch connects AI strategy, systems implementation, and fractional AI leadership into one clear path.",
   openGraph: {
     title: "AI Services | myAImatch",
     description:
-      "See how myAImatch connects AI strategy, tool implementation, and fractional AI leadership into one clear path.",
+      "See how myAImatch connects AI strategy, systems implementation, and fractional AI leadership into one clear path.",
     url: "https://myaimatch.ai/services",
     type: "website",
   },
@@ -17,16 +17,16 @@ export const metadata: Metadata = {
 const services = [
   {
     step: "01",
-    title: "Full AI Strategy Assessment",
-    body: "Decide the right AI tools, the order to set them up, and what to ignore.",
-    href: "/services/full-ai-strategy-assessment",
-    cta: "Explore Strategy",
+    title: "AI Workflow Audit + Strategy Roadmap",
+    body: "Map your highest-ROI AI opportunities, get a custom AI roadmap, and build a 30-60-90 day implementation plan.",
+    href: "/ai-strategy-roadmap",
+    cta: "Explore Strategy Roadmap",
   },
   {
     step: "02",
-    title: "AI Tools Implementation",
-    body: "Build, connect, document, and launch the tools your team will actually use.",
-    href: "/services/ai-tools-implementation",
+    title: "AI Implementation & Systems Setup",
+    body: "Deploy the AI systems, workflows, copilots, and adoption processes your team will actually use.",
+    href: "/ai-implementation",
     cta: "Explore Implementation",
   },
   {
