@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import ServiceHero from "@/components/services/ServiceHero";
 import TiltCard from "@/components/services/TiltCard";
 import Reveal from "@/components/services/Reveal";
-import CountUp from "@/components/services/CountUp";
 import FaqAccordion from "@/components/services/FaqAccordion";
 import {
   Search,
@@ -12,17 +11,16 @@ import {
   Layers,
   Route,
   Phone,
-  FileText,
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "AI Workflow Strategy Session | myAImatch",
+  title: "AI Workflow Audit + Strategy Roadmap | myAImatch",
   description:
-    "Stop guessing where AI fits in your business. myAImatch identifies your highest-impact workflow and builds a focused AI strategy starting at $500.",
+    "Diagnose one critical workflow, identify your highest-ROI AI opportunity, and get a focused implementation roadmap starting at $500.",
   openGraph: {
-    title: "AI Workflow Strategy Session | myAImatch",
+    title: "AI Workflow Audit + Strategy Roadmap | myAImatch",
     description:
-      "Stop guessing where AI fits in your business. myAImatch identifies your highest-impact workflow and builds a focused AI strategy starting at $500.",
+      "Diagnose one critical workflow, identify your highest-ROI AI opportunity, and get a focused implementation roadmap starting at $500.",
     url: "https://myaimatch.ai/ai-strategy-roadmap",
     type: "website",
   },
@@ -47,8 +45,8 @@ const deliverables = [
   {
     Icon: BarChart3,
     eyebrow: "03",
-    title: "AI Opportunity Identification",
-    body: "The fastest, highest-ROI opportunity inside that workflow — clearly identified and prioritized.",
+    title: "Strategic Priority Mapping",
+    body: "The highest-ROI opportunity inside that workflow — clearly mapped, prioritized, and connected to measurable business impact.",
   },
   {
     Icon: Layers,
@@ -68,21 +66,6 @@ const deliverables = [
     title: "Follow-Up Strategy Session",
     body: "A second session to review findings, answer questions, and align on next steps.",
   },
-  {
-    Icon: FileText,
-    eyebrow: "07",
-    title: "Strategy Summary PDF",
-    body: "A professional, lean recommendations document your team can act on immediately.",
-  },
-];
-
-const whoFor = [
-  "You know AI matters, but don't know where to start",
-  "Your team is overwhelmed by too many tools",
-  "You want operational efficiency, not AI hype",
-  "You want to automate strategically — not blindly",
-  "You need leadership clarity before implementation",
-  "You want measurable ROI, not experimentation",
 ];
 
 const faqs = [
@@ -90,6 +73,11 @@ const faqs = [
     question: "Why only one workflow?",
     answer:
       "Because the fastest path to real ROI is solving your highest-impact operational bottleneck first. One workflow, done well, proves the value of AI in your business and creates momentum. Once that system works, scaling becomes easier, faster, and safer.",
+  },
+  {
+    question: "Why is this only $500?",
+    answer:
+      "Because this is a focused strategy engagement built around one workflow only. Instead of selling broad transformation from day one, we start with the highest-impact operational bottleneck first. This creates faster wins, clearer ROI, and a stronger foundation for future implementation.",
   },
   {
     question: "Can we skip this and go straight to implementation?",
@@ -245,24 +233,6 @@ export default function AIStrategyRoadmapPage() {
           color: rgba(255,255,255,0.6);
           font-size: 17px;
           line-height: 1.8;
-        }
-
-        .problem-points {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 10px;
-          margin: 28px auto 0;
-          max-width: 540px;
-        }
-
-        .problem-point {
-          padding: 6px 14px;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 999px;
-          color: rgba(255,255,255,0.5);
-          font-size: 13px;
-          font-weight: 500;
         }
 
         .path-diagram {
@@ -468,122 +438,7 @@ export default function AIStrategyRoadmapPage() {
           flex: 1;
         }
 
-        /* Center last card when it's alone in a row */
-        .deliverables-grid > *:last-child:nth-child(3n+1) {
-          grid-column: 2;
-        }
-
-        /* PDF mockup accent at bottom of deliverables */
-        .pdf-mockup {
-          margin: 40px auto 0;
-          max-width: 680px;
-          padding: 28px 32px;
-          border: 1px solid rgba(132,104,235,0.22);
-          border-radius: 18px;
-          background:
-            radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132,104,235,0.14), transparent 70%),
-            rgba(255,255,255,0.03);
-          display: flex;
-          align-items: center;
-          gap: 20px;
-        }
-
-        .pdf-mockup-icon {
-          flex-shrink: 0;
-          width: 56px;
-          height: 68px;
-          border-radius: 8px;
-          background: linear-gradient(135deg, #8468EB, #5B42C3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.9);
-          border: 1px solid rgba(196,181,253,0.24);
-        }
-
-        .pdf-mockup-text strong {
-          display: block;
-          color: #ffffff;
-          font-size: 14px;
-          font-weight: 700;
-          letter-spacing: -0.01em;
-        }
-
-        .pdf-mockup-text span {
-          display: block;
-          margin-top: 5px;
-          color: rgba(255,255,255,0.5);
-          font-size: 13px;
-          line-height: 1.5;
-        }
-
-        /* ── SECTION 5: WHO FOR ── */
-        .who-section {
-          padding: 100px 0;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .who-section::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(132,104,235,0.07), transparent 72%);
-          pointer-events: none;
-        }
-
-        .who-grid {
-          position: relative;
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 10px;
-          margin-top: 44px;
-          max-width: 840px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .who-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 14px;
-          padding: 18px 20px;
-          border: 1px solid rgba(255,255,255,0.07);
-          border-left: 3px solid #8468EB;
-          border-radius: 0 12px 12px 0;
-          background: rgba(255,255,255,0.025);
-          transition: background 160ms ease, border-color 160ms ease;
-        }
-
-        .who-item:hover {
-          background: rgba(255,255,255,0.04);
-          border-left-color: #C4B5FD;
-        }
-
-        .who-check {
-          flex-shrink: 0;
-          width: 22px;
-          height: 22px;
-          border-radius: 999px;
-          background: rgba(132,104,235,0.16);
-          border: 1px solid rgba(132,104,235,0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #C4B5FD;
-          font-size: 11px;
-          font-weight: 800;
-          margin-top: 1px;
-        }
-
-        .who-text {
-          color: rgba(255,255,255,0.78);
-          font-size: 14px;
-          line-height: 1.6;
-          font-weight: 500;
-        }
-
-        /* ── SECTION 6: PRICING ── */
+        /* ── SECTION 5: PRICING ── */
         .pricing-section {
           padding: 100px 0 108px;
         }
@@ -659,7 +514,7 @@ export default function AIStrategyRoadmapPage() {
           font-size: 12px;
         }
 
-        /* ── SECTION 7: FAQ ── */
+        /* ── SECTION 6: FAQ ── */
         .faq-section {
           padding: 100px 0 108px;
           position: relative;
@@ -670,7 +525,7 @@ export default function AIStrategyRoadmapPage() {
           margin: 0 auto;
         }
 
-        /* ── SECTION 8: FINAL CTA ── */
+        /* ── SECTION 7: FINAL CTA ── */
         .final-cta-section {
           position: relative;
           overflow: hidden;
@@ -762,12 +617,6 @@ export default function AIStrategyRoadmapPage() {
         /* ── RESPONSIVE ── */
         @media (max-width: 980px) {
           .deliverables-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-          .deliverables-grid > *:last-child:nth-child(3n+1) { grid-column: auto; }
-        }
-
-        @media (max-width: 760px) {
-          .who-grid { grid-template-columns: 1fr; }
-          .pdf-mockup { flex-direction: column; text-align: center; gap: 14px; }
         }
 
         @media (max-width: 640px) {
@@ -783,18 +632,13 @@ export default function AIStrategyRoadmapPage() {
 
       {/* ── SECTION 1: HERO ── */}
       <ServiceHero
-        label="AI Workflow Strategy Session"
-        title="Stop Buying Random AI Tools."
-        highlightedTitle="Fix the Right Workflow First."
-        body="Most businesses waste thousands on AI tools they never fully use. Before implementation, you need clarity on what to automate, where the highest ROI exists, and which AI systems fit your operations. We identify your highest-impact workflow and build a focused strategy around it — no guesswork, no wasted spend."
+        label="Workflow Audit + Strategy Roadmap"
+        title="Before You Buy AI Tools,"
+        highlightedTitle="Fix the Workflow That’s Costing You the Most"
+        body="Most businesses waste money on AI tools before identifying where AI creates real operational impact. We help you diagnose your highest-value workflow opportunity, recommend the right AI systems, and build a focused implementation roadmap around one critical workflow. No guesswork. No wasted spend. Just strategic execution."
         primaryCta={{ label: "Book Your Strategy Session", href: bookingHref }}
         secondaryCta={{ label: "See What's Included", href: "#whats-included" }}
         variant="strategy"
-        metrics={[
-          { value: <CountUp value={120} suffix="+" />, label: "operators matched" },
-          { value: <CountUp value={275} suffix="+" />, label: "AI tools reviewed" },
-          { value: "Starting at $500", label: "strategy investment" },
-        ]}
       />
 
       {/* ── SECTION 2: THE PROBLEM ── */}
@@ -805,16 +649,11 @@ export default function AIStrategyRoadmapPage() {
               <p className="services-label">Why most AI initiatives fail</p>
               <h2 className="services-section-title">Why Most AI Implementations Fail</h2>
               <p className="problem-intro">
-                Businesses do not fail with AI because the tools are bad.
-                They fail because they implement before they diagnose. They buy software
-                before understanding their workflows. They automate broken processes.
-                They chase trends instead of solving business problems.
+                Businesses don&apos;t fail with AI because the tools are bad.
+                They fail because they automate before they diagnose. They buy software
+                before understanding where the real bottleneck is. The result? Wasted budget.
+                Poor adoption. Frustrated teams. Zero ROI. We fix that first.
               </p>
-              <div className="problem-points">
-                {["Wasted budget", "Poor adoption", "Frustrated teams", "Broken operations", "Zero ROI"].map((p) => (
-                  <span key={p} className="problem-point">{p}</span>
-                ))}
-              </div>
               <div className="path-diagram" aria-label="AI implementation paths comparison">
                 <div className="path-row path-row--bad">
                   <span className="path-badge path-badge--bad">Without Strategy</span>
@@ -851,18 +690,17 @@ export default function AIStrategyRoadmapPage() {
             <div className="mx-auto max-w-3xl">
               <p className="services-label">What we do</p>
               <h2 className="services-section-title">
-                What Is the AI Workflow Strategy Session?
+                This Is Not Full Business Transformation
               </h2>
               <p className="what-body">
-                This is a focused strategic consulting engagement designed to identify where AI
-                creates the highest business impact in your most important workflow. We analyze
-                your operations, map the opportunity, and give you a concrete plan built around
-                one targeted bottleneck — so you see real results fast, before scaling broader
-                AI initiatives.
+                It&apos;s a focused strategic engagement designed to solve one major operational
+                bottleneck first. We audit one critical workflow — sales follow-up, onboarding,
+                operations, reporting, support, lead generation, or another core function — and
+                identify where AI creates the fastest measurable ROI.
               </p>
               <p className="what-note">
-                This is where AI transformation starts. One workflow, done right, creates the
-                foundation for everything that follows.
+                One workflow. One clear strategy. One practical roadmap. This is how real AI
+                transformation starts.
               </p>
             </div>
           </Reveal>
@@ -900,69 +738,36 @@ export default function AIStrategyRoadmapPage() {
             ))}
           </div>
 
-          <Reveal delay={200}>
-            <div className="pdf-mockup">
-              <div className="pdf-mockup-icon">
-                <FileText size={26} />
-              </div>
-              <div className="pdf-mockup-text">
-                <strong>Strategy Summary — PDF</strong>
-                <span>
-                  A focused, professional document with your workflow audit findings, tool
-                  recommendations, and implementation roadmap — delivered ready to act on.
-                </span>
-              </div>
-            </div>
-          </Reveal>
         </div>
       </section>
 
-      {/* ── SECTION 5: WHO THIS IS FOR ── */}
-      <section className="who-section">
-        <div className="services-shell">
-          <Reveal>
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="services-label">Is this right for you?</p>
-              <h2 className="services-section-title">This Is For You If…</h2>
-            </div>
-          </Reveal>
-          <div className="who-grid">
-            {whoFor.map((item, i) => (
-              <Reveal key={item} delay={60 + i * 50}>
-                <div className="who-item">
-                  <span className="who-check" aria-hidden>✓</span>
-                  <span className="who-text">{item}</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECTION 6: PRICING ── */}
+      {/* ── SECTION 5: PRICING ── */}
       <section id="pricing" className="pricing-section">
         <div className="services-shell">
           <Reveal>
             <div className="mx-auto max-w-3xl text-center">
               <p className="services-label">Investment</p>
-              <h2 className="services-section-title">Investment</h2>
+              <h2 className="services-section-title">Starting at $500</h2>
               <p className="services-section-body">
-                One focused engagement. One high-impact workflow. Results you can measure —
-                and build on.
+                Focused on one high-impact workflow.
               </p>
             </div>
           </Reveal>
           <Reveal delay={100}>
             <div className="pricing-solo-card">
-              <p className="services-label" style={{ marginBottom: 0 }}>Strategy Session + Workflow Audit</p>
+              <p className="services-label" style={{ marginBottom: 0 }}>Workflow Audit + Strategy Roadmap</p>
               <div className="pricing-amount">
                 $500
                 <span className="pricing-amount-label">Starting investment</span>
               </div>
               <p className="pricing-desc">
-                Identify and fix your biggest workflow bottleneck with AI. Focused, actionable,
-                and designed to create measurable results fast — before scaling larger AI
-                initiatives.
+                This is not generic consulting. It&apos;s a strategic diagnostic engagement designed
+                to identify your highest-ROI AI opportunity and create a practical roadmap your
+                team can execute immediately.
+              </p>
+              <p className="pricing-desc">
+                The goal is simple: solve the right problem first — before scaling AI across the
+                business.
               </p>
               <div className="pricing-cta-wrap">
                 <Link href={bookingHref} className="services-cta-primary">
@@ -977,7 +782,7 @@ export default function AIStrategyRoadmapPage() {
         </div>
       </section>
 
-      {/* ── SECTION 7: FAQ ── */}
+      {/* ── SECTION 6: FAQ ── */}
       <section className="faq-section">
         <div className="services-shell">
           <div className="faq-container">
@@ -992,19 +797,16 @@ export default function AIStrategyRoadmapPage() {
         </div>
       </section>
 
-      {/* ── SECTION 8: FINAL CTA ── */}
-      <section aria-label="Book your AI Strategy Session">
+      {/* ── SECTION 7: FINAL CTA ── */}
+      <section aria-label="Book your workflow audit and strategy roadmap">
         <div className="final-cta-section">
           <Reveal>
             <p className="final-cta-eyebrow">Ready to build your strategy?</p>
             <h2 className="final-cta-title">AI Success Starts With the Right Workflow.</h2>
             <p className="final-cta-body">
-              Before you invest in more tools,<br />
-              before you hire more people,<br />
-              before you automate the wrong things —<br />
-              <br />
-              identify your highest-impact workflow first.
-              That is where real transformation begins.
+              Diagnose one critical bottleneck first.
+              Build the roadmap around the right workflow.
+              Then scale AI with confidence.
             </p>
             <div>
               <Link href={bookingHref} className="final-cta-btn">

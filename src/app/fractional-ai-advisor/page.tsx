@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import ServiceHero from "@/components/services/ServiceHero";
 import TiltCard from "@/components/services/TiltCard";
 import Reveal from "@/components/services/Reveal";
-import CountUp from "@/components/services/CountUp";
 import FaqAccordion from "@/components/services/FaqAccordion";
 import {
   Phone,
@@ -18,11 +17,11 @@ import {
 export const metadata: Metadata = {
   title: "Fractional AI Advisor | Executive AI Leadership | myAImatch",
   description:
-    "Executive-level AI leadership without the full-time hire. myAImatch provides ongoing strategy, workflow optimization, leadership alignment, and AI investment guidance — custom advisory plans tailored to your needs.",
+    "Executive-level AI leadership without the full-time hire. myAImatch provides strategic advisory, workflow optimization, leadership alignment, and AI investment guidance — custom advisory plans tailored to your needs.",
   openGraph: {
     title: "Fractional AI Advisor | Executive AI Leadership | myAImatch",
     description:
-      "Executive-level AI leadership without the full-time hire. myAImatch provides ongoing strategy, workflow optimization, leadership alignment, and AI investment guidance — custom advisory plans tailored to your needs.",
+      "Executive-level AI leadership without the full-time hire. myAImatch provides strategic advisory, workflow optimization, leadership alignment, and AI investment guidance — custom advisory plans tailored to your needs.",
     url: "https://myaimatch.ai/fractional-ai-advisor",
     type: "website",
   },
@@ -33,66 +32,93 @@ const bookingHref = process.env.NEXT_PUBLIC_CAL_COACHING_URL || "#pricing";
 const deliverables = [
   {
     icon: Phone,
-    title: "Monthly Strategic Advisory Sessions",
-    body: "Dedicated sessions to review performance, set direction, and align leadership on AI priorities.",
+    title: "Monthly Strategic Advisory Calls",
   },
   {
     icon: RefreshCw,
-    title: "Ongoing Workflow Optimization",
-    body: "Continuous review and improvement of AI-enabled processes across your operations.",
-  },
-  {
-    icon: Lightbulb,
-    title: "New Opportunity Identification",
-    body: "We surface emerging AI opportunities specific to your business before your competitors do.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Vendor + Tool Evaluation",
-    body: "Unbiased evaluation of AI tools, platforms, and vendors — so you only invest in what works.",
-  },
-  {
-    icon: Users,
-    title: "Team Support + Leadership Guidance",
-    body: "We work alongside your leadership team to build internal AI confidence and adoption.",
+    title: "Workflow Optimization",
   },
   {
     icon: Target,
     title: "AI Investment Prioritization",
-    body: "Clear guidance on where to invest, what to cut, and what ROI to expect from AI spend.",
+  },
+  {
+    icon: Lightbulb,
+    title: "New Opportunity Identification",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Vendor + Tool Evaluation",
+  },
+  {
+    icon: Users,
+    title: "Internal Team Guidance",
+  },
+  {
+    icon: Target,
+    title: "Leadership Decision Support",
   },
   {
     icon: Zap,
-    title: "Priority Strategic Support",
-    body: "Urgent questions and strategic decisions handled with executive-level speed and clarity.",
+    title: "Priority Strategic Access",
+  },
+];
+
+const readinessItems = [
+  "completed your AI Strategy Roadmap",
+  "implemented core AI systems",
+  "internal teams already using AI",
+  "leadership ready to scale adoption",
+];
+
+const processSteps = [
+  {
+    title: "Step 1 — Strategic Fit Call",
+    body: "We assess priorities, leadership needs, and operational complexity.",
+  },
+  {
+    title: "Step 2 — Advisory Scope",
+    body: "We define support structure, strategic priorities, and communication flow.",
+  },
+  {
+    title: "Step 3 — Custom Monthly Proposal",
+    body: "You receive a tailored advisory engagement based on your business needs.",
+  },
+  {
+    title: "Step 4 — Strategic Advisory Begins",
+    body: "Monthly leadership calls, optimization planning, and priority support begin.",
+  },
+  {
+    title: "Step 5 — Continuous Improvement",
+    body: "We continuously identify new opportunities, risks, and strategic decisions.",
   },
 ];
 
 const faqItems = [
   {
-    question: "Is this only for large companies?",
+    question: "Do I need Implementation first?",
     answer:
-      "No. Fractional AI Advisory is designed for growth-stage companies, mid-market businesses, and leadership teams that need strategic AI guidance without the overhead of a full-time executive. If you have an operational AI footprint and want to grow it intelligently, this is for you.",
+      "Usually, yes. Fractional Advisory creates the most value after strategy and implementation are already in place. This ensures we are optimizing real systems—not advising in theory.",
   },
   {
-    question: "Do we need implementation first?",
+    question: "How involved are you with leadership?",
     answer:
-      "Not necessarily. Some clients come to us after implementing AI tools and want to optimize what they have. Others start with Advisory to inform their implementation decisions. We assess your current state in the first session and build the engagement around what you actually need.",
+      "We work directly with founders, CEOs, COOs, department heads, and other decision-makers who own AI priorities, operational performance, and investment decisions.",
   },
   {
-    question: "How often do we meet?",
+    question: "Is this for small businesses or larger teams?",
     answer:
-      "Growth Advisory includes monthly strategic sessions plus async support between sessions. Strategic Partner includes higher-frequency touchpoints, leadership check-ins, and deeper operational involvement. Both tiers include written summaries and action plans after every session.",
+      "It is best for businesses with enough AI momentum, operational complexity, and leadership alignment to benefit from ongoing strategic guidance. That can include growth-stage companies, mid-market teams, and founder-led businesses ready to scale adoption.",
   },
   {
-    question: "Can you work with our leadership team directly?",
+    question: "Can this replace hiring an internal AI lead?",
     answer:
-      "Yes. That is the model. We work directly with founders, CEOs, COOs, and department heads — not just IT or operations. AI decisions at the leadership level require strategic counsel, not technical support tickets.",
+      "For many businesses, yes. Fractional Advisory gives leadership access to strategic AI guidance without immediately hiring a full-time internal AI executive. If the business eventually needs an internal lead, advisory can also help define that role.",
   },
   {
     question: "Is this consulting or coaching?",
     answer:
-      "Neither. This is executive AI advisory — a strategic partnership. We don't give you homework and check in monthly. We work alongside your leadership to make better AI decisions, solve real operational challenges, and build organizational AI capability over time.",
+      "This is strategic AI advisory. We help leadership make better AI decisions, prioritize investments, optimize real systems, and identify the next highest-impact opportunities.",
   },
 ];
 
@@ -165,140 +191,10 @@ export default function FractionalAiAdvisorPage() {
           margin-bottom: 40px;
         }
 
-        .problem-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-bottom: 52px;
-        }
-
-        .problem-tag {
-          padding: 7px 16px;
-          border: 1px solid rgba(132,104,235,0.24);
-          border-radius: 999px;
-          background: rgba(132,104,235,0.08);
-          color: rgba(255,255,255,0.72);
-          font-size: 13px;
-          font-weight: 500;
-          letter-spacing: 0.01em;
-        }
-
-        .path-diagram {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          max-width: 780px;
-        }
-
-        .path-row {
-          display: flex;
-          align-items: center;
-          gap: 0;
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px;
-          overflow: hidden;
-          background: rgba(255,255,255,0.02);
-        }
-
-        .path-row__label {
-          padding: 14px 20px;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          min-width: 72px;
-          text-align: center;
-        }
-
-        .path-row--bad .path-row__label {
-          background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.36);
-        }
-
-        .path-row--good .path-row__label {
-          background: rgba(132,104,235,0.18);
-          color: #C4B5FD;
-        }
-
-        .path-row__steps {
-          display: flex;
-          align-items: center;
-          flex: 1;
-          padding: 0 16px;
-          gap: 0;
-          overflow-x: auto;
-        }
-
-        .path-step {
-          display: flex;
-          align-items: center;
-          gap: 0;
-          white-space: nowrap;
-          font-size: 13px;
-          font-weight: 500;
-          padding: 14px 4px;
-        }
-
-        .path-step__text {
-          padding: 0 12px;
-        }
-
-        .path-row--bad .path-step__text {
-          color: rgba(255,255,255,0.48);
-        }
-
-        .path-row--good .path-step__text {
-          color: rgba(255,255,255,0.88);
-        }
-
-        .path-step__arrow {
-          color: rgba(255,255,255,0.18);
-          font-size: 16px;
-          margin: 0 2px;
-        }
-
-        .path-row--good .path-step__arrow {
-          color: rgba(132,104,235,0.6);
-        }
-
-        .path-step:last-child .path-step__arrow {
-          display: none;
-        }
-
         /* ── Section 3 — What Is This ─────────────────────────── */
         .what-is-body {
           max-width: 640px;
           margin-bottom: 40px;
-        }
-
-        .focus-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-          gap: 14px;
-          max-width: 780px;
-        }
-
-        .focus-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 16px 18px;
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px;
-          background: rgba(255,255,255,0.025);
-          font-size: 14px;
-          font-weight: 500;
-          color: rgba(255,255,255,0.78);
-          line-height: 1.5;
-        }
-
-        .focus-item__dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 999px;
-          background: #8468EB;
-          flex-shrink: 0;
-          margin-top: 6px;
         }
 
         /* ── Section 4 — What's Included ─────────────────────── */
@@ -370,14 +266,8 @@ export default function FractionalAiAdvisorPage() {
           font-weight: 650;
           color: #ffffff;
           letter-spacing: -0.01em;
-          margin: 0 0 10px;
-          line-height: 1.4;
-        }
-        .advisor-card-body {
-          font-size: 13.5px;
-          line-height: 1.7;
-          color: rgba(255,255,255,0.52);
           margin: 0;
+          line-height: 1.4;
         }
 
         /* ── Section 5 — Who This Is For ─────────────────────── */
@@ -425,112 +315,6 @@ export default function FractionalAiAdvisorPage() {
           fill: none;
         }
 
-        /* ── Section 6 — Why Fractional Works ────────────────── */
-        .why-fractional-section {
-          background:
-            radial-gradient(ellipse 60% 44% at 50% 100%, rgba(132,104,235,0.09), transparent 72%),
-            #111111;
-        }
-
-        .why-fractional-split {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 64px;
-          align-items: start;
-          margin-top: 52px;
-        }
-
-        @media (max-width: 800px) {
-          .why-fractional-split {
-            grid-template-columns: 1fr;
-            gap: 40px;
-          }
-        }
-
-        .why-fractional-copy .advisor-body {
-          margin-bottom: 24px;
-        }
-
-        .why-fractional-bullets {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .why-fractional-bullet {
-          display: flex;
-          align-items: flex-start;
-          gap: 10px;
-          font-size: 14px;
-          color: rgba(255,255,255,0.68);
-          line-height: 1.6;
-        }
-
-        .why-fractional-bullet::before {
-          content: "";
-          width: 5px;
-          height: 5px;
-          border-radius: 999px;
-          background: #8468EB;
-          flex-shrink: 0;
-          margin-top: 8px;
-        }
-
-        .comparison-table {
-          border: 1px solid rgba(132,104,235,0.2);
-          border-radius: 18px;
-          overflow: hidden;
-          background: rgba(255,255,255,0.03);
-        }
-
-        .comparison-table__head {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr 1fr;
-          background: rgba(132,104,235,0.12);
-          border-bottom: 1px solid rgba(132,104,235,0.16);
-        }
-
-        .comparison-table__head-cell {
-          padding: 14px 16px;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.5);
-        }
-
-        .comparison-table__head-cell.is-highlight {
-          color: #C4B5FD;
-        }
-
-        .comparison-table__row {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr 1fr;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .comparison-table__row:last-child {
-          border-bottom: none;
-        }
-
-        .comparison-table__cell {
-          padding: 14px 16px;
-          font-size: 13px;
-          color: rgba(255,255,255,0.56);
-          line-height: 1.5;
-        }
-
-        .comparison-table__cell.is-label {
-          font-weight: 600;
-          color: rgba(255,255,255,0.72);
-          font-size: 12px;
-        }
-
-        .comparison-table__cell.is-highlight {
-          color: rgba(255,255,255,0.88);
-          font-weight: 600;
-        }
-
         /* ── Section 7 — Pricing ──────────────────────────────── */
         .pricing-section {
           text-align: center;
@@ -546,20 +330,6 @@ export default function FractionalAiAdvisorPage() {
           color: rgba(255,255,255,0.56);
           max-width: 520px;
           margin: 0 auto 52px;
-        }
-
-        .pricing-tier-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 24px;
-          max-width: 820px;
-          margin: 0 auto;
-        }
-
-        @media (max-width: 640px) {
-          .pricing-tier-grid {
-            grid-template-columns: 1fr;
-          }
         }
 
         .tier-card {
@@ -590,23 +360,6 @@ export default function FractionalAiAdvisorPage() {
           box-shadow: 0 0 56px rgba(132,104,235,0.28);
         }
 
-        .tier-badge {
-          position: absolute;
-          top: -12px;
-          left: 50%;
-          transform: translateX(-50%);
-          padding: 4px 14px;
-          border: 1px solid rgba(196,181,253,0.28);
-          border-radius: 999px;
-          background: linear-gradient(135deg, #8468EB, #5B42C3);
-          color: #ffffff;
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          white-space: nowrap;
-        }
-
         .tier-name {
           font-size: 13px;
           font-weight: 700;
@@ -614,29 +367,6 @@ export default function FractionalAiAdvisorPage() {
           text-transform: uppercase;
           color: rgba(255,255,255,0.5);
           margin-bottom: 16px;
-        }
-
-        .tier-price {
-          font-size: 40px;
-          font-weight: 700;
-          letter-spacing: -0.03em;
-          color: #ffffff;
-          line-height: 1;
-          margin-bottom: 6px;
-        }
-
-        .tier-price span {
-          font-size: 18px;
-          font-weight: 500;
-          color: rgba(255,255,255,0.48);
-          letter-spacing: 0;
-        }
-
-        .tier-desc {
-          font-size: 14px;
-          color: rgba(255,255,255,0.52);
-          line-height: 1.65;
-          margin: 16px 0 28px;
         }
 
         .tier-cta {
@@ -675,63 +405,43 @@ export default function FractionalAiAdvisorPage() {
           transform: translateY(-2px);
         }
 
-        /* ── Section 8 — Why myAImatch ────────────────────────── */
-        .authority-section {
-          background:
-            radial-gradient(ellipse 60% 44% at 50% 0%, rgba(132,104,235,0.12), transparent 72%),
-            #111111;
-        }
-
-        .authority-body {
-          max-width: 640px;
-          font-size: 16px;
-          line-height: 1.8;
-          color: rgba(255,255,255,0.6);
-          margin-bottom: 52px;
-        }
-
-        .authority-metrics {
+        .process-list {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1px;
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 18px;
-          overflow: hidden;
-          background: rgba(255,255,255,0.04);
-          max-width: 900px;
+          gap: 14px;
+          margin-top: 48px;
         }
 
-        @media (max-width: 700px) {
-          .authority-metrics {
-            grid-template-columns: repeat(2, 1fr);
-          }
+        .process-step {
+          display: grid;
+          grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
+          gap: 24px;
+          align-items: center;
+          padding: 22px 24px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 16px;
+          background: rgba(255,255,255,0.03);
         }
 
-        .authority-metric {
-          padding: 32px 24px;
-          background: rgba(255,255,255,0.025);
-          text-align: center;
-        }
-
-        .authority-metric__number {
-          font-size: 36px;
-          font-weight: 700;
-          letter-spacing: -0.03em;
+        .process-step h3 {
+          margin: 0;
           color: #ffffff;
-          line-height: 1;
-          margin-bottom: 8px;
+          font-size: 16px;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          line-height: 1.3;
         }
 
-        .authority-metric__number em {
-          font-style: normal;
-          color: #8468EB;
+        .process-step p {
+          margin: 0;
+          color: rgba(255,255,255,0.58);
+          font-size: 14px;
+          line-height: 1.65;
         }
 
-        .authority-metric__label {
-          font-size: 12px;
-          font-weight: 500;
-          color: rgba(255,255,255,0.44);
-          line-height: 1.5;
+        @media (max-width: 760px) {
+          .process-step {
+            grid-template-columns: 1fr;
+          }
         }
 
         /* ── Section 9 — FAQ ──────────────────────────────────── */
@@ -825,98 +535,40 @@ export default function FractionalAiAdvisorPage() {
       <ServiceHero
         variant="lead"
         label="Fractional AI Advisor"
-        title="Executive-Level AI Leadership"
-        highlightedTitle="Without Hiring a Full-Time AI Executive."
-        body="AI is not a one-time project. It requires continuous optimization, strategic decisions, leadership alignment, and ongoing operational improvement. We help your business stay ahead — identifying opportunities, improving adoption, optimizing systems, and guiding strategic AI decisions across your organization. Without the cost of a full-time AI executive."
-        primaryCta={{ label: "Apply for AI Advisory", href: bookingHref }}
+        title="Strategic AI Leadership —"
+        highlightedTitle="Without Hiring a Full-Time AI Executive"
+        body="We help leadership teams make smarter AI decisions, prioritize the right investments, optimize operations, and continuously identify where AI creates the highest business impact."
+        primaryCta={{ label: "Apply for Fractional AI Advisory", href: bookingHref }}
         secondaryCta={{ label: "See What's Included", href: "#whats-included" }}
-        metrics={[
-          { value: <CountUp value={60} suffix="+" />, label: "teams supported" },
-          { value: <CountUp value={200} suffix="+" />, label: "tools monitored monthly" },
-          { value: "Ongoing strategic", label: "AI leadership" },
-        ]}
       />
 
-      {/* ── Section 2 — The Problem ────────────────────────────────── */}
+      {/* ── Section 2 — Not Monthly Support ───────────────────────── */}
       <section className="advisor-section problem-section">
         <div className="advisor-shell">
           <Reveal>
-            <p className="advisor-eyebrow">The Problem</p>
-            <h2 className="advisor-h2">Why Most Companies Lose Momentum After AI Implementation</h2>
+            <p className="advisor-eyebrow">Strategic leadership</p>
+            <h2 className="advisor-h2">This Is Not Monthly Support</h2>
             <p className="advisor-body">
-              Most businesses think implementation is the finish line. They invest in tools, run the project, and declare success. But without ongoing leadership, the real costs compound fast: adoption slows, teams fall back to old habits, systems become outdated, new opportunities are missed, tool costs keep rising, and the promised ROI never materializes.
+              This is not ongoing “AI help.”
+              <br /><br />
+              This is strategic leadership.
+              <br /><br />
+              We work with your leadership team to evaluate priorities, guide AI decisions, improve operational performance, and ensure AI investments create measurable business outcomes.
+              <br /><br />
+              You are not paying for support.
+              <br /><br />
+              You are investing in strategic decision-making.
             </p>
-
-            <div className="problem-tags">
-              {["Adoption Slows", "Old Habits Return", "Systems Outdated", "Missed Opportunities", "Rising Tool Costs", "Lost ROI"].map((tag) => (
-                <span key={tag} className="problem-tag">{tag}</span>
-              ))}
-            </div>
-
-            <div className="path-diagram">
-              <div className="path-row path-row--bad">
-                <div className="path-row__label">Bad</div>
-                <div className="path-row__steps">
-                  {["Implementation", "No Leadership", "Low Adoption", "Stagnation"].map((step, i, arr) => (
-                    <div key={step} className="path-step">
-                      <span className="path-step__text">{step}</span>
-                      {i < arr.length - 1 && <span className="path-step__arrow">→</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="path-row path-row--good">
-                <div className="path-row__label">Good</div>
-                <div className="path-row__steps">
-                  {["Implementation", "Advisory", "Optimization", "Growth"].map((step, i, arr) => (
-                    <div key={step} className="path-step">
-                      <span className="path-step__text">{step}</span>
-                      {i < arr.length - 1 && <span className="path-step__arrow">→</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── Section 3 — What Is This Service ──────────────────────── */}
-      <section className="advisor-section">
-        <div className="advisor-shell">
-          <Reveal>
-            <p className="advisor-eyebrow">What This Is</p>
-            <h2 className="advisor-h2">What Is Fractional AI Advisory?</h2>
-            <p className="advisor-body what-is-body">
-              Fractional AI Advisory is an ongoing strategic partnership where myAImatch works alongside your leadership to continuously guide, optimize, and improve how AI operates across your business. This is not coaching. This is not a monthly check-in service. It is executive-level AI leadership — delivered as a service — so you get the strategic clarity and operational momentum of a Chief AI Officer without the full-time cost.
-            </p>
-
-            <div className="focus-grid">
-              {[
-                "Ongoing AI strategy and prioritization",
-                "Workflow and process optimization",
-                "Leadership alignment and communication",
-                "Tool and vendor evaluation",
-                "Team adoption and capability building",
-                "AI investment ROI analysis",
-                "New opportunity identification",
-              ].map((item) => (
-                <div key={item} className="focus-item">
-                  <div className="focus-item__dot" />
-                  {item}
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── Section 4 — What's Included ────────────────────────────── */}
+      {/* ── Section 3 — What We Help You Lead ─────────────────────── */}
       <section className="advisor-section included-section" id="whats-included">
         <div className="advisor-shell">
           <Reveal>
-            <p className="advisor-eyebrow">What You Receive</p>
-            <h2 className="advisor-h2">What You Receive</h2>
+            <p className="advisor-eyebrow">What we do</p>
+            <h2 className="advisor-h2">What We Help You Lead</h2>
           </Reveal>
           <div className="deliverables-grid">
             {deliverables.map((d, i) => (
@@ -927,7 +579,6 @@ export default function FractionalAiAdvisorPage() {
                       <d.icon size={20} strokeWidth={1.6} aria-hidden />
                     </div>
                     <h3 className="advisor-card-title">{d.title}</h3>
-                    <p className="advisor-card-body">{d.body}</p>
                   </div>
                 </TiltCard>
               </Reveal>
@@ -936,22 +587,20 @@ export default function FractionalAiAdvisorPage() {
         </div>
       </section>
 
-      {/* ── Section 5 — Who This Is For ────────────────────────────── */}
+      {/* ── Section 4 — Momentum Fit ──────────────────────────────── */}
       <section className="advisor-section">
         <div className="advisor-shell">
           <Reveal>
-            <p className="advisor-eyebrow">Who This Serves</p>
-            <h2 className="advisor-h2">This Is For You If…</h2>
+            <p className="advisor-eyebrow">Best fit</p>
+            <h2 className="advisor-h2">Designed for Businesses Already Moving With AI</h2>
+            <p className="advisor-body what-is-body">
+              Fractional Advisory works best for companies that already have momentum.
+              <br /><br />
+              You may have:
+            </p>
           </Reveal>
           <div className="who-for-list">
-            {[
-              "You already use AI but want stronger business outcomes",
-              "Your leadership team needs ongoing strategic guidance",
-              "You want better AI adoption across teams and departments",
-              "You need help evaluating tools, vendors, and opportunities",
-              "You want AI tied to measurable ROI — not experimentation",
-              "You want executive-level AI leadership without a full-time hire",
-            ].map((item, i) => (
+            {readinessItems.map((item, i) => (
               <Reveal key={item} delay={i * 50}>
                 <div className="who-for-item">
                   <div className="who-for-item__check">
@@ -967,113 +616,52 @@ export default function FractionalAiAdvisorPage() {
         </div>
       </section>
 
-      {/* ── Section 6 — Why Fractional Works ──────────────────────── */}
-      <section className="advisor-section why-fractional-section">
-        <div className="advisor-shell">
-          <Reveal>
-            <p className="advisor-eyebrow">The Case for Fractional</p>
-            <h2 className="advisor-h2">Why Fractional AI Leadership Works Better</h2>
-          </Reveal>
-          <div className="why-fractional-split">
-            <div className="why-fractional-copy">
-              <Reveal>
-                <p className="advisor-body">
-                  Hiring a full-time AI executive is expensive, slow, and often unnecessary. Most companies do not need a full-time Chief AI Officer. They need strategic leadership, clarity, and execution support — available when it matters, not on a fixed payroll.
-                </p>
-                <div className="why-fractional-bullets">
-                  {[
-                    "Immediate access to senior AI advisory expertise",
-                    "Cross-industry perspective your internal team cannot replicate",
-                    "Scales with your pace — not locked to a fixed role",
-                    "ROI-focused from day one, not a 6-month onboarding cycle",
-                    "No recruiting costs, equity, or benefits overhead",
-                  ].map((b) => (
-                    <div key={b} className="why-fractional-bullet">{b}</div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-
-            <Reveal delay={120}>
-              <div className="comparison-table">
-                <div className="comparison-table__head">
-                  <div className="comparison-table__head-cell"></div>
-                  <div className="comparison-table__head-cell">Full-Time AI Exec</div>
-                  <div className="comparison-table__head-cell is-highlight">Fractional Advisory</div>
-                </div>
-                {[
-                  { label: "Annual cost", fullTime: "$200k–$400k+", fractional: "Custom advisory plan" },
-                  { label: "Time to start", fullTime: "3–6 months", fractional: "Immediate" },
-                  { label: "Strategic scope", fullTime: "Internal only", fractional: "Cross-industry insight" },
-                  { label: "Flexibility", fullTime: "Fixed role", fractional: "Scales with needs" },
-                ].map((row) => (
-                  <div key={row.label} className="comparison-table__row">
-                    <div className="comparison-table__cell is-label">{row.label}</div>
-                    <div className="comparison-table__cell">{row.fullTime}</div>
-                    <div className="comparison-table__cell is-highlight">{row.fractional}</div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Section 7 — Pricing ────────────────────────────────────── */}
+      {/* ── Section 5 — Custom Advisory ───────────────────────────── */}
       <section className="advisor-section pricing-section" id="pricing">
         <div className="advisor-shell">
           <Reveal>
-            <p className="advisor-eyebrow">Advisory Investment</p>
-            <h2 className="advisor-h2">Advisory Investment</h2>
+            <p className="advisor-eyebrow">Custom advisory</p>
+            <h2 className="advisor-h2">Custom Advisory Engagement</h2>
             <p className="pricing-intro">
-              Every company requires a different level of strategic support depending on operational complexity, leadership needs, and growth stage.
+              Every business requires a different level of strategic involvement.
+              <br /><br />
+              The right advisory structure depends on leadership access, operational complexity, support requirements, and business priorities.
+              <br /><br />
+              We create a custom monthly engagement based on your specific needs.
             </p>
           </Reveal>
           <Reveal delay={60}>
             <div className="tier-card featured" style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
-              <p className="tier-name">Custom Advisory Engagements</p>
-              <p className="tier-desc" style={{ marginTop: "16px" }}>
-                Every company requires a different level of strategic support depending on operational complexity, leadership needs, and growth stage. Advisory plans are tailored — not tiered.
-              </p>
+              <p className="tier-name">Fractional AI Advisory</p>
               <Link href={bookingHref} className="tier-cta" style={{ marginTop: "28px", display: "inline-flex", width: "auto" }}>
-                Apply for Advisory
+                Apply for Fractional AI Advisory
               </Link>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── Section 8 — Why myAImatch ──────────────────────────────── */}
-      <section className="advisor-section authority-section">
+      {/* ── Section 6 — Process ───────────────────────────────────── */}
+      <section className="advisor-section">
         <div className="advisor-shell">
           <Reveal>
-            <p className="advisor-eyebrow">Why myAImatch</p>
-            <h2 className="advisor-h2">Why Companies Choose myAImatch</h2>
-            <p className="authority-body">
-              We do not sell tools. We do not earn commissions. myAImatch helps leadership make better AI decisions — with full independence and strategic clarity. Our advisors bring operational experience across industries, so the guidance you receive is grounded in what actually works at scale, not what sounds good in a pitch deck. AI is a business capability, not a software purchase. The companies that win with AI build strategic leadership systems first — and that is what we help you build.
-            </p>
+            <p className="advisor-eyebrow">Process</p>
+            <h2 className="advisor-h2">How Fractional Advisory Works</h2>
           </Reveal>
-          <Reveal delay={80}>
-            <div className="authority-metrics">
-              {[
-                { value: 60, suffix: "+", label: "Teams advised" },
-                { value: 200, suffix: "+", label: "Tools evaluated monthly" },
-                { value: 3, suffix: "", label: "Services, 1 strategic partner" },
-                { value: 0, suffix: "", label: "In wasted tool spend" },
-              ].map((m) => (
-                <div key={m.label} className="authority-metric">
-                  <div className="authority-metric__number">
-                    <CountUp value={m.value} suffix={m.suffix} />
-                  </div>
-                  <div className="authority-metric__label">{m.label}</div>
+          <div className="process-list">
+            {processSteps.map((step, i) => (
+              <Reveal key={step.title} delay={i * 50}>
+                <div className="process-step">
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
                 </div>
-              ))}
-            </div>
-          </Reveal>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── Section 9 — FAQ ───────────────────────────────────────── */}
+      {/* ── Section 7 — FAQ ───────────────────────────────────────── */}
       <section className="advisor-section">
         <div className="advisor-shell faq-section">
           <Reveal>
@@ -1084,14 +672,14 @@ export default function FractionalAiAdvisorPage() {
         </div>
       </section>
 
-      {/* ── Section 10 — Final CTA ────────────────────────────────── */}
+      {/* ── Section 8 — Final CTA ────────────────────────────────── */}
       <section className="final-cta-section">
         <div className="advisor-shell">
           <Reveal>
-            <p className="final-cta-eyebrow">Ready for executive AI leadership?</p>
-            <h2 className="final-cta-title">AI Leadership Is Not Optional Anymore</h2>
+            <p className="final-cta-eyebrow">Ready for strategic AI leadership?</p>
+            <h2 className="final-cta-title">Lead AI With Better Strategic Decisions</h2>
             <p className="final-cta-body">
-              The companies that win with AI make better strategic decisions — not just better tools. Before you hire another executive. Before you invest in another platform. Before you lose momentum. Build the leadership system first.
+              Keep improving the systems you have, prioritize the right investments, and give leadership the clarity to scale AI with confidence.
             </p>
             <Link href={bookingHref} className="final-cta-btn">
               Apply for Fractional AI Advisory
