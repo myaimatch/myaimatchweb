@@ -1552,7 +1552,7 @@ export default function AIImplementationPage() {
 
       <section className="impl-final impl-beam-section" aria-labelledby="implementation-final">
         <div className="impl-shell">
-          <h2 id="implementation-final">AI Doesn't Create Results. Implementation Does.</h2>
+          <h2 id="implementation-final">AI Does Not Create Results. Implementation Does.</h2>
           <p>
             Before you add more tools, build the systems that make AI useful.
           </p>

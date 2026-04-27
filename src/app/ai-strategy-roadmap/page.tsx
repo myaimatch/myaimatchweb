@@ -805,7 +805,7 @@ export default function AIStrategyRoadmapPage() {
               <p className="services-label">Why most AI initiatives fail</p>
               <h2 className="services-section-title">Why Most AI Implementations Fail</h2>
               <p className="problem-intro">
-                Businesses don't fail with AI because the tools are bad.
+                Businesses do not fail with AI because the tools are bad.
                 They fail because they implement before they diagnose. They buy software
                 before understanding their workflows. They automate broken processes.
                 They chase trends instead of solving business problems.
@@ -873,8 +873,8 @@ export default function AIStrategyRoadmapPage() {
         <div className="services-shell">
           <Reveal>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="services-label">What's included</p>
-              <h2 className="services-section-title">What You'll Receive</h2>
+              <p className="services-label">What is included</p>
+              <h2 className="services-section-title">What You Will Receive</h2>
               <p className="services-section-body">
                 Every engagement delivers a complete strategic package — not a 1-pager,
                 not a generic template. A custom roadmap built around your business.
