@@ -98,13 +98,6 @@ const processSteps = [
   },
 ];
 
-const outcomePoints = [
-  "Cleaner handoffs",
-  "Faster execution cycles",
-  "Higher team adoption",
-  "Less manual operational drag",
-];
-
 const faqs = [
   {
     question: "Why is pricing custom?",
@@ -350,29 +343,9 @@ export default function AIImplementationPage() {
           margin-top: 34px;
         }
 
-        .impl-proof-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-top: 28px;
-        }
-
-        .impl-proof-row span {
-          display: inline-flex;
-          align-items: center;
-          min-height: 34px;
-          border: 1px solid rgba(255,255,255,0.09);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.035);
-          color: rgba(255,255,255,0.62);
-          padding: 0 13px;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
         .impl-dashboard {
           position: relative;
-          min-height: 520px;
+          min-height: 430px;
           padding: 22px;
           border: 1px solid rgba(196,181,253,0.18);
           border-radius: 28px;
@@ -444,7 +417,7 @@ export default function AIImplementationPage() {
 
         .impl-system-node.is-core {
           grid-column: span 2;
-          min-height: 150px;
+          min-height: 132px;
           border-color: rgba(196,181,253,0.24);
           background:
             radial-gradient(ellipse 90% 70% at 50% 100%, rgba(132,104,235,0.26), transparent 72%),
@@ -452,7 +425,6 @@ export default function AIImplementationPage() {
         }
 
         .impl-system-node span,
-        .impl-architecture span,
         .impl-roadmap span {
           display: block;
           color: rgba(196,181,253,0.82);
@@ -506,36 +478,6 @@ export default function AIImplementationPage() {
           bottom: 18px;
           height: 118px;
           transform: translateX(-50%) rotate(180deg);
-        }
-
-        .impl-ops-strip {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
-          margin-top: 16px;
-        }
-
-        .impl-ops-strip div {
-          min-height: 74px;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 14px;
-          background: rgba(255,255,255,0.03);
-          padding: 12px;
-        }
-
-        .impl-ops-strip strong {
-          display: block;
-          color: #ffffff;
-          font-size: 18px;
-          letter-spacing: -0.02em;
-        }
-
-        .impl-ops-strip span {
-          display: block;
-          margin-top: 4px;
-          color: rgba(255,255,255,0.42);
-          font-size: 11px;
-          line-height: 1.35;
         }
 
         .impl-split {
@@ -684,57 +626,8 @@ export default function AIImplementationPage() {
         }
 
         .impl-build-head {
-          display: grid;
-          grid-template-columns: minmax(0, 0.82fr) minmax(360px, 0.72fr);
-          gap: clamp(28px, 5vw, 64px);
-          align-items: end;
+          max-width: 760px;
           margin-bottom: 42px;
-        }
-
-        .impl-architecture {
-          min-height: 230px;
-          padding: 20px;
-        }
-
-        .impl-architecture-grid {
-          display: grid;
-          grid-template-columns: 0.8fr 1fr 0.8fr;
-          gap: 10px;
-          align-items: center;
-          margin-top: 18px;
-        }
-
-        .impl-architecture-col {
-          display: grid;
-          gap: 10px;
-        }
-
-        .impl-architecture-box {
-          min-height: 54px;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
-          background: rgba(255,255,255,0.035);
-          color: rgba(255,255,255,0.68);
-          padding: 13px;
-          font-size: 12px;
-          font-weight: 750;
-        }
-
-        .impl-architecture-core {
-          min-height: 152px;
-          display: grid;
-          place-items: center;
-          border: 1px solid rgba(196,181,253,0.28);
-          border-radius: 16px;
-          background:
-            radial-gradient(ellipse 80% 60% at 50% 100%, rgba(132,104,235,0.28), transparent 72%),
-            rgba(255,255,255,0.05);
-          color: #ffffff;
-          padding: 18px;
-          text-align: center;
-          font-size: 18px;
-          font-weight: 850;
-          letter-spacing: -0.02em;
         }
 
         .impl-deliverables-grid {
@@ -855,44 +748,6 @@ export default function AIImplementationPage() {
           color: rgba(255,255,255,0.6);
           font-size: 15px;
           line-height: 1.7;
-        }
-
-        .impl-authority {
-          padding: 96px 0;
-          background:
-            radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132,104,235,0.14), transparent 72%),
-            rgba(255,255,255,0.018);
-          border-top: 1px solid rgba(255,255,255,0.05);
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .impl-authority-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 0.84fr) minmax(360px, 0.78fr);
-          gap: clamp(34px, 6vw, 72px);
-          align-items: center;
-        }
-
-        .impl-authority-points {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px;
-        }
-
-        .impl-authority-points div {
-          min-height: 118px;
-          display: flex;
-          align-items: flex-end;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 18px;
-          background:
-            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(132,104,235,0.16), transparent 72%),
-            rgba(255,255,255,0.035);
-          color: #ffffff;
-          padding: 18px;
-          font-size: 18px;
-          font-weight: 850;
-          letter-spacing: -0.02em;
         }
 
         .impl-faq-section {
@@ -1193,10 +1048,8 @@ export default function AIImplementationPage() {
           .impl-hero-grid,
           .impl-split,
           .impl-definition-grid,
-          .impl-build-head,
           .impl-process-step,
           .impl-pricing,
-          .impl-authority-grid,
           .impl-faq-grid {
             grid-template-columns: 1fr;
           }
@@ -1205,8 +1058,7 @@ export default function AIImplementationPage() {
             min-height: auto;
           }
 
-          .impl-path ol,
-          .impl-authority-points {
+          .impl-path ol {
             grid-template-columns: 1fr;
           }
 
@@ -1238,10 +1090,8 @@ export default function AIImplementationPage() {
           }
 
           .impl-system-map,
-          .impl-ops-strip,
           .impl-problem-list,
           .impl-category-grid,
-          .impl-architecture-grid,
           .impl-deliverables-grid {
             grid-template-columns: 1fr;
           }
@@ -1259,7 +1109,6 @@ export default function AIImplementationPage() {
           .impl-definition,
           .impl-build,
           .impl-pricing,
-          .impl-authority,
           .impl-faq-section,
           .impl-final {
             padding-top: 72px;
@@ -1295,11 +1144,6 @@ export default function AIImplementationPage() {
               <Link className="impl-cta-secondary" href="#what-we-build">
                 See What We Build
               </Link>
-            </div>
-            <div className="impl-proof-row" aria-label="Implementation focus areas">
-              <span>Operational systems</span>
-              <span>Team adoption</span>
-              <span>Measurable ROI</span>
             </div>
           </div>
 
@@ -1352,28 +1196,11 @@ export default function AIImplementationPage() {
       <section id="what-we-build" className="impl-shell impl-build" aria-labelledby="what-we-build-title">
         <div className="impl-build-head">
           <div>
-            <p className="impl-label">What we build</p>
             <h2 id="what-we-build-title" className="impl-section-title">What We Build</h2>
             <p className="impl-section-body">
               Practical implementation work designed around the operational systems your team needs to run the workflow properly.
             </p>
           </div>
-          <Reveal>
-            <div className="impl-card impl-architecture" aria-label="Implementation architecture visual">
-              <span>Implementation roadmap</span>
-              <div className="impl-architecture-grid">
-                <div className="impl-architecture-col">
-                  <div className="impl-architecture-box">Inputs</div>
-                  <div className="impl-architecture-box">Workflows</div>
-                </div>
-                <div className="impl-architecture-core">Operating AI System</div>
-                <div className="impl-architecture-col">
-                  <div className="impl-architecture-box">Adoption</div>
-                  <div className="impl-architecture-box">ROI</div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
         </div>
         <div className="impl-deliverables-grid">
           {deliverables.map((item, index) => (
@@ -1454,26 +1281,6 @@ export default function AIImplementationPage() {
         </div>
       </section>
 
-      <section className="impl-authority" aria-labelledby="operational-roi">
-        <div className="impl-shell impl-authority-grid">
-          <div>
-            <p className="impl-label">Operational proof</p>
-            <h2 id="operational-roi" className="impl-section-title">Built Around Real Operational ROI</h2>
-            <p className="impl-section-body">
-              Implementation is judged by operational movement, not tool count.
-            </p>
-            <p className="impl-section-body">
-              The work is designed to reduce friction, improve adoption, and make the target workflow run better in the real business.
-            </p>
-          </div>
-          <div className="impl-authority-points" aria-label="Operational implementation outcomes">
-            {outcomePoints.map((point) => (
-              <div key={point}>{point}</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="impl-shell impl-faq-section" aria-labelledby="implementation-faq">
         <div className="impl-faq-grid">
           <div>
@@ -1519,48 +1326,34 @@ function OperationsDashboard() {
             <span />
             <span />
           </div>
-          <div className="impl-status-pill">Deployment Ready</div>
+          <div className="impl-status-pill">System Plan</div>
         </div>
         <div className="impl-system-map">
           <div className="impl-flow-lines" aria-hidden />
           <div className="impl-system-node">
             <span>Operations</span>
-            <strong>Workflow inputs</strong>
-            <p>Real processes, handoffs, owners, and decision points.</p>
+            <strong>Workflow map</strong>
+            <p>Inputs, handoffs, owners, and decisions.</p>
           </div>
           <div className="impl-system-node">
             <span>Team</span>
-            <strong>Adoption layer</strong>
-            <p>Training, permissions, SOPs, and operating rhythm.</p>
+            <strong>Adoption plan</strong>
+            <p>Roles, training, SOPs, and rollout rhythm.</p>
           </div>
           <div className="impl-system-node is-core">
-            <span>AI systems layer</span>
-            <strong>Copilots, automations, prompts, and integrations</strong>
-            <p>Connected around the work that actually moves the business.</p>
+            <span>AI systems</span>
+            <strong>Copilots, automations, and integrations</strong>
+            <p>Connected around the priority workflow.</p>
           </div>
           <div className="impl-system-node">
             <span>Quality</span>
-            <strong>QA loops</strong>
-            <p>Testing, feedback, optimization, and owner handoff.</p>
+            <strong>Testing loop</strong>
+            <p>Launch checks, feedback, and handoff.</p>
           </div>
           <div className="impl-system-node">
             <span>Business</span>
-            <strong>ROI signals</strong>
-            <p>Efficiency, cycle time, adoption, and operating leverage.</p>
-          </div>
-        </div>
-        <div className="impl-ops-strip" aria-hidden>
-          <div>
-            <strong>01</strong>
-            <span>Scope the workflows</span>
-          </div>
-          <div>
-            <strong>02</strong>
-            <span>Deploy the systems</span>
-          </div>
-          <div>
-            <strong>03</strong>
-            <span>Enable the team</span>
+            <strong>Results tracking</strong>
+            <p>Cycle time, adoption, and ROI signals.</p>
           </div>
         </div>
       </div>

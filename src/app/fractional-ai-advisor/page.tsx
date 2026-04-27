@@ -334,7 +334,7 @@ export default function FractionalAiAdvisorPage() {
 
         .tier-card {
           position: relative;
-          padding: 36px 32px 32px;
+          padding: 40px 32px;
           border: 1px solid rgba(255,255,255,0.09);
           border-radius: 20px;
           background: rgba(255,255,255,0.03);
@@ -358,15 +358,6 @@ export default function FractionalAiAdvisorPage() {
         .tier-card.featured:hover {
           border-color: rgba(196,181,253,0.5);
           box-shadow: 0 0 56px rgba(132,104,235,0.28);
-        }
-
-        .tier-name {
-          font-size: 13px;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.5);
-          margin-bottom: 16px;
         }
 
         .tier-cta {
@@ -620,7 +611,6 @@ export default function FractionalAiAdvisorPage() {
       <section className="advisor-section pricing-section" id="pricing">
         <div className="advisor-shell">
           <Reveal>
-            <p className="advisor-eyebrow">Custom advisory</p>
             <h2 className="advisor-h2">Custom Advisory Engagement</h2>
             <p className="pricing-intro">
               Every business requires a different level of strategic involvement.
@@ -632,8 +622,7 @@ export default function FractionalAiAdvisorPage() {
           </Reveal>
           <Reveal delay={60}>
             <div className="tier-card featured" style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
-              <p className="tier-name">Fractional AI Advisory</p>
-              <Link href={bookingHref} className="tier-cta" style={{ marginTop: "28px", display: "inline-flex", width: "auto" }}>
+              <Link href={bookingHref} className="tier-cta" style={{ display: "inline-flex", width: "auto" }}>
                 Apply for Fractional AI Advisory
               </Link>
             </div>

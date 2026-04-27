@@ -447,7 +447,7 @@ export default function AIStrategyRoadmapPage() {
           position: relative;
           overflow: hidden;
           max-width: 660px;
-          margin: 52px auto 0;
+          margin: 0 auto;
           padding: 52px 48px;
           border: 1px solid rgba(132,104,235,0.32);
           border-radius: 24px;
@@ -744,15 +744,6 @@ export default function AIStrategyRoadmapPage() {
       {/* ── SECTION 5: PRICING ── */}
       <section id="pricing" className="pricing-section">
         <div className="services-shell">
-          <Reveal>
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="services-label">Investment</p>
-              <h2 className="services-section-title">Starting at $500</h2>
-              <p className="services-section-body">
-                Focused on one high-impact workflow.
-              </p>
-            </div>
-          </Reveal>
           <Reveal delay={100}>
             <div className="pricing-solo-card">
               <p className="services-label" style={{ marginBottom: 0 }}>Workflow Audit + Strategy Roadmap</p>
