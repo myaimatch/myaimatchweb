@@ -32,7 +32,7 @@ Smart, direct, trustworthy — como un colega senior que ya hizo la research y v
 | # | Nombre oficial | Qué es | CTA principal |
 |---|---|---|---|
 | 01 | **Full AI Strategy Assessment** | Sesión pagada con nuestro equipo: roadmap, decisiones, no construimos todavía | Book Your Strategy Session |
-| 02 | **AI Tools Implementation** | Construimos, conectamos y lanzamos las tools del roadmap | Book an Implementation Call |
+| 02 | **AI Implementation & Systems Setup** | Implementamos sistemas, workflows, copilots, automatizaciones y adopción operativa | Apply for AI Implementation |
 | 03 | **Fractional AI Lead** | Soporte mensual embebido: training, actualizaciones, tool curation | Book a Discovery Call |
 
 ---
@@ -80,7 +80,7 @@ Ambos toman input del usuario y recomiendan tools, pero deben sonar muy distinto
 |---|---|---|
 | Primary universal | `Start Free AI Match` | Navbar, hero, final CTA, footer, banner |
 | Servicio 01 | `Book Your Strategy Session` | Página /services/full-ai-strategy-assessment |
-| Servicio 02 | `Book an Implementation Call` | Página /services/ai-tools-implementation |
+| Servicio 02 | `Apply for AI Implementation` | Página /ai-implementation |
 | Servicio 03 | `Book a Discovery Call` | Página /services/ai-coaching |
 | Service card explore | `Explore Strategy` / `Explore Implementation` / `Explore Fractional Lead` | /services overview |
 | Nav dropdown secondary | `Services Overview`, nombre del servicio | Dropdown Services |
@@ -109,7 +109,7 @@ Ambos toman input del usuario y recomiendan tools, pero deben sonar muy distinto
 | Eyebrow | `AI services` |
 | Hero | `From AI overwhelm to Your AI Match.` |
 | Service 01 body | `Decide the right AI tools, the order to set them up, and what to ignore.` |
-| Service 02 body | `Build, connect, document, and launch the tools your team will actually use.` |
+| Service 02 body | `Deploy the AI systems, workflows, copilots, and adoption processes your team will actually use.` |
 | Service 03 body | `Keep your team trained, your tools current, and your AI setup improving every month.` |
 
 ### Navbar
@@ -120,7 +120,7 @@ Ambos toman input del usuario y recomiendan tools, pero deben sonar muy distinto
 | Link 2 | `Services` (dropdown) |
 | Dropdown: Overview | `Services Overview` |
 | Dropdown: Service 01 | `Full AI Strategy Assessment` — _Map your workflow and get a custom AI roadmap._ |
-| Dropdown: Service 02 | `AI Tools Implementation` — _We configure your tools and build the automations._ |
+| Dropdown: Service 02 | `AI Implementation` — _Deploy AI systems, workflows, copilots, and adoption processes._ |
 | Dropdown: Service 03 | `Fractional AI Lead` — _Embedded AI lead for your team — calls, async, and tool curation._ |
 | Primary CTA | `Start Free AI Match` |
 
@@ -163,7 +163,7 @@ Ambos toman input del usuario y recomiendan tools, pero deben sonar muy distinto
 - ❌ "Submit the form" — decí "Get Your AI Match" / "Start Free AI Match"
 - ❌ Primary CTAs con "Browse", "Explore", "View", "See"
 - ❌ Describir el free assessment como un form — siempre framearlo como el engine / assessment haciendo su trabajo
-- ❌ Mezclar "AI Tools Setup" y "AI Tools Implementation" — solo Implementation
+- ❌ Framear implementación como "AI setup" barato o soporte técnico — vender outcomes, systems, adoption y ROI
 
 ---
 
@@ -172,7 +172,7 @@ Ambos toman input del usuario y recomiendan tools, pero deben sonar muy distinto
 1. ¿La marca está escrita `myAImatch` (exacto)?
 2. ¿Aparece la palabra "stack" o "tech stack"? Si sí, reemplazá.
 3. ¿Aparece "AI Match Engine"? Si sí, reemplazá por "AI Match Free Assessment" o "Start Free AI Match".
-4. ¿El nombre del servicio 02 es "AI Tools Implementation" (no "Setup")?
+4. ¿El nombre del servicio 02 es "AI Implementation & Systems Setup"?
 5. ¿El CTA principal es uno de la tabla de arriba (no inventado)?
 6. ¿El nombre del output del free es "Your AI Match"?
 7. ¿Se frame el free como un engine/assessment que trabaja por ti, no un formulario que llenás?

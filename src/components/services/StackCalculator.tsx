@@ -46,7 +46,7 @@ export default function StackCalculator({ ctaHref }: { ctaHref: string }) {
     }
     if (score <= 7) {
       return {
-        scope: "Core operating stack",
+        scope: "Core operating system",
         complexity: "Moderate build complexity",
         timeline: "About 2-4 weeks",
         body: "Best for teams that need shared tools, automations, documentation, and a clean handoff.",
@@ -67,7 +67,7 @@ export default function StackCalculator({ ctaHref }: { ctaHref: string }) {
           <p className="impl-label">Scope + pricing</p>
           <h2 className="impl-section-title">Custom - priced to your scope.</h2>
           <p className="impl-section-body">
-            Every stack is different. Tool count, integration complexity, custom agents, team size, and timeline all move the number. Use this as a directional read, then book a call and we will scope it in 20 minutes.
+            Every implementation is different. Tool count, integration complexity, custom agents, team size, and timeline all move the number. Use this as a directional read, then apply and we will scope it in 20 minutes.
           </p>
         </div>
         <div className="stack-calculator-controls">
@@ -89,7 +89,7 @@ export default function StackCalculator({ ctaHref }: { ctaHref: string }) {
           </div>
           <p>{result.body}</p>
           <Link className="impl-cta-primary" href={ctaHref}>
-            Book an implementation call
+            Apply for Implementation
           </Link>
         </div>
       </div>
