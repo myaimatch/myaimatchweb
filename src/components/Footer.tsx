@@ -6,7 +6,7 @@ import myAiMatchWordmark from "../../brand_assets/Group 97.png";
 const serviceLinks = [
   { label: "AI Strategy Roadmap", href: "/ai-strategy-roadmap" },
   { label: "AI Implementation", href: "/ai-implementation" },
-  { label: "Fractional AI Lead", href: "/services/ai-coaching" },
+  { label: "AI Advisory", href: "/fractional-ai-advisor" },
 ];
 
 export default function Footer() {

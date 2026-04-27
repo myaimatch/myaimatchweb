@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/services/Reveal";
 import TiltCard from "@/components/services/TiltCard";
+import {
+  Bot,
+  FileCheck2,
+  GraduationCap,
+  Library,
+  Settings2,
+  SlidersHorizontal,
+  Workflow,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: {
@@ -24,49 +33,55 @@ export const metadata: Metadata = {
 const calHref = process.env.NEXT_PUBLIC_CAL_IMPLEMENTATION_URL || "#book";
 
 const problemSignals = [
-  "Poor adoption",
   "Wasted software spend",
+  "Poor adoption",
   "Broken workflows",
-  "Frustrated employees",
   "Low trust in AI",
   "Zero ROI",
 ];
 
 const deliverables = [
   {
+    Icon: Settings2,
     eyebrow: "01",
     title: "AI Tool Setup + Configuration",
-    body: "Accounts, permissions, access structure, and AI systems deployed around how the team actually works.",
+    body: "Accounts, permissions, and access designed around real operating roles.",
   },
   {
+    Icon: Workflow,
     eyebrow: "02",
     title: "Workflow Automation Design",
-    body: "Operational workflows redesigned for AI efficiency, cleaner handoffs, and scalable execution.",
+    body: "Cleaner handoffs, fewer manual steps, and practical automation logic.",
   },
   {
+    Icon: Library,
     eyebrow: "03",
     title: "Prompt Libraries + SOP Systems",
-    body: "Reusable AI operating systems your team can trust, repeat, and improve without guessing.",
+    body: "Reusable prompts and SOPs your team can run without guessing.",
   },
   {
+    Icon: Bot,
     eyebrow: "04",
     title: "Internal AI Copilots",
-    body: "Simple copilots for sales, operations, support, marketing, and leadership workflows.",
+    body: "Focused copilots for sales, operations, support, marketing, or leadership.",
   },
   {
+    Icon: GraduationCap,
     eyebrow: "05",
     title: "Team Onboarding + Training",
-    body: "Adoption systems that help your team use the new workflows properly from the start.",
+    body: "Enablement that turns the rollout into daily team behavior.",
   },
   {
+    Icon: SlidersHorizontal,
     eyebrow: "06",
     title: "QA + Optimization",
-    body: "Testing, refinement, and system improvement after deployment so the rollout holds up in real work.",
+    body: "Testing and refinement before the system becomes business-critical.",
   },
   {
+    Icon: FileCheck2,
     eyebrow: "07",
     title: "Documentation + Handoff",
-    body: "Clear SOPs, ownership transfer, and operational continuity after implementation is complete.",
+    body: "Clear ownership, SOPs, and continuity after launch.",
   },
 ];
 
@@ -996,6 +1011,219 @@ export default function AIImplementationPage() {
           margin-top: 34px;
         }
 
+        .impl-problem-section {
+          position: relative;
+          padding: 100px 0 110px;
+          background:
+            radial-gradient(ellipse 72% 54% at 50% 58%, rgba(132,104,235,0.08), transparent 74%),
+            #111111;
+        }
+
+        .impl-problem-content {
+          position: relative;
+          max-width: 900px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .impl-problem-intro {
+          margin: 22px auto 0;
+          max-width: 650px;
+          color: rgba(255,255,255,0.6);
+          font-size: 17px;
+          line-height: 1.75;
+        }
+
+        .impl-pain-chips {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+          margin: 28px auto 0;
+          max-width: 640px;
+        }
+
+        .impl-pain-chip {
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.025);
+          color: rgba(255,255,255,0.48);
+          padding: 7px 14px;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .impl-path-diagram {
+          display: grid;
+          gap: 14px;
+          margin-top: 54px;
+        }
+
+        .impl-path-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 12px;
+          min-height: 66px;
+          border-radius: 18px;
+          padding: 16px 18px;
+        }
+
+        .impl-path-row--bad {
+          border: 1px solid rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.02);
+          opacity: 0.8;
+        }
+
+        .impl-path-row--good {
+          border: 1px solid rgba(132,104,235,0.34);
+          background:
+            radial-gradient(ellipse 100% 100% at 50% 50%, rgba(132,104,235,0.17), transparent 82%),
+            rgba(132,104,235,0.055);
+          box-shadow: 0 0 42px rgba(132,104,235,0.1);
+        }
+
+        .impl-path-badge,
+        .impl-path-step,
+        .impl-path-outcome {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 30px;
+          border-radius: 999px;
+          padding: 0 13px;
+          font-size: 12px;
+          font-weight: 850;
+          white-space: nowrap;
+        }
+
+        .impl-path-badge {
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        .impl-path-row--bad .impl-path-badge {
+          color: rgba(255,255,255,0.38);
+          background: rgba(255,255,255,0.045);
+          border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .impl-path-row--good .impl-path-badge {
+          color: #C4B5FD;
+          background: rgba(132,104,235,0.18);
+          border: 1px solid rgba(132,104,235,0.34);
+        }
+
+        .impl-path-steps {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .impl-path-step {
+          border-radius: 8px;
+          font-weight: 750;
+        }
+
+        .impl-path-row--bad .impl-path-step {
+          color: rgba(255,255,255,0.38);
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.07);
+          text-decoration: line-through;
+          text-decoration-color: rgba(255,255,255,0.2);
+        }
+
+        .impl-path-row--good .impl-path-step {
+          color: rgba(255,255,255,0.88);
+          background: rgba(132,104,235,0.15);
+          border: 1px solid rgba(132,104,235,0.25);
+        }
+
+        .impl-path-arrow {
+          color: rgba(255,255,255,0.18);
+          font-size: 13px;
+          font-weight: 900;
+        }
+
+        .impl-path-row--good .impl-path-arrow {
+          color: rgba(196,181,253,0.58);
+        }
+
+        .impl-path-outcome {
+          margin-left: auto;
+          border-radius: 8px;
+        }
+
+        .impl-path-row--bad .impl-path-outcome {
+          color: rgba(248,113,113,0.82);
+          background: rgba(239,68,68,0.08);
+          border: 1px solid rgba(239,68,68,0.18);
+        }
+
+        .impl-path-row--good .impl-path-outcome {
+          color: #86efac;
+          background: rgba(134,239,172,0.08);
+          border: 1px solid rgba(134,239,172,0.18);
+        }
+
+        .impl-deliverable-icon {
+          position: relative;
+          z-index: 1;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          border: 1px solid rgba(132,104,235,0.24);
+          border-radius: 12px;
+          background: rgba(132,104,235,0.14);
+          color: #C4B5FD;
+        }
+
+        .impl-deliverable-icon svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        .impl-deliverable .eyebrow {
+          margin-top: 20px;
+        }
+
+        .impl-pricing.impl-pricing-centered {
+          display: block;
+          padding: 100px 0 110px;
+          text-align: center;
+        }
+
+        .impl-pricing-centered .impl-section-body {
+          max-width: 620px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .impl-pricing-centered .impl-price-card {
+          max-width: 680px;
+          margin: 48px auto 0;
+          padding: clamp(34px, 6vw, 56px);
+          border-color: rgba(132,104,235,0.32);
+          background:
+            radial-gradient(ellipse 100% 80% at 50% 0%, rgba(132,104,235,0.22), transparent 68%),
+            rgba(255,255,255,0.04);
+          box-shadow: 0 0 72px rgba(132,104,235,0.1), 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .impl-price-card .impl-price-note {
+          margin-top: 14px;
+          color: rgba(255,255,255,0.46);
+          font-size: 13px;
+          line-height: 1.6;
+        }
+
+        .impl-price-card .impl-cta-primary {
+          margin-top: 28px;
+        }
+
         @media (max-width: 1060px) {
           .impl-deliverables-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1031,6 +1259,10 @@ export default function AIImplementationPage() {
 
           .impl-path li:not(:last-child)::after {
             display: none;
+          }
+
+          .impl-path-outcome {
+            margin-left: 0;
           }
         }
 
@@ -1070,6 +1302,7 @@ export default function AIImplementationPage() {
           }
 
           .impl-split,
+          .impl-problem-section,
           .impl-definition,
           .impl-build,
           .impl-fit,
@@ -1080,6 +1313,14 @@ export default function AIImplementationPage() {
           .impl-final {
             padding-top: 72px;
             padding-bottom: 72px;
+          }
+
+          .impl-path-row {
+            align-items: flex-start;
+          }
+
+          .impl-path-steps {
+            width: 100%;
           }
         }
       ` }} />
@@ -1092,7 +1333,7 @@ export default function AIImplementationPage() {
               Strategy Is Only Valuable If It Gets <span>Implemented</span>
             </h1>
             <p className="impl-hero-body">
-              Most businesses know AI matters. Very few implement it properly. myAImatch helps companies deploy the right AI systems, workflows, automations, and internal copilots built around real operations, not hype. No random tools. No disconnected automations. No expensive mistakes.
+              myAImatch deploys the workflows, automations, copilots, and enablement your team needs to turn an AI roadmap into measurable business outcomes.
             </p>
             <div className="impl-hero-actions">
               <Link className="impl-cta-primary" href={calHref}>
@@ -1113,46 +1354,43 @@ export default function AIImplementationPage() {
         </div>
       </section>
 
-      <section className="impl-shell impl-split" aria-labelledby="implementation-breaks">
-        <div>
+      <section className="impl-problem-section" aria-labelledby="implementation-breaks">
+        <div className="impl-shell impl-problem-content">
           <p className="impl-label">The problem</p>
           <h2 id="implementation-breaks" className="impl-section-title">Why Most AI Implementations Break</h2>
-          <p className="impl-section-body">
-            Businesses often rush into implementation too fast. They buy software without strategy, automate broken workflows, create disconnected tools nobody uses, and train teams too late.
+          <p className="impl-problem-intro">
+            Teams do not fail because AI tools are bad. They fail because they buy software before the workflow, ownership, and adoption plan are clear.
           </p>
-          <p className="impl-section-body">
-            Implementation should create leverage. Not more operational chaos. That requires systems, not random tools.
-          </p>
-          <ul className="impl-problem-list">
+          <div className="impl-pain-chips" aria-label="Common implementation failures">
             {problemSignals.map((signal) => (
-              <li key={signal}>{signal}</li>
+              <span className="impl-pain-chip" key={signal}>{signal}</span>
             ))}
-          </ul>
-        </div>
-        <Reveal>
-          <TiltCard className="impl-card impl-path-card" maxTilt={3}>
-            <div className="impl-paths">
-              <div className="impl-path">
-                <h3>Bad Path</h3>
-                <ol>
-                  <li>Buy Tools</li>
-                  <li>Confusion</li>
-                  <li>Low Adoption</li>
-                  <li>Failure</li>
-                </ol>
+          </div>
+          <div className="impl-path-diagram" aria-label="Implementation path comparison">
+            <div className="impl-path-row impl-path-row--bad">
+              <span className="impl-path-badge">Without systems</span>
+              <div className="impl-path-steps">
+                <span className="impl-path-step">Buy Tools</span>
+                <span className="impl-path-arrow">→</span>
+                <span className="impl-path-step">Confusion</span>
+                <span className="impl-path-arrow">→</span>
+                <span className="impl-path-step">Poor Adoption</span>
               </div>
-              <div className="impl-path is-good">
-                <h3>Good Path</h3>
-                <ol>
-                  <li>Strategy</li>
-                  <li>Systems</li>
-                  <li>Adoption</li>
-                  <li>ROI</li>
-                </ol>
-              </div>
+              <span className="impl-path-outcome">Failure</span>
             </div>
-          </TiltCard>
-        </Reveal>
+            <div className="impl-path-row impl-path-row--good">
+              <span className="impl-path-badge">With myAImatch</span>
+              <div className="impl-path-steps">
+                <span className="impl-path-step">Strategy</span>
+                <span className="impl-path-arrow">→</span>
+                <span className="impl-path-step">Systems</span>
+                <span className="impl-path-arrow">→</span>
+                <span className="impl-path-step">Adoption</span>
+              </div>
+              <span className="impl-path-outcome">ROI</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="impl-definition" aria-labelledby="what-is-implementation">
@@ -1161,10 +1399,7 @@ export default function AIImplementationPage() {
             <p className="impl-label">What this service is</p>
             <h2 id="what-is-implementation" className="impl-section-title">What Is AI Implementation & Systems Setup?</h2>
             <p className="impl-section-body">
-              This is where strategy becomes execution. Once your AI roadmap is clear, myAImatch helps deploy the systems that make transformation real.
-            </p>
-            <p className="impl-section-body">
-              This is not tech support. It is operational transformation designed for scale.
+              This is the execution layer after strategy: the buildout of AI workflows, internal tools, team habits, and documentation that makes transformation real.
             </p>
           </div>
           <div className="impl-category-grid" aria-label="Implementation categories">
@@ -1184,7 +1419,7 @@ export default function AIImplementationPage() {
             <p className="impl-label">What we build</p>
             <h2 id="what-we-build-title" className="impl-section-title">Systems your team can actually run.</h2>
             <p className="impl-section-body">
-              The work is practical, but the goal is strategic: clean workflows, stronger adoption, fewer disconnected tools, and measurable operating leverage.
+              Practical implementation work, designed around adoption and measurable operating leverage.
             </p>
           </div>
           <Reveal>
@@ -1208,6 +1443,9 @@ export default function AIImplementationPage() {
           {deliverables.map((item, index) => (
             <Reveal key={item.title} delay={80 + index * 55}>
               <TiltCard className="impl-card impl-deliverable" maxTilt={4}>
+                <div className="impl-deliverable-icon" aria-hidden>
+                  <item.Icon />
+                </div>
                 <p className="eyebrow">{item.eyebrow}</p>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
@@ -1242,7 +1480,7 @@ export default function AIImplementationPage() {
             <span>Systems Second.</span>
           </h2>
           <p>
-            myAImatch does not deploy more tools for the sake of activity. We design better operations so AI becomes a business advantage, not a business distraction.
+            More tools do not create transformation. Clear systems do.
           </p>
           <div className="impl-principles">
             {philosophy.map((item) => (
@@ -1252,24 +1490,19 @@ export default function AIImplementationPage() {
         </div>
       </section>
 
-      <section className="impl-shell impl-pricing" aria-labelledby="implementation-investment">
+      <section className="impl-shell impl-pricing impl-pricing-centered" aria-labelledby="implementation-investment">
         <div>
           <p className="impl-label">Investment</p>
-          <h2 id="implementation-investment" className="impl-section-title">Custom-scoped around the system you need.</h2>
+          <h2 id="implementation-investment" className="impl-section-title">Investment</h2>
           <p className="impl-section-body">
-            Every implementation depends on workflow complexity, system depth, number of users, integrations, and deployment scope. Because of that, implementation projects are custom-scoped.
-          </p>
-          <p className="impl-section-body">
-            Larger systems and advanced deployments are scoped individually.
+            Implementation is custom-scoped based on workflows, users, integrations, and deployment depth.
           </p>
         </div>
         <Reveal>
           <TiltCard className="impl-card impl-price-card" maxTilt={3}>
             <p className="price-label">Most engagements begin at</p>
             <strong>Starting at $5,000</strong>
-            <p>
-              Scope is confirmed after we understand the workflows, users, integrations, timeline, and adoption requirements.
-            </p>
+            <p className="impl-price-note">Larger systems and advanced deployments are scoped individually.</p>
             <Link className="impl-cta-primary" href={calHref}>
               Apply for Implementation
             </Link>
@@ -1321,7 +1554,7 @@ export default function AIImplementationPage() {
         <div className="impl-shell">
           <h2 id="implementation-final">AI Doesn't Create Results. Implementation Does.</h2>
           <p>
-            The right strategy matters. But execution is where transformation happens. Before you buy more tools, add more software, or create more complexity, build the right systems first. That is how AI creates real business growth.
+            Before you add more tools, build the systems that make AI useful.
           </p>
           <Link className="impl-cta-primary" href={calHref}>
             Apply for AI Implementation

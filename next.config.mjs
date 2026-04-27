@@ -45,6 +45,11 @@ const nextConfig = {
         destination: '/ai-strategy-roadmap',
         permanent: true,
       },
+      {
+        source: '/services/ai-coaching',
+        destination: '/fractional-ai-advisor',
+        permanent: true,
+      },
     ]
   },
   async headers() {

@@ -4,7 +4,7 @@ import ServiceHero from "@/components/services/ServiceHero";
 import TiltCard from "@/components/services/TiltCard";
 import Reveal from "@/components/services/Reveal";
 import CountUp from "@/components/services/CountUp";
-import FaqAccordion from "./FaqAccordion";
+import FaqAccordion from "@/components/services/FaqAccordion";
 import {
   Search,
   GitBranch,

@@ -25,9 +25,9 @@ const serviceLinks = [
     desc: "Deploy AI systems, workflows, copilots, and adoption processes.",
   },
   {
-    label: "Fractional AI Lead",
-    href: "/services/ai-coaching",
-    desc: "Embedded AI lead for your team — calls, async, and tool curation.",
+    label: "AI Advisory",
+    href: "/fractional-ai-advisor",
+    desc: "Executive-level AI leadership for your team — ongoing strategy, optimization, and guidance.",
   },
 ];
 
@@ -41,7 +41,8 @@ export default function Navbar() {
     pathname === "/services" ||
     pathname?.startsWith("/services/") ||
     pathname === "/ai-strategy-roadmap" ||
-    pathname === "/ai-implementation";
+    pathname === "/ai-implementation" ||
+    pathname === "/fractional-ai-advisor";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 14);

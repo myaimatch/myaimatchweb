@@ -31,10 +31,10 @@ const services = [
   },
   {
     step: "03",
-    title: "Fractional AI Lead",
-    body: "Keep your team trained, your tools current, and your AI setup improving every month.",
-    href: "/services/ai-coaching",
-    cta: "Explore Fractional Lead",
+    title: "Fractional AI Advisory",
+    body: "Executive-level AI leadership without the full-time hire. Ongoing strategy, optimization, and guidance.",
+    href: "/fractional-ai-advisor",
+    cta: "Explore AI Advisory",
   },
 ];
 
