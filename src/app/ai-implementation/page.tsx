@@ -104,6 +104,11 @@ const authorityPoints = ["Efficiency", "Adoption", "Scalability", "Measurable RO
 
 const faqs = [
   {
+    question: "Can I skip the Strategy Roadmap?",
+    answer:
+      "Sometimes — but most businesses save significantly more by starting with strategy first. The Strategy Session defines scope, prevents expensive mistakes, and ensures implementation effort focuses on your highest-impact workflows. It's the natural first step.",
+  },
+  {
     question: "Can we work together without the Strategy Roadmap?",
     answer:
       "Sometimes, but only if your workflows, priorities, and internal systems are already clearly defined. Most companies save significantly more by starting with strategy first.",
@@ -1490,6 +1495,53 @@ export default function AIImplementationPage() {
         </div>
       </section>
 
+      {/* Bridge: strategy first */}
+      <section className="impl-shell" style={{ padding: "0 0 16px" }}>
+        <Reveal>
+          <div style={{
+            padding: "32px 36px",
+            border: "1px solid rgba(132,104,235,0.22)",
+            borderRadius: "18px",
+            background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132,104,235,0.1), transparent 70%), rgba(255,255,255,0.03)",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "20px",
+          }}>
+            <div style={{ flex: "1 1 320px" }}>
+              <p className="impl-label" style={{ marginBottom: "8px" }}>Where to start</p>
+              <h3 style={{ color: "#ffffff", fontSize: "20px", fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.3, margin: 0 }}>
+                Most Implementation Projects Begin With Strategy
+              </h3>
+              <p style={{ marginTop: "10px", color: "rgba(255,255,255,0.6)", fontSize: "14px", lineHeight: 1.7 }}>
+                If you haven&#39;t already completed an AI Workflow Strategy Session, that&apos;s the right first step. It defines the scope, identifies your highest-impact workflows, and ensures every implementation dollar goes exactly where it creates the most value.
+              </p>
+            </div>
+            <Link
+              href="/ai-strategy-roadmap"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "10px 22px",
+                borderRadius: "999px",
+                border: "1px solid rgba(132,104,235,0.34)",
+                background: "rgba(132,104,235,0.12)",
+                color: "#C4B5FD",
+                fontSize: "14px",
+                fontWeight: 700,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+            >
+              Start with the Strategy Session →
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
       <section className="impl-shell impl-pricing impl-pricing-centered" aria-labelledby="implementation-investment">
         <div>
           <p className="impl-label">Investment</p>
@@ -1500,9 +1552,8 @@ export default function AIImplementationPage() {
         </div>
         <Reveal>
           <TiltCard className="impl-card impl-price-card" maxTilt={3}>
-            <p className="price-label">Most engagements begin at</p>
-            <strong>Starting at $5,000</strong>
-            <p className="impl-price-note">Larger systems and advanced deployments are scoped individually.</p>
+            <p className="price-label">Custom Implementation Proposal</p>
+            <p className="impl-price-note" style={{ marginTop: "18px" }}>Implementation is custom-scoped based on workflows, users, integrations, and deployment depth. Scope defines investment.</p>
             <Link className="impl-cta-primary" href={calHref}>
               Apply for Implementation
             </Link>

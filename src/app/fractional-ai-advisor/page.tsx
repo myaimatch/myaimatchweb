@@ -18,11 +18,11 @@ import {
 export const metadata: Metadata = {
   title: "Fractional AI Advisor | Executive AI Leadership | myAImatch",
   description:
-    "Executive-level AI leadership without the full-time hire. myAImatch provides ongoing strategy, workflow optimization, leadership alignment, and AI investment guidance — starting at $3,000/mo.",
+    "Executive-level AI leadership without the full-time hire. myAImatch provides ongoing strategy, workflow optimization, leadership alignment, and AI investment guidance — custom advisory plans tailored to your needs.",
   openGraph: {
     title: "Fractional AI Advisor | Executive AI Leadership | myAImatch",
     description:
-      "Executive-level AI leadership without the full-time hire. myAImatch provides ongoing strategy, workflow optimization, leadership alignment, and AI investment guidance — starting at $3,000/mo.",
+      "Executive-level AI leadership without the full-time hire. myAImatch provides ongoing strategy, workflow optimization, leadership alignment, and AI investment guidance — custom advisory plans tailored to your needs.",
     url: "https://myaimatch.ai/fractional-ai-advisor",
     type: "website",
   },
@@ -833,7 +833,7 @@ export default function FractionalAiAdvisorPage() {
         metrics={[
           { value: <CountUp value={60} suffix="+" />, label: "teams supported" },
           { value: <CountUp value={200} suffix="+" />, label: "tools monitored monthly" },
-          { value: "Starting at $3,000", label: "per month" },
+          { value: "Ongoing strategic", label: "AI leadership" },
         ]}
       />
 
@@ -1002,7 +1002,7 @@ export default function FractionalAiAdvisorPage() {
                   <div className="comparison-table__head-cell is-highlight">Fractional Advisory</div>
                 </div>
                 {[
-                  { label: "Annual cost", fullTime: "$200k–$400k+", fractional: "Starting at $36k" },
+                  { label: "Annual cost", fullTime: "$200k–$400k+", fractional: "Custom advisory plan" },
                   { label: "Time to start", fullTime: "3–6 months", fractional: "Immediate" },
                   { label: "Strategic scope", fullTime: "Internal only", fractional: "Cross-industry insight" },
                   { label: "Flexibility", fullTime: "Fixed role", fractional: "Scales with needs" },
@@ -1029,33 +1029,17 @@ export default function FractionalAiAdvisorPage() {
               Every company requires a different level of strategic support depending on operational complexity, leadership needs, and growth stage.
             </p>
           </Reveal>
-          <div className="pricing-tier-grid">
-            <Reveal delay={60}>
-              <div className="tier-card">
-                <p className="tier-name">Growth Advisory</p>
-                <div className="tier-price">$3,000<span>/mo</span></div>
-                <p className="tier-desc">
-                  Strategic advisory sessions, ongoing workflow optimization review, and async support for leadership decisions.
-                </p>
-                <Link href={bookingHref} className="tier-cta">
-                  Apply for Advisory
-                </Link>
-              </div>
-            </Reveal>
-            <Reveal delay={120}>
-              <div className="tier-card featured">
-                <div className="tier-badge">Most Strategic</div>
-                <p className="tier-name">Strategic Partner</p>
-                <div className="tier-price">$5,000<span>+/mo</span></div>
-                <p className="tier-desc">
-                  Higher-touch advisory with expanded leadership support, deeper operational involvement, and priority access across your team.
-                </p>
-                <Link href={bookingHref} className="tier-cta">
-                  Apply for Advisory
-                </Link>
-              </div>
-            </Reveal>
-          </div>
+          <Reveal delay={60}>
+            <div className="tier-card featured" style={{ maxWidth: "600px", margin: "0 auto", textAlign: "center" }}>
+              <p className="tier-name">Custom Advisory Engagements</p>
+              <p className="tier-desc" style={{ marginTop: "16px" }}>
+                Every company requires a different level of strategic support depending on operational complexity, leadership needs, and growth stage. Advisory plans are tailored — not tiered.
+              </p>
+              <Link href={bookingHref} className="tier-cta" style={{ marginTop: "28px", display: "inline-flex", width: "auto" }}>
+                Apply for Advisory
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 

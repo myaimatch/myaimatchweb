@@ -11,18 +11,18 @@ import {
   BarChart3,
   Layers,
   Route,
-  TrendingUp,
+  Phone,
   FileText,
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "AI Workflow Audit + Strategy Roadmap | myAImatch",
+  title: "AI Workflow Strategy Session | myAImatch",
   description:
-    "Stop buying random AI tools. myAImatch maps your workflows, identifies the highest ROI opportunities, and builds a custom AI strategy roadmap with a 30-60-90 day implementation plan and executive report.",
+    "Stop guessing where AI fits in your business. myAImatch identifies your highest-impact workflow and builds a focused AI strategy starting at $500.",
   openGraph: {
-    title: "AI Workflow Audit + Strategy Roadmap | myAImatch",
+    title: "AI Workflow Strategy Session | myAImatch",
     description:
-      "Stop buying random AI tools. myAImatch maps your workflows, identifies the highest ROI opportunities, and builds a custom AI strategy roadmap with a 30-60-90 day implementation plan and executive report.",
+      "Stop guessing where AI fits in your business. myAImatch identifies your highest-impact workflow and builds a focused AI strategy starting at $500.",
     url: "https://myaimatch.ai/ai-strategy-roadmap",
     type: "website",
   },
@@ -36,43 +36,43 @@ const deliverables = [
     Icon: Search,
     eyebrow: "01",
     title: "Strategic Discovery Session",
-    body: "Deep-dive consultation into your operations, workflows, and business goals.",
+    body: "Deep-dive consultation focused on identifying your highest-impact operational bottleneck.",
   },
   {
     Icon: GitBranch,
     eyebrow: "02",
-    title: "Workflow & Process Audit",
-    body: "Identify bottlenecks, repetitive tasks, inefficiencies, and automation opportunities.",
+    title: "Workflow Audit — 1 Major Workflow",
+    body: "Complete audit of one critical workflow: sales follow-up, lead generation, client onboarding, reporting, operations, or support.",
   },
   {
     Icon: BarChart3,
     eyebrow: "03",
-    title: "AI Opportunity Matrix",
-    body: "Prioritized list of the highest ROI opportunities — the right sequence matters.",
+    title: "AI Opportunity Identification",
+    body: "The fastest, highest-ROI opportunity inside that workflow — clearly identified and prioritized.",
   },
   {
     Icon: Layers,
     eyebrow: "04",
     title: "Recommended AI Tool Stack",
-    body: "Best-fit tools for your business based on operations — not hype.",
+    body: "Specific tool recommendations built around solving that workflow — not a generic list.",
   },
   {
     Icon: Route,
     eyebrow: "05",
-    title: "30-60-90 Day Implementation Plan",
-    body: "A clear roadmap for execution and adoption, structured week by week.",
+    title: "Quick-Win Implementation Plan",
+    body: "A clear first-steps roadmap so your team knows exactly what to do and in what order.",
   },
   {
-    Icon: TrendingUp,
+    Icon: Phone,
     eyebrow: "06",
-    title: "ROI Projection",
-    body: "Estimated savings in time, cost, and operational efficiency.",
+    title: "Follow-Up Strategy Session",
+    body: "A second session to review findings, answer questions, and align on next steps.",
   },
   {
     Icon: FileText,
     eyebrow: "07",
-    title: "Executive Strategy Report",
-    body: "A professional PDF roadmap your leadership team can act on immediately.",
+    title: "Strategy Summary PDF",
+    body: "A professional, lean recommendations document your team can act on immediately.",
   },
 ];
 
@@ -87,9 +87,14 @@ const whoFor = [
 
 const faqs = [
   {
+    question: "Why only one workflow?",
+    answer:
+      "Because the fastest path to real ROI is solving your highest-impact operational bottleneck first. One workflow, done well, proves the value of AI in your business and creates momentum. Once that system works, scaling becomes easier, faster, and safer.",
+  },
+  {
     question: "Can we skip this and go straight to implementation?",
     answer:
-      "Sometimes — but only if your internal processes and roadmap are already clearly defined. Most companies save far more by starting with strategy first. Without it, implementation often automates broken processes instead of fixing them.",
+      "Sometimes — but most businesses save far more by starting with strategy first. The Strategy Session costs $500 and gives you the exact clarity needed before any implementation begins. Without it, implementation often automates broken processes instead of fixing them.",
   },
   {
     question: "How long does the process take?",
@@ -102,14 +107,9 @@ const faqs = [
       "Yes — if operational transformation is a serious priority. The strategy is tailored to your operational complexity, not your company size.",
   },
   {
-    question: "Is this only for large companies?",
+    question: "What happens after the strategy is delivered?",
     answer:
-      "Not at all. myAImatch works with businesses at every stage. What matters is whether AI transformation is a real priority — not how many employees you have.",
-  },
-  {
-    question: "What happens after the roadmap is delivered?",
-    answer:
-      "You can implement it internally with your team, hand it to your developers, or have myAImatch support the implementation directly. The roadmap is built to work either way.",
+      "You can implement it internally with your team, hand it to your developers, or have myAImatch support the implementation directly. Most clients continue with an AI Implementation engagement once the workflow strategy is clear.",
   },
 ];
 
@@ -783,17 +783,17 @@ export default function AIStrategyRoadmapPage() {
 
       {/* ── SECTION 1: HERO ── */}
       <ServiceHero
-        label="AI Workflow Audit + Strategy Roadmap"
+        label="AI Workflow Strategy Session"
         title="Stop Buying Random AI Tools."
-        highlightedTitle="Build the Right AI Strategy First."
-        body="Most businesses waste thousands on AI tools they never fully use. Before implementation, you need clarity on what to automate, where the highest ROI exists, and which AI systems fit your operations. This strategic roadmap gives you the exact plan — no guesswork, no wasted spend, no shiny object syndrome."
-        primaryCta={{ label: "Book Your Strategy Call", href: bookingHref }}
+        highlightedTitle="Fix the Right Workflow First."
+        body="Most businesses waste thousands on AI tools they never fully use. Before implementation, you need clarity on what to automate, where the highest ROI exists, and which AI systems fit your operations. We identify your highest-impact workflow and build a focused strategy around it — no guesswork, no wasted spend."
+        primaryCta={{ label: "Book Your Strategy Session", href: bookingHref }}
         secondaryCta={{ label: "See What's Included", href: "#whats-included" }}
         variant="strategy"
         metrics={[
           { value: <CountUp value={120} suffix="+" />, label: "operators matched" },
           { value: <CountUp value={275} suffix="+" />, label: "AI tools reviewed" },
-          { value: "Starting at $2,500", label: "strategy investment" },
+          { value: "Starting at $500", label: "strategy investment" },
         ]}
       />
 
@@ -851,17 +851,18 @@ export default function AIStrategyRoadmapPage() {
             <div className="mx-auto max-w-3xl">
               <p className="services-label">What we do</p>
               <h2 className="services-section-title">
-                What Is the AI Workflow Audit + Strategy Roadmap?
+                What Is the AI Workflow Strategy Session?
               </h2>
               <p className="what-body">
-                This is a strategic consulting engagement designed to identify where AI creates
-                the highest business impact first. We analyze your workflows, operations,
-                inefficiencies, and growth opportunities to build a practical implementation
-                roadmap tailored to your company.
+                This is a focused strategic consulting engagement designed to identify where AI
+                creates the highest business impact in your most important workflow. We analyze
+                your operations, map the opportunity, and give you a concrete plan built around
+                one targeted bottleneck — so you see real results fast, before scaling broader
+                AI initiatives.
               </p>
               <p className="what-note">
-                This is not generic advice. This is a custom AI transformation strategy built
-                around your actual business operations.
+                This is where AI transformation starts. One workflow, done right, creates the
+                foundation for everything that follows.
               </p>
             </div>
           </Reveal>
@@ -876,8 +877,8 @@ export default function AIStrategyRoadmapPage() {
               <p className="services-label">What is included</p>
               <h2 className="services-section-title">What You Will Receive</h2>
               <p className="services-section-body">
-                Every engagement delivers a complete strategic package — not a 1-pager,
-                not a generic template. A custom roadmap built around your business.
+                Every engagement delivers a complete strategic package focused on your most
+                important workflow bottleneck — custom-built, not a generic template.
               </p>
             </div>
           </Reveal>
@@ -905,10 +906,10 @@ export default function AIStrategyRoadmapPage() {
                 <FileText size={26} />
               </div>
               <div className="pdf-mockup-text">
-                <strong>Executive Strategy Report — PDF</strong>
+                <strong>Strategy Summary — PDF</strong>
                 <span>
-                  A professional, branded document your leadership team can review,
-                  distribute, and act on — delivered within the engagement timeline.
+                  A focused, professional document with your workflow audit findings, tool
+                  recommendations, and implementation roadmap — delivered ready to act on.
                 </span>
               </div>
             </div>
@@ -946,32 +947,30 @@ export default function AIStrategyRoadmapPage() {
               <p className="services-label">Investment</p>
               <h2 className="services-section-title">Investment</h2>
               <p className="services-section-body">
-                Every business has different operational complexity. Strategy engagements are
-                tailored based on team size, workflow depth, and implementation scope.
+                One focused engagement. One high-impact workflow. Results you can measure —
+                and build on.
               </p>
             </div>
           </Reveal>
           <Reveal delay={100}>
             <div className="pricing-solo-card">
-              <p className="services-label" style={{ marginBottom: 0 }}>Strategy engagement</p>
+              <p className="services-label" style={{ marginBottom: 0 }}>Strategy Session + Workflow Audit</p>
               <div className="pricing-amount">
-                $2,500
+                $500
                 <span className="pricing-amount-label">Starting investment</span>
               </div>
               <p className="pricing-desc">
-                For businesses ready to stop guessing and build a real AI strategy. Custom
-                engagements available for larger teams and complex multi-department operations.
-              </p>
-              <p className="pricing-sub">
-                Custom strategic engagements available for enterprise and complex operations.
+                Identify and fix your biggest workflow bottleneck with AI. Focused, actionable,
+                and designed to create measurable results fast — before scaling larger AI
+                initiatives.
               </p>
               <div className="pricing-cta-wrap">
                 <Link href={bookingHref} className="services-cta-primary">
-                  Apply for Your Strategy Roadmap
+                  Book Your Strategy Session
                 </Link>
               </div>
               <p className="pricing-note">
-                Premium consulting engagement — not a self-serve product.
+                Investment required before your session is confirmed.
               </p>
             </div>
           </Reveal>
@@ -994,22 +993,22 @@ export default function AIStrategyRoadmapPage() {
       </section>
 
       {/* ── SECTION 8: FINAL CTA ── */}
-      <section aria-label="Apply for AI Strategy Roadmap">
+      <section aria-label="Book your AI Strategy Session">
         <div className="final-cta-section">
           <Reveal>
-            <p className="final-cta-eyebrow">Ready to build your roadmap?</p>
-            <h2 className="final-cta-title">AI Success Starts With Strategy</h2>
+            <p className="final-cta-eyebrow">Ready to build your strategy?</p>
+            <h2 className="final-cta-title">AI Success Starts With the Right Workflow.</h2>
             <p className="final-cta-body">
               Before you invest in more tools,<br />
               before you hire more people,<br />
               before you automate the wrong things —<br />
               <br />
-              build the right roadmap first.
+              identify your highest-impact workflow first.
               That is where real transformation begins.
             </p>
             <div>
               <Link href={bookingHref} className="final-cta-btn">
-                Apply for Your AI Strategy Roadmap
+                Book Your Strategy Session
               </Link>
             </div>
           </Reveal>
