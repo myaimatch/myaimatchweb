@@ -32,89 +32,92 @@ export const metadata: Metadata = {
 
 const calHref = process.env.NEXT_PUBLIC_CAL_IMPLEMENTATION_URL || "#book";
 
-const problemSignals = [
-  "Wasted software spend",
-  "Poor adoption",
-  "Broken workflows",
-  "Low trust in AI",
-  "Zero ROI",
-];
-
 const deliverables = [
   {
-    Icon: Settings2,
+    Icon: Workflow,
     eyebrow: "01",
-    title: "AI Tool Setup + Configuration",
-    body: "Accounts, permissions, and access designed around real operating roles.",
+    title: "AI Workflow Automation",
   },
   {
-    Icon: Workflow,
+    Icon: Bot,
     eyebrow: "02",
-    title: "Workflow Automation Design",
-    body: "Cleaner handoffs, fewer manual steps, and practical automation logic.",
+    title: "Internal AI Copilots",
   },
   {
     Icon: Library,
     eyebrow: "03",
     title: "Prompt Libraries + SOP Systems",
-    body: "Reusable prompts and SOPs your team can run without guessing.",
   },
   {
-    Icon: Bot,
+    Icon: Settings2,
     eyebrow: "04",
-    title: "Internal AI Copilots",
-    body: "Focused copilots for sales, operations, support, marketing, or leadership.",
-  },
-  {
-    Icon: GraduationCap,
-    eyebrow: "05",
-    title: "Team Onboarding + Training",
-    body: "Enablement that turns the rollout into daily team behavior.",
+    title: "Client Onboarding Systems",
   },
   {
     Icon: SlidersHorizontal,
+    eyebrow: "05",
+    title: "Sales Follow-Up Automation",
+  },
+  {
+    Icon: Settings2,
     eyebrow: "06",
-    title: "QA + Optimization",
-    body: "Testing and refinement before the system becomes business-critical.",
+    title: "Reporting + Operations Systems",
+  },
+  {
+    Icon: GraduationCap,
+    eyebrow: "07",
+    title: "Team Enablement + Training",
   },
   {
     Icon: FileCheck2,
-    eyebrow: "07",
+    eyebrow: "08",
     title: "Documentation + Handoff",
-    body: "Clear ownership, SOPs, and continuity after launch.",
   },
 ];
 
-const fitChecks = [
-  "You already know where AI should improve operations.",
-  "You need execution, not more strategy meetings.",
-  "Your team needs adoption, not more software.",
-  "You want workflows that scale with growth.",
-  "You need systems your team will actually use.",
-  "You want implementation tied to ROI, not experimentation.",
+const processSteps = [
+  {
+    title: "Step 1 — Strategy & Qualification",
+    body: "We review your roadmap and identify implementation priorities.",
+  },
+  {
+    title: "Step 2 — Scope Definition",
+    body: "We define systems, workflows, integrations, and delivery requirements.",
+  },
+  {
+    title: "Step 3 — Custom Proposal",
+    body: "You receive a tailored implementation proposal with scope, timeline, and execution plan.",
+  },
+  {
+    title: "Step 4 — Build & Deployment",
+    body: "We design, configure, test, and deploy your AI systems.",
+  },
+  {
+    title: "Step 5 — Training + Optimization",
+    body: "Your team receives onboarding, documentation, and optimization support.",
+  },
 ];
-
-const philosophy = [
-  "Adoption before complexity",
-  "ROI before expansion",
-  "Clarity before automation",
-];
-
-const authorityPoints = ["Efficiency", "Adoption", "Scalability", "Measurable ROI"];
 
 const faqs = [
   {
-    question: "Can we work together without the Strategy Roadmap?",
+    question: "Why is pricing custom?",
     answer:
-      "Sometimes, but only if your workflows, priorities, and internal systems are already clearly defined. Most companies save significantly more by starting with strategy first.",
+      "Because every implementation depends on your workflows, team structure, integrations, operational complexity, and business goals. We scope the work around the system your business actually needs.",
+  },
+  {
+    question: "Do I need the Strategy Roadmap first?",
+    answer:
+      "Usually, yes. Implementation works best when we first identify the highest-value workflow and define the right strategic priorities. This ensures we solve the right problem before building the solution.",
+  },
+  {
+    question: "Can you work with our current tools?",
+    answer:
+      "Yes. We can work with your existing tools when they support the workflow, replace tools that create friction, or connect systems through automation and process design.",
   },
   {
     question: "How long does implementation take?",
-    answer: "Most projects range from 2-6 weeks depending on workflow complexity, users, integrations, and deployment scope.",
-  },
-  {
-    question: "Do you work with small businesses?",
-    answer: "Yes, if implementation is tied to serious operational transformation and the business is ready to adopt the systems being deployed.",
+    answer:
+      "Timelines vary by scope. After the Strategy Roadmap, we define the systems, integrations, team needs, and delivery requirements before proposing a timeline.",
   },
   {
     question: "Do you train our team?",
@@ -340,29 +343,9 @@ export default function AIImplementationPage() {
           margin-top: 34px;
         }
 
-        .impl-proof-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-top: 28px;
-        }
-
-        .impl-proof-row span {
-          display: inline-flex;
-          align-items: center;
-          min-height: 34px;
-          border: 1px solid rgba(255,255,255,0.09);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.035);
-          color: rgba(255,255,255,0.62);
-          padding: 0 13px;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
         .impl-dashboard {
           position: relative;
-          min-height: 520px;
+          min-height: 430px;
           padding: 22px;
           border: 1px solid rgba(196,181,253,0.18);
           border-radius: 28px;
@@ -434,7 +417,7 @@ export default function AIImplementationPage() {
 
         .impl-system-node.is-core {
           grid-column: span 2;
-          min-height: 150px;
+          min-height: 132px;
           border-color: rgba(196,181,253,0.24);
           background:
             radial-gradient(ellipse 90% 70% at 50% 100%, rgba(132,104,235,0.26), transparent 72%),
@@ -442,7 +425,6 @@ export default function AIImplementationPage() {
         }
 
         .impl-system-node span,
-        .impl-architecture span,
         .impl-roadmap span {
           display: block;
           color: rgba(196,181,253,0.82);
@@ -498,36 +480,6 @@ export default function AIImplementationPage() {
           transform: translateX(-50%) rotate(180deg);
         }
 
-        .impl-ops-strip {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
-          margin-top: 16px;
-        }
-
-        .impl-ops-strip div {
-          min-height: 74px;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 14px;
-          background: rgba(255,255,255,0.03);
-          padding: 12px;
-        }
-
-        .impl-ops-strip strong {
-          display: block;
-          color: #ffffff;
-          font-size: 18px;
-          letter-spacing: -0.02em;
-        }
-
-        .impl-ops-strip span {
-          display: block;
-          margin-top: 4px;
-          color: rgba(255,255,255,0.42);
-          font-size: 11px;
-          line-height: 1.35;
-        }
-
         .impl-split {
           display: grid;
           grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1fr);
@@ -543,8 +495,7 @@ export default function AIImplementationPage() {
           margin-top: 26px;
         }
 
-        .impl-problem-list li,
-        .impl-check-list li {
+        .impl-problem-list li {
           list-style: none;
           position: relative;
           border: 1px solid rgba(255,255,255,0.08);
@@ -556,8 +507,7 @@ export default function AIImplementationPage() {
           line-height: 1.45;
         }
 
-        .impl-problem-list li::before,
-        .impl-check-list li::before {
+        .impl-problem-list li::before {
           content: "";
           position: absolute;
           left: 15px;
@@ -676,57 +626,8 @@ export default function AIImplementationPage() {
         }
 
         .impl-build-head {
-          display: grid;
-          grid-template-columns: minmax(0, 0.82fr) minmax(360px, 0.72fr);
-          gap: clamp(28px, 5vw, 64px);
-          align-items: end;
+          max-width: 760px;
           margin-bottom: 42px;
-        }
-
-        .impl-architecture {
-          min-height: 230px;
-          padding: 20px;
-        }
-
-        .impl-architecture-grid {
-          display: grid;
-          grid-template-columns: 0.8fr 1fr 0.8fr;
-          gap: 10px;
-          align-items: center;
-          margin-top: 18px;
-        }
-
-        .impl-architecture-col {
-          display: grid;
-          gap: 10px;
-        }
-
-        .impl-architecture-box {
-          min-height: 54px;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
-          background: rgba(255,255,255,0.035);
-          color: rgba(255,255,255,0.68);
-          padding: 13px;
-          font-size: 12px;
-          font-weight: 750;
-        }
-
-        .impl-architecture-core {
-          min-height: 152px;
-          display: grid;
-          place-items: center;
-          border: 1px solid rgba(196,181,253,0.28);
-          border-radius: 16px;
-          background:
-            radial-gradient(ellipse 80% 60% at 50% 100%, rgba(132,104,235,0.28), transparent 72%),
-            rgba(255,255,255,0.05);
-          color: #ffffff;
-          padding: 18px;
-          text-align: center;
-          font-size: 18px;
-          font-weight: 850;
-          letter-spacing: -0.02em;
         }
 
         .impl-deliverables-grid {
@@ -736,7 +637,7 @@ export default function AIImplementationPage() {
         }
 
         .impl-deliverable {
-          min-height: 250px;
+          min-height: 176px;
           padding: 24px;
         }
 
@@ -751,7 +652,7 @@ export default function AIImplementationPage() {
         .impl-deliverable h3 {
           position: relative;
           z-index: 1;
-          margin-top: 30px;
+          margin-top: 26px;
           color: #ffffff;
           font-size: 20px;
           font-weight: 800;
@@ -768,83 +669,48 @@ export default function AIImplementationPage() {
           line-height: 1.68;
         }
 
-        .impl-fit {
-          position: relative;
-          padding: 94px 0;
-          background:
-            radial-gradient(ellipse 76% 56% at 50% 0%, rgba(132,104,235,0.18), transparent 74%),
-            #0d0d0d;
-          border-top: 1px solid rgba(255,255,255,0.05);
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .impl-fit-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 0.76fr) minmax(380px, 1fr);
-          gap: clamp(34px, 6vw, 76px);
-          align-items: center;
-        }
-
-        .impl-check-list {
-          display: grid;
-          gap: 10px;
-          padding: 0;
-        }
-
-        .impl-philosophy {
-          padding: 106px 0;
-        }
-
-        .impl-philosophy-panel {
-          position: relative;
-          overflow: hidden;
-          border: 1px solid rgba(196,181,253,0.18);
-          border-radius: 28px;
-          background:
-            radial-gradient(ellipse 80% 54% at 50% 0%, rgba(132,104,235,0.22), transparent 70%),
-            rgba(255,255,255,0.035);
-          padding: clamp(36px, 7vw, 72px);
+        .impl-scope-card {
+          max-width: 760px;
+          margin: 46px auto 0;
+          padding: clamp(30px, 5vw, 48px);
           text-align: center;
+          border-color: rgba(132,104,235,0.32);
+          background:
+            radial-gradient(ellipse 100% 80% at 50% 0%, rgba(132,104,235,0.2), transparent 68%),
+            rgba(255,255,255,0.04);
         }
 
-        .impl-philosophy-panel h2 {
-          margin: 0 auto;
-          max-width: 780px;
-          color: #ffffff;
-          font-size: clamp(42px, 7vw, 92px);
-          font-weight: 850;
-          letter-spacing: -0.055em;
-          line-height: 0.95;
-        }
-
-        .impl-philosophy-panel h2 span {
-          display: block;
-          color: var(--impl-accent);
-        }
-
-        .impl-philosophy-panel p {
-          margin: 24px auto 0;
-          max-width: 660px;
-          color: rgba(255,255,255,0.64);
-          font-size: 16px;
-          line-height: 1.75;
-        }
-
-        .impl-principles {
+        .impl-process-list {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 12px;
-          margin-top: 34px;
+          gap: 14px;
+          margin-top: 44px;
         }
 
-        .impl-principles span {
-          border: 1px solid rgba(255,255,255,0.09);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.76);
-          padding: 13px 16px;
-          font-size: 13px;
-          font-weight: 800;
+        .impl-process-step {
+          display: grid;
+          grid-template-columns: minmax(220px, 0.44fr) minmax(0, 1fr);
+          gap: 24px;
+          align-items: center;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px;
+          background: rgba(255,255,255,0.035);
+          padding: 22px 24px;
+        }
+
+        .impl-process-step h3 {
+          margin: 0;
+          color: #ffffff;
+          font-size: 17px;
+          font-weight: 850;
+          letter-spacing: -0.02em;
+          line-height: 1.25;
+        }
+
+        .impl-process-step p {
+          margin: 0;
+          color: rgba(255,255,255,0.62);
+          font-size: 15px;
+          line-height: 1.65;
         }
 
         .impl-pricing {
@@ -882,44 +748,6 @@ export default function AIImplementationPage() {
           color: rgba(255,255,255,0.6);
           font-size: 15px;
           line-height: 1.7;
-        }
-
-        .impl-authority {
-          padding: 96px 0;
-          background:
-            radial-gradient(ellipse 80% 60% at 50% 0%, rgba(132,104,235,0.14), transparent 72%),
-            rgba(255,255,255,0.018);
-          border-top: 1px solid rgba(255,255,255,0.05);
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .impl-authority-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 0.84fr) minmax(360px, 0.78fr);
-          gap: clamp(34px, 6vw, 72px);
-          align-items: center;
-        }
-
-        .impl-authority-points {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px;
-        }
-
-        .impl-authority-points div {
-          min-height: 118px;
-          display: flex;
-          align-items: flex-end;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 18px;
-          background:
-            radial-gradient(ellipse 80% 54% at 50% 100%, rgba(132,104,235,0.16), transparent 72%),
-            rgba(255,255,255,0.035);
-          color: #ffffff;
-          padding: 18px;
-          font-size: 18px;
-          font-weight: 850;
-          letter-spacing: -0.02em;
         }
 
         .impl-faq-section {
@@ -1032,25 +860,6 @@ export default function AIImplementationPage() {
           color: rgba(255,255,255,0.6);
           font-size: 17px;
           line-height: 1.75;
-        }
-
-        .impl-pain-chips {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 10px;
-          margin: 28px auto 0;
-          max-width: 640px;
-        }
-
-        .impl-pain-chip {
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 999px;
-          background: rgba(255,255,255,0.025);
-          color: rgba(255,255,255,0.48);
-          padding: 7px 14px;
-          font-size: 13px;
-          font-weight: 700;
         }
 
         .impl-path-diagram {
@@ -1239,10 +1048,8 @@ export default function AIImplementationPage() {
           .impl-hero-grid,
           .impl-split,
           .impl-definition-grid,
-          .impl-build-head,
-          .impl-fit-grid,
+          .impl-process-step,
           .impl-pricing,
-          .impl-authority-grid,
           .impl-faq-grid {
             grid-template-columns: 1fr;
           }
@@ -1251,9 +1058,7 @@ export default function AIImplementationPage() {
             min-height: auto;
           }
 
-          .impl-path ol,
-          .impl-principles,
-          .impl-authority-points {
+          .impl-path ol {
             grid-template-columns: 1fr;
           }
 
@@ -1285,10 +1090,8 @@ export default function AIImplementationPage() {
           }
 
           .impl-system-map,
-          .impl-ops-strip,
           .impl-problem-list,
           .impl-category-grid,
-          .impl-architecture-grid,
           .impl-deliverables-grid {
             grid-template-columns: 1fr;
           }
@@ -1305,10 +1108,7 @@ export default function AIImplementationPage() {
           .impl-problem-section,
           .impl-definition,
           .impl-build,
-          .impl-fit,
-          .impl-philosophy,
           .impl-pricing,
-          .impl-authority,
           .impl-faq-section,
           .impl-final {
             padding-top: 72px;
@@ -1330,23 +1130,20 @@ export default function AIImplementationPage() {
           <div className="impl-hero-copy">
             <p className="impl-label">AI Implementation & Systems Setup</p>
             <h1 className="impl-hero-title">
-              Strategy Is Only Valuable If It Gets <span>Implemented</span>
+              We Build the AI Systems That Actually Improve <span>Operations</span>
             </h1>
             <p className="impl-hero-body">
-              myAImatch deploys the workflows, automations, copilots, and enablement your team needs to turn an AI roadmap into measurable business outcomes.
+              After identifying your highest-priority workflow, we design and implement the AI systems, automations, and operational infrastructure required to create real business results.
+              <br /><br />
+              No random tools. No disconnected automations. Only systems built around measurable ROI.
             </p>
             <div className="impl-hero-actions">
               <Link className="impl-cta-primary" href={calHref}>
-                Apply for AI Implementation
+                Request Your Custom Implementation Plan
               </Link>
               <Link className="impl-cta-secondary" href="#what-we-build">
                 See What We Build
               </Link>
-            </div>
-            <div className="impl-proof-row" aria-label="Implementation focus areas">
-              <span>Operational systems</span>
-              <span>Team adoption</span>
-              <span>Measurable ROI</span>
             </div>
           </div>
 
@@ -1356,16 +1153,19 @@ export default function AIImplementationPage() {
 
       <section className="impl-problem-section" aria-labelledby="implementation-breaks">
         <div className="impl-shell impl-problem-content">
-          <p className="impl-label">The problem</p>
-          <h2 id="implementation-breaks" className="impl-section-title">Why Most AI Implementations Break</h2>
+          <p className="impl-label">Strategy to implementation</p>
+          <h2 id="implementation-breaks" className="impl-section-title">Built Around One Strategic Priority — Designed for Long-Term Scale</h2>
           <p className="impl-problem-intro">
-            Teams do not fail because AI tools are bad. They fail because they buy software before the workflow, ownership, and adoption plan are clear.
+            Every implementation starts with a clear operational priority.
+            <br /><br />
+            But solving one workflow properly usually requires more than one tool.
+            <br /><br />
+            It requires system design: automations, internal processes, documentation, team adoption, reporting structure, and operational alignment.
+            <br /><br />
+            That&apos;s what we build.
+            <br /><br />
+            We start with the right problem first — then build the systems required to solve it properly.
           </p>
-          <div className="impl-pain-chips" aria-label="Common implementation failures">
-            {problemSignals.map((signal) => (
-              <span className="impl-pain-chip" key={signal}>{signal}</span>
-            ))}
-          </div>
           <div className="impl-path-diagram" aria-label="Implementation path comparison">
             <div className="impl-path-row impl-path-row--bad">
               <span className="impl-path-badge">Without systems</span>
@@ -1393,51 +1193,14 @@ export default function AIImplementationPage() {
         </div>
       </section>
 
-      <section className="impl-definition" aria-labelledby="what-is-implementation">
-        <div className="impl-shell impl-definition-grid">
-          <div>
-            <p className="impl-label">What this service is</p>
-            <h2 id="what-is-implementation" className="impl-section-title">What Is AI Implementation & Systems Setup?</h2>
-            <p className="impl-section-body">
-              This is the execution layer after strategy: the buildout of AI workflows, internal tools, team habits, and documentation that makes transformation real.
-            </p>
-          </div>
-          <div className="impl-category-grid" aria-label="Implementation categories">
-            <span>AI tools</span>
-            <span>Workflow automations</span>
-            <span>Prompt systems</span>
-            <span>Internal copilots</span>
-            <span>Operational integrations</span>
-            <span>Team enablement</span>
-          </div>
-        </div>
-      </section>
-
       <section id="what-we-build" className="impl-shell impl-build" aria-labelledby="what-we-build-title">
         <div className="impl-build-head">
           <div>
-            <p className="impl-label">What we build</p>
-            <h2 id="what-we-build-title" className="impl-section-title">Systems your team can actually run.</h2>
+            <h2 id="what-we-build-title" className="impl-section-title">What We Build</h2>
             <p className="impl-section-body">
-              Practical implementation work, designed around adoption and measurable operating leverage.
+              Practical implementation work designed around the operational systems your team needs to run the workflow properly.
             </p>
           </div>
-          <Reveal>
-            <div className="impl-card impl-architecture" aria-label="Implementation architecture visual">
-              <span>Implementation roadmap</span>
-              <div className="impl-architecture-grid">
-                <div className="impl-architecture-col">
-                  <div className="impl-architecture-box">Inputs</div>
-                  <div className="impl-architecture-box">Workflows</div>
-                </div>
-                <div className="impl-architecture-core">Operating AI System</div>
-                <div className="impl-architecture-col">
-                  <div className="impl-architecture-box">Adoption</div>
-                  <div className="impl-architecture-box">ROI</div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
         </div>
         <div className="impl-deliverables-grid">
           {deliverables.map((item, index) => (
@@ -1448,85 +1211,73 @@ export default function AIImplementationPage() {
                 </div>
                 <p className="eyebrow">{item.eyebrow}</p>
                 <h3>{item.title}</h3>
-                <p>{item.body}</p>
               </TiltCard>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="impl-fit" aria-labelledby="implementation-fit">
-        <div className="impl-shell impl-fit-grid">
+      <section className="impl-definition" aria-labelledby="not-tool-setup">
+        <div className="impl-shell impl-definition-grid">
           <div>
-            <p className="impl-label">Who this is for</p>
-            <h2 id="implementation-fit" className="impl-section-title">This Is For You If...</h2>
+            <p className="impl-label">Implementation depth</p>
+            <h2 id="not-tool-setup" className="impl-section-title">This Is Not Tool Setup</h2>
             <p className="impl-section-body">
-              This is for teams that want execution tied to operational outcomes, not more AI experimentation without ownership.
+              We do not sell “AI tool setup.”
+              <br /><br />
+              We design operational systems that improve how your business actually works.
+              <br /><br />
+              Tools are only part of the solution.
             </p>
           </div>
-          <ul className="impl-check-list">
-            {fitChecks.map((check) => (
-              <li key={check}>{check}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="impl-shell impl-philosophy" aria-labelledby="implementation-philosophy">
-        <div className="impl-philosophy-panel">
-          <p className="impl-label">Our implementation philosophy</p>
-          <h2 id="implementation-philosophy">
-            Strategy First.
-            <span>Systems Second.</span>
-          </h2>
-          <p>
-            More tools do not create transformation. Clear systems do.
-          </p>
-          <div className="impl-principles">
-            {philosophy.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
+          <div className="impl-card impl-scope-card">
+            <p className="impl-section-body" style={{ marginTop: 0 }}>
+              The real value comes from workflow design, implementation logic, team adoption, and long-term operational efficiency.
+              <br /><br />
+              That is what creates ROI.
+            </p>
           </div>
         </div>
       </section>
 
       <section className="impl-shell impl-pricing impl-pricing-centered" aria-labelledby="implementation-investment">
         <div>
-          <p className="impl-label">Investment</p>
-          <h2 id="implementation-investment" className="impl-section-title">Investment</h2>
+          <p className="impl-label">Custom implementation</p>
+          <h2 id="implementation-investment" className="impl-section-title">Custom Scope. Custom Proposal.</h2>
           <p className="impl-section-body">
-            Implementation is custom-scoped based on workflows, users, integrations, and deployment depth.
+            Every implementation is different.
+            <br /><br />
+            The right solution depends on your workflows, team structure, operational complexity, integrations, and business goals.
+            <br /><br />
+            After your Strategy Roadmap, we define priorities, scope, and implementation requirements — then provide a custom proposal built around your specific needs.
+            <br /><br />
+            No generic packages. No fixed templates. Only strategic implementation.
           </p>
         </div>
         <Reveal>
           <TiltCard className="impl-card impl-price-card" maxTilt={3}>
-            <p className="price-label">Most engagements begin at</p>
-            <strong>Starting at $5,000</strong>
-            <p className="impl-price-note">Larger systems and advanced deployments are scoped individually.</p>
+            <p className="price-label">Custom Implementation Proposal</p>
             <Link className="impl-cta-primary" href={calHref}>
-              Apply for Implementation
+              Request Your Custom Implementation Plan
             </Link>
           </TiltCard>
         </Reveal>
       </section>
 
-      <section className="impl-authority" aria-labelledby="why-myaimatch">
-        <div className="impl-shell impl-authority-grid">
-          <div>
-            <p className="impl-label">Why companies choose myAImatch</p>
-            <h2 id="why-myaimatch" className="impl-section-title">Not another automation agency.</h2>
-            <p className="impl-section-body">
-              myAImatch is not selling disconnected AI tools. We help businesses build operational systems that create real leverage.
-            </p>
-            <p className="impl-section-body">
-              AI should improve business performance, not create more complexity. That is the difference.
-            </p>
-          </div>
-          <div className="impl-authority-points" aria-label="Reasons companies choose myAImatch">
-            {authorityPoints.map((point) => (
-              <div key={point}>{point}</div>
-            ))}
-          </div>
+      <section className="impl-shell impl-build" aria-labelledby="implementation-process">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="impl-label">Process</p>
+          <h2 id="implementation-process" className="impl-section-title">Our Implementation Process</h2>
+        </div>
+        <div className="impl-process-list">
+          {processSteps.map((step) => (
+            <Reveal key={step.title}>
+              <div className="impl-process-step">
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
@@ -1552,12 +1303,12 @@ export default function AIImplementationPage() {
 
       <section className="impl-final impl-beam-section" aria-labelledby="implementation-final">
         <div className="impl-shell">
-          <h2 id="implementation-final">AI Does Not Create Results. Implementation Does.</h2>
+          <h2 id="implementation-final">Build the Operational AI System Your Workflow Actually Needs.</h2>
           <p>
-            Before you add more tools, build the systems that make AI useful.
+            Once the right priority is clear, we scope the systems, automations, integrations, and enablement required to implement it properly.
           </p>
           <Link className="impl-cta-primary" href={calHref}>
-            Apply for AI Implementation
+            Request Your Custom Implementation Plan
           </Link>
         </div>
       </section>
@@ -1575,48 +1326,34 @@ function OperationsDashboard() {
             <span />
             <span />
           </div>
-          <div className="impl-status-pill">Deployment Ready</div>
+          <div className="impl-status-pill">System Plan</div>
         </div>
         <div className="impl-system-map">
           <div className="impl-flow-lines" aria-hidden />
           <div className="impl-system-node">
             <span>Operations</span>
-            <strong>Workflow inputs</strong>
-            <p>Real processes, handoffs, owners, and decision points.</p>
+            <strong>Workflow map</strong>
+            <p>Inputs, handoffs, owners, and decisions.</p>
           </div>
           <div className="impl-system-node">
             <span>Team</span>
-            <strong>Adoption layer</strong>
-            <p>Training, permissions, SOPs, and operating rhythm.</p>
+            <strong>Adoption plan</strong>
+            <p>Roles, training, SOPs, and rollout rhythm.</p>
           </div>
           <div className="impl-system-node is-core">
-            <span>AI systems layer</span>
-            <strong>Copilots, automations, prompts, and integrations</strong>
-            <p>Connected around the work that actually moves the business.</p>
+            <span>AI systems</span>
+            <strong>Copilots, automations, and integrations</strong>
+            <p>Connected around the priority workflow.</p>
           </div>
           <div className="impl-system-node">
             <span>Quality</span>
-            <strong>QA loops</strong>
-            <p>Testing, feedback, optimization, and owner handoff.</p>
+            <strong>Testing loop</strong>
+            <p>Launch checks, feedback, and handoff.</p>
           </div>
           <div className="impl-system-node">
             <span>Business</span>
-            <strong>ROI signals</strong>
-            <p>Efficiency, cycle time, adoption, and operating leverage.</p>
-          </div>
-        </div>
-        <div className="impl-ops-strip" aria-hidden>
-          <div>
-            <strong>01</strong>
-            <span>Scope the workflows</span>
-          </div>
-          <div>
-            <strong>02</strong>
-            <span>Deploy the systems</span>
-          </div>
-          <div>
-            <strong>03</strong>
-            <span>Enable the team</span>
+            <strong>Results tracking</strong>
+            <p>Cycle time, adoption, and ROI signals.</p>
           </div>
         </div>
       </div>
