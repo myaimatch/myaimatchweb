@@ -37,41 +37,49 @@ const deliverables = [
     Icon: Workflow,
     eyebrow: "01",
     title: "AI Workflow Automation",
+    body: "End-to-end automation of your highest-priority workflow — reducing manual work and improving output quality.",
   },
   {
     Icon: Bot,
     eyebrow: "02",
     title: "Internal AI Copilots",
+    body: "Custom AI assistants built for your team's specific tasks, processes, and internal knowledge base.",
   },
   {
     Icon: Library,
     eyebrow: "03",
     title: "Prompt Libraries + SOP Systems",
+    body: "Structured prompt systems and documented SOPs that make AI usable and repeatable across the whole team.",
   },
   {
     Icon: Settings2,
     eyebrow: "04",
     title: "Client Onboarding Systems",
+    body: "AI-powered onboarding flows that reduce friction, speed up time-to-value, and scale without extra headcount.",
   },
   {
     Icon: SlidersHorizontal,
     eyebrow: "05",
     title: "Sales Follow-Up Automation",
+    body: "Automated follow-up sequences that keep leads engaged without requiring manual effort from your sales team.",
   },
   {
     Icon: Settings2,
     eyebrow: "06",
     title: "Reporting + Operations Systems",
+    body: "Automated reporting pipelines that surface the right data for the right people at the right time.",
   },
   {
     Icon: GraduationCap,
     eyebrow: "07",
     title: "Team Enablement + Training",
+    body: "Onboarding, documentation, and training designed to ensure your team actually adopts and uses the systems built.",
   },
   {
     Icon: FileCheck2,
     eyebrow: "08",
     title: "Documentation + Handoff",
+    body: "Clear documentation of every system built — so your team owns it, understands it, and can maintain it long-term.",
   },
 ];
 
@@ -300,10 +308,10 @@ export default function AIImplementationPage() {
         }
 
         .impl-hero-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 0.96fr) minmax(380px, 0.84fr);
-          gap: clamp(32px, 6vw, 72px);
+          display: flex;
+          flex-direction: column;
           align-items: center;
+          text-align: center;
         }
 
         .impl-hero-copy {
@@ -312,7 +320,7 @@ export default function AIImplementationPage() {
         }
 
         .impl-hero-title {
-          max-width: 780px;
+          max-width: 1060px;
           color: #ffffff;
           font-size: clamp(48px, 8vw, 98px);
           font-weight: 850;
@@ -331,6 +339,8 @@ export default function AIImplementationPage() {
         .impl-hero-body {
           margin-top: 26px;
           max-width: 680px;
+          margin-left: auto;
+          margin-right: auto;
           color: rgba(255,255,255,0.68);
           font-size: 17px;
           line-height: 1.78;
@@ -341,6 +351,7 @@ export default function AIImplementationPage() {
           flex-wrap: wrap;
           gap: 12px;
           margin-top: 34px;
+          justify-content: center;
         }
 
         .impl-dashboard {
@@ -722,7 +733,10 @@ export default function AIImplementationPage() {
         }
 
         .impl-price-card {
-          padding: 32px;
+          padding: 36px 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .impl-price-card .price-label {
@@ -850,12 +864,11 @@ export default function AIImplementationPage() {
         .impl-problem-content {
           position: relative;
           max-width: 900px;
-          margin: 0 auto;
-          text-align: center;
+          text-align: left;
         }
 
         .impl-problem-intro {
-          margin: 22px auto 0;
+          margin: 22px 0 0;
           max-width: 650px;
           color: rgba(255,255,255,0.6);
           font-size: 17px;
@@ -881,7 +894,9 @@ export default function AIImplementationPage() {
         .impl-path-row--bad {
           border: 1px solid rgba(255,255,255,0.06);
           background: rgba(255,255,255,0.02);
-          opacity: 0.8;
+          opacity: 0.55;
+          transform: scale(0.94);
+          transform-origin: center;
         }
 
         .impl-path-row--good {
@@ -890,6 +905,14 @@ export default function AIImplementationPage() {
             radial-gradient(ellipse 100% 100% at 50% 50%, rgba(132,104,235,0.17), transparent 82%),
             rgba(132,104,235,0.055);
           box-shadow: 0 0 42px rgba(132,104,235,0.1);
+          padding: 22px 24px;
+          transform: scale(1.04);
+          transform-origin: center;
+        }
+
+        .impl-path-row--good .impl-path-step {
+          font-size: 14px;
+          padding: 4px 16px;
         }
 
         .impl-path-badge,
@@ -1141,13 +1164,9 @@ export default function AIImplementationPage() {
               <Link className="impl-cta-primary" href={calHref}>
                 Request Your Custom Implementation Plan
               </Link>
-              <Link className="impl-cta-secondary" href="#what-we-build">
-                See What We Build
-              </Link>
             </div>
           </div>
 
-          <OperationsDashboard />
         </div>
       </section>
 
@@ -1196,7 +1215,7 @@ export default function AIImplementationPage() {
       <section id="what-we-build" className="impl-shell impl-build" aria-labelledby="what-we-build-title">
         <div className="impl-build-head">
           <div>
-            <h2 id="what-we-build-title" className="impl-section-title">What We Build</h2>
+            <h2 id="what-we-build-title" className="impl-section-title">The AI Systems We Deliver</h2>
             <p className="impl-section-body">
               Practical implementation work designed around the operational systems your team needs to run the workflow properly.
             </p>
@@ -1211,6 +1230,7 @@ export default function AIImplementationPage() {
                 </div>
                 <p className="eyebrow">{item.eyebrow}</p>
                 <h3>{item.title}</h3>
+                <p className="impl-deliverable-body">{item.body}</p>
               </TiltCard>
             </Reveal>
           ))}
@@ -1256,7 +1276,6 @@ export default function AIImplementationPage() {
         </div>
         <Reveal>
           <TiltCard className="impl-card impl-price-card" maxTilt={3}>
-            <p className="price-label">Custom Implementation Proposal</p>
             <Link className="impl-cta-primary" href={calHref}>
               Request Your Custom Implementation Plan
             </Link>
