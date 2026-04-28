@@ -212,7 +212,7 @@ export default function Footer() {
               Start with the right AI tools. Build the right AI strategy. Scale smarter with AI.
             </p>
             <AssessmentPopupTrigger ctaLocation="footer_primary" className="site-footer__cta">
-              Start Free AI Match
+              Get Your Free AI Recommendations
             </AssessmentPopupTrigger>
           </div>
 

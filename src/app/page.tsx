@@ -967,7 +967,7 @@ export default async function HomePage() {
             </p>
             <div className="home-cta-row">
               <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_hero">
-                Start Free AI Match
+                Get Your Free AI Recommendations
               </AssessmentPopupTrigger>
             </div>
           </div>
@@ -995,13 +995,13 @@ export default async function HomePage() {
         <div className="home-shell">
           <div className="home-final-panel">
             <div className="home-final-copy">
-              <h2>Skip the manual search. Get your AI match in &ldquo;seconds&rdquo;.</h2>
+              <h2>Skip the manual search. Get your AI match in seconds.</h2>
               <p>
-                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward your AI match — built around your workflow, team, budget, goals, industry, and use case.
+                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward your recommended AI tools.
               </p>
               <div className="home-cta-row">
                 <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_final">
-                  Start Free AI Match
+                  Get Your Free AI Recommendations
                 </AssessmentPopupTrigger>
               </div>
             </div>
@@ -1013,13 +1013,12 @@ export default async function HomePage() {
       <section className="home-services-teaser">
         <div className="home-shell">
           <div className="home-services-teaser-inner">
-            <h2 className="home-services-teaser-title">Need More Than Just Tools?</h2>
-            <p className="home-services-teaser-body">
-              We help businesses with AI Strategy, Implementation, and Ongoing Advisory — built around real operational improvement, not random tool setup.
-            </p>
-            <p className="home-services-teaser-body">
-              From identifying the right workflow to full implementation and long-term optimization, we help you build AI systems that actually work.
-            </p>
+            <div className="home-services-teaser-copy">
+              <h2 className="home-services-teaser-title">Need More Than Just Tools?</h2>
+              <p className="home-services-teaser-body">
+                We help businesses with AI Strategy, Implementation, and Ongoing Advisory — built around real operational improvement, not random tool setup. From identifying the right workflow to full implementation and long-term optimization.
+              </p>
+            </div>
             <a href="/services" className="home-services-teaser-cta">
               Explore Our Services
             </a>

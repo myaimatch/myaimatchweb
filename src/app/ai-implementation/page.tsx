@@ -1037,7 +1037,7 @@ export default function AIImplementationPage() {
         .impl-pricing-centered .impl-price-card {
           max-width: 680px;
           margin: 48px auto 0;
-          padding: clamp(34px, 6vw, 56px);
+          padding: 28px 36px;
           border-color: rgba(132,104,235,0.32);
           background:
             radial-gradient(ellipse 100% 80% at 50% 0%, rgba(132,104,235,0.22), transparent 68%),
