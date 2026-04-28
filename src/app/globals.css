@@ -1129,3 +1129,57 @@
     display: none;
   }
 }
+
+/* ─── Services Teaser Section ─────────────────────────────────────────────── */
+
+.home-services-teaser {
+  padding: 80px 0;
+  background: linear-gradient(180deg, rgba(129, 74, 200, 0.06) 0%, transparent 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.home-services-teaser-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.home-services-teaser-title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.home-services-teaser-body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.62);
+  max-width: 580px;
+}
+
+.home-services-teaser-cta {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #814ac8, #6b35b0);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.home-services-teaser-cta:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}

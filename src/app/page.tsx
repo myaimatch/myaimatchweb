@@ -959,15 +959,11 @@ export default async function HomePage() {
         <div className="home-hero-noise" aria-hidden="true" />
         <div className="home-shell home-hero-grid">
           <div className="home-hero-copy">
-            <div className="home-badge">
-              <span className="home-badge-dot" />
-              AI Match Free Assessment
-            </div>
             <h1 className="home-hero-title">
               Find Your Perfect <span>AI Match</span>
             </h1>
             <p className="home-hero-body">
-              Explore AI tools for free, get personalized recommendations, or work with us to design and implement Your AI Match.
+              Explore AI tools for free, get personalized recommendations, or work with us to design and implement your AI match.
             </p>
             <div className="home-cta-row">
               <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_hero">
@@ -985,7 +981,7 @@ export default async function HomePage() {
         <div className="px-4 pb-12">
           <div className="match-table-header">
             <h2 className="home-section-title">
-              Find Your AI Match with our AI Tool Directory.
+              Find the Right AI Tools for Your Business
             </h2>
           </div>
           <MatchEngineFrame toolCount={tools.length}>
@@ -999,9 +995,9 @@ export default async function HomePage() {
         <div className="home-shell">
           <div className="home-final-panel">
             <div className="home-final-copy">
-              <h2>Skip the spreadsheet. Get Your AI Match in minutes.</h2>
+              <h2>Skip the manual search. Get your AI match in &ldquo;seconds&rdquo;.</h2>
               <p>
-                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward Your AI Match — built around your workflow, team, budget, goals, industry, and use case.
+                Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward your AI match — built around your workflow, team, budget, goals, industry, and use case.
               </p>
               <div className="home-cta-row">
                 <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_final">
@@ -1010,6 +1006,23 @@ export default async function HomePage() {
               </div>
             </div>
             <MatchOutputPreview />
+          </div>
+        </div>
+      </section>
+
+      <section className="home-services-teaser">
+        <div className="home-shell">
+          <div className="home-services-teaser-inner">
+            <h2 className="home-services-teaser-title">Need More Than Just Tools?</h2>
+            <p className="home-services-teaser-body">
+              We help businesses with AI Strategy, Implementation, and Ongoing Advisory — built around real operational improvement, not random tool setup.
+            </p>
+            <p className="home-services-teaser-body">
+              From identifying the right workflow to full implementation and long-term optimization, we help you build AI systems that actually work.
+            </p>
+            <a href="/services" className="home-services-teaser-cta">
+              Explore Our Services
+            </a>
           </div>
         </div>
       </section>

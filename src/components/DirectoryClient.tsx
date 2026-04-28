@@ -17,6 +17,7 @@ import {
   Columns,
   Check,
   Minus,
+  Info,
 } from "lucide-react"
 import type { AirtableTool, AirtableCategory } from "@/lib/airtable"
 
@@ -176,8 +177,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const [search, setSearch] = useState("")
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null)
-  const [sortField, setSortField] = useState<SortField>("name")
-  const [sortDir, setSortDir] = useState<SortDir>("asc")
+  const [sortField, setSortField] = useState<SortField>("communityReputation")
+  const [sortDir, setSortDir] = useState<SortDir>("desc")
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>(DEFAULT_FILTERS)
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
@@ -654,6 +655,22 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
               </AnimatePresence>
             </div>
 
+            {/* Sort A–Z button */}
+            <button
+              type="button"
+              onClick={() => { setSortField("name"); setSortDir("asc"); }}
+              className="h-12 min-w-[100px] hidden md:flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-150"
+              style={{
+                borderColor: sortField === "name" ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
+                background: sortField === "name"
+                  ? "linear-gradient(180deg, rgba(132,104,235,0.2), rgba(132,104,235,0.12))"
+                  : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+                color: sortField === "name" ? "#d8cbff" : "rgba(255,255,255,0.62)",
+              }}
+            >
+              Sort A–Z
+            </button>
+
             {/* Saved toggle */}
             <button
               onClick={() => setShowFavoritesOnly((v) => !v)}
@@ -1021,13 +1038,39 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     />
                   )}
                   {visibleColumns.communityReputation && (
-                    <SortHeader
-                      label="Reputation"
-                      field="communityReputation"
-                      sortField={sortField}
-                      sortDir={sortDir}
-                      onSort={handleSort}
-                    />
+                    <th
+                      className="px-4 py-3 text-left cursor-pointer select-none group"
+                      onClick={() => handleSort("communityReputation")}
+                    >
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className="text-xs font-semibold uppercase tracking-wider transition-colors duration-150"
+                          style={{ color: sortField === "communityReputation" ? "#a88cff" : "rgba(255,255,255,0.38)" }}
+                        >
+                          Reputation
+                        </span>
+                        <span style={{ color: sortField === "communityReputation" ? "#a88cff" : "rgba(255,255,255,0.18)" }}>
+                          {sortField === "communityReputation" ? (
+                            sortDir === "asc" ? (
+                              <ChevronUp className="w-3.5 h-3.5" />
+                            ) : (
+                              <ChevronDown className="w-3.5 h-3.5" />
+                            )
+                          ) : (
+                            <ChevronsUpDown className="w-3.5 h-3.5 opacity-0 group-hover:opacity-50 transition-opacity" />
+                          )}
+                        </span>
+                        <div
+                          className="group/info relative flex-shrink-0"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Info className="h-3.5 w-3.5 cursor-help text-white/38 hover:text-white/70 transition-colors" />
+                          <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-56 -translate-x-1/2 rounded-lg border border-white/10 bg-[#0d0d10] px-3 py-2 text-xs text-white/70 opacity-0 shadow-xl transition-opacity group-hover/info:opacity-100">
+                            Community Reputation is a score from 1–5 based on user reviews, ratings, and community feedback across the web.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
                   )}
                   {visibleColumns.freePlan && (
                     <th className="px-4 py-3 text-left">
@@ -1198,14 +1241,11 @@ function SuggestToolForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormEle
           className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-150 hover:bg-white/[0.04] md:px-6"
         >
           <span>
-            <span className="block text-[10px] font-bold uppercase tracking-widest text-[#8468EB]">
-              Suggest a tool
-            </span>
             <span className="mt-1 block text-sm font-semibold tracking-tight text-white md:text-base">
-              Know an AI tool worth adding?
+              Want to suggest an AI tool worth using?
             </span>
             <span className="mt-1 block text-xs text-white/55">
-              Suggest it in a few seconds.
+              Click here to suggest one.
             </span>
           </span>
           <ChevronDown

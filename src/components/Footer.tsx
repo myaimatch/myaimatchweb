@@ -209,7 +209,7 @@ export default function Footer() {
               />
             </Link>
             <p className="site-footer__tagline">
-              Explore the AI Tool Directory, or answer a few questions and get Your AI Match — built around your workflow, team, and current tools.
+              Start with the right AI tools. Build the right AI strategy. Scale smarter with AI.
             </p>
             <AssessmentPopupTrigger ctaLocation="footer_primary" className="site-footer__cta">
               Start Free AI Match

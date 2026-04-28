@@ -254,7 +254,9 @@ export default function AIStrategyRoadmapPage() {
         .path-row--bad {
           background: rgba(255,255,255,0.02);
           border: 1px solid rgba(255,255,255,0.06);
-          opacity: 0.72;
+          opacity: 0.55;
+          transform: scale(0.94);
+          transform-origin: center;
         }
 
         .path-row--good {
@@ -263,6 +265,9 @@ export default function AIStrategyRoadmapPage() {
             rgba(132,104,235,0.05);
           border: 1px solid rgba(132,104,235,0.28);
           box-shadow: 0 0 40px rgba(132,104,235,0.08);
+          padding: 26px 28px;
+          transform: scale(1.04);
+          transform-origin: center;
         }
 
         .path-badge {
@@ -315,6 +320,8 @@ export default function AIStrategyRoadmapPage() {
           background: rgba(132,104,235,0.14);
           border: 1px solid rgba(132,104,235,0.22);
           color: rgba(255,255,255,0.88);
+          font-size: 15px;
+          padding: 7px 18px;
         }
 
         .path-arrow {
@@ -633,11 +640,10 @@ export default function AIStrategyRoadmapPage() {
       {/* ── SECTION 1: HERO ── */}
       <ServiceHero
         label="Workflow Audit + Strategy Roadmap"
-        title="Before You Buy AI Tools,"
-        highlightedTitle="Fix the Workflow That’s Costing You the Most"
-        body="Most businesses waste money on AI tools before identifying where AI creates real operational impact. We help you diagnose your highest-value workflow opportunity, recommend the right AI systems, and build a focused implementation roadmap around one critical workflow. No guesswork. No wasted spend. Just strategic execution."
+        title="Find the Right AI Tools"
+        highlightedTitle="Built Around Your Workflow"
+        body="Most businesses waste budget on AI tools before knowing which ones actually fit their workflow. We help you identify your highest-value opportunity, match the right AI tools to it, and build a focused implementation roadmap — one workflow at a time. No guesswork. No wasted spend. Just the right tools, used the right way."
         primaryCta={{ label: "Book Your Strategy Session", href: bookingHref }}
-        secondaryCta={{ label: "See What's Included", href: "#whats-included" }}
         variant="strategy"
       />
 
@@ -646,7 +652,6 @@ export default function AIStrategyRoadmapPage() {
         <div className="services-shell">
           <Reveal>
             <div className="problem-content">
-              <p className="services-label">Why most AI initiatives fail</p>
               <h2 className="services-section-title">Why Most AI Implementations Fail</h2>
               <p className="problem-intro">
                 Businesses don&apos;t fail with AI because the tools are bad.
@@ -694,13 +699,8 @@ export default function AIStrategyRoadmapPage() {
               </h2>
               <p className="what-body">
                 It&apos;s a focused strategic engagement designed to solve one major operational
-                bottleneck first. We audit one critical workflow — sales follow-up, onboarding,
-                operations, reporting, support, lead generation, or another core function — and
-                identify where AI creates the fastest measurable ROI.
-              </p>
-              <p className="what-note">
-                One workflow. One clear strategy. One practical roadmap. This is how real AI
-                transformation starts.
+                bottleneck first. We audit one critical workflow and identify the right AI tools
+                to improve it — matched to your team, your goals, and your existing stack.
               </p>
             </div>
           </Reveal>
@@ -712,7 +712,6 @@ export default function AIStrategyRoadmapPage() {
         <div className="services-shell">
           <Reveal>
             <div className="mx-auto max-w-3xl text-center">
-              <p className="services-label">What is included</p>
               <h2 className="services-section-title">What You Will Receive</h2>
               <p className="services-section-body">
                 Every engagement delivers a complete strategic package focused on your most
