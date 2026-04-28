@@ -17,6 +17,10 @@ export interface AirtableTool {
   pricingSummary?: string
   communityReputation?: number
   featured: boolean
+  dealActive: boolean
+  promo?: string
+  dealDescription?: string
+  dealRank?: number
   // ─── Enriched fields ───────────────────────────────────────────────────────
   supportLanguages?: string[]
   uiLanguages?: string[]
@@ -197,6 +201,10 @@ function mapTool(record: Airtable.Record<Airtable.FieldSet>): AirtableTool {
     pricingSummary: asOptionalString(f['Pricing Summary']),
     communityReputation: asNumber(f['Community Reputation']),
     featured: asBoolean(f['Featured']) ?? false,
+    dealActive: asBoolean(f['Deal Active']) ?? false,
+    promo: asOptionalString(f['Promo']),
+    dealDescription: asOptionalString(f['Deal Description']),
+    dealRank: asNumber(f['Deal Rank']),
     // ─── Enriched fields ─────────────────────────────────────────────────────
     supportLanguages: asStringArray(f['Support Languages']),
     uiLanguages: asStringArray(f['UI Languages']),

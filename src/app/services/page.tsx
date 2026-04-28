@@ -16,25 +16,50 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    step: "01",
     title: "AI Workflow Audit + Strategy Roadmap",
-    body: "Map your highest-ROI AI opportunities, get a custom AI roadmap, and build a 30-60-90 day implementation plan.",
+    body: "Map your highest-ROI opportunities in AI, get a custom AI roadmap, and build a 30-60-90 day implementation plan.",
     href: "/ai-strategy-roadmap",
-    cta: "Explore Strategy Roadmap",
+    cta: "Learn more",
+    deliverables: [
+      "Strategic Discovery Session",
+      "Workflow Audit — 1 Major Workflow",
+      "Strategic Priority Mapping",
+      "Recommended AI Tool Stack",
+      "Quick-Win Implementation Plan",
+      "Follow-Up Strategy Session",
+    ],
   },
   {
-    step: "02",
     title: "AI Implementation & Systems Setup",
     body: "Deploy the AI systems, workflows, copilots, and adoption processes your team will actually use.",
     href: "/ai-implementation",
-    cta: "Explore Implementation",
+    cta: "Learn more",
+    deliverables: [
+      "AI Workflow Automation",
+      "Internal AI Copilots",
+      "Prompt Libraries + SOP Systems",
+      "Client Onboarding Systems",
+      "Sales Follow-Up Automation",
+      "Reporting + Operations Systems",
+      "Team Enablement + Training",
+      "Documentation + Handoff",
+    ],
   },
   {
-    step: "03",
     title: "Fractional AI Advisory",
     body: "Executive-level AI leadership without the full-time hire. Ongoing strategy, optimization, and guidance.",
     href: "/fractional-ai-advisor",
-    cta: "Explore AI Advisory",
+    cta: "Learn more",
+    deliverables: [
+      "Monthly Strategic Advisory Calls",
+      "Workflow Optimization",
+      "AI Investment Prioritization",
+      "New Opportunity Identification",
+      "Vendor + Tool Evaluation",
+      "Internal Team Guidance",
+      "Leadership Decision Support",
+      "Priority Strategic Access",
+    ],
   },
 ];
 
@@ -130,55 +155,27 @@ export default function ServicesPage() {
           box-shadow: 0 24px 90px rgba(0,0,0,0.5);
         }
 
+        .services-video-slot {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          max-width: 860px;
+          aspect-ratio: 16 / 9;
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 22px;
+          background:
+            linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+            rgba(0,0,0,0.34);
+          box-shadow: inset 0 0 0 1px rgba(132,104,235,0.08);
+          backdrop-filter: blur(10px);
+        }
+
         .services-video-frame::after {
           content: "";
           position: absolute;
           inset: 0;
           background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(223,122,254,0.2), transparent 70%);
           pointer-events: none;
-        }
-
-        .services-video-card {
-          position: relative;
-          z-index: 1;
-          width: min(520px, 100%);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 20px;
-          background: rgba(0,0,0,0.42);
-          padding: 30px;
-          text-align: center;
-          backdrop-filter: blur(16px);
-        }
-
-        .services-play {
-          display: grid;
-          place-items: center;
-          width: 74px;
-          height: 74px;
-          margin: 0 auto 20px;
-          border: 1px solid rgba(223,122,254,0.38);
-          border-radius: 999px;
-          background: radial-gradient(circle, rgba(223,122,254,0.32), rgba(132,104,235,0.12));
-          color: #ffffff;
-          font-size: 13px;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        .services-video-card h2 {
-          color: #ffffff;
-          font-size: clamp(26px, 4vw, 42px);
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          line-height: 1;
-        }
-
-        .services-video-card p {
-          margin-top: 14px;
-          color: rgba(255,255,255,0.62);
-          font-size: 15px;
-          line-height: 1.7;
         }
 
         .services-path {
@@ -200,40 +197,44 @@ export default function ServicesPage() {
           line-height: 1;
         }
 
-        .services-path-grid {
+        .services-comparison-table {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 16px;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 24px;
+          overflow: hidden;
+          background:
+            radial-gradient(ellipse 76% 48% at 50% 100%, rgba(132,104,235,0.18), transparent 70%),
+            rgba(255,255,255,0.035);
+          box-shadow: 0 28px 90px rgba(0,0,0,0.34);
         }
 
-        .services-path-card {
+        .services-comparison-column {
           position: relative;
-          overflow: hidden;
           display: flex;
           flex-direction: column;
-          min-height: 320px;
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 22px;
-          background:
-            radial-gradient(ellipse 90% 56% at 50% 100%, rgba(132,104,235,0.2), transparent 70%),
-            rgba(255,255,255,0.035);
-          padding: 26px;
+          min-height: 560px;
+          padding: 30px;
           text-decoration: none;
-          transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+          border-right: 1px solid rgba(255,255,255,0.1);
+          background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+          transition: background-color 180ms ease;
         }
 
-        .services-path-card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(223,122,254,0.34);
+        .services-comparison-column:last-child {
+          border-right: 0;
+        }
+
+        .services-comparison-column:hover {
           background-color: rgba(255,255,255,0.045);
         }
 
-        .services-path-card:focus-visible {
+        .services-comparison-column:focus-visible {
           outline: 2px solid #C4B5FD;
-          outline-offset: 4px;
+          outline-offset: -2px;
         }
 
-        .services-path-card span {
+        .services-column-kicker {
           color: rgba(223,122,254,0.86);
           font-size: 11px;
           font-weight: 800;
@@ -241,23 +242,62 @@ export default function ServicesPage() {
           text-transform: uppercase;
         }
 
-        .services-path-card h3 {
-          margin-top: 72px;
+        .services-comparison-column h3 {
+          margin-top: 18px;
           color: #ffffff;
-          font-size: 24px;
+          font-size: clamp(24px, 3vw, 32px);
           font-weight: 800;
           letter-spacing: -0.02em;
-          line-height: 1.08;
+          line-height: 1.04;
         }
 
-        .services-path-card p {
+        .services-comparison-body {
           margin-top: 16px;
           color: rgba(255,255,255,0.62);
           font-size: 15px;
           line-height: 1.65;
         }
 
-        .services-path-card strong {
+        .services-included-label {
+          margin-top: 30px;
+          padding-top: 24px;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          color: #ffffff;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+
+        .services-deliverables-list {
+          display: grid;
+          gap: 13px;
+          margin: 18px 0 0;
+          padding: 0;
+          list-style: none;
+        }
+
+        .services-deliverables-list li {
+          position: relative;
+          padding-left: 22px;
+          color: rgba(255,255,255,0.72);
+          font-size: 14px;
+          line-height: 1.45;
+        }
+
+        .services-deliverables-list li::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0.58em;
+          width: 7px;
+          height: 7px;
+          border-radius: 999px;
+          background: #C4B5FD;
+          box-shadow: 0 0 16px rgba(196,181,253,0.75);
+        }
+
+        .services-comparison-cta {
           margin-top: auto;
           padding-top: 28px;
           color: #C4B5FD;
@@ -267,14 +307,19 @@ export default function ServicesPage() {
         }
 
         @media (max-width: 900px) {
-          .services-path-grid {
+          .services-comparison-table {
             grid-template-columns: 1fr;
+          }
+          .services-comparison-column {
+            min-height: auto;
+            border-right: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+          }
+          .services-comparison-column:last-child {
+            border-bottom: 0;
           }
           .services-video-frame {
             min-height: 340px;
-          }
-          .services-path-card {
-            min-height: 260px;
           }
         }
 
@@ -289,7 +334,7 @@ export default function ServicesPage() {
             border-radius: 22px;
             padding: 16px;
           }
-          .services-video-card {
+          .services-comparison-column {
             padding: 24px;
           }
         }
@@ -299,20 +344,14 @@ export default function ServicesPage() {
         <div className="services-overview-shell">
           <p className="services-overview-label">AI services</p>
           <h1 className="services-overview-title">
-            From AI overwhelm to <span>Your AI Match.</span>
+            Turn AI Into Real Operational Impact<span>—Not Just Tools</span>
           </h1>
           <p className="services-overview-body">
             Start with the right roadmap, build the system, then keep your team moving as the tools change.
           </p>
 
-          <div className="services-video-frame" aria-label="Video overview placeholder">
-            <div className="services-video-card">
-              <div className="services-play" aria-hidden>Play</div>
-              <h2>Three services. One clear path.</h2>
-              <p>
-                A short walkthrough will explain when to use Strategy, when to move into Implementation, and when a Fractional AI Lead keeps your AI setup sharp.
-              </p>
-            </div>
+          <div className="services-video-frame" aria-label="Services overview video placeholder">
+            <div className="services-video-slot" />
           </div>
         </div>
       </section>
@@ -320,16 +359,22 @@ export default function ServicesPage() {
       <section className="services-path">
         <div className="services-overview-shell">
           <div className="services-path-head">
-            <p className="services-overview-label">How the services connect</p>
-            <h2>Pick the step your business needs now.</h2>
+            <p className="services-overview-label">Compare services</p>
+            <h2>Choose the support your business needs now.</h2>
           </div>
-          <div className="services-path-grid">
+          <div className="services-comparison-table">
             {services.map((service) => (
-              <Link key={service.href} href={service.href} className="services-path-card">
-                <span>{service.step}</span>
+              <Link key={service.href} href={service.href} className="services-comparison-column">
+                <span className="services-column-kicker">Service</span>
                 <h3>{service.title}</h3>
-                <p>{service.body}</p>
-                <strong>{service.cta} -&gt;</strong>
+                <p className="services-comparison-body">{service.body}</p>
+                <p className="services-included-label">What&apos;s included</p>
+                <ul className="services-deliverables-list">
+                  {service.deliverables.map((deliverable) => (
+                    <li key={deliverable}>{deliverable}</li>
+                  ))}
+                </ul>
+                <strong className="services-comparison-cta">{service.cta} -&gt;</strong>
               </Link>
             ))}
           </div>

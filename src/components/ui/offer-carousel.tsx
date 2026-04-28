@@ -10,12 +10,12 @@ export interface Deal {
   id: string;
   name: string;
   tag: string;
-  deal: string;
+  promo: string;
+  description: string;
   dealLabel?: string;
-  imageSrc: string;
-  imageAlt: string;
   href: string;
   website: string;
+  logoUrl?: string;
 }
 
 interface DealCardProps {
@@ -58,9 +58,20 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
             className="absolute bottom-3 right-3 w-16 h-auto opacity-10"
           />
 
-          {/* Tool logo from Clearbit */}
+          {/* Tool logo */}
           <div className="relative z-10">
-            {!logoError ? (
+            {deal.logoUrl && !logoError ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={deal.logoUrl}
+                alt={deal.name}
+                width={64}
+                height={64}
+                referrerPolicy="no-referrer"
+                className="w-16 h-16 rounded-xl object-contain"
+                onError={() => setLogoError(true)}
+              />
+            ) : deal.website && !logoError ? (
               <Image
                 src={`https://logo.clearbit.com/${deal.website}`}
                 alt={deal.name}
@@ -107,7 +118,12 @@ const DealCard = React.forwardRef<HTMLAnchorElement, DealCardProps>(
         >
           <div className="space-y-1.5">
             <h3 className="text-white font-bold text-base leading-snug">{deal.name}</h3>
-            <p className="text-sm leading-relaxed" style={{ color: "#A0A0A0" }}>{deal.deal}</p>
+            <div className="space-y-1 text-sm leading-relaxed" style={{ color: "#A0A0A0" }}>
+              <p>
+                <span className="font-semibold text-white">Promo:</span> {deal.promo}
+              </p>
+              <p>{deal.description}</p>
+            </div>
           </div>
 
           {/* Footer */}
