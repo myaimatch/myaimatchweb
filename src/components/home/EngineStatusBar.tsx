@@ -11,7 +11,7 @@ export default function EngineStatusBar({ toolCount }: EngineStatusBarProps) {
       </div>
       <div className="engine-status-count">
         <strong>{toolCount.toLocaleString("en-US")}</strong>
-        <span>tools indexed</span>
+        <span>tools curated</span>
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { OfferCarousel } from "@/components/ui/offer-carousel";
 import type { Deal } from "@/components/ui/offer-carousel";
+import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
+import type { AirtableCategory, AirtableTool } from "@/lib/airtable";
 
 export const metadata: Metadata = {
   title: "Deals",
@@ -14,76 +16,61 @@ export const metadata: Metadata = {
   },
 };
 
-const deals: Deal[] = [
-  {
-    id: "jasper",
-    name: "Jasper AI",
-    tag: "Content",
-    deal: "50% off your first 3 months - generate blogs, ads & emails in seconds.",
-    dealLabel: "50% OFF",
-    imageSrc: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Creative writing workspace",
-    href: "/#directory",
-    website: "jasper.ai",
-  },
-  {
-    id: "surfer",
-    name: "Surfer SEO",
-    tag: "SEO",
-    deal: "Free 7-day trial - rank higher with AI-powered content optimization.",
-    dealLabel: "FREE TRIAL",
-    imageSrc: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Data analytics dashboard",
-    href: "/#directory",
-    website: "surferseo.com",
-  },
-  {
-    id: "synthesia",
-    name: "Synthesia",
-    tag: "Video",
-    deal: "20% off annual plan - create AI videos with a human presenter in minutes.",
-    dealLabel: "20% OFF",
-    imageSrc: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Video production setup",
-    href: "/#directory",
-    website: "synthesia.io",
-  },
-  {
-    id: "hubspot",
-    name: "HubSpot AI",
-    tag: "Sales",
-    deal: "Free CRM forever - AI-powered sales tools with no time limit.",
-    dealLabel: "FREE",
-    imageSrc: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Business team meeting",
-    href: "/#directory",
-    website: "hubspot.com",
-  },
-  {
-    id: "notion",
-    name: "Notion AI",
-    tag: "Productivity",
-    deal: "3 months free on Plus - AI writing, summarizing & task management.",
-    dealLabel: "3 MO FREE",
-    imageSrc: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Organized workspace desk",
-    href: "/#directory",
-    website: "notion.so",
-  },
-  {
-    id: "descript",
-    name: "Descript",
-    tag: "Audio",
-    deal: "Free 1 hour/month - edit audio & video by editing text.",
-    dealLabel: "FREE TIER",
-    imageSrc: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=600&q=80",
-    imageAlt: "Podcast microphone setup",
-    href: "/#directory",
-    website: "descript.com",
-  },
-];
+interface DealSection {
+  category: AirtableCategory;
+  deals: Deal[];
+}
 
-export default function DealsPage() {
+function hostnameFromUrl(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] ?? "";
+  }
+}
+
+function compareDeals(a: AirtableTool, b: AirtableTool) {
+  const aRank = a.dealRank ?? Number.POSITIVE_INFINITY;
+  const bRank = b.dealRank ?? Number.POSITIVE_INFINITY;
+
+  if (aRank !== bRank) return aRank - bRank;
+  return a.name.localeCompare(b.name);
+}
+
+function toDeal(tool: AirtableTool, category: AirtableCategory): Deal {
+  const href = tool.affiliateLink || tool.websiteUrl || "/#directory";
+
+  return {
+    id: `${category.id}-${tool.id}`,
+    name: tool.name,
+    tag: category.name,
+    promo: tool.promo ?? "",
+    description: tool.dealDescription ?? tool.shortDescription,
+    href,
+    website: hostnameFromUrl(tool.websiteUrl),
+    logoUrl: tool.logoUrl,
+  };
+}
+
+function buildDealSections(tools: AirtableTool[], categories: AirtableCategory[]): DealSection[] {
+  const activeDeals = tools.filter((tool) => tool.dealActive && tool.promo);
+
+  return categories
+    .map((category) => {
+      const deals = activeDeals
+        .filter((tool) => tool.category.includes(category.id))
+        .sort(compareDeals)
+        .map((tool) => toDeal(tool, category));
+
+      return { category, deals };
+    })
+    .filter((section) => section.deals.length > 0);
+}
+
+export default async function DealsPage() {
+  const [tools, categories] = await Promise.all([fetchAllTools(), fetchAllCategories()]);
+  const dealSections = buildDealSections(tools, categories);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <section className="relative overflow-hidden px-4 pt-16 pb-12 text-center border-b border-[#1a1a1a]">
@@ -126,8 +113,29 @@ export default function DealsPage() {
       </section>
 
       <section className="px-4 py-20">
-        <div className="max-w-7xl mx-auto">
-          <OfferCarousel deals={deals} />
+        <div className="max-w-7xl mx-auto space-y-16">
+          {dealSections.length > 0 ? (
+            dealSections.map((section) => (
+              <div key={section.category.id} className="space-y-6">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-[#8468EB] mb-2">
+                    {section.deals.length} {section.deals.length === 1 ? "deal" : "deals"}
+                  </p>
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+                    Top Deals in {section.category.name}
+                  </h2>
+                </div>
+                <OfferCarousel deals={section.deals} />
+              </div>
+            ))
+          ) : (
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-12 text-center">
+              <h2 className="text-2xl font-bold tracking-tight">Deals are being refreshed</h2>
+              <p className="mt-3 text-sm text-[#888]">
+                Check back soon for active offers from the AI tools directory.
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </div>

@@ -33,34 +33,42 @@ const deliverables = [
   {
     icon: Phone,
     title: "Monthly Strategic Advisory Calls",
+    body: "Regular sessions focused on your most important AI decisions, opportunities, and strategic priorities.",
   },
   {
     icon: RefreshCw,
     title: "Workflow Optimization",
+    body: "Ongoing identification of workflow improvements as your AI systems mature and new opportunities emerge.",
   },
   {
     icon: Target,
     title: "AI Investment Prioritization",
+    body: "We help you decide where AI budget creates the most measurable return — before you spend it.",
   },
   {
     icon: Lightbulb,
     title: "New Opportunity Identification",
+    body: "Continuous scanning of your operations to surface new AI opportunities your team may be missing.",
   },
   {
     icon: ShieldCheck,
     title: "Vendor + Tool Evaluation",
+    body: "Unbiased evaluation of AI tools and vendors so you invest in the right stack for your business.",
   },
   {
     icon: Users,
     title: "Internal Team Guidance",
+    body: "Strategic direction for your team on how to adopt, use, and optimize AI tools effectively.",
   },
   {
     icon: Target,
     title: "Leadership Decision Support",
+    body: "Direct advisory support for founders and executives navigating complex AI-related decisions.",
   },
   {
     icon: Zap,
     title: "Priority Strategic Access",
+    body: "Direct access to your advisor for urgent decisions, time-sensitive questions, and emerging opportunities.",
   },
 ];
 
@@ -268,6 +276,12 @@ export default function FractionalAiAdvisorPage() {
           letter-spacing: -0.01em;
           margin: 0;
           line-height: 1.4;
+        }
+        .advisor-card-body {
+          margin-top: 8px;
+          color: rgba(255,255,255,0.52);
+          font-size: 13px;
+          line-height: 1.65;
         }
 
         /* ── Section 5 — Who This Is For ─────────────────────── */
@@ -530,7 +544,6 @@ export default function FractionalAiAdvisorPage() {
         highlightedTitle="Without Hiring a Full-Time AI Executive"
         body="We help leadership teams make smarter AI decisions, prioritize the right investments, optimize operations, and continuously identify where AI creates the highest business impact."
         primaryCta={{ label: "Apply for Fractional AI Advisory", href: bookingHref }}
-        secondaryCta={{ label: "See What's Included", href: "#whats-included" }}
       />
 
       {/* ── Section 2 — Not Monthly Support ───────────────────────── */}
@@ -558,7 +571,6 @@ export default function FractionalAiAdvisorPage() {
       <section className="advisor-section included-section" id="whats-included">
         <div className="advisor-shell">
           <Reveal>
-            <p className="advisor-eyebrow">What we do</p>
             <h2 className="advisor-h2">What We Help You Lead</h2>
           </Reveal>
           <div className="deliverables-grid">
@@ -570,6 +582,7 @@ export default function FractionalAiAdvisorPage() {
                       <d.icon size={20} strokeWidth={1.6} aria-hidden />
                     </div>
                     <h3 className="advisor-card-title">{d.title}</h3>
+                    <p className="advisor-card-body">{d.body}</p>
                   </div>
                 </TiltCard>
               </Reveal>

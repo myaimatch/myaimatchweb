@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from "react";
 import myAiMatchMark from "../../brand_assets/Vector-1.png";
 
 const matchSignals = [
-  { label: "Workflow", angle: -0.92 },
-  { label: "Industry", angle: -2.02 },
-  { label: "Team", angle: -3.08 },
-  { label: "Budget", angle: -4.08 },
-  { label: "Goals", angle: -5.12 },
-  { label: "Use Case", angle: -6.14 },
+  { label: "Marketing", angle: -0.92 },
+  { label: "Content", angle: -2.02 },
+  { label: "Sales", angle: -3.08 },
+  { label: "Legal", angle: -4.08 },
+  { label: "Finance", angle: -5.12 },
+  { label: "Customer Support", angle: -6.14 },
 ];
 
 type SignalPosition = {

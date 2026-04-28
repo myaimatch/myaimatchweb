@@ -93,7 +93,7 @@ export default function BannerCTA() {
                 (e.currentTarget as HTMLElement).style.transform = "scale(1)";
               }}
             >
-              Start Free AI Match
+              Get Your Free AI Recommendations
             </AssessmentPopupTrigger>
           </div>
         </div>
