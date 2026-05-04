@@ -1,7 +1,7 @@
 "use client";
 
-import type { AnchorHTMLAttributes, MouseEvent } from "react";
-import { useAssessmentPopup } from "./AssessmentPopupProvider";
+import type { AnchorHTMLAttributes } from "react";
+import { AI_MATCH_TALLY_POPUP_HREF } from "@/lib/assessment-link";
 
 type AssessmentPopupTriggerProps = Omit<
   AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -12,41 +12,18 @@ type AssessmentPopupTriggerProps = Omit<
   originPage?: string;
 };
 
-function isModifiedEvent(event: MouseEvent<HTMLAnchorElement>) {
-  return (
-    event.metaKey ||
-    event.altKey ||
-    event.ctrlKey ||
-    event.shiftKey ||
-    event.button !== 0
-  );
-}
-
 export default function AssessmentPopupTrigger({
-  href = "/assessment",
+  href = AI_MATCH_TALLY_POPUP_HREF,
   ctaLocation,
   originPage,
-  onClick,
   children,
   ...props
 }: AssessmentPopupTriggerProps) {
-  const { openPopup } = useAssessmentPopup();
+  void ctaLocation;
+  void originPage;
 
   return (
-    <a
-      href={href}
-      {...props}
-      onClick={(event) => {
-        onClick?.(event);
-
-        if (event.defaultPrevented || isModifiedEvent(event) || props.target === "_blank") {
-          return;
-        }
-
-        event.preventDefault();
-        openPopup({ ctaLocation, originPage });
-      }}
-    >
+    <a href={href} {...props}>
       {children}
     </a>
   );

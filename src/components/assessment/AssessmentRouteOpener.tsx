@@ -2,10 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import AssessmentPopupTrigger from "./AssessmentPopupTrigger";
-import { useAssessmentPopup } from "./AssessmentPopupProvider";
+import { openAiMatchTallyPopup } from "@/lib/assessment-link";
 
 export default function AssessmentRouteOpener() {
-  const { openPopup } = useAssessmentPopup();
   const hasOpenedRef = useRef(false);
 
   useEffect(() => {
@@ -15,14 +14,11 @@ export default function AssessmentRouteOpener() {
 
     hasOpenedRef.current = true;
     const timeoutId = window.setTimeout(() => {
-      openPopup({
-        originPage: "/assessment",
-        ctaLocation: "assessment_route_opener",
-      });
+      openAiMatchTallyPopup();
     }, 120);
 
     return () => window.clearTimeout(timeoutId);
-  }, [openPopup]);
+  }, []);
 
   return (
     <div
@@ -79,7 +75,7 @@ export default function AssessmentRouteOpener() {
           }}
         >
           If the popup did not open automatically, use the button below to launch the
-          Typeform assessment.
+          AI Match assessment.
         </p>
 
         <AssessmentPopupTrigger
