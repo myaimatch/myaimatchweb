@@ -967,7 +967,7 @@ export default async function HomePage() {
             </p>
             <div className="home-cta-row">
               <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_hero">
-                Get Your Free AI Recommendations
+                Claim Your Free AI Match
               </AssessmentPopupTrigger>
             </div>
           </div>
@@ -1001,7 +1001,7 @@ export default async function HomePage() {
               </p>
               <div className="home-cta-row">
                 <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_final">
-                  Get Your Free AI Recommendations
+                  Claim Your Free AI Match
                 </AssessmentPopupTrigger>
               </div>
             </div>

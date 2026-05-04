@@ -100,7 +100,7 @@ export default function AssessmentRouteOpener() {
               "0 0 0 1px rgba(132,104,235,0.36), 0 10px 32px rgba(132,104,235,0.26)",
           }}
         >
-          Get Your Free AI Recommendations
+          Claim Your Free AI Match
         </AssessmentPopupTrigger>
       </section>
     </div>

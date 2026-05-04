@@ -595,7 +595,7 @@ export default function Navbar() {
             <div className="site-nav__actions">
               {!isServicesRoute ? (
                 <AssessmentPopupTrigger className="site-nav__cta" ctaLocation="navbar_desktop">
-                  Get Your Free AI Recommendations
+                  Claim Your Free AI Match
                 </AssessmentPopupTrigger>
               ) : null}
             </div>
@@ -666,7 +666,7 @@ export default function Navbar() {
             {!isServicesRoute ? (
               <div className="site-nav__drawer-footer">
                 <AssessmentPopupTrigger className="site-nav__cta" ctaLocation="navbar_mobile">
-                  Get Your Free AI Recommendations
+                  Claim Your Free AI Match
                 </AssessmentPopupTrigger>
               </div>
             ) : null}
