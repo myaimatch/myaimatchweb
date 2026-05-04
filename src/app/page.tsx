@@ -212,7 +212,6 @@ export default async function HomePage() {
           margin-top: 34px;
         }
 
-        .home-cta-primary,
         .home-cta-secondary {
           display: inline-flex;
           min-height: 50px;
@@ -228,9 +227,7 @@ export default async function HomePage() {
         }
 
         .home-cta-primary {
-          border: 1px solid rgba(223,122,254,0.34);
-          color: #ffffff;
-          background: linear-gradient(135deg, #8468EB, #5B42C3);
+          min-height: 56px;
         }
 
         .home-cta-secondary {
@@ -239,20 +236,17 @@ export default async function HomePage() {
           background: rgba(255,255,255,0.04);
         }
 
-        .home-cta-primary:hover,
         .home-cta-secondary:hover {
           opacity: 0.92;
           transform: translateY(-2px);
         }
 
-        .home-cta-primary:active,
         .home-cta-secondary:active {
           opacity: 1;
           transform: scale(0.97) translateY(0);
           transition: transform 80ms ease, opacity 80ms ease;
         }
 
-        .home-cta-primary:focus-visible,
         .home-cta-secondary:focus-visible {
           outline: 2px solid #C4B5FD;
           outline-offset: 3px;
@@ -870,7 +864,6 @@ export default async function HomePage() {
             font-size: 15px;
           }
 
-          .home-cta-primary,
           .home-cta-secondary {
             width: 100%;
           }
@@ -966,7 +959,7 @@ export default async function HomePage() {
               Explore AI tools for free, get personalized recommendations, or work with us to design and implement your AI match.
             </p>
             <div className="home-cta-row">
-              <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_hero">
+              <AssessmentPopupTrigger className="home-cta-primary ai-match-cta" ctaLocation="homepage_hero">
                 Claim Your Free AI Match
               </AssessmentPopupTrigger>
             </div>
@@ -1000,7 +993,7 @@ export default async function HomePage() {
                 Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward your recommended AI tools.
               </p>
               <div className="home-cta-row">
-                <AssessmentPopupTrigger className="home-cta-primary" ctaLocation="homepage_final">
+                <AssessmentPopupTrigger className="home-cta-primary ai-match-cta" ctaLocation="homepage_final">
                   Claim Your Free AI Match
                 </AssessmentPopupTrigger>
               </div>

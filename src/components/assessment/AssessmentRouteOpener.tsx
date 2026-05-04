@@ -85,20 +85,7 @@ export default function AssessmentRouteOpener() {
         <AssessmentPopupTrigger
           ctaLocation="assessment_route_fallback"
           originPage="/assessment"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: "999px",
-            padding: "14px 28px",
-            background: "linear-gradient(135deg, #8468EB 0%, #5B42C3 100%)",
-            color: "#ffffff",
-            fontSize: "15px",
-            fontWeight: 600,
-            textDecoration: "none",
-            boxShadow:
-              "0 0 0 1px rgba(132,104,235,0.36), 0 10px 32px rgba(132,104,235,0.26)",
-          }}
+          className="ai-match-cta"
         >
           Claim Your Free AI Match
         </AssessmentPopupTrigger>

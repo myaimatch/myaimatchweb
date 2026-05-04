@@ -68,34 +68,10 @@ export default function Footer() {
         }
 
         .site-footer__cta {
-          display: inline-flex;
-          width: fit-content;
-          align-items: center;
-          justify-content: center;
           min-height: 48px;
           padding: 0 26px;
           margin-top: 4px;
-          border: 1px solid rgba(196,181,253,0.22);
-          border-radius: 999px;
-          background: linear-gradient(135deg, #8468EB 0%, #5B42C3 100%);
-          color: #ffffff;
           font-size: 14px;
-          font-weight: 700;
-          letter-spacing: 0.01em;
-          text-decoration: none;
-          box-shadow:
-            0 12px 28px rgba(91,66,195,0.28),
-            0 0 24px rgba(132,104,235,0.2);
-          transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
-        }
-
-        .site-footer__cta:hover,
-        .site-footer__cta:focus-visible {
-          transform: translateY(-1px);
-          box-shadow:
-            0 18px 34px rgba(91,66,195,0.38),
-            0 0 32px rgba(132,104,235,0.3);
-          outline: none;
         }
 
         .site-footer__services {
@@ -211,7 +187,7 @@ export default function Footer() {
             <p className="site-footer__tagline">
               Start with the right AI tools. Build the right AI strategy. Scale smarter with AI.
             </p>
-            <AssessmentPopupTrigger ctaLocation="footer_primary" className="site-footer__cta">
+            <AssessmentPopupTrigger ctaLocation="footer_primary" className="site-footer__cta ai-match-cta">
               Claim Your Free AI Match
             </AssessmentPopupTrigger>
           </div>
