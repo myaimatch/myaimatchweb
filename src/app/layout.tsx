@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import AssessmentPopupProvider from "@/components/assessment/AssessmentPopupProvider";
 import ServicePolish from "@/components/services/ServicePolish";
 import GlobalCursorTrail from "@/components/GlobalCursorTrail";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -50,6 +51,7 @@ export default function RootLayout({
           <ServicePolish />
           <Footer />
         </AssessmentPopupProvider>
+        <Analytics />
       </body>
     </html>
   );
