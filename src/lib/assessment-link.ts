@@ -1,3 +1,5 @@
+import { markThankYouAccess } from "@/lib/thank-you-access";
+
 export const AI_MATCH_TALLY_FORM_ID = "xXNXNr";
 
 export const AI_MATCH_TALLY_POPUP_HREF =
@@ -11,6 +13,7 @@ type TallyPopupOptions = {
     text: string;
     animation: string;
   };
+  onSubmit?: (payload: { formId?: string }) => void;
 };
 
 type TallyWindow = Window & {
@@ -26,6 +29,14 @@ const AI_MATCH_TALLY_POPUP_OPTIONS: TallyPopupOptions = {
   emoji: {
     text: "🤖",
     animation: "flash",
+  },
+  onSubmit: (payload) => {
+    if (payload.formId && payload.formId !== AI_MATCH_TALLY_FORM_ID) {
+      return;
+    }
+
+    markThankYouAccess();
+    window.location.assign("/thank-you");
   },
 };
 
