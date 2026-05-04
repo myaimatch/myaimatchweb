@@ -5,11 +5,9 @@ import HomeSignalField from "@/components/home/HomeSignalField";
 import MatchEngineFrame from "@/components/home/MatchEngineFrame";
 import MatchOutputPreview from "@/components/home/MatchOutputPreview";
 import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
+import { AI_MATCH_TALLY_POPUP_HREF } from "@/lib/assessment-link";
 
 export const dynamic = "force-dynamic";
-
-const TALLY_POPUP_HREF =
-  "#tally-open=xXNXNr&tally-width=500&tally-hide-title=1&tally-overlay=1&tally-emoji-text=%F0%9F%A4%96&tally-emoji-animation=flash";
 
 export const metadata: Metadata = {
   title: "myAImatch - Find AI Tools You'll Actually Use",
@@ -961,7 +959,7 @@ export default async function HomePage() {
               Explore AI tools for free, get personalized recommendations, or work with us to design and implement your AI match.
             </p>
             <div className="home-cta-row">
-              <a className="home-cta-primary ai-match-cta" href={TALLY_POPUP_HREF}>
+              <a className="home-cta-primary ai-match-cta" href={AI_MATCH_TALLY_POPUP_HREF}>
                 Claim Your Free AI Match
               </a>
             </div>
@@ -995,7 +993,7 @@ export default async function HomePage() {
                 Don&apos;t have time to filter {tools.length.toLocaleString("en-US")} tools, compare columns, and benchmark every option? Answer a few questions and we&apos;ll point you toward your recommended AI tools.
               </p>
               <div className="home-cta-row">
-                <a className="home-cta-primary ai-match-cta" href={TALLY_POPUP_HREF}>
+                <a className="home-cta-primary ai-match-cta" href={AI_MATCH_TALLY_POPUP_HREF}>
                   Claim Your Free AI Match
                 </a>
               </div>
