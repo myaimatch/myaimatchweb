@@ -43,6 +43,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <script async src="https://tally.so/widgets/embed.js" />
+      </head>
       <body className="antialiased">
         <AssessmentPopupProvider>
           <Navbar />
