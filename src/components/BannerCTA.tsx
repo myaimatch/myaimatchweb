@@ -79,19 +79,7 @@ export default function BannerCTA() {
           <div data-animate>
             <AssessmentPopupTrigger
               ctaLocation="banner_cta"
-              className="inline-block font-semibold text-base px-8 py-4 rounded-full transition-all"
-              style={{
-                background: "white",
-                color: "#131313",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.opacity = "0.9";
-                (e.currentTarget as HTMLElement).style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.opacity = "1";
-                (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-              }}
+              className="ai-match-cta"
             >
               Claim Your Free AI Match
             </AssessmentPopupTrigger>

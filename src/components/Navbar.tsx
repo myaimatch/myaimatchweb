@@ -264,36 +264,9 @@ export default function Navbar() {
         }
 
         .site-nav__cta {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
           min-height: 52px;
           padding: 0 28px;
-          border: 1px solid rgba(196,181,253,0.18);
-          border-radius: 999px;
-          background:
-            linear-gradient(135deg, rgba(132,104,235,0.98) 0%, rgba(91,66,195,0.98) 100%);
-          color: #ffffff;
           font-size: 14px;
-          font-weight: 700;
-          letter-spacing: 0.01em;
-          text-decoration: none;
-          box-shadow:
-            0 12px 28px rgba(91,66,195,0.34),
-            0 0 0 1px rgba(255,255,255,0.08) inset,
-            0 0 26px rgba(132,104,235,0.18);
-          transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
-        }
-
-        .site-nav__cta:hover,
-        .site-nav__cta:focus-visible {
-          opacity: 0.96;
-          transform: translateY(-1px);
-          box-shadow:
-            0 18px 34px rgba(91,66,195,0.42),
-            0 0 0 1px rgba(255,255,255,0.11) inset,
-            0 0 34px rgba(132,104,235,0.28);
-          outline: none;
         }
 
         .site-nav__mobile-trigger {
@@ -594,7 +567,7 @@ export default function Navbar() {
 
             <div className="site-nav__actions">
               {!isServicesRoute ? (
-                <AssessmentPopupTrigger className="site-nav__cta" ctaLocation="navbar_desktop">
+                <AssessmentPopupTrigger className="site-nav__cta ai-match-cta" ctaLocation="navbar_desktop">
                   Claim Your Free AI Match
                 </AssessmentPopupTrigger>
               ) : null}
@@ -665,7 +638,7 @@ export default function Navbar() {
 
             {!isServicesRoute ? (
               <div className="site-nav__drawer-footer">
-                <AssessmentPopupTrigger className="site-nav__cta" ctaLocation="navbar_mobile">
+                <AssessmentPopupTrigger className="site-nav__cta ai-match-cta" ctaLocation="navbar_mobile">
                   Claim Your Free AI Match
                 </AssessmentPopupTrigger>
               </div>

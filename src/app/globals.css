@@ -115,6 +115,105 @@
   opacity: 0.95;
 }
 
+/* ── AI Match CTA ─────────────────────────────────────────── */
+
+.ai-match-cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  width: fit-content;
+  min-height: 54px;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(240, 237, 255, 0.36);
+  border-radius: 999px;
+  padding: 0 clamp(24px, 3vw, 34px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0) 44%),
+    linear-gradient(135deg, #C4B5FD 0%, #8468EB 42%, #5B42C3 72%, #311B92 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px 10px rgba(49, 27, 146, 0.42);
+  box-shadow:
+    0 16px 42px rgba(91, 66, 195, 0.42),
+    0 0 38px rgba(132, 104, 235, 0.24),
+    0 0 0 1px rgba(255,255,255,0.16) inset;
+  transform: translateY(0) scale(1);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    border-color 180ms ease;
+}
+
+.ai-match-cta::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 80% 120% at 18% 0%, rgba(255,255,255,0.48), transparent 44%),
+    linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 48%, transparent 100%);
+  opacity: 0.82;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.ai-match-cta::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(196,181,253,0.55), rgba(132,104,235,0.1));
+  opacity: 0.18;
+  filter: blur(10px);
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.ai-match-cta:hover,
+.ai-match-cta:focus-visible {
+  border-color: rgba(240, 237, 255, 0.56);
+  filter: brightness(1.08) saturate(1.08);
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    0 22px 54px rgba(91, 66, 195, 0.52),
+    0 0 46px rgba(132, 104, 235, 0.34),
+    0 0 0 1px rgba(255,255,255,0.22) inset;
+}
+
+.ai-match-cta:hover::before,
+.ai-match-cta:focus-visible::before {
+  opacity: 1;
+  transform: translateX(4%);
+}
+
+.ai-match-cta:hover::after,
+.ai-match-cta:focus-visible::after {
+  opacity: 0.3;
+}
+
+.ai-match-cta:active {
+  filter: brightness(1.02) saturate(1.02);
+  transform: translateY(0) scale(0.985);
+  transition-duration: 80ms;
+}
+
+.ai-match-cta:focus-visible {
+  outline: 2px solid #F0EDFF;
+  outline-offset: 4px;
+}
+
 /* ── Hero CTA buttons ─────────────────────────────────────── */
 
 .hero-cta-primary {
