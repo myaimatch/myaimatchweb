@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicePolish from "@/components/services/ServicePolish";
 import GlobalCursorTrail from "@/components/GlobalCursorTrail";
+import TallySubmissionTracker from "@/components/assessment/TallySubmissionTracker";
 import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -49,6 +50,7 @@ export default function RootLayout({
         <main>{children}</main>
         <GlobalCursorTrail />
         <ServicePolish />
+        <TallySubmissionTracker />
         <Footer />
         <Analytics />
       </body>
