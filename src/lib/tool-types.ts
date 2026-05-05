@@ -4,7 +4,12 @@ export interface Tool {
   slug: string;
   shortDescription: string;
   fullDescription: string;
+  outcomes: ToolOutcomeRef[];
+  primaryOutcomeId?: string;
+  subcategories: ToolSubcategoryRef[];
+  /** @deprecated Use outcomes instead. Kept during the outcome taxonomy rollout. */
   category: string[];
+  /** @deprecated Use subcategories instead. Kept during the outcome taxonomy rollout. */
   subcategory?: string;
   websiteUrl: string;
   affiliateLink?: string;
@@ -34,7 +39,19 @@ export interface Tool {
   maxMonthlyPrice?: number;
 }
 
-export interface Category {
+export interface ToolOutcomeRef {
+  id: string;
+  isPrimary: boolean;
+}
+
+export interface ToolSubcategoryRef {
+  id: string;
+  name: string;
+  slug: string;
+  outcomeId: string;
+}
+
+export interface Outcome {
   id: string;
   name: string;
   slug: string;
@@ -43,3 +60,14 @@ export interface Category {
   displayOrder?: number;
 }
 
+export interface Subcategory {
+  id: string;
+  outcomeId: string;
+  name: string;
+  slug: string;
+  description?: string;
+  displayOrder?: number;
+}
+
+/** @deprecated Use Outcome instead. */
+export type Category = Outcome;

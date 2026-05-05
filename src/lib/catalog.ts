@@ -1,19 +1,24 @@
-import type { Category, Tool } from "@/lib/tool-types";
+import type { Category, Outcome, Subcategory, Tool } from "@/lib/tool-types";
 import {
-  fetchAllCategoriesFromSupabase,
+  fetchAllOutcomesFromSupabase,
+  fetchAllSubcategoriesFromSupabase,
   fetchAllToolsFromSupabase,
   fetchToolBySlugFromSupabase,
-  fetchToolsByCategoryFromSupabase,
+  fetchToolsByOutcomeFromSupabase,
 } from "@/lib/supabase/catalog";
 
-export type { Category, Tool };
+export type { Category, Outcome, Subcategory, Tool };
 
 export async function fetchAllTools(): Promise<Tool[]> {
   return fetchAllToolsFromSupabase();
 }
 
 export async function fetchToolsByCategory(categorySlug: string): Promise<Tool[]> {
-  return fetchToolsByCategoryFromSupabase(categorySlug);
+  return fetchToolsByOutcomeFromSupabase(categorySlug);
+}
+
+export async function fetchToolsByOutcome(outcomeSlug: string): Promise<Tool[]> {
+  return fetchToolsByOutcomeFromSupabase(outcomeSlug);
 }
 
 export async function fetchToolBySlug(slug: string): Promise<Tool | null> {
@@ -21,5 +26,13 @@ export async function fetchToolBySlug(slug: string): Promise<Tool | null> {
 }
 
 export async function fetchAllCategories(): Promise<Category[]> {
-  return fetchAllCategoriesFromSupabase();
+  return fetchAllOutcomesFromSupabase();
+}
+
+export async function fetchAllOutcomes(): Promise<Outcome[]> {
+  return fetchAllOutcomesFromSupabase();
+}
+
+export async function fetchAllSubcategories(): Promise<Subcategory[]> {
+  return fetchAllSubcategoriesFromSupabase();
 }

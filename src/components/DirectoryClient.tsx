@@ -18,8 +18,10 @@ import {
   Check,
   Minus,
   Info,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react"
-import type { Tool, Category } from "@/lib/catalog"
+import type { Tool, Outcome } from "@/lib/catalog"
 import { buildGoHref } from "@/lib/affiliate-links"
 
 const SearchBar = dynamic(
@@ -36,8 +38,8 @@ const SearchBar = dynamic(
 
 interface Props {
   tools: Tool[]
-  categories: Category[]
-  categoryMap: Record<string, string>
+  outcomes: Outcome[]
+  outcomeMap: Record<string, string>
 }
 
 type SortField = "name" | "category" | "communityReputation" | "minMonthlyPrice" | "bestFor" | null
@@ -85,7 +87,7 @@ function countActiveFilters(f: ActiveFilters) {
 // ─── Column Picker ────────────────────────────────────────────────────────────
 
 const COLUMN_CONFIG = [
-  { key: "category", label: "Category", defaultVisible: true },
+  { key: "category", label: "Outcome", defaultVisible: true },
   { key: "fullDescription", label: "Full Description", defaultVisible: true },
   { key: "pricingSummary", label: "Pricing Summary", defaultVisible: true },
   { key: "bestFor", label: "Best For", defaultVisible: true },
@@ -116,6 +118,7 @@ const COLUMN_LABELS = Object.fromEntries(
 ) as Record<ColumnKey, string>
 
 const LS_COLUMNS_KEY = "maim-visible-columns"
+const LS_OUTCOME_RAIL_KEY = "maim-outcome-rail-open"
 
 function loadColumns(): Record<ColumnKey, boolean> {
   if (typeof window === "undefined") return DEFAULT_COLUMNS
@@ -163,20 +166,20 @@ function useFavorites() {
 function SearchParamsReader({
   onParams,
 }: {
-  onParams: (category: string | null, q: string | null) => void
+  onParams: (outcome: string | null, q: string | null) => void
 }) {
   const searchParams = useSearchParams()
   useEffect(() => {
-    onParams(searchParams.get("category"), searchParams.get("q"))
+    onParams(searchParams.get("outcome") ?? searchParams.get("category"), searchParams.get("q"))
   }, [searchParams, onParams])
   return null
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function DirectoryClient({ tools, categories, categoryMap }: Props) {
+export default function DirectoryClient({ tools, outcomes, outcomeMap }: Props) {
   const [search, setSearch] = useState("")
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activeOutcome, setActiveOutcome] = useState<string | null>(null)
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null)
   const [sortField, setSortField] = useState<SortField>("communityReputation")
   const [sortDir, setSortDir] = useState<SortDir>("desc")
@@ -185,6 +188,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   const [visibleColumns, setVisibleColumns] = useState<Record<ColumnKey, boolean>>(DEFAULT_COLUMNS)
   const [columnPickerOpen, setColumnPickerOpen] = useState(false)
+  const [outcomeRailOpen, setOutcomeRailOpen] = useState(true)
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_TOOLS)
   const [showGoUp, setShowGoUp] = useState(false)
   const columnPickerRef = useRef<HTMLDivElement>(null)
@@ -194,6 +198,10 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   // Load column visibility from localStorage on mount
   useEffect(() => {
     setVisibleColumns(loadColumns())
+    try {
+      const stored = localStorage.getItem(LS_OUTCOME_RAIL_KEY)
+      if (stored) setOutcomeRailOpen(stored === "true")
+    } catch { /* ignore */ }
   }, [])
 
   // Close column picker when clicking outside
@@ -211,14 +219,17 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
 
   // Receive URL params from SearchParamsReader
   const handleUrlParams = useCallback(
-    (categoryParam: string | null, queryParam: string | null) => {
-      if (categoryParam) {
-        const matchedCategory = categories.find((cat) => cat.name === categoryParam)
-        if (matchedCategory) setActiveCategory(matchedCategory.id)
+    (outcomeParam: string | null, queryParam: string | null) => {
+      if (outcomeParam) {
+        const normalized = outcomeParam.toLowerCase()
+        const matchedOutcome = outcomes.find((outcome) =>
+          outcome.name.toLowerCase() === normalized || outcome.slug.toLowerCase() === normalized
+        )
+        if (matchedOutcome) setActiveOutcome(matchedOutcome.id)
       }
       if (queryParam) setSearch(queryParam)
     },
-    [categories]
+    [outcomes]
   )
 
   const toggleColumn = useCallback((key: ColumnKey) => {
@@ -231,17 +242,29 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     })
   }, [])
 
-  // Subcategories available in the currently selected category
+  const toggleOutcomeRail = useCallback(() => {
+    setOutcomeRailOpen((value) => {
+      const next = !value
+      try { localStorage.setItem(LS_OUTCOME_RAIL_KEY, String(next)) } catch { /* ignore */ }
+      return next
+    })
+  }, [])
+
+  // Subcategories available in the currently selected outcome
   const availableSubcategories = useMemo(() => {
-    if (!activeCategory) return []
-    const set = new Set<string>()
+    if (!activeOutcome) return []
+    const map = new Map<string, { slug: string; name: string }>()
     tools.forEach((t) => {
-      if (t.category.includes(activeCategory) && t.subcategory) {
-        set.add(t.subcategory)
+      if (t.outcomes.some((outcome) => outcome.id === activeOutcome)) {
+        for (const subcategory of t.subcategories) {
+          if (subcategory.outcomeId === activeOutcome || !subcategory.outcomeId) {
+            map.set(subcategory.slug, { slug: subcategory.slug, name: subcategory.name })
+          }
+        }
       }
     })
-    return Array.from(set).sort()
-  }, [tools, activeCategory])
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name))
+  }, [tools, activeOutcome])
 
   const handleSort = useCallback(
     (field: SortField) => {
@@ -255,9 +278,9 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     [sortField]
   )
 
-  const handleCategorySelect = useCallback(
-    (catId: string | null) => {
-      setActiveCategory(catId)
+  const handleOutcomeSelect = useCallback(
+    (outcomeId: string | null) => {
+      setActiveOutcome(outcomeId)
       setActiveSubcategory(null)
     },
     []
@@ -266,13 +289,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
   const filteredTools = useMemo(() => {
     let result = tools
 
-    // 1. Category
-    if (activeCategory) {
-      result = result.filter((t) => t.category.includes(activeCategory))
+    // 1. Outcome
+    if (activeOutcome) {
+      result = result.filter((t) => t.outcomes.some((outcome) => outcome.id === activeOutcome))
     }
     // 2. Subcategory
     if (activeSubcategory) {
-      result = result.filter((t) => t.subcategory === activeSubcategory)
+      result = result.filter((t) => t.subcategories.some((subcategory) => subcategory.slug === activeSubcategory))
     }
     // 3. Search
     if (search.trim()) {
@@ -326,8 +349,8 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
           aVal = a.name
           bVal = b.name
         } else if (sortField === "category") {
-          aVal = a.category[0] ? (categoryMap[a.category[0]] ?? "") : ""
-          bVal = b.category[0] ? (categoryMap[b.category[0]] ?? "") : ""
+          aVal = a.primaryOutcomeId ? (outcomeMap[a.primaryOutcomeId] ?? "") : ""
+          bVal = b.primaryOutcomeId ? (outcomeMap[b.primaryOutcomeId] ?? "") : ""
         } else if (sortField === "communityReputation") {
           aVal = a.communityReputation ?? 0
           bVal = b.communityReputation ?? 0
@@ -351,7 +374,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     return result
   }, [
     tools,
-    activeCategory,
+    activeOutcome,
     activeSubcategory,
     search,
     activeFilters,
@@ -359,13 +382,13 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     favorites,
     sortField,
     sortDir,
-    categoryMap,
+    outcomeMap,
   ])
 
   useEffect(() => {
     setVisibleCount(INITIAL_VISIBLE_TOOLS)
   }, [
-    activeCategory,
+    activeOutcome,
     activeSubcategory,
     search,
     activeFilters,
@@ -424,117 +447,39 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
     (k) => visibleColumns[k] && !DEFAULT_COLUMNS[k]
   ).length
 
+  const outcomeCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const outcome of outcomes) counts.set(outcome.id, 0)
+    for (const tool of tools) {
+      const primary = tool.primaryOutcomeId ?? tool.outcomes[0]?.id
+      if (primary) counts.set(primary, (counts.get(primary) ?? 0) + 1)
+    }
+    return counts
+  }, [outcomes, tools])
+
   return (
     <div ref={directoryTopRef} className="relative scroll-mt-24 overflow-hidden rounded-[22px]">
       {/* Read URL search params inside its own Suspense to avoid RSC encoding issues */}
       <Suspense fallback={null}>
         <SearchParamsReader onParams={handleUrlParams} />
       </Suspense>
-      {/* ── Category Cards ─────────────────────────────────────────────── */}
+      {/* ── Search row ─────────────────────────────────────────────────── */}
       <div
-        className="pt-5 pb-0"
+        className="border-b px-4 py-5 sm:px-6"
         style={{
+          borderColor: "rgba(255,255,255,0.06)",
           background:
             "linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)), rgba(10,10,12,0.94)",
         }}
       >
-        <div className="relative">
-          <div
-            className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 z-10"
-            style={{ background: "linear-gradient(to right, rgba(10,10,12,0.96), transparent)" }}
+        <div className="mx-auto max-w-3xl">
+          <SearchBar
+            placeholder="Search tools by name, workflow, or outcome..."
+            onSearch={(q) => setSearch(q)}
+            onChange={(q) => setSearch(q)}
+            suggestions={tools.map((t) => t.name).slice(0, 20)}
           />
-          <div
-            className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 z-10"
-            style={{ background: "linear-gradient(to left, rgba(10,10,12,0.96), transparent)" }}
-          />
-
-          <div
-            className="flex gap-3 overflow-x-auto px-6 pb-4"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            <CategoryCard
-              id={null}
-              name="All Matches"
-              icon="✦"
-              active={activeCategory === null}
-              onClick={() => handleCategorySelect(null)}
-            />
-            {categories.map((cat) => (
-              <CategoryCard
-                key={cat.id}
-                id={cat.id}
-                name={cat.name}
-                icon={cat.icon ?? "🤖"}
-                active={activeCategory === cat.id}
-                onClick={() =>
-                  handleCategorySelect(activeCategory === cat.id ? null : cat.id)
-                }
-              />
-            ))}
-          </div>
         </div>
-
-        {/* Subcategory chips */}
-        <AnimatePresence>
-          {activeCategory && availableSubcategories.length > 0 && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 280, damping: 28 }}
-              className="overflow-hidden"
-            >
-              <div
-                className="flex items-center gap-2 px-6 py-3 overflow-x-auto border-t"
-                style={{
-                  borderColor: "rgba(255,255,255,0.06)",
-                  scrollbarWidth: "none",
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)), rgba(20,16,32,0.58)",
-                }}
-              >
-                <span className="text-xs font-medium flex-shrink-0 flex items-center gap-1 text-white/40">
-                  <ChevronRight className="w-3 h-3" />
-                  Subcategory
-                </span>
-                <button
-                  onClick={() => setActiveSubcategory(null)}
-                  className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150"
-                  style={{
-                    borderColor: activeSubcategory === null ? "rgba(132,104,235,0.85)" : "rgba(255,255,255,0.12)",
-                    background:
-                      activeSubcategory === null
-                        ? "linear-gradient(180deg, rgba(132,104,235,0.22), rgba(132,104,235,0.12))"
-                        : "rgba(255,255,255,0.02)",
-                    color: activeSubcategory === null ? "#d4c8ff" : "rgba(255,255,255,0.5)",
-                  }}
-                >
-                  All
-                </button>
-                {availableSubcategories.map((sub) => (
-                  <button
-                    key={sub}
-                    onClick={() =>
-                      setActiveSubcategory(activeSubcategory === sub ? null : sub)
-                    }
-                    className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150 whitespace-nowrap"
-                    style={{
-                      borderColor: activeSubcategory === sub ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
-                      background:
-                        activeSubcategory === sub
-                          ? "linear-gradient(180deg, rgba(132,104,235,0.22), rgba(132,104,235,0.12))"
-                          : "rgba(255,255,255,0.02)",
-                      color: activeSubcategory === sub ? "#d4c8ff" : "rgba(255,255,255,0.5)",
-                    }}
-                  >
-                    {sub}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <div className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }} />
       </div>
 
       {/* ── Toolbar ────────────────────────────────────────────────────── */}
@@ -548,6 +493,21 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
       >
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-3 justify-start">
+            <button
+              onClick={toggleOutcomeRail}
+              className="h-12 min-w-[150px] flex items-center justify-center gap-2 px-4 rounded-full border text-sm font-semibold transition-all duration-200"
+              style={{
+                background: outcomeRailOpen
+                  ? "linear-gradient(180deg, rgba(132,104,235,0.2), rgba(132,104,235,0.12))"
+                  : "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+                borderColor: outcomeRailOpen ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
+                color: outcomeRailOpen ? "#d8cbff" : "rgba(255,255,255,0.62)",
+              }}
+            >
+              {outcomeRailOpen ? <PanelLeftClose className="w-4 h-4" /> : <PanelLeftOpen className="w-4 h-4" />}
+              Outcomes
+            </button>
+
             {/* Filters toggle */}
             <button
               onClick={() => setFiltersOpen((v) => !v)}
@@ -700,17 +660,69 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             </button>
           </div>
 
-          {/* Search */}
-          <div className="w-full lg:ml-auto lg:w-[420px] lg:flex-none">
-            <SearchBar
-              placeholder="Search tools..."
-              onSearch={(q) => setSearch(q)}
-              onChange={(q) => setSearch(q)}
-              suggestions={tools.map((t) => t.name).slice(0, 20)}
-            />
-          </div>
         </div>
       </div>
+
+      {/* Subcategory chips */}
+      <AnimatePresence>
+        {activeOutcome && availableSubcategories.length > 0 && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 280, damping: 28 }}
+            className="overflow-hidden border-b"
+            style={{ borderColor: "rgba(255,255,255,0.06)" }}
+          >
+            <div
+              className="flex items-center gap-2 px-6 py-3 overflow-x-auto"
+              style={{
+                scrollbarWidth: "none",
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015)), rgba(20,16,32,0.58)",
+              }}
+            >
+              <span className="text-xs font-medium flex-shrink-0 flex items-center gap-1 text-white/40">
+                <ChevronRight className="w-3 h-3" />
+                Subcategory
+              </span>
+              <button
+                onClick={() => setActiveSubcategory(null)}
+                className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150"
+                style={{
+                  borderColor: activeSubcategory === null ? "rgba(132,104,235,0.85)" : "rgba(255,255,255,0.12)",
+                  background:
+                    activeSubcategory === null
+                      ? "linear-gradient(180deg, rgba(132,104,235,0.22), rgba(132,104,235,0.12))"
+                      : "rgba(255,255,255,0.02)",
+                  color: activeSubcategory === null ? "#d4c8ff" : "rgba(255,255,255,0.5)",
+                }}
+              >
+                All
+              </button>
+              {availableSubcategories.map((sub) => (
+                <button
+                  key={sub.slug}
+                  onClick={() =>
+                    setActiveSubcategory(activeSubcategory === sub.slug ? null : sub.slug)
+                  }
+                  className="flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium border transition-all duration-150 whitespace-nowrap"
+                  style={{
+                    borderColor: activeSubcategory === sub.slug ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.12)",
+                    background:
+                      activeSubcategory === sub.slug
+                        ? "linear-gradient(180deg, rgba(132,104,235,0.22), rgba(132,104,235,0.12))"
+                        : "rgba(255,255,255,0.02)",
+                    color: activeSubcategory === sub.slug ? "#d4c8ff" : "rgba(255,255,255,0.5)",
+                  }}
+                >
+                  {sub.name}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div
         className="border-b px-4 py-3 text-center text-xs leading-6 text-white/42 sm:px-6"
@@ -723,8 +735,72 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
         we may earn a commission at no extra cost to you.
       </div>
 
-      {/* ── Content: Left Filter Panel + Table ────────────────────────── */}
-      <div className="flex">
+      {/* ── Content: Outcome Rail + Filters + Table ───────────────────── */}
+      <div className="flex flex-col lg:flex-row">
+        <AnimatePresence initial={false}>
+          {outcomeRailOpen && (
+            <motion.aside
+              key="outcome-rail"
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: 292, opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 320, damping: 32 }}
+              className="flex-shrink-0 overflow-hidden"
+              style={{
+                borderRight: "1px solid rgba(255,255,255,0.06)",
+                background:
+                  "radial-gradient(ellipse 86% 42% at 50% 0%, rgba(132,104,235,0.14), transparent 68%), linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.016)), rgba(9,9,11,0.97)",
+              }}
+            >
+              <div className="w-[292px] px-4 py-5">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8468EB]">
+                      Outcomes
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-white/40">
+                      Start with what you want to achieve.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={toggleOutcomeRail}
+                    className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-lg border"
+                    style={{
+                      borderColor: "rgba(255,255,255,0.1)",
+                      background: "rgba(255,255,255,0.035)",
+                      color: "rgba(255,255,255,0.55)",
+                    }}
+                    title="Hide outcomes"
+                  >
+                    <PanelLeftClose className="h-4 w-4" />
+                  </button>
+                </div>
+
+                <div className="max-h-[620px] space-y-2 overflow-y-auto pr-1">
+                  <OutcomeRailItem
+                    name="All Outcomes"
+                    icon="✦"
+                    count={tools.length}
+                    active={activeOutcome === null}
+                    onClick={() => handleOutcomeSelect(null)}
+                  />
+                  {outcomes.map((outcome) => (
+                    <OutcomeRailItem
+                      key={outcome.id}
+                      name={outcome.name}
+                      icon={outcome.icon ?? "Sparkles"}
+                      count={outcomeCounts.get(outcome.id) ?? 0}
+                      active={activeOutcome === outcome.id}
+                      onClick={() => handleOutcomeSelect(activeOutcome === outcome.id ? null : outcome.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.aside>
+          )}
+        </AnimatePresence>
+
         {/* Left filter panel */}
         <AnimatePresence>
           {filtersOpen && (
@@ -1019,7 +1095,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                   {/* Toggleable columns */}
                   {visibleColumns.category && (
                     <SortHeader
-                      label="Category"
+                      label="Outcome"
                       field="category"
                       sortField={sortField}
                       sortDir={sortDir}
@@ -1159,7 +1235,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     <td colSpan={20} className="text-center py-20">
                       <p className="text-white font-medium mb-1">No tools found</p>
                       <p className="text-sm text-white/36">
-                        Try a different category or adjust filters.
+                        Try a different outcome or adjust filters.
                       </p>
                     </td>
                   </tr>
@@ -1168,7 +1244,7 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
                     <ToolRow
                       key={tool.id}
                       tool={tool}
-                      categoryMap={categoryMap}
+                      outcomeMap={outcomeMap}
                       isEven={idx % 2 === 0}
                       isFavorite={favorites.has(tool.id)}
                       onToggleFavorite={() => toggleFavorite(tool.id)}
@@ -1380,6 +1456,9 @@ const ICON_MAP: Record<string, string> = {
   Shield: "🛡️",
   Database: "🗄️",
   Workflow: "🔄",
+  Bot: "🤖",
+  Rocket: "🚀",
+  Sparkles: "✦",
 }
 
 function getIcon(icon?: string): string {
@@ -1387,42 +1466,48 @@ function getIcon(icon?: string): string {
   return ICON_MAP[icon] ?? icon
 }
 
-// ─── CategoryCard ─────────────────────────────────────────────────────────────
+// ─── OutcomeRailItem ──────────────────────────────────────────────────────────
 
-function CategoryCard({
-  id,
+function OutcomeRailItem({
   name,
   icon,
+  count,
   active,
   onClick,
 }: {
-  id: string | null
   name: string
   icon: string
+  count: number
   active: boolean
   onClick: () => void
 }) {
   return (
     <button
       onClick={onClick}
-      className="flex-shrink-0 flex items-center gap-3 px-4 py-3.5 rounded-xl border text-left transition-all duration-200"
+      className="group flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200"
       style={{
-        minWidth: id === null ? "136px" : "164px",
         borderColor: active ? "rgba(132,104,235,0.82)" : "rgba(255,255,255,0.08)",
         background: active
           ? "linear-gradient(180deg, rgba(132,104,235,0.18), rgba(132,104,235,0.08)), rgba(30,22,52,0.78)"
           : "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), rgba(18,18,20,0.74)",
-        boxShadow: active
-          ? "0 0 0 1px rgba(132,104,235,0.24), 0 16px 34px rgba(0,0,0,0.24), 0 0 24px rgba(132,104,235,0.12)"
-          : "0 10px 24px rgba(0,0,0,0.14)",
+        boxShadow: active ? "0 0 24px rgba(132,104,235,0.16)" : "none",
       }}
     >
-      <span className="text-base leading-none">{getIcon(icon)}</span>
-      <span
-        className="text-sm font-semibold leading-tight"
-        style={{ color: active ? "#fff" : "rgba(255,255,255,0.74)" }}
+      <span className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-lg text-base leading-none"
+        style={{ background: active ? "rgba(132,104,235,0.22)" : "rgba(255,255,255,0.045)" }}
       >
-        {name}
+        {getIcon(icon)}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span
+          className="block truncate text-sm font-semibold leading-tight"
+          style={{ color: active ? "#fff" : "rgba(255,255,255,0.74)" }}
+        >
+          {name}
+        </span>
+        <span className="mt-1 block text-[11px] text-white/34">
+          {count} {count === 1 ? "tool" : "tools"}
+        </span>
       </span>
     </button>
   )
@@ -1510,21 +1595,21 @@ function BoolCell({ value }: { value: boolean | undefined }) {
 
 function ToolRow({
   tool,
-  categoryMap,
+  outcomeMap,
   isEven,
   isFavorite,
   onToggleFavorite,
   visibleColumns,
 }: {
   tool: Tool
-  categoryMap: Record<string, string>
+  outcomeMap: Record<string, string>
   isEven: boolean
   isFavorite: boolean
   onToggleFavorite: () => void
   visibleColumns: Record<ColumnKey, boolean>
 }) {
   const initials = tool.name.slice(0, 2).toUpperCase()
-  const categoryName = tool.category[0] ? categoryMap[tool.category[0]] : null
+  const outcomeName = tool.primaryOutcomeId ? outcomeMap[tool.primaryOutcomeId] : null
   const visitUrl = tool.slug ? buildGoHref(tool.slug, "directory") : tool.websiteUrl
 
   return (
@@ -1610,10 +1695,10 @@ function ToolRow({
         </div>
       </td>
 
-      {/* Category */}
+      {/* Outcome */}
       {visibleColumns.category && (
         <td className="px-4 py-3.5">
-          {categoryName ? (
+          {outcomeName ? (
             <span
               className="inline-block px-2.5 py-1 rounded-full text-xs font-medium"
               style={{
@@ -1622,7 +1707,7 @@ function ToolRow({
                 border: "1px solid rgba(132,104,235,0.18)",
               }}
             >
-              {categoryName}
+              {outcomeName}
             </span>
           ) : (
             <span className="text-white/18 text-xs">—</span>

@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "tsx src/lib/thank-you-access.test.ts && tsx src/lib/affiliate-links.test.ts && tsx src/lib/zapier-assessment.test.ts",
+    "test": "tsx src/lib/thank-you-access.test.ts && tsx src/lib/affiliate-links.test.ts && tsx src/lib/zapier-assessment.test.ts && tsx src/lib/outcome-taxonomy.test.ts && tsx src/lib/outcome-migration.test.ts",
     "enrich": "tsx scripts/enrich-tools.ts",
-    "enrich:dry": "tsx scripts/enrich-tools.ts --dry-run --limit=5"
+    "enrich:dry": "tsx scripts/enrich-tools.ts --dry-run --limit=5",
+    "outcomes:plan": "tsx scripts/migrate-to-outcomes.ts",
+    "outcomes:apply": "tsx scripts/migrate-to-outcomes.ts --apply"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",

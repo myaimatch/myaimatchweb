@@ -8,45 +8,52 @@ import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 const DEFAULT_SUGGESTIONS = [
-  "Content writing",
-  "Marketing & SEO",
-  "Design & Creative",
-  "Video generation",
-  "Sales & CRM",
-  "Productivity tools",
-  "Data & Analytics",
-  "Customer support",
-  "Image generation",
-  "Code assistants",
-  "Voice & Audio",
-  "Website builders",
+  "Create Content",
+  "Design Visuals",
+  "Produce Video & Audio",
+  "Build Software",
+  "Build AI Agents",
+  "Automate Workflows",
+  "Grow Audience",
+  "Launch Campaigns",
+  "Sell & Close Deals",
+  "Support Customers",
+  "Analyze Data",
+  "Research & Learn",
+  "Plan & Collaborate",
+  "Run Operations",
 ]
 
 export const KEYWORD_CATEGORY_MAP: Record<string, string> = {
-  designer: "Design",
-  graphic: "Design",
-  marketer: "Marketing",
-  marketing: "Marketing",
-  developer: "Developer Tools",
-  coder: "Developer Tools",
-  programmer: "Developer Tools",
-  writer: "Content Creation",
-  content: "Content Creation",
-  copywriter: "Content Creation",
-  sales: "Sales",
-  support: "Customer Support",
-  customer: "Customer Support",
-  data: "Data & Analytics",
-  analytics: "Data & Analytics",
-  video: "Video",
-  image: "Image Generation",
-  audio: "Audio",
-  productivity: "Productivity",
-  hr: "HR",
-  finance: "Finance",
-  education: "Education",
-  research: "Research",
-  social: "Social Media",
+  designer: "design-visuals",
+  graphic: "design-visuals",
+  marketer: "launch-campaigns",
+  marketing: "launch-campaigns",
+  seo: "grow-audience",
+  developer: "build-software",
+  coder: "build-software",
+  programmer: "build-software",
+  agent: "build-ai-agents",
+  chatbot: "build-ai-agents",
+  writer: "create-content",
+  content: "create-content",
+  copywriter: "create-content",
+  sales: "sell-close-deals",
+  support: "support-customers",
+  customer: "support-customers",
+  data: "analyze-data",
+  analytics: "analyze-data",
+  video: "produce-video-audio",
+  image: "design-visuals",
+  audio: "produce-video-audio",
+  automation: "automate-workflows",
+  productivity: "plan-collaborate",
+  operations: "run-operations",
+  hr: "run-operations",
+  finance: "run-operations",
+  education: "research-learn",
+  research: "research-learn",
+  social: "grow-audience",
 }
 
 const GooeyFilter = () => (
@@ -166,20 +173,20 @@ const SearchBar = ({
         return
       }
 
-      // Try to map query to a category using semantic matching
+      // Try to map query to an outcome using semantic matching
       const lowerQuery = searchQuery.toLowerCase()
-      let matchedCategory: string | null = null
+      let matchedOutcome: string | null = null
 
       // Check if any keyword appears in the query
-      for (const [keyword, category] of Object.entries(KEYWORD_CATEGORY_MAP)) {
+      for (const [keyword, outcome] of Object.entries(KEYWORD_CATEGORY_MAP)) {
         if (lowerQuery.includes(keyword)) {
-          matchedCategory = category
+          matchedOutcome = outcome
           break
         }
       }
 
-      if (matchedCategory) {
-        router.push(`/?category=${encodeURIComponent(matchedCategory)}#match-tools`)
+      if (matchedOutcome) {
+        router.push(`/?outcome=${encodeURIComponent(matchedOutcome)}#match-tools`)
       } else {
         router.push(`/?q=${encodeURIComponent(searchQuery)}#match-tools`)
       }

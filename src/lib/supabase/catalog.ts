@@ -1,10 +1,19 @@
 import "server-only";
 
-import type { Category, Tool } from "@/lib/tool-types";
+import type {
+  Category,
+  Outcome,
+  Subcategory,
+  Tool,
+  ToolOutcomeRef,
+  ToolSubcategoryRef,
+} from "@/lib/tool-types";
+import { slugifyTaxonomyLabel } from "@/lib/outcome-taxonomy";
 import { getSupabaseDataClient } from "./server";
 
 type ToolRow = Record<string, unknown>;
-type CategoryRow = Record<string, unknown>;
+type OutcomeRow = Record<string, unknown>;
+type SubcategoryRow = Record<string, unknown>;
 
 function asString(value: unknown, fallback = "") {
   return typeof value === "string" ? value : fallback;
@@ -34,7 +43,7 @@ function asStringArray(value: unknown) {
   return values.length ? values : undefined;
 }
 
-function mapCategory(row: CategoryRow): Category {
+function mapOutcome(row: OutcomeRow): Outcome {
   return {
     id: asString(row.id),
     name: asString(row.name),
@@ -45,9 +54,37 @@ function mapCategory(row: CategoryRow): Category {
   };
 }
 
+function mapSubcategory(row: SubcategoryRow): Subcategory {
+  return {
+    id: asString(row.id),
+    outcomeId: asString(row.outcome_id),
+    name: asString(row.name),
+    slug: asString(row.slug),
+    description: asOptionalString(row.description),
+    displayOrder: asNumber(row.display_order),
+  };
+}
+
+function normalizeOutcomeRefs(outcomes: ToolOutcomeRef[]) {
+  if (outcomes.some((outcome) => outcome.isPrimary)) return outcomes;
+  if (outcomes.length === 0) return outcomes;
+  return outcomes.map((outcome, index) => ({ ...outcome, isPrimary: index === 0 }));
+}
+
+function legacySubcategoryRef(value: string | undefined, outcomeId: string | undefined): ToolSubcategoryRef[] {
+  if (!value) return [];
+  return [{
+    id: `legacy:${value}`,
+    name: value,
+    slug: slugifyTaxonomyLabel(value),
+    outcomeId: outcomeId ?? "",
+  }];
+}
+
 function mapTool(
   row: ToolRow,
-  categoryIds: string[],
+  outcomeRefs: ToolOutcomeRef[],
+  subcategoryRefs: ToolSubcategoryRef[],
   affiliateSummary?: {
     affiliateLink?: string;
     affiliateStatus?: string;
@@ -57,14 +94,22 @@ function mapTool(
     dealRank?: number;
   },
 ): Tool {
+  const outcomes = normalizeOutcomeRefs(outcomeRefs);
+  const primaryOutcomeId = outcomes.find((outcome) => outcome.isPrimary)?.id ?? outcomes[0]?.id;
+  const legacySubcategory = asOptionalString(row.subcategory);
+  const subcategories = subcategoryRefs.length ? subcategoryRefs : legacySubcategoryRef(legacySubcategory, primaryOutcomeId);
+
   return {
     id: asString(row.id),
     name: asString(row.name),
     slug: asString(row.slug),
     shortDescription: asString(row.short_description),
     fullDescription: asString(row.full_description),
-    category: categoryIds,
-    subcategory: asOptionalString(row.subcategory),
+    outcomes,
+    primaryOutcomeId,
+    subcategories,
+    category: outcomes.map((outcome) => outcome.id),
+    subcategory: subcategories[0]?.name ?? legacySubcategory,
     websiteUrl: asString(row.website_url),
     affiliateLink: affiliateSummary?.affiliateLink,
     affiliateStatus: affiliateSummary?.affiliateStatus,
@@ -94,19 +139,74 @@ function mapTool(
   };
 }
 
-async function getToolCategoryMap(toolIds?: string[]) {
+async function getToolOutcomeMap(toolIds?: string[]) {
   const supabase = getSupabaseDataClient();
-  if (!supabase) return new Map<string, string[]>();
+  if (!supabase) return new Map<string, ToolOutcomeRef[]>();
 
-  let query = supabase.from("tool_categories").select("tool_id, category_id");
+  let query = supabase.from("tool_outcomes").select("tool_id, outcome_id, is_primary");
   if (toolIds?.length) query = query.in("tool_id", toolIds);
 
-  const { data } = await query;
-  const map = new Map<string, string[]>();
+  const { data, error } = await query;
+  const map = new Map<string, ToolOutcomeRef[]>();
 
-  for (const row of (data ?? []) as Array<{ tool_id: string; category_id: string }>) {
+  if (!error) {
+    for (const row of (data ?? []) as Array<{ tool_id: string; outcome_id: string; is_primary?: boolean }>) {
+      const current = map.get(row.tool_id) ?? [];
+      current.push({ id: row.outcome_id, isPrimary: row.is_primary ?? false });
+      map.set(row.tool_id, current);
+    }
+    return map;
+  }
+
+  let legacyQuery = supabase.from("tool_categories").select("tool_id, category_id");
+  if (toolIds?.length) legacyQuery = legacyQuery.in("tool_id", toolIds);
+  const { data: legacyData } = await legacyQuery;
+
+  for (const row of (legacyData ?? []) as Array<{ tool_id: string; category_id: string }>) {
     const current = map.get(row.tool_id) ?? [];
-    current.push(row.category_id);
+    current.push({ id: row.category_id, isPrimary: current.length === 0 });
+    map.set(row.tool_id, current);
+  }
+
+  return map;
+}
+
+async function getToolSubcategoryMap(toolIds?: string[]) {
+  const supabase = getSupabaseDataClient();
+  const map = new Map<string, ToolSubcategoryRef[]>();
+  if (!supabase) return map;
+
+  let query = supabase.from("tool_subcategories").select("tool_id, subcategory_id");
+  if (toolIds?.length) query = query.in("tool_id", toolIds);
+
+  const { data: links, error } = await query;
+  if (error || !links?.length) return map;
+
+  const subcategoryIds = Array.from(new Set((links as Array<{ subcategory_id: string }>).map((row) => row.subcategory_id)));
+  const { data: subcategories, error: subcategoryError } = await supabase
+    .from("subcategories")
+    .select("id, outcome_id, name, slug")
+    .in("id", subcategoryIds);
+
+  if (subcategoryError) return map;
+
+  const subcategoryById = new Map(
+    ((subcategories ?? []) as Array<{ id: string; outcome_id: string; name: string; slug: string }>).map((row) => [
+      row.id,
+      {
+        id: row.id,
+        outcomeId: row.outcome_id,
+        name: row.name,
+        slug: row.slug,
+      },
+    ]),
+  );
+
+  for (const row of links as Array<{ tool_id: string; subcategory_id: string }>) {
+    const subcategory = subcategoryById.get(row.subcategory_id);
+    if (!subcategory) continue;
+    const current = map.get(row.tool_id) ?? [];
+    current.push(subcategory);
     map.set(row.tool_id, current);
   }
 
@@ -181,14 +281,15 @@ export async function fetchAllToolsFromSupabase(): Promise<Tool[]> {
 
   const rows = (data ?? []) as ToolRow[];
   const toolIds = rows.map((row) => asString(row.id)).filter(Boolean);
-  const [categoryMap, affiliateMap] = await Promise.all([
-    getToolCategoryMap(toolIds),
+  const [outcomeMap, subcategoryMap, affiliateMap] = await Promise.all([
+    getToolOutcomeMap(toolIds),
+    getToolSubcategoryMap(toolIds),
     getAffiliateSummaryMap(toolIds),
   ]);
 
   return rows.map((row) => {
     const id = asString(row.id);
-    return mapTool(row, categoryMap.get(id) ?? [], affiliateMap.get(id));
+    return mapTool(row, outcomeMap.get(id) ?? [], subcategoryMap.get(id) ?? [], affiliateMap.get(id));
   });
 }
 
@@ -207,33 +308,51 @@ export async function fetchToolBySlugFromSupabase(slug: string): Promise<Tool | 
   if (!data) return null;
 
   const id = asString((data as ToolRow).id);
-  const [categoryMap, affiliateMap] = await Promise.all([
-    getToolCategoryMap([id]),
+  const [outcomeMap, subcategoryMap, affiliateMap] = await Promise.all([
+    getToolOutcomeMap([id]),
+    getToolSubcategoryMap([id]),
     getAffiliateSummaryMap([id]),
   ]);
 
-  return mapTool(data as ToolRow, categoryMap.get(id) ?? [], affiliateMap.get(id));
+  return mapTool(data as ToolRow, outcomeMap.get(id) ?? [], subcategoryMap.get(id) ?? [], affiliateMap.get(id));
 }
 
-export async function fetchToolsByCategoryFromSupabase(categorySlug: string): Promise<Tool[]> {
+async function fetchDirectoryGroupId(slug: string) {
   const supabase = getSupabaseDataClient();
-  if (!supabase) return [];
+  if (!supabase) return null;
+
+  const { data: outcome, error } = await supabase
+    .from("outcomes")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (!error && outcome) return { id: (outcome as { id: string }).id, table: "tool_outcomes" as const };
 
   const { data: category, error: categoryError } = await supabase
     .from("categories")
     .select("id")
-    .eq("slug", categorySlug)
+    .eq("slug", slug)
     .maybeSingle();
 
-  if (categoryError) throw new Error(`Supabase category fetch failed: ${categoryError.message}`);
-  if (!category) return [];
+  if (categoryError) throw new Error(`Supabase outcome/category fetch failed: ${categoryError.message}`);
+  if (!category) return null;
+  return { id: (category as { id: string }).id, table: "tool_categories" as const };
+}
 
-  const { data: links, error: linkError } = await supabase
-    .from("tool_categories")
-    .select("tool_id")
-    .eq("category_id", (category as { id: string }).id);
+export async function fetchToolsByOutcomeFromSupabase(outcomeSlug: string): Promise<Tool[]> {
+  const supabase = getSupabaseDataClient();
+  if (!supabase) return [];
 
-  if (linkError) throw new Error(`Supabase category tools fetch failed: ${linkError.message}`);
+  const group = await fetchDirectoryGroupId(outcomeSlug);
+  if (!group) return [];
+
+  const linkQuery = group.table === "tool_outcomes"
+    ? supabase.from("tool_outcomes").select("tool_id").eq("outcome_id", group.id)
+    : supabase.from("tool_categories").select("tool_id").eq("category_id", group.id);
+
+  const { data: links, error: linkError } = await linkQuery;
+  if (linkError) throw new Error(`Supabase outcome tools fetch failed: ${linkError.message}`);
 
   const toolIds = ((links ?? []) as Array<{ tool_id: string }>).map((link) => link.tool_id);
   if (toolIds.length === 0) return [];
@@ -245,28 +364,57 @@ export async function fetchToolsByCategoryFromSupabase(categorySlug: string): Pr
     .eq("status", "active")
     .order("name", { ascending: true });
 
-  if (toolsError) throw new Error(`Supabase tools by category fetch failed: ${toolsError.message}`);
+  if (toolsError) throw new Error(`Supabase tools by outcome fetch failed: ${toolsError.message}`);
 
-  const [categoryMap, affiliateMap] = await Promise.all([
-    getToolCategoryMap(toolIds),
+  const [outcomeMap, subcategoryMap, affiliateMap] = await Promise.all([
+    getToolOutcomeMap(toolIds),
+    getToolSubcategoryMap(toolIds),
     getAffiliateSummaryMap(toolIds),
   ]);
 
   return ((tools ?? []) as ToolRow[]).map((row) => {
     const id = asString(row.id);
-    return mapTool(row, categoryMap.get(id) ?? [], affiliateMap.get(id));
+    return mapTool(row, outcomeMap.get(id) ?? [], subcategoryMap.get(id) ?? [], affiliateMap.get(id));
   });
 }
 
-export async function fetchAllCategoriesFromSupabase(): Promise<Category[]> {
+export async function fetchAllOutcomesFromSupabase(): Promise<Outcome[]> {
   const supabase = getSupabaseDataClient();
   if (!supabase) return [];
 
   const { data, error } = await supabase
+    .from("outcomes")
+    .select("*")
+    .order("display_order", { ascending: true, nullsFirst: false });
+
+  if (!error) return ((data ?? []) as OutcomeRow[]).map(mapOutcome);
+
+  const { data: categories, error: categoryError } = await supabase
     .from("categories")
     .select("*")
     .order("display_order", { ascending: true, nullsFirst: false });
 
-  if (error) throw new Error(`Supabase categories fetch failed: ${error.message}`);
-  return ((data ?? []) as CategoryRow[]).map(mapCategory);
+  if (categoryError) throw new Error(`Supabase outcomes/categories fetch failed: ${categoryError.message}`);
+  return ((categories ?? []) as OutcomeRow[]).map(mapOutcome);
+}
+
+export async function fetchAllSubcategoriesFromSupabase(): Promise<Subcategory[]> {
+  const supabase = getSupabaseDataClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("subcategories")
+    .select("*")
+    .order("display_order", { ascending: true, nullsFirst: false });
+
+  if (error) return [];
+  return ((data ?? []) as SubcategoryRow[]).map(mapSubcategory);
+}
+
+export async function fetchToolsByCategoryFromSupabase(categorySlug: string): Promise<Tool[]> {
+  return fetchToolsByOutcomeFromSupabase(categorySlug);
+}
+
+export async function fetchAllCategoriesFromSupabase(): Promise<Category[]> {
+  return fetchAllOutcomesFromSupabase();
 }
