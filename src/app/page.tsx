@@ -4,7 +4,7 @@ import DirectoryClient from "@/components/DirectoryClient";
 import HomeSignalField from "@/components/home/HomeSignalField";
 import MatchEngineFrame from "@/components/home/MatchEngineFrame";
 import MatchOutputPreview from "@/components/home/MatchOutputPreview";
-import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
+import { fetchAllOutcomes, fetchAllTools } from "@/lib/catalog";
 import { AI_MATCH_TALLY_POPUP_HREF } from "@/lib/assessment-link";
 
 export const dynamic = "force-dynamic";
@@ -24,11 +24,11 @@ export const metadata: Metadata = {
 
 
 export default async function HomePage() {
-  const [tools, categories] = await Promise.all([fetchAllTools(), fetchAllCategories()]);
+  const [tools, outcomes] = await Promise.all([fetchAllTools(), fetchAllOutcomes()]);
 
-  const categoryMap: Record<string, string> = {};
-  for (const cat of categories) {
-    categoryMap[cat.id] = cat.name;
+  const outcomeMap: Record<string, string> = {};
+  for (const outcome of outcomes) {
+    outcomeMap[outcome.id] = outcome.name;
   }
 
   return (
@@ -978,7 +978,7 @@ export default async function HomePage() {
             </h2>
           </div>
           <MatchEngineFrame toolCount={tools.length}>
-            <DirectoryClient tools={tools} categories={categories} categoryMap={categoryMap} />
+            <DirectoryClient tools={tools} outcomes={outcomes} outcomeMap={outcomeMap} />
           </MatchEngineFrame>
         </div>
       </section>

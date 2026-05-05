@@ -1,0 +1,1522 @@
+[
+  {
+    "toolId": "9548e95d-daea-4ce1-92f7-bf9410ead812",
+    "toolName": "Ahrefs",
+    "toolSlug": "ahrefs",
+    "primaryOutcomeSlug": "grow-audience",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "seo-research-audits"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is positioned around organic visibility, SEO, social, or reputation growth."
+  },
+  {
+    "toolId": "55c5843e-6875-4914-b2c5-71e137faef9a",
+    "toolName": "AKOOL",
+    "toolSlug": "akool",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "ai-avatars-spokespersons"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "ad186bb7-4ecb-4330-a72a-3da28236995b",
+    "toolName": "Amelia",
+    "toolSlug": "amelia",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "eec76da6-4db0-4911-b693-e4078030c03a",
+    "toolName": "AnswerThePublic",
+    "toolSlug": "answerthepublic",
+    "primaryOutcomeSlug": "grow-audience",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "seo-research-audits"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is positioned around organic visibility, SEO, social, or reputation growth."
+  },
+  {
+    "toolId": "05b8e040-fc2b-4d40-aa3e-2e45386cb43e",
+    "toolName": "Aragon",
+    "toolSlug": "aragon",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "1307a1b4-0f2d-4a6e-9392-295de146f59b",
+    "toolName": "Audials",
+    "toolSlug": "audials",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "music-sound-design"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "4b691bc0-2a4f-446c-8fb3-30ecc9fea988",
+    "toolName": "Bardeen",
+    "toolSlug": "bardeen",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "connect-apps"
+    ],
+    "confidence": "medium",
+    "reason": "The tool connects systems or automates repeatable operational steps."
+  },
+  {
+    "toolId": "539e5303-449a-4e4d-adce-6c00bd223681",
+    "toolName": "Bill",
+    "toolSlug": "bill",
+    "primaryOutcomeSlug": "run-operations",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "bookkeeping-finance"
+    ],
+    "confidence": "high",
+    "reason": "Bill is an AP/AR finance operations tool."
+  },
+  {
+    "toolId": "90426f10-0a4e-4076-a30f-c01aa5ca6876",
+    "toolName": "Bith AI",
+    "toolSlug": "bith-ai",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "a39a2429-db83-4f58-a7b4-b0319ef71d3c",
+    "toolName": "Boomy",
+    "toolSlug": "boomy",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "music-sound-design"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "a2657a85-bf50-446c-8edb-c965229e1185",
+    "toolName": "Botika",
+    "toolSlug": "botika",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "3932aada-86e3-465d-b656-deb4a2e80e3d",
+    "toolName": "Brandwatch",
+    "toolSlug": "brandwatch",
+    "primaryOutcomeSlug": "grow-audience",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "social-media-growth"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is positioned around organic visibility, SEO, social, or reputation growth."
+  },
+  {
+    "toolId": "bfb6a9d7-8310-4b3a-bea9-750e0f596c82",
+    "toolName": "Bright Data",
+    "toolSlug": "bright-data",
+    "primaryOutcomeSlug": "sell-close-deals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "prospect-enrich-leads"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to prospecting, CRM, pipeline, proposals, or revenue work."
+  },
+  {
+    "toolId": "e5a5a1c9-ec89-4039-84a1-5f5c9467566e",
+    "toolName": "Browse AI",
+    "toolSlug": "browse-ai",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "connect-apps"
+    ],
+    "confidence": "medium",
+    "reason": "The tool connects systems or automates repeatable operational steps."
+  },
+  {
+    "toolId": "3973d322-3aab-4583-b6f4-ca7dbd73716e",
+    "toolName": "Canva",
+    "toolSlug": "canva",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "21dbba56-a4b3-4e81-83f7-3310dd414491",
+    "toolName": "Cassidy AI",
+    "toolSlug": "cassidy-ai",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "automate-workflows"
+    ],
+    "subcategorySlugs": [
+      "build-internal-copilots",
+      "rag-knowledge-bases"
+    ],
+    "confidence": "high",
+    "reason": "Cassidy AI builds internal AI assistants and copilots over business context."
+  },
+  {
+    "toolId": "33e5966f-283a-4919-a320-cb23fdcf6fda",
+    "toolName": "Character.ai",
+    "toolSlug": "characterai",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "ai-avatars-spokespersons"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "b72d9716-c87f-4c90-9e98-7202efcd9007",
+    "toolName": "ChatGPT",
+    "toolSlug": "chatgpt-app",
+    "primaryOutcomeSlug": "create-content",
+    "secondaryOutcomeSlugs": [
+      "research-learn",
+      "build-ai-agents"
+    ],
+    "subcategorySlugs": [
+      "long-form-writing"
+    ],
+    "confidence": "high",
+    "reason": "ChatGPT is a broad assistant, but the approved taxonomy lists it under Create Content."
+  },
+  {
+    "toolId": "c14735a4-e5e7-4e18-84b5-6d9ddfb2affe",
+    "toolName": "Claid",
+    "toolSlug": "claid",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "63d94ed0-756b-4320-bfff-0f7fa0e932bb",
+    "toolName": "ClickFunnels",
+    "toolSlug": "clickfunnels",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [
+      "build-software"
+    ],
+    "subcategorySlugs": [
+      "funnels-sequences"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "66a228fe-b892-435e-920c-b6c194e45fdd",
+    "toolName": "ClickUp",
+    "toolSlug": "clickup",
+    "primaryOutcomeSlug": "plan-collaborate",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tasks-project-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports task, project, planning, meeting, docs, calendar, or collaboration workflows."
+  },
+  {
+    "toolId": "22e61942-df25-4663-9c32-f01a2f86223c",
+    "toolName": "Clipdrop",
+    "toolSlug": "clipdrop-stability-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "19fd539e-d7b2-40fc-81a2-e320454e7ae6",
+    "toolName": "Collov AI",
+    "toolSlug": "collov-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "1f653c44-ed35-4312-bbe9-b862674cc504",
+    "toolName": "Coolors",
+    "toolSlug": "coolors",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "0db6b814-ea5e-477b-989b-7748310cf33b",
+    "toolName": "CrawlQ",
+    "toolSlug": "crawlq",
+    "primaryOutcomeSlug": "grow-audience",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "seo-research-audits"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is positioned around organic visibility, SEO, social, or reputation growth."
+  },
+  {
+    "toolId": "599eaee6-e456-41bc-bed4-fa4788471e5c",
+    "toolName": "D-ID",
+    "toolSlug": "d-id",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "voice-generation-dubbing"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "7eafced6-1c71-417b-ae25-21502d2e6988",
+    "toolName": "DALL·E 2 & 3",
+    "toolSlug": "dalle-2-3",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "3c6daf7a-6f29-4aea-bc99-1982d8683a93",
+    "toolName": "Dante AI",
+    "toolSlug": "dante-ai",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "9604d73f-b1e6-4fe5-8dc2-4552984521f4",
+    "toolName": "Decktopus AI",
+    "toolSlug": "decktopus-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [
+      "create-content"
+    ],
+    "subcategorySlugs": [
+      "slides-decks"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "14368dd8-e3fa-4e1c-9164-00af0b939ee5",
+    "toolName": "DeepL Translate",
+    "toolSlug": "deepl-translate",
+    "primaryOutcomeSlug": "create-content",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "translation-localization"
+    ],
+    "confidence": "high",
+    "reason": "DeepL is primarily translation and localization."
+  },
+  {
+    "toolId": "b7304aa6-8cfe-4dfd-b728-8e6b12b279b3",
+    "toolName": "Devin",
+    "toolSlug": "devin",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "05762176-3da9-42fc-a2a9-94747c14abd1",
+    "toolName": "Diffit",
+    "toolSlug": "diffit",
+    "primaryOutcomeSlug": "research-learn",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tutoring-courses-languages"
+    ],
+    "confidence": "high",
+    "reason": "Diffit creates learning materials for education workflows."
+  },
+  {
+    "toolId": "fb58615c-266e-4304-a1c1-cc2ab2ebad77",
+    "toolName": "Domo AI",
+    "toolSlug": "domo-ai",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "08149c1b-3c14-429a-af38-e674914c32b8",
+    "toolName": "Doodly",
+    "toolSlug": "doodly",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "e88730c8-0dad-4036-967f-975807f94b02",
+    "toolName": "Durable AI",
+    "toolSlug": "durable-ai",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [
+      "build-software"
+    ],
+    "subcategorySlugs": [
+      "landing-pages"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "19d817a3-ce3c-4714-afe0-aee11573b424",
+    "toolName": "ElevenLabs Creative",
+    "toolSlug": "elevenlabs",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-voice-agents"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "48b5802a-3801-49ad-88f2-d55a7747ecfa",
+    "toolName": "Fal AI",
+    "toolSlug": "fal-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "e5745c78-9ea9-477b-8833-de29ae3f4588",
+    "toolName": "Falcon",
+    "toolSlug": "falcon",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "69e6e4c3-c53d-424c-ba4c-9ebf3b012dd6",
+    "toolName": "FashionAI",
+    "toolSlug": "fashionai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "fdd82e88-46c3-48bc-89de-450194fb63f1",
+    "toolName": "Flair",
+    "toolSlug": "flair",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "ad9c6058-45d8-480c-907a-db7890e0d5bc",
+    "toolName": "Flux / Official Flux",
+    "toolSlug": "flux-official-flux",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "132088a8-832c-4c1a-9aa6-4dcfc90ab250",
+    "toolName": "Fotor",
+    "toolSlug": "fotor",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "7233b667-ce93-4050-a078-6d16137bca85",
+    "toolName": "Fotorama AI",
+    "toolSlug": "fotorama-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "79aa16a6-76ff-49b1-86a8-553414abfd84",
+    "toolName": "Gamma",
+    "toolSlug": "gamma",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [
+      "create-content"
+    ],
+    "subcategorySlugs": [
+      "slides-decks"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "775dd7cb-18c1-449b-a688-239acea963a4",
+    "toolName": "Gemini",
+    "toolSlug": "gemini",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "a226df8f-7877-42b8-8f63-14a9e88344ca",
+    "toolName": "Generated Photos",
+    "toolSlug": "generated-photos",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "e271d87f-2dfb-4aa8-9eed-969482d2699f",
+    "toolName": "Glasp",
+    "toolSlug": "glasp",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "5850ecd3-5ed4-421b-a2cb-5da346a9bdff",
+    "toolName": "GoHighLevel",
+    "toolSlug": "gohighlevel",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [
+      "build-software"
+    ],
+    "subcategorySlugs": [
+      "landing-pages"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "01277ed8-a1cf-405a-b014-2511f4c7d500",
+    "toolName": "Grammarly",
+    "toolSlug": "grammarly",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "adb6c974-0ab6-4d57-b3d4-377808ace136",
+    "toolName": "GrooveHQ",
+    "toolSlug": "groovehq",
+    "primaryOutcomeSlug": "support-customers",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "helpdesk-ticketing"
+    ],
+    "confidence": "medium",
+    "reason": "The tool helps answer, deflect, route, or measure customer support work."
+  },
+  {
+    "toolId": "93f0901e-1497-448f-b959-31bcfdbbe5e4",
+    "toolName": "HeyGen",
+    "toolSlug": "heygen",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "voice-generation-dubbing"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "ea69e514-bf89-4437-84d1-4429a724244c",
+    "toolName": "Higgsfield AI",
+    "toolSlug": "higgsfield-ai",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "108e3fe8-b424-4ff3-8548-d8738bcf4862",
+    "toolName": "HomeDesigns AI",
+    "toolSlug": "homedesigns-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "397e50d5-4110-4bc7-8586-9a66c7e6c5c7",
+    "toolName": "Hostinger",
+    "toolSlug": "hostinger",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [
+      "build-software"
+    ],
+    "subcategorySlugs": [
+      "landing-pages"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "0e1bd0cc-6891-4727-a3d6-09dea2077bde",
+    "toolName": "Hunter",
+    "toolSlug": "hunter",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "email-marketing"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "8f48b519-7740-441d-bfe6-4d10f63c5a65",
+    "toolName": "Invideo AI",
+    "toolSlug": "invideo-ai",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "voice-generation-dubbing"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "edeb7626-c3bd-4ccd-af34-73b5fb457c48",
+    "toolName": "Jasper",
+    "toolSlug": "jasper",
+    "primaryOutcomeSlug": "create-content",
+    "secondaryOutcomeSlugs": [
+      "launch-campaigns"
+    ],
+    "subcategorySlugs": [
+      "marketing-ad-copy"
+    ],
+    "confidence": "high",
+    "reason": "Jasper is primarily a marketing and content writing platform."
+  },
+  {
+    "toolId": "f9024a48-8466-473c-bdc0-1671b4d53ca0",
+    "toolName": "Klap",
+    "toolSlug": "klap",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "5c6cc98e-fd15-4c4f-a258-ddf590fa1b25",
+    "toolName": "Krea",
+    "toolSlug": "krea",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "98cf8ee5-680d-44c7-818e-61ddbfc0e6c4",
+    "toolName": "LALAL AI",
+    "toolSlug": "lalal-ai",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "music-sound-design"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "097d7eab-6435-4800-93a4-a69293cca47b",
+    "toolName": "Landbot",
+    "toolSlug": "landbot",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "d102643c-8a0a-4922-a1f7-b11b3cbf6e19",
+    "toolName": "LeadPages",
+    "toolSlug": "leadpages",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [
+      "build-software"
+    ],
+    "subcategorySlugs": [
+      "landing-pages"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "7172ac24-f33e-4367-9069-213df471272a",
+    "toolName": "Leonardo.ai",
+    "toolSlug": "leonardoai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "ea50b9e1-50e4-42dd-bdc5-005c7dfd00e0",
+    "toolName": "LivePerson",
+    "toolSlug": "liveperson",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "0f1a85a9-aa00-4170-9302-5b3b26a4e65c",
+    "toolName": "LLaMA",
+    "toolSlug": "llama",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "7bc99081-fb88-4fb7-9b94-c678e9a09150",
+    "toolName": "LTX Studio",
+    "toolSlug": "ltx-studio",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "733b03d9-c6fd-4383-9da4-2cf0de8cf41f",
+    "toolName": "Lucidchart",
+    "toolSlug": "lucidchart",
+    "primaryOutcomeSlug": "plan-collaborate",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tasks-project-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports task, project, planning, meeting, docs, calendar, or collaboration workflows."
+  },
+  {
+    "toolId": "eb69bc8d-6dd7-4750-a81d-a36b097f0b4a",
+    "toolName": "Luminar Neo",
+    "toolSlug": "luminar-neo",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "1e2060bf-0953-46fb-845b-e8c34b04d13f",
+    "toolName": "Magnific",
+    "toolSlug": "magnific-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "a0dfe77e-acfd-4440-8272-380737e91450",
+    "toolName": "Make",
+    "toolSlug": "make",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "connect-apps"
+    ],
+    "confidence": "high",
+    "reason": "Make is deterministic app-to-app workflow automation."
+  },
+  {
+    "toolId": "95901557-1edf-4a99-93dd-a6d8164623d0",
+    "toolName": "Maket",
+    "toolSlug": "maket",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "66750dd1-c42a-46c0-90bc-692628fb4ffd",
+    "toolName": "Manychat",
+    "toolSlug": "manychat",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "connect-apps"
+    ],
+    "confidence": "medium",
+    "reason": "The tool connects systems or automates repeatable operational steps."
+  },
+  {
+    "toolId": "7d19a5f8-f3d5-43fb-b148-5233d4ac1b84",
+    "toolName": "MaxAI.me",
+    "toolSlug": "maxaime",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "1295c469-012c-4422-b2e0-70246d842884",
+    "toolName": "Microsoft 365",
+    "toolSlug": "microsoft-365",
+    "primaryOutcomeSlug": "plan-collaborate",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tasks-project-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports task, project, planning, meeting, docs, calendar, or collaboration workflows."
+  },
+  {
+    "toolId": "620e9f57-701b-4f75-9a50-696fe9ada7cf",
+    "toolName": "Microsoft Copilot",
+    "toolSlug": "microsoft-copilot",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "532edabb-1314-4bac-a93f-2413386ca1a5",
+    "toolName": "Miro",
+    "toolSlug": "miro",
+    "primaryOutcomeSlug": "plan-collaborate",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tasks-project-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports task, project, planning, meeting, docs, calendar, or collaboration workflows."
+  },
+  {
+    "toolId": "27eafe2a-d074-44aa-847d-921346f3b50f",
+    "toolName": "Mistral",
+    "toolSlug": "mistral",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "299e01dd-7f08-404b-b503-3e9e50ede3ef",
+    "toolName": "Monday.com",
+    "toolSlug": "mondaycom",
+    "primaryOutcomeSlug": "plan-collaborate",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tasks-project-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports task, project, planning, meeting, docs, calendar, or collaboration workflows."
+  },
+  {
+    "toolId": "23d320b7-56c8-4faa-8c3a-209fcd1097db",
+    "toolName": "Motion",
+    "toolSlug": "motion",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "3090a2bd-ff64-43d9-8d27-a7e14d2b21e3",
+    "toolName": "Munch",
+    "toolSlug": "munch",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "f9c99e10-93c7-4c64-96b6-db0d6e74b60e",
+    "toolName": "Murf AI",
+    "toolSlug": "murf-ai",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-voice-agents"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "0f303cb9-c352-4ed7-afc1-280a37a3d087",
+    "toolName": "n8n",
+    "toolSlug": "n8n",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "connect-apps"
+    ],
+    "confidence": "high",
+    "reason": "n8n is deterministic app-to-app workflow automation."
+  },
+  {
+    "toolId": "75bdcb8b-d892-466c-b5ca-bd92ce271d36",
+    "toolName": "NeuroFlash",
+    "toolSlug": "neuroflash",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "2d88f5cf-a8d9-4b99-a9ce-8a9c1fd6c72f",
+    "toolName": "Nice",
+    "toolSlug": "nice",
+    "primaryOutcomeSlug": "support-customers",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "ai-chatbots-live-chat"
+    ],
+    "confidence": "medium",
+    "reason": "The tool helps answer, deflect, route, or measure customer support work."
+  },
+  {
+    "toolId": "85588232-763e-4d8c-9d8c-73b5f9a68ffb",
+    "toolName": "NOLEJ",
+    "toolSlug": "nolej",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "7b25433e-87f6-45db-b36c-224a3982b418",
+    "toolName": "NotebookLM",
+    "toolSlug": "notebooklm",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "ba64ec1e-8e81-4265-a75f-f2f2449859bc",
+    "toolName": "Perplexity",
+    "toolSlug": "perplexity",
+    "primaryOutcomeSlug": "grow-audience",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "seo-research-audits"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is positioned around organic visibility, SEO, social, or reputation growth."
+  },
+  {
+    "toolId": "ad837cbf-d9f6-4fe0-80d7-2c042e4c6b86",
+    "toolName": "Piano2Notes",
+    "toolSlug": "piano2notes",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "music-sound-design"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "fd6fe920-0fc2-4e5c-8424-7ba83857a3b9",
+    "toolName": "Playground AI",
+    "toolSlug": "playground-ai",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "57c2eb95-c2de-42e2-85a3-e3a2e6f722c0",
+    "toolName": "PolyAI",
+    "toolSlug": "polyai",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-voice-agents"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "53da59ae-b73d-40d3-80ad-ce87fd0d321c",
+    "toolName": "Powtoon",
+    "toolSlug": "powtoon",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "734d0696-fc9e-4362-85b8-e2a4e84d3643",
+    "toolName": "Qwen",
+    "toolSlug": "alibaba-qwen",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "005bf199-3cc2-4558-9f04-c58981356830",
+    "toolName": "Ramp",
+    "toolSlug": "ramp",
+    "primaryOutcomeSlug": "run-operations",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "expenses-spend-management"
+    ],
+    "confidence": "high",
+    "reason": "Ramp is primarily spend management and finance operations."
+  },
+  {
+    "toolId": "5747de43-a2a2-43be-b7f5-4fa07dcc5217",
+    "toolName": "Rask AI",
+    "toolSlug": "rask-ai",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-voice-agents"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "4f4edc71-2ff6-41c1-9f3a-a9751ed7614d",
+    "toolName": "Resemble AI",
+    "toolSlug": "resemble-ai",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-voice-agents"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "48a49630-7415-478c-9ae5-333c221bcab6",
+    "toolName": "Riverside.fm",
+    "toolSlug": "riversidefm",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "38f20e8e-7803-44ff-bdb1-941d47d3d358",
+    "toolName": "Scraping Solutions",
+    "toolSlug": "scraping-solutions",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [
+      "analyze-data"
+    ],
+    "subcategorySlugs": [
+      "web-scraping-data-entry"
+    ],
+    "confidence": "medium",
+    "reason": "The tool connects systems or automates repeatable operational steps."
+  },
+  {
+    "toolId": "8c0ec626-7e75-4bd7-aaea-0627d04037a5",
+    "toolName": "ScrapingAnt",
+    "toolSlug": "scrapingant",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [
+      "analyze-data"
+    ],
+    "subcategorySlugs": [
+      "web-scraping-data-entry"
+    ],
+    "confidence": "medium",
+    "reason": "The tool connects systems or automates repeatable operational steps."
+  },
+  {
+    "toolId": "8ff712a5-04bc-4017-b78d-7c35e67fce6d",
+    "toolName": "Semrush",
+    "toolSlug": "semrush",
+    "primaryOutcomeSlug": "grow-audience",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "social-media-growth"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is positioned around organic visibility, SEO, social, or reputation growth."
+  },
+  {
+    "toolId": "82b657f2-68ce-450a-b77d-cedbf0ee7797",
+    "toolName": "Shopify",
+    "toolSlug": "shopify",
+    "primaryOutcomeSlug": "sell-close-deals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "crm-pipeline-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to prospecting, CRM, pipeline, proposals, or revenue work."
+  },
+  {
+    "toolId": "0eb85c5e-478a-4c20-b56d-d9484275aaab",
+    "toolName": "SketchWow",
+    "toolSlug": "sketchwow",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-images"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "8dd68368-0920-4313-8247-14e1bbbecd54",
+    "toolName": "Soundverse",
+    "toolSlug": "soundverse",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "18f836cd-10a9-44ef-9585-9a77f3731391",
+    "toolName": "Speechify",
+    "toolSlug": "speechify",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "73c986d1-6252-49a6-9aa1-4798a2ca3560",
+    "toolName": "Stable AI",
+    "toolSlug": "stability-ai",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "9256a1e6-8792-4a3c-b4ab-ad2c6caaa076",
+    "toolName": "Suno",
+    "toolSlug": "suno",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "music-sound-design"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "a6671b92-67cd-4bbd-9caf-70f491b766aa",
+    "toolName": "Synthesia",
+    "toolSlug": "synthesia",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "ai-avatars-spokespersons"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "d3be210d-8744-4fe6-bd1c-fe4b37f69bd1",
+    "toolName": "Synthflow",
+    "toolSlug": "synthflow",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [
+      "support-customers"
+    ],
+    "subcategorySlugs": [
+      "build-voice-agents"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "8b688437-8ed8-42f2-be62-08520f697bb3",
+    "toolName": "Taskade",
+    "toolSlug": "taskade",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "f136d8f2-15e7-43ea-8e76-be5e391135a2",
+    "toolName": "Trello",
+    "toolSlug": "trello",
+    "primaryOutcomeSlug": "plan-collaborate",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tasks-project-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports task, project, planning, meeting, docs, calendar, or collaboration workflows."
+  },
+  {
+    "toolId": "79ae9298-34c2-4210-8b89-6e330097726d",
+    "toolName": "Twilio",
+    "toolSlug": "twilio",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "email-marketing"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "13e86ad8-8054-4da3-9672-7350816481c4",
+    "toolName": "UGC Engine",
+    "toolSlug": "productscope",
+    "primaryOutcomeSlug": "design-visuals",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "edit-retouch-photos"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is primarily for visual asset creation, editing, branding, mockups, or decks."
+  },
+  {
+    "toolId": "7af97815-e423-43e1-b1fc-32396bc04120",
+    "toolName": "Unbabel",
+    "toolSlug": "unbabel",
+    "primaryOutcomeSlug": "support-customers",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "ai-chatbots-live-chat"
+    ],
+    "confidence": "medium",
+    "reason": "The tool helps answer, deflect, route, or measure customer support work."
+  },
+  {
+    "toolId": "b7f800a4-6b27-4876-b6c8-8fbd440f3c85",
+    "toolName": "VentureKit AI",
+    "toolSlug": "venturekit-ai",
+    "primaryOutcomeSlug": "grow-audience",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "seo-research-audits"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is positioned around organic visibility, SEO, social, or reputation growth."
+  },
+  {
+    "toolId": "6180eea1-8064-4aa6-bb09-47649021389e",
+    "toolName": "Veo 3",
+    "toolSlug": "veo-2",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "836dc46a-fc0a-40e9-8d11-fd49b75980fd",
+    "toolName": "Wan",
+    "toolSlug": "alibaba-wan",
+    "primaryOutcomeSlug": "produce-video-audio",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-video"
+    ],
+    "confidence": "medium",
+    "reason": "The tool primarily creates or edits video, audio, captions, voice, or music."
+  },
+  {
+    "toolId": "b3b5a49f-15c2-45a2-ac05-10531541cefb",
+    "toolName": "Warmly",
+    "toolSlug": "warmly",
+    "primaryOutcomeSlug": "build-software",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "generate-full-apps-sites"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports shipping code, websites, apps, or no-code software experiences."
+  },
+  {
+    "toolId": "719a5a28-7abb-4341-8a9a-c1ab071aa479",
+    "toolName": "Wix",
+    "toolSlug": "wix",
+    "primaryOutcomeSlug": "launch-campaigns",
+    "secondaryOutcomeSlugs": [
+      "build-software"
+    ],
+    "subcategorySlugs": [
+      "landing-pages"
+    ],
+    "confidence": "medium",
+    "reason": "The tool is tied to campaign execution, outbound, funnels, or landing page conversion."
+  },
+  {
+    "toolId": "6c4fad94-7482-4832-b34d-faaaf2d0ccfd",
+    "toolName": "Wordtune",
+    "toolSlug": "wordtune",
+    "primaryOutcomeSlug": "build-ai-agents",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "build-chatbots"
+    ],
+    "confidence": "medium",
+    "reason": "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers."
+  },
+  {
+    "toolId": "fffd6d68-66c3-454d-a90e-5c691d094f2e",
+    "toolName": "Worksheet AI",
+    "toolSlug": "worksheet-ai",
+    "primaryOutcomeSlug": "research-learn",
+    "secondaryOutcomeSlugs": [
+      "create-content"
+    ],
+    "subcategorySlugs": [
+      "study-flashcards"
+    ],
+    "confidence": "high",
+    "reason": "Worksheet AI creates learning and study materials."
+  },
+  {
+    "toolId": "194c507f-375d-4ec7-867f-4eef28c172db",
+    "toolName": "XMind",
+    "toolSlug": "xmind",
+    "primaryOutcomeSlug": "plan-collaborate",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "tasks-project-management"
+    ],
+    "confidence": "medium",
+    "reason": "The tool supports task, project, planning, meeting, docs, calendar, or collaboration workflows."
+  },
+  {
+    "toolId": "bb0f0a0c-cbc6-40b8-87a4-ccc7c8d41743",
+    "toolName": "Zapier",
+    "toolSlug": "zapier",
+    "primaryOutcomeSlug": "automate-workflows",
+    "secondaryOutcomeSlugs": [],
+    "subcategorySlugs": [
+      "connect-apps"
+    ],
+    "confidence": "high",
+    "reason": "Zapier is deterministic app-to-app workflow automation."
+  }
+]

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { OfferCarousel } from "@/components/ui/offer-carousel";
 import type { Deal } from "@/components/ui/offer-carousel";
-import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
-import type { AirtableCategory, AirtableTool } from "@/lib/airtable";
+import { fetchAllOutcomes, fetchAllTools } from "@/lib/catalog";
+import type { Outcome, Tool } from "@/lib/catalog";
 import { buildGoHref } from "@/lib/affiliate-links";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 interface DealSection {
-  category: AirtableCategory;
+  outcome: Outcome;
   deals: Deal[];
 }
 
@@ -30,7 +30,7 @@ function hostnameFromUrl(url: string) {
   }
 }
 
-function compareDeals(a: AirtableTool, b: AirtableTool) {
+function compareDeals(a: Tool, b: Tool) {
   const aRank = a.dealRank ?? Number.POSITIVE_INFINITY;
   const bRank = b.dealRank ?? Number.POSITIVE_INFINITY;
 
@@ -38,13 +38,13 @@ function compareDeals(a: AirtableTool, b: AirtableTool) {
   return a.name.localeCompare(b.name);
 }
 
-function toDeal(tool: AirtableTool, category: AirtableCategory): Deal {
+function toDeal(tool: Tool, outcome: Outcome): Deal {
   const href = tool.slug ? buildGoHref(tool.slug, "deals") : tool.websiteUrl || "/#directory";
 
   return {
-    id: `${category.id}-${tool.id}`,
+    id: `${outcome.id}-${tool.id}`,
     name: tool.name,
-    tag: category.name,
+    tag: outcome.name,
     promo: tool.promo ?? "",
     description: tool.dealDescription ?? tool.shortDescription,
     href,
@@ -53,24 +53,24 @@ function toDeal(tool: AirtableTool, category: AirtableCategory): Deal {
   };
 }
 
-function buildDealSections(tools: AirtableTool[], categories: AirtableCategory[]): DealSection[] {
+function buildDealSections(tools: Tool[], outcomes: Outcome[]): DealSection[] {
   const activeDeals = tools.filter((tool) => tool.dealActive && tool.promo);
 
-  return categories
-    .map((category) => {
+  return outcomes
+    .map((outcome) => {
       const deals = activeDeals
-        .filter((tool) => tool.category.includes(category.id))
+        .filter((tool) => tool.primaryOutcomeId === outcome.id || tool.outcomes.some((item) => item.id === outcome.id))
         .sort(compareDeals)
-        .map((tool) => toDeal(tool, category));
+        .map((tool) => toDeal(tool, outcome));
 
-      return { category, deals };
+      return { outcome, deals };
     })
     .filter((section) => section.deals.length > 0);
 }
 
 export default async function DealsPage() {
-  const [tools, categories] = await Promise.all([fetchAllTools(), fetchAllCategories()]);
-  const dealSections = buildDealSections(tools, categories);
+  const [tools, outcomes] = await Promise.all([fetchAllTools(), fetchAllOutcomes()]);
+  const dealSections = buildDealSections(tools, outcomes);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -121,13 +121,13 @@ export default async function DealsPage() {
         <div className="max-w-7xl mx-auto space-y-16">
           {dealSections.length > 0 ? (
             dealSections.map((section) => (
-              <div key={section.category.id} className="space-y-6">
+              <div key={section.outcome.id} className="space-y-6">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-[#8468EB] mb-2">
                     {section.deals.length} {section.deals.length === 1 ? "deal" : "deals"}
                   </p>
                   <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
-                    Top Deals in {section.category.name}
+                    Top Deals in {section.outcome.name}
                   </h2>
                 </div>
                 <OfferCarousel deals={section.deals} />
