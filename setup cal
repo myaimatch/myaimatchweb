@@ -1,0 +1,263 @@
+Ready for review
+Select text to add comments on the plan
+Plan de setup de Cal.com para myAImatch — paso a paso
+Context
+Decisión tomada: Cal.com como scheduler con paid-before-booking. El stack ya lo define, el código ya apunta a NEXT_PUBLIC_CAL_STRATEGY_URL, y la Stripe App nativa de Cal.com permite cobrar antes de confirmar la reunión desde el plan Free.
+
+Ofertas que debe soportar el sistema (5 total):
+
+Strategy Assessment — Solo/Freelancer (precio TBD, pago previo obligatorio)
+Strategy Assessment — Small Team (precio TBD, pago previo obligatorio)
+Strategy Assessment — SMB/Multi-Team (precio TBD, pago previo obligatorio)
+Implementation (custom — discovery call gratis + quote manual después)
+Fractional AI Lead (custom — discovery call gratis + retainer quote después)
+Este plan cubre: setup de cuenta, theming, Stripe, los 5 event types, webhooks, integración con Zapier/Airtable/Klaviyo, cableado al código Next.js, y cómo pedirme cambios de diseño en el sitio.
+
+Fase 1 — Setup de cuenta Cal.com (15 min)
+1.1 Crear cuenta
+Ir a https://cal.com/signup.
+Sign up con angel@myaimatch.ai.
+Elegir username: myaimatch (resultará en cal.com/myaimatch).
+Confirmar email (revisar bandeja de angel@myaimatch.ai).
+1.2 Conectar calendario
+Settings → Calendars → Connect Google Calendar (o el que uses en angel@myaimatch.ai).
+Marcar tu calendario principal como "destination calendar" (donde se crean los eventos).
+Marcar todos los calendarios que quieres que bloqueen disponibilidad.
+1.3 Configurar availability
+Settings → Availability → Default schedule.
+Definir horas disponibles (ej. Mon–Fri, 10:00–18:00 hora Madrid).
+Settings → General → Timezone: Europe/Madrid (ajusta si aplica).
+Buffer time: 15 min antes y después de cada meeting (recomendado para sesiones de $2K+).
+Fase 2 — Branding (30 min)
+2.1 Perfil
+Settings → Profile.
+Name: myAImatch.
+About: copy corta (2 líneas) — ej. "AI tools directory + consultancy. We turn AI overwhelm into a clear, executable stack."
+Avatar: logo brand_assets/Logo MyAIMatch.png (o el actual).
+2.2 Theme
+Settings → Appearance.
+Theme: Dark.
+Brand color: #8468EB (el purple que usa el código en full-ai-strategy-assessment/page.tsx:146).
+Disable "Cal.com branding" (requiere plan Teams $12/mes — opcional al inicio, recomendado antes de lanzar cobros).
+2.3 Booking page URL
+Strategy Assessments: cal.com/myaimatch/strategy-solo, /strategy-team, /strategy-smb.
+Implementation: cal.com/myaimatch/implementation-discovery.
+Fractional AI Lead: cal.com/myaimatch/fractional-discovery.
+Fase 3 — Conectar Stripe (20 min)
+3.1 Install Stripe App en Cal.com
+En Cal.com: Apps → Stripe → Install.
+Autoriza con la cuenta Stripe de myAImatch (la misma que usarás o ya usas para otros cobros).
+Confirmar que aparece como "Connected" en Apps → Installed.
+3.2 Verificar modo
+Empezar en Stripe Test Mode para QA interno.
+Cambiar a Live Mode solo cuando hayas hecho un booking de prueba end-to-end (ver Fase 7).
+Fase 4 — Crear los 5 event types (1 hora)
+4.1 Strategy Assessment — Solo/Freelancer
+Event Types → + New.
+Title: Strategy Assessment — Solo / Freelancer
+URL slug: strategy-solo
+Duration: 60 min
+Description: copy alineado con la página (tomar de full-ai-strategy-assessment/page.tsx:82-89).
+Apps → Stripe → Enable:
+Price: $[TBD] (ver sección "Decidir precios" abajo).
+Currency: USD.
+Payment option: Require payment to book (no "upfront fee").
+Booking questions (Questions tab):
+Name (default)
+Email (default)
+What's your main workflow you want AI to help with? (long text, required)
+Current tools you use? (long text, optional)
+Team size? (short text, optional)
+Booking limits: 1 booking per day, max 3 per week (protege tu tiempo en sesiones pagas).
+4.2 Strategy Assessment — Small Team
+Duplicar el anterior.
+Slug: strategy-team
+Title: Strategy Assessment — Small Team
+Description: copy de full-ai-strategy-assessment/page.tsx:95-104.
+Price: $[TBD].
+4.3 Strategy Assessment — SMB/Multi-Team
+Duplicar.
+Slug: strategy-smb
+Title: Strategy Assessment — SMB / Multi-Team
+Description: copy de full-ai-strategy-assessment/page.tsx:108-117.
+Price: $[TBD].
+4.4 Implementation — Discovery
+Nuevo event type.
+Slug: implementation-discovery
+Duration: 30 min
+Description: "Tell us about your stack, workflows, and where you want AI to take over. We'll scope a quote and send a proposal within 48 hours."
+NO activar Stripe (discovery gratis para qualifying).
+Booking questions:
+What's the project scope you have in mind? (long text, required)
+Do you already have a preferred AI stack, or need us to recommend? (dropdown: Have one / Need recommendation / Both)
+Approximate budget range? (dropdown: $1.5K–5K / $5K–15K / $15K+ / Unsure)
+Timeline? (short text)
+Redirect after booking: opcional — a /services/implementation o email de confirmación.
+4.5 Fractional AI Lead — Discovery
+Nuevo event type.
+Slug: fractional-discovery
+Duration: 30 min
+Description: "A 30-min call to understand your org, your AI goals, and whether a fractional AI Lead makes sense. If it's a fit, we'll follow up with a retainer proposal."
+NO activar Stripe.
+Booking questions:
+Company size / stage? (short text)
+What would you want the Fractional AI Lead to own? (long text, required)
+Hours per week you're considering? (dropdown: 5–10 / 10–20 / 20+)
+Budget range per month? (dropdown: $3K–6K / $6K–12K / $12K+ / Unsure)
+Decidir precios — recomendación rápida
+Tu GTM strategy documenta "$800 paid assessment → $1,500–$5,000 implementation". Tu código actual dice $2K / $5K / $10K (el rango superior de consultoría). Recomiendo:
+
+Tier	Precio sugerido	Racional
+Solo / Freelancer	$1,500	Testeable en mercado, high-ticket sin ser inalcanzable. Competencia en fractional-AI se mueve en este rango.
+Small Team	$4,000	Salto claro, justifica "team strategy session + integration roadmap".
+SMB / Multi-Team	$9,000	Queda bajo $10K psicológico. Para teams con múltiples workflows.
+No son definitivos. Puedes empezar con estos, correr 3–5 calls, y subir si el close rate > 30%. Cal.com te deja cambiar el price sin recrear el event type.
+
+Fase 5 — Conectar APIs, Webhooks y Zapier (45 min)
+5.1 Generar API key
+Cal.com → Settings → Developer → API Keys → + Add.
+Nombre: myaimatch-zapier.
+Expiration: Never (o 12 meses, rotar anualmente).
+Copiar la key inmediatamente — no se puede ver otra vez.
+Guardar en 1Password / tu password manager bajo "Cal.com API Key — myAImatch".
+5.2 Configurar Webhook global
+Settings → Developer → Webhooks → + Add.
+Subscriber URL: la del Zapier Webhook (la creas en el paso 5.3).
+Event Triggers: marcar BOOKING_CREATED, BOOKING_CANCELLED, BOOKING_RESCHEDULED, BOOKING_PAID.
+Payload template: default JSON.
+5.3 Crear Zap en Zapier — "Cal.com Booking → Airtable + Klaviyo"
+Hay dos caminos — recomiendo el Webhook para más control:
+
+Opción A (recomendada): Webhooks by Zapier
+
+Zapier → + Create Zap.
+Trigger: Webhooks by Zapier → Catch Hook.
+Copiar la "Webhook URL" que te da Zapier.
+Pegar esa URL en Cal.com (paso 5.2).
+Hacer un booking de prueba en Cal.com → Zapier captura el payload.
+Action 1: Airtable → Update Record en tabla Leads. Match por Email. Campos:
+Status = "Booked — Paid" (o "Booked — Discovery" si es Implementation/Fractional).
+Booking Type = {{event_type.title}}.
+Booking Date = {{start_time}}.
+Amount Paid = {{payment.amount / 100}} (Stripe devuelve centavos).
+Cal Booking ID = {{uid}}.
+Action 2: Klaviyo → Track Event. Event name: "Booked Session". Properties: mismos campos + booking_type.
+Opción B (más simple): Cal.com App de Zapier nativa
+
+Trigger: Cal.com → New Booking.
+Conectar con la API key de paso 5.1.
+Misma action chain de Airtable + Klaviyo.
+5.4 Actualizar Airtable schema si hace falta
+Revisa .claude/context/airtable-schema.md. Añade si no existen:
+
+Status (select: Assessment Completed, Booked — Paid, Booked — Discovery, Customer, Churned).
+Booking Type (short text).
+Booking Date (date).
+Amount Paid (currency).
+Cal Booking ID (short text, unique).
+Fase 6 — Cablear Cal.com al código del sitio (VS Code) (30 min)
+Aquí es donde "conectas Cal.com a VS Code": en realidad es conectar las URLs de Cal.com a los CTAs del sitio Next.js que abres desde VS Code.
+
+6.1 Variables de entorno
+Editar .env.local (localmente) y Vercel Project Settings → Environment Variables (producción):
+
+NEXT_PUBLIC_CAL_STRATEGY_SOLO_URL=https://cal.com/myaimatch/strategy-solo
+NEXT_PUBLIC_CAL_STRATEGY_TEAM_URL=https://cal.com/myaimatch/strategy-team
+NEXT_PUBLIC_CAL_STRATEGY_SMB_URL=https://cal.com/myaimatch/strategy-smb
+NEXT_PUBLIC_CAL_IMPLEMENTATION_URL=https://cal.com/myaimatch/implementation-discovery
+NEXT_PUBLIC_CAL_FRACTIONAL_URL=https://cal.com/myaimatch/fractional-discovery
+Puedes eliminar NEXT_PUBLIC_CAL_STRATEGY_URL una vez hecho el cableado.
+
+6.2 Modificar src/app/services/full-ai-strategy-assessment/page.tsx
+Línea 31 — reemplazar el env var único por 3 específicos:
+const strategyUrls = {
+  solo: process.env.NEXT_PUBLIC_CAL_STRATEGY_SOLO_URL || "#pricing",
+  team: process.env.NEXT_PUBLIC_CAL_STRATEGY_TEAM_URL || "#pricing",
+  smb:  process.env.NEXT_PUBLIC_CAL_STRATEGY_SMB_URL  || "#pricing",
+};
+En el tiers.map (línea 764), asignar la URL correspondiente por índice: 0 → solo, 1 → team, 2 → smb.
+El CTA del hero (línea 682) puede apuntar a #pricing para que el usuario elija tier (evita forzar uno).
+6.3 Páginas para Implementation y Fractional AI Lead
+Si ya tienen páginas propias, conectar el CTA a NEXT_PUBLIC_CAL_IMPLEMENTATION_URL / NEXT_PUBLIC_CAL_FRACTIONAL_URL. Si no existen, me dices y las creo alineadas al sistema de diseño de full-ai-strategy-assessment.
+
+6.4 Embed opcional (mejor UX)
+En vez de redirigir a cal.com/myaimatch/*, se puede embebir el widget de Cal.com en la propia página con @calcom/embed-react — el usuario nunca sale del sitio. Esto es Fase 2, no bloquea el lanzamiento.
+
+Fase 7 — Verificación end-to-end (20 min)
+Antes de poner Stripe en Live Mode:
+
+Cal.com en Stripe Test Mode.
+Ir a myaimatch.ai/services/full-ai-strategy-assessment (o localhost:3000 con npm run dev).
+Click "Book Your Strategy Session" en tier Solo.
+Confirmar que Cal.com carga el event strategy-solo con el precio correcto.
+Completar booking con tarjeta de prueba Stripe 4242 4242 4242 4242, cualquier CVC, fecha futura.
+Verificar:
+✅ Stripe dashboard muestra el cobro (Test Mode).
+✅ Cal.com muestra el booking como "Paid".
+✅ Airtable Leads tiene el record con Status = "Booked — Paid".
+✅ Klaviyo recibió el evento "Booked Session".
+✅ Tu Google Calendar tiene el bloqueo.
+✅ Email de confirmación llegó a la dirección que usaste para el booking.
+Repetir para los 5 event types (los 3 de Strategy pagan, Implementation y Fractional no).
+Una vez todo OK: cambiar Stripe a Live Mode en Cal.com → Apps → Stripe → Switch.
+Fase 8 — Cómo pedirme cambios de diseño en el sitio
+Cuando quieras que modifique algo del sitio (copy, layout, spacing, colores, componentes nuevos), lo más eficiente es:
+
+Referir la ruta — ej. "en /services/full-ai-strategy-assessment" o "en el hero del homepage".
+Describir el cambio en lenguaje natural — "quiero que el precio esté encima del nombre del tier, no debajo".
+Si tienes referencia visual, pegármela:
+Screenshot → guardar en temporary screenshots/ → me dices "fíjate en screenshot-N.png".
+O pega la imagen directamente en el chat.
+Yo siempre arranco en Plan Mode: propongo el cambio antes de escribir código, espero tu OK, y recién ahí edito.
+Después de cada cambio corro npm run build y npm run lint.
+Para cambios visuales haré screenshot con Puppeteer (node screenshot.mjs http://localhost:3000) y comparo contra tu referencia antes de darlo por cerrado.
+Ejemplo de prompt efectivo:
+
+"En /services/full-ai-strategy-assessment, el bloque de pricing. Quiero que la card del medio (Small Team) tenga un borde más brillante en hover, como si 'respirara'. El purple actual es #8468EB. Si tienes una idea mejor, plantéala primero."
+
+Eso me da: ruta, elemento, intención, constraint de brand, y permiso explícito para proponer.
+
+Archivos que se tocarán
+.env.local + Vercel env vars (añadir 5, quitar 1).
+src/app/services/full-ai-strategy-assessment/page.tsx — mapear 3 URLs por tier.
+Páginas de Implementation y Fractional AI Lead (crear si no existen, o cablear CTA).
+.claude/context/airtable-schema.md — añadir campos de booking.
+.claude/context/Zapier Automation — documentar el nuevo Zap.
+.claude/context/gtm-strategy.md:124 — quitar "(Phase 2)" de Stripe.
+Qué necesito de ti para arrancar la implementación
+Precios finales de los 3 Strategy tiers (o luz verde a mis sugerencias $1.5K / $4K / $9K).
+Confirmar nombres de slug (strategy-solo, strategy-team, strategy-smb, implementation-discovery, fractional-discovery) — o si prefieres otros.
+Confirmar si Implementation y Fractional AI Lead tienen página propia ya en el sitio, o necesitas que las cree.
+Timezone correcto para availability (asumo Europe/Madrid, corrígeme).
+Acceso a Zapier + Stripe + Airtable cuando lleguemos a Fase 5 — no necesito credenciales, solo que tú las tengas a mano para clicks de autorización.
+
+
+Lo que hice
+Refactoricé src/app/services/full-ai-strategy-assessment/page.tsx para que cada tier apunte a su URL de Cal.com independiente:
+
+NEXT_PUBLIC_CAL_STRATEGY_URL (una sola) → reemplazada por 3:
+NEXT_PUBLIC_CAL_STRATEGY_SOLO_URL
+NEXT_PUBLIC_CAL_STRATEGY_TEAM_URL
+NEXT_PUBLIC_CAL_STRATEGY_SMB_URL
+Cada card de pricing lleva al event type específico; el CTA del hero manda a #pricing para que el usuario elija tier.
+Implementation y Fractional AI Lead (ya se llama ai-coaching en tu código) ya estaban cableadas a NEXT_PUBLIC_CAL_IMPLEMENTATION_URL y NEXT_PUBLIC_CAL_COACHING_URL — no necesitan cambio.
+⚠ Heads up sobre el build
+npm run build falla actualmente, pero no por mi cambio. Tienes imports a brand_assets/Capa_1.png en src/components/Navbar.tsx y src/components/Footer.tsx, pero ese archivo está borrado (aparece D en tu git status). Esto existía antes y rompe build/deploy. Cuando quieras lo arreglo — dime si reemplazar el import por uno de los nuevos Group 95-100.png o si el path correcto es otro.
+
+Próximos pasos del lado de Cal.com (tú)
+Siguiendo el plan aprobado, lo que te toca ahora:
+
+Fase 1 — Crear cuenta: cal.com/signup con angel@myaimatch.ai, username myaimatch.
+Fase 2 — Brand: theme dark, color #8468EB, upload logo.
+Fase 3 — Install Stripe App en Cal.com.
+Fase 4 — Crear los 5 event types:
+strategy-solo, strategy-team, strategy-smb (con Stripe enabled, 60 min)
+implementation-discovery, coaching-discovery (30 min, sin pago)
+Fase 5 — Zapier: webhook o Cal.com App de Zapier → Airtable + Klaviyo.
+Lo que necesito de ti antes del deploy final
+Precios: ¿arrancas con $2K / $5K / $10K (como el código ya muestra) o con mi sugerencia $1.5K / $4K / $9K?
+Slugs Cal.com: ¿OK con strategy-solo, strategy-team, strategy-smb?
+Naming: tu plan dice "Fractional AI Lead" pero tu código lo llama ai-coaching / NEXT_PUBLIC_CAL_COACHING_URL. ¿Mantenemos ai-coaching o lo renombramos todo a fractional?
+Las 5 URLs finales de Cal.com, una vez creados los event types — te las añado a .env.local y Vercel.
+Arreglar los imports rotos de Navbar/Footer para que el deploy a Vercel vuelva a funcionar.
+¿Empiezas con Cal.com y me pasas las URLs, o antes quieres que arregle los imports rotos de Navbar/Footer?

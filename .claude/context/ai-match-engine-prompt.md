@@ -8,9 +8,10 @@ Este documento ya esta alineado con el template premium de [brand_assets/klaviyo
 
 Anthropic debe devolver un JSON limpio y consistente para que Zapier pueda:
 
-1. guardarlo en Airtable como `raw_anthropic_response` o `assessment_result`
-2. aplanarlo en properties para Klaviyo
-3. renderizar el email HTML premium sin depender de un bloque de texto libre
+1. enviarlo a `/api/zapier/assessment-completed`
+2. guardar lead + assessment en Supabase
+3. resolver affiliate URLs y promo codes desde Supabase
+4. renderizar el email HTML premium sin depender de un bloque de texto libre
 
 ---
 
@@ -191,22 +192,37 @@ Tu template HTML espera estas properties:
 | `tool_1_use_case` | `recommended_stack[0].use_case` |
 | `tool_1_why` | `recommended_stack[0].why_it_fits` |
 | `tool_1_notes` | `recommended_stack[0].notes` smart tip |
+| `tool_1_url` | devuelto por `/api/zapier/assessment-completed` |
+| `tool_1_promo` | devuelto por `/api/zapier/assessment-completed` |
+| `tool_1_has_affiliate` | devuelto por `/api/zapier/assessment-completed` |
 | `tool_2_name` | `recommended_stack[1].tool_name` |
 | `tool_2_use_case` | `recommended_stack[1].use_case` |
 | `tool_2_why` | `recommended_stack[1].why_it_fits` |
 | `tool_2_notes` | `recommended_stack[1].notes` smart tip |
+| `tool_2_url` | devuelto por `/api/zapier/assessment-completed` |
+| `tool_2_promo` | devuelto por `/api/zapier/assessment-completed` |
+| `tool_2_has_affiliate` | devuelto por `/api/zapier/assessment-completed` |
 | `tool_3_name` | `recommended_stack[2].tool_name` |
 | `tool_3_use_case` | `recommended_stack[2].use_case` |
 | `tool_3_why` | `recommended_stack[2].why_it_fits` |
 | `tool_3_notes` | `recommended_stack[2].notes` smart tip |
+| `tool_3_url` | devuelto por `/api/zapier/assessment-completed` |
+| `tool_3_promo` | devuelto por `/api/zapier/assessment-completed` |
+| `tool_3_has_affiliate` | devuelto por `/api/zapier/assessment-completed` |
 | `tool_4_name` | opcional |
 | `tool_4_use_case` | opcional |
 | `tool_4_why` | opcional |
 | `tool_4_notes` | opcional, smart tip |
+| `tool_4_url` | opcional, devuelto por `/api/zapier/assessment-completed` |
+| `tool_4_promo` | opcional, devuelto por `/api/zapier/assessment-completed` |
+| `tool_4_has_affiliate` | opcional, devuelto por `/api/zapier/assessment-completed` |
 | `tool_5_name` | opcional |
 | `tool_5_use_case` | opcional |
 | `tool_5_why` | opcional |
 | `tool_5_notes` | opcional, smart tip |
+| `tool_5_url` | opcional, devuelto por `/api/zapier/assessment-completed` |
+| `tool_5_promo` | opcional, devuelto por `/api/zapier/assessment-completed` |
+| `tool_5_has_affiliate` | opcional, devuelto por `/api/zapier/assessment-completed` |
 | `avoid_1` | `what_to_avoid[0]` |
 | `avoid_2` | `what_to_avoid[1]` |
 | `avoid_3` | `what_to_avoid[2]` opcional |

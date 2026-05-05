@@ -1,0 +1,326 @@
+🔄 Tu Automation: AI Match Engine — Explicación Completa
+Aquí está tu flujo paso a paso, con cómo viajan los datos a través del Zap:
+
+STEP 1: Typeform — New Entry (Trigger)
+¿Qué hace?
+
+Escucha nuevas submissions del formulario "AI Match Form" (ID: LUpnruj4)
+Cada vez que alguien completa el form, Zapier captura todos los datos
+Datos que salen de Typeform:
+
+field_seReSpkmjWiT  → Name: "angel intriago"
+field_W5LUrfXXlDwl  → Email: "angel@myaimatch.ai"
+field_waEEXvnnBh41  → Role: "marketing manager senior"
+field_DPx3iasLwCmL  → Business Type: "construction company"
+field_08urThimI5ds  → Team Size: "1000"
+field_2PVxfL3OJqrd  → Main Workflow to Improve: "construction projects from start to end management"
+field_zHTuQ9XOOaue  → Current Tools: "spreadsheets excel i've used"
+field_Msg5io0bvsoX  → AI Experience Level: "low"
+hidden_utm_source   → UTM hidden field: "xxxxx"
+hidden_utm_medium   → UTM hidden field: "xxxxx"
+hidden_utm_campaign → UTM hidden field: "xxxxx"
+hidden_utm_content  → UTM hidden field: "xxxxx"
+id                  → Response ID: "recJh5IBYZFYPVt5B"
+
+Referencia en el Zap: {{=gives["360694670"]["field_seReSpkmjWiT"]}} (para acceder a cualquier campo del paso 1)
+
+STEP 2: Anthropic Claude — Send Message
+¿Qué hace?
+
+Toma los 8 campos de la entrada de Typeform
+Los mete en un XML <user_profile>
+Claude los analiza con su system prompt
+Claude devuelve un JSON con la recomendación de stack de AI
+Datos que ENTRAN en Claude (desde Typeform):
+
+<user_profile>
+  <name>{{=gives["360694670"]["field_seReSpkmjWiT"]}}</name>
+  → "angel intriago"
+  
+  <email>{{=gives["360694670"]["field_W5LUrfXXlDwl"]}}</email>
+  → "angel@myaimatch.ai"
+  
+  <role>{{=gives["360694670"]["field_waEEXvnnBh41"]}}</role>
+  → "marketing manager senior"
+  
+  <business_type>{{=gives["360694670"]["field_DPx3iasLwCmL"]}}</business_type>
+  → "construction company"
+  
+  <team_size>{{=gives["360694670"]["field_08urThimI5ds"]}}</team_size>
+  → "1000"
+  
+  <main_workflow_to_improve>{{=gives["360694670"]["field_2PVxfL3OJqrd"]}}</main_workflow_to_improve>
+  → "construction projects from start to end management"
+  
+  <current_tools>{{=gives["360694670"]["field_zHTuQ9XOOaue"]}}</current_tools>
+  → "spreadsheets excel i've used"
+  
+  <ai_experience_level>{{=gives["360694670"]["field_Msg5io0bvsoX"]}}</ai_experience_level>
+  → "low"
+</user_profile>
+
+Datos que SALEN de Claude (JSON de recomendaciones):
+
+{
+  "summary": "Angel, managing construction projects end-to-end at a 1,000-person company while still relying on spreadsheets is a scaling problem — not a discipline one. The right AI stack will replace manual tracking with automated workflows...",
+  
+  "recommended_stack": [
+    {
+      "tool_name": "Notion",
+      "use_case": "Centralize all construction project docs, timelines, and task assignments in one AI-assisted workspace.",
+      "why_it_fits": "At 1,000 people, Excel breaks down fast — Notion scales with your team and has guided templates to ease the transition.",
+      "setup_priority": 1,
+      "notes": "Start with Notion's construction project template — it's pre-built and saves days of setup."
+    },
+    // ... tool 2, 3, 4, 5
+  ],
+  
+  "implementation_order": ["Notion", "ChatGPT (OpenAI)", "Make.com", "Otter.ai"],
+  "cost_notes": "Estimated stack: $55–$95/mo for core users...",
+  "what_to_avoid": ["Don't roll this out to all 1,000 employees at once...", "Avoid building complex Excel-to-AI bridges..."],
+  "services_cta": "If you'd rather have us handle the full setup..."
+}
+
+Referencia en el Zap: {{=gives["360706569"]["response"]["content[]text"]}} (accede al JSON completo como texto)
+
+STEP 3: Code by Zapier — Parse & Flatten JSON ⭐
+¿Qué hace?
+
+TOMA: El JSON crudo de Claude (paso 2)
+LIMPIA: Remueve backticks y markdown
+PARSEA: Lo convierte de string a objeto JSON
+APLANA: Extrae cada tool y lo convierte en campos individuales para Klaviyo
+Datos que ENTRAN (desde Claude):
+
+raw_json = {{=gives["360706569"]["response"]["content[]text"]}}
+# ↑ Es un string JSON
+
+first_name = {{=gives["360694670"]["field_seReSpkmjWiT"]}}
+# ↑ "angel intriago"
+
+El código Python hace esto:
+
+import json
+import re
+
+# 1. Toma el JSON crudo y lo limpia
+raw_json = input_data.get('raw_json', '{}')
+raw_json = raw_json.strip()
+
+# Si viene con 
+json lo quita
+if raw_json.startswith(''):
+
+raw_json = raw_json.split('```')[1]
+if raw_json.startswith('json'):
+    raw_json = raw_json[4:]
+2. Lo parsea de string a objeto Python
+data = json.loads(raw_json)
+
+3. Extrae summary, first_name, etc.
+output = {
+
+'first_name': first_name,                                  # "angel intriago"
+'summary': data.get('summary', ''),                        # "Angel, managing construction..."
+'services_cta': data.get('services_cta', '')               # "If you'd rather have us handle..."
+}
+
+4. APLANAMIENTO: Itera sobre recommended_stack y crea campos individuales
+recommendedstack = data.get('recommendedstack', [])
+for i, tool in enumerate(recommended_stack[:5], start=1):      # Solo 5 tools max
+
+output[f'tool_{i}_name'] = tool.get('tool_name', '')       # "Notion", "ChatGPT", etc.
+output[f'tool_{i}_use_case'] = tool.get('use_case', '')    # "Centralize all construction..."
+output[f'tool_{i}_why'] = tool.get('why_it_fits', '')      # "At 1,000 people, Excel breaks..."
+output[f'tool_{i}_notes'] = tool.get('notes', '')          # "Start with Notion's template..."
+return output
+
+
+**Datos que SALEN del Code by Zapier (aplanados):**
+firstname      = "angel intriago"
+summary         = "Angel, managing construction..."
+servicescta    = "If you'd rather have us handle..."
+
+tool1name     = "Notion"
+tool1usecase = "Centralize all construction..."
+tool1why      = "At 1,000 people, Excel breaks..."
+tool1_notes    = "Start with Notion's template..."
+
+tool2name     = "ChatGPT (OpenAI)"
+tool2usecase = "Draft project briefs..."
+tool2why      = "With low AI experience..."
+tool2_notes    = "Use the Team plan..."
+
+[... tool 3, 4, 5 ...]
+
+
+**Referencia en el Zap:** `{{=gives["360734699"]["tool_1_name"]}}` (accede a cualquier campo aplanado)
+
+---
+
+## **STEP 4: Airtable — Create Record**
+
+**¿Qué hace?**
+- Toma datos de **AMBOS**: Typeform (step 1) + Claude (step 2)
+- Crea un nuevo registro en tabla **"Leads"** base **"MyAIMatch Production"**
+- Guarda el assessment para histórico y debug
+
+**Datos que ENTRAN (mapeados en Airtable):**
+
+Airtable Field          ← Valor de Zapier
+────────────────────────────────────────
+Name                    ← {{=gives["360694670"]["field_seReSpkmjWiT"]}}
+
+                       = "angel intriago"
+Email                   ← {{=gives["360694670"]["field_W5LUrfXXlDwl"]}}
+
+                       = "angel@myaimatch.ai"
+Role                    ← {{=gives["360694670"]["field_waEEXvnnBh41"]}}
+
+                       = "marketing manager senior"
+Business Type           ← {{=gives["360694670"]["field_DPx3iasLwCmL"]}}
+
+                       = "construction company"
+Team Size               ← {{=gives["360694670"]["field_08urThimI5ds"]}}
+
+                       = "1000"
+Main Workflow           ← {{=gives["360694670"]["field_2PVxfL3OJqrd"]}}
+
+                       = "construction projects from start..."
+Current Tools           ← {{=gives["360694670"]["field_zHTuQ9XOOaue"]}}
+
+                       = "spreadsheets excel i've used"
+AI Experience Level     ← {{=gives["360694670"]["field_Msg5io0bvsoX"]}}
+
+                       = "low"
+utmsource              ← {{=gives["360694670"]["hidden_utm_source"]}}
+utmmedium              ← {{=gives["360694670"]["hidden_utm_medium"]}}
+utmcampaign            ← {{=gives["360694670"]["hidden_utm_campaign"]}}
+utmcontent             ← {{=gives["360694670"]["hidden_utm_content"]}}
+
+assessment_result       ← {{=gives['360706569']["response"]["content[]text"]}}
+
+                       = JSON completo de Claude (para debug)
+
+**Resultado en Airtable:**
+ Name 	 Email 	 Role 	 Business Type 	 Team Size 	 ... 	 utm_source 	 assessment_result 
+ angel intriago 	 angel@... 	 marketing manager senior 	 construction company 	 1000 	 ... 	 xxxxx 	 {"summary": "Angel..."} 
+
+---
+
+## **STEP 5: Klaviyo — Track Event**
+
+**¿Qué hace?**
+- Dispara el evento **"Completed Assessment"** en Klaviyo
+- Envía todas las propiedades personalizadas (custom event properties) del Code by Zapier (step 3)
+- Klaviyo lo usa para renderizar el email premium con la recomendación
+
+**Datos que ENTRAN (mapeados):**
+
+Klaviyo Field                   ← Valor de Zapier
+─────────────────────────────────────────────────────
+Metric (event)                  = "Completed Assessment"
+
+Email Address                   ← {{=gives["360694670"]["field_W5LUrfXXlDwl"]}}
+
+                              = "angel@myaimatch.ai"
+Event ID                        ← {{=gives["360694670"]["id"]}}
+
+                              = "recJh5IBYZFYPVt5B"
+Value                           = "1.0"
+
+
+CUSTOM EVENT PROPERTIES (desde Code by Zapier - step 3):
+────────────────────────────────────────────────────────
+
+firstname                      ← {{=gives["360734699"]["firstname"]}}
+
+                              = "angel intriago"
+summary                         ← {{=gives["360734699"]["summary"]}}
+
+                              = "Angel, managing construction..."
+tool1name                     ← {{=gives["360734699"]["tool_1_name"]}}
+
+                              = "Notion"
+tool1usecase                 ← {{=gives["360734699"]["tool1usecase"]}}
+
+                              = "Centralize all construction..."
+tool1why                      ← {{=gives["360734699"]["tool_1_why"]}}
+
+                              = "At 1,000 people, Excel breaks..."
+tool1notes                    ← {{=gives["360734699"]["tool_1_notes"]}}
+
+                              = "Start with Notion's template..."
+[... tool2, tool3, tool4, tool5 ...]
+
+servicescta                    ← {{=gives["360734699"]["servicescta"]}}
+
+                              = "If you'd rather have us handle..."
+
+**Resultado en Klaviyo:**
+Event: "Completed Assessment"
+User: angel@myaimatch.ai
+Properties: {
+  "firstname": "angel intriago",
+  "summary": "Angel, managing construction...",
+  "tool1name": "Notion",
+  "tool1usecase": "Centralize all construction...",
+  "tool1why": "At 1,000 people, Excel breaks...",
+  "tool1notes": "Start with Notion's template...",
+  ...
+}
+
+
+Klaviyo dispara automáticamente un **email template premium** que renderiza esta data en HTML bonito.
+
+---
+
+## **📊 Resumen del Flujo de Datos**
+
+┌─────────────┐
+│  Typeform   │  (8 campos del form)
+│ "AI Match   │  → Name, Email, Role, Business, Team Size,
+│  Form"      │     Workflow, Tools, AI Level, UTM params
+└──────┬──────┘
+
+   │
+   ▼
+┌─────────────────────┐
+│  Anthropic Claude   │  (Toma 8 campos + system prompt)
+│  "Send Message"     │  → Analiza el perfil del user
+└──────┬──────────────┘  → Recomienda 3-5 tools en JSON
+
+   │
+   │  (JSON estructurado de Claude)
+   │  {summary, recommended_stack[], implementation_order, ...}
+   │
+   ▼
+┌──────────────────────────┐
+│  Code by Zapier          │  (APLANAMIENTO)
+│  "Parse & Flatten JSON"  │  → tool1name, tool1usecase, tool1why, tool1notes
+└──────┬───────────────────┘  → tool2*, tool3*, tool4*, tool5_*
+
+   │                       → summary, services_cta, impl_order
+   │
+   ├───────────┬──────────────────┐
+   │           │                  │
+   ▼           ▼                  ▼
+┌──────────┐ ┌──────────┐   ┌────────────┐
+│ Airtable │ │ Klaviyo  │   │ (también   │
+│  Leads   │ │  Track   │   │  en CC)    │
+│ Table    │ │ Event    │   │            │
+└──────────┘ └──────────┘   └────────────┘
+(histórico)  (trigger email)
+
+---
+
+## **🎯 Puntos Clave del Diseño**
+
+| Aspecto | Qué Sucede |
+|---------|-----------|
+| **Trigger** | Typeform captura el form, genera 8 variables |
+| **IA** | Claude analiza = genera JSON personalizado |
+| **Transformación** | Code by Zapier aplanea el JSON en 16+ campos individuales |
+| **Persistencia** | Airtable guarda TODO (incluyendo assessment_result para debug) |
+| **Marketing** | Klaviyo recibe el evento + propiedades = renderiza email premium |
+| **References** | Cada paso se referencia por ID (`gives["stepId"]["fieldKey"]`) |
