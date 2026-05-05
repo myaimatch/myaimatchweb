@@ -26,3 +26,5 @@ tsconfig.tsbuildinfo
 .claude/settings.local.json
 .claude/worktrees/
 CLAUDE.local.md
+.vercel
+supabase/.temp/
