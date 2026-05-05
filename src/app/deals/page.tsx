@@ -3,6 +3,7 @@ import { OfferCarousel } from "@/components/ui/offer-carousel";
 import type { Deal } from "@/components/ui/offer-carousel";
 import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
 import type { AirtableCategory, AirtableTool } from "@/lib/airtable";
+import { buildGoHref } from "@/lib/affiliate-links";
 
 export const metadata: Metadata = {
   title: "Deals",
@@ -38,7 +39,7 @@ function compareDeals(a: AirtableTool, b: AirtableTool) {
 }
 
 function toDeal(tool: AirtableTool, category: AirtableCategory): Deal {
-  const href = tool.affiliateLink || tool.websiteUrl || "/#directory";
+  const href = tool.slug ? buildGoHref(tool.slug, "deals") : tool.websiteUrl || "/#directory";
 
   return {
     id: `${category.id}-${tool.id}`,
@@ -108,6 +109,10 @@ export default async function DealsPage() {
           </h1>
           <p className="text-base text-[#888] max-w-2xl mx-auto leading-relaxed">
             Exclusive offers on the best AI tools, updated regularly.
+          </p>
+          <p className="mt-4 text-xs leading-6 text-white/38">
+            Some deals use affiliate links. We may earn a commission if you choose a tool through myAImatch,
+            at no extra cost to you.
           </p>
         </div>
       </section>

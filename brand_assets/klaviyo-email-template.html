@@ -8,11 +8,11 @@
     <!--
     Expected Klaviyo event properties:
     first_name, summary, services_cta,
-    tool_1_name, tool_1_why, tool_1_notes,
-    tool_2_name, tool_2_why, tool_2_notes,
-    tool_3_name, tool_3_why, tool_3_notes,
-    tool_4_name, tool_4_why, tool_4_notes,
-    tool_5_name, tool_5_why, tool_5_notes
+    tool_1_name, tool_1_why, tool_1_notes, tool_1_url, tool_1_promo, tool_1_has_affiliate,
+    tool_2_name, tool_2_why, tool_2_notes, tool_2_url, tool_2_promo, tool_2_has_affiliate,
+    tool_3_name, tool_3_why, tool_3_notes, tool_3_url, tool_3_promo, tool_3_has_affiliate,
+    tool_4_name, tool_4_why, tool_4_notes, tool_4_url, tool_4_promo, tool_4_has_affiliate,
+    tool_5_name, tool_5_why, tool_5_notes, tool_5_url, tool_5_promo, tool_5_has_affiliate
     -->
     <!--[if mso]>
     <noscript>
@@ -141,6 +141,18 @@
                                 {{ event|lookup:'tool_1_notes'|default:'' }}
                               </div>
                             </div>
+                            {% if event|lookup:'tool_1_url' %}
+                            <div style="margin:14px 0 0 0;">
+                              <a href="{{ event|lookup:'tool_1_url'|default:'' }}" style="display:inline-block;padding:10px 18px;border-radius:999px;background:linear-gradient(135deg,#8468EB,#5B42C3);color:#ffffff;font-size:12px;font-weight:700;text-decoration:none;">
+                                Open tool
+                              </a>
+                              {% if event|lookup:'tool_1_promo' %}
+                              <span style="display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:#C4B5FD;">
+                                Promo: {{ event|lookup:'tool_1_promo'|default:'' }}
+                              </span>
+                              {% endif %}
+                            </div>
+                            {% endif %}
                           </td>
                         </tr>
                       </table>
@@ -179,6 +191,18 @@
                                 {{ event|lookup:'tool_2_notes'|default:'' }}
                               </div>
                             </div>
+                            {% if event|lookup:'tool_2_url' %}
+                            <div style="margin:14px 0 0 0;">
+                              <a href="{{ event|lookup:'tool_2_url'|default:'' }}" style="display:inline-block;padding:10px 18px;border-radius:999px;background:rgba(132,104,235,0.18);border:1px solid rgba(196,181,253,0.32);color:#ffffff;font-size:12px;font-weight:700;text-decoration:none;">
+                                Open tool
+                              </a>
+                              {% if event|lookup:'tool_2_promo' %}
+                              <span style="display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:#C4B5FD;">
+                                Promo: {{ event|lookup:'tool_2_promo'|default:'' }}
+                              </span>
+                              {% endif %}
+                            </div>
+                            {% endif %}
                           </td>
                         </tr>
                       </table>
@@ -217,6 +241,18 @@
                                 {{ event|lookup:'tool_3_notes'|default:'' }}
                               </div>
                             </div>
+                            {% if event|lookup:'tool_3_url' %}
+                            <div style="margin:14px 0 0 0;">
+                              <a href="{{ event|lookup:'tool_3_url'|default:'' }}" style="display:inline-block;padding:10px 18px;border-radius:999px;background:rgba(132,104,235,0.18);border:1px solid rgba(196,181,253,0.32);color:#ffffff;font-size:12px;font-weight:700;text-decoration:none;">
+                                Open tool
+                              </a>
+                              {% if event|lookup:'tool_3_promo' %}
+                              <span style="display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:#C4B5FD;">
+                                Promo: {{ event|lookup:'tool_3_promo'|default:'' }}
+                              </span>
+                              {% endif %}
+                            </div>
+                            {% endif %}
                           </td>
                         </tr>
                       </table>
@@ -256,6 +292,18 @@
                                 {{ event|lookup:'tool_4_notes'|default:'' }}
                               </div>
                             </div>
+                            {% if event|lookup:'tool_4_url' %}
+                            <div style="margin:14px 0 0 0;">
+                              <a href="{{ event|lookup:'tool_4_url'|default:'' }}" style="display:inline-block;padding:10px 18px;border-radius:999px;background:rgba(132,104,235,0.18);border:1px solid rgba(196,181,253,0.32);color:#ffffff;font-size:12px;font-weight:700;text-decoration:none;">
+                                Open tool
+                              </a>
+                              {% if event|lookup:'tool_4_promo' %}
+                              <span style="display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:#C4B5FD;">
+                                Promo: {{ event|lookup:'tool_4_promo'|default:'' }}
+                              </span>
+                              {% endif %}
+                            </div>
+                            {% endif %}
                           </td>
                         </tr>
                       </table>
@@ -296,6 +344,18 @@
                                 {{ event|lookup:'tool_5_notes'|default:'' }}
                               </div>
                             </div>
+                            {% if event|lookup:'tool_5_url' %}
+                            <div style="margin:14px 0 0 0;">
+                              <a href="{{ event|lookup:'tool_5_url'|default:'' }}" style="display:inline-block;padding:10px 18px;border-radius:999px;background:rgba(132,104,235,0.18);border:1px solid rgba(196,181,253,0.32);color:#ffffff;font-size:12px;font-weight:700;text-decoration:none;">
+                                Open tool
+                              </a>
+                              {% if event|lookup:'tool_5_promo' %}
+                              <span style="display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:#C4B5FD;">
+                                Promo: {{ event|lookup:'tool_5_promo'|default:'' }}
+                              </span>
+                              {% endif %}
+                            </div>
+                            {% endif %}
                           </td>
                         </tr>
                       </table>
@@ -343,6 +403,7 @@
                         </a>
                       </div>
                       <div style="font-size:10px;line-height:1.7;color:rgba(255,255,255,0.35);margin:0 0 12px 0;">
+                        Some tool links may be affiliate links. We may earn a commission at no extra cost to you.<br/>
                         You received this because you completed the AI Match Free Assessment at myaimatch.ai.<br/>
                         &copy; 2026 myAIMatch. All rights reserved.
                       </div>

@@ -20,6 +20,7 @@ import {
   Info,
 } from "lucide-react"
 import type { AirtableTool, AirtableCategory } from "@/lib/airtable"
+import { buildGoHref } from "@/lib/affiliate-links"
 
 const SearchBar = dynamic(
   () => import("@/components/ui/search-bar").then((m) => ({ default: m.SearchBar })),
@@ -709,6 +710,17 @@ export default function DirectoryClient({ tools, categories, categoryMap }: Prop
             />
           </div>
         </div>
+      </div>
+
+      <div
+        className="border-b px-4 py-3 text-center text-xs leading-6 text-white/42 sm:px-6"
+        style={{
+          borderColor: "rgba(255,255,255,0.06)",
+          background: "rgba(255,255,255,0.018)",
+        }}
+      >
+        Some outbound tool links may be affiliate links. If you choose a tool through myAImatch,
+        we may earn a commission at no extra cost to you.
       </div>
 
       {/* ── Content: Left Filter Panel + Table ────────────────────────── */}
@@ -1513,7 +1525,7 @@ function ToolRow({
 }) {
   const initials = tool.name.slice(0, 2).toUpperCase()
   const categoryName = tool.category[0] ? categoryMap[tool.category[0]] : null
-  const visitUrl = tool.websiteUrl
+  const visitUrl = tool.slug ? buildGoHref(tool.slug, "directory") : tool.websiteUrl
 
   return (
     <tr
@@ -1561,7 +1573,7 @@ function ToolRow({
               <a
                 href={visitUrl}
                 target="_blank"
-                rel="noopener noreferrer nofollow"
+                rel="noopener noreferrer nofollow sponsored"
                 referrerPolicy="no-referrer"
                 className="block text-sm font-semibold text-white truncate max-w-[150px] transition-colors duration-150 hover:text-[#b07de8]"
               >
@@ -1775,7 +1787,7 @@ function ToolRow({
           <a
             href={visitUrl}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow sponsored"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150"
             style={{
               background: "linear-gradient(180deg, rgba(132,104,235,0.14), rgba(132,104,235,0.08))",

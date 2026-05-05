@@ -1,6 +1,19 @@
-# Airtable Schema
+# Data Schema
 
-Fuente de verdad para toda la data de tools y leads. **No hardcodear** — fetch vía Airtable API.
+Supabase es la fuente de verdad v1 para tools, leads, assessments, affiliates, deals, clicks y revenue.
+Airtable queda como fuente legacy/import backup mientras se completa la migración.
+
+## Supabase core tables
+
+- `tools`, `categories`, `tool_categories`
+- `leads`, `assessments`, `assessment_recommendations`
+- `affiliate_programs`, `affiliate_links`, `deals`
+- `click_events`, `revenue_events`
+- `agent_findings`, `audit_log`, `admin_users`
+
+Ver migration en `supabase/migrations/202605050001_affiliate_operating_system.sql`.
+
+## Airtable legacy import
 
 ## Tabla: AI Tools
 
