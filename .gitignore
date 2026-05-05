@@ -24,4 +24,5 @@ tsconfig.tsbuildinfo
 .claude/memory/*
 !.claude/memory/.gitkeep
 .claude/settings.local.json
+.claude/worktrees/
 CLAUDE.local.md
