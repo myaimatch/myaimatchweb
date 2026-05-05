@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { OfferCarousel } from "@/components/ui/offer-carousel";
 import type { Deal } from "@/components/ui/offer-carousel";
-import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
-import type { AirtableCategory, AirtableTool } from "@/lib/airtable";
+import { fetchAllCategories, fetchAllTools } from "@/lib/catalog";
+import type { Category, Tool } from "@/lib/catalog";
 import { buildGoHref } from "@/lib/affiliate-links";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 interface DealSection {
-  category: AirtableCategory;
+  category: Category;
   deals: Deal[];
 }
 
@@ -30,7 +30,7 @@ function hostnameFromUrl(url: string) {
   }
 }
 
-function compareDeals(a: AirtableTool, b: AirtableTool) {
+function compareDeals(a: Tool, b: Tool) {
   const aRank = a.dealRank ?? Number.POSITIVE_INFINITY;
   const bRank = b.dealRank ?? Number.POSITIVE_INFINITY;
 
@@ -38,7 +38,7 @@ function compareDeals(a: AirtableTool, b: AirtableTool) {
   return a.name.localeCompare(b.name);
 }
 
-function toDeal(tool: AirtableTool, category: AirtableCategory): Deal {
+function toDeal(tool: Tool, category: Category): Deal {
   const href = tool.slug ? buildGoHref(tool.slug, "deals") : tool.websiteUrl || "/#directory";
 
   return {
@@ -53,7 +53,7 @@ function toDeal(tool: AirtableTool, category: AirtableCategory): Deal {
   };
 }
 
-function buildDealSections(tools: AirtableTool[], categories: AirtableCategory[]): DealSection[] {
+function buildDealSections(tools: Tool[], categories: Category[]): DealSection[] {
   const activeDeals = tools.filter((tool) => tool.dealActive && tool.promo);
 
   return categories

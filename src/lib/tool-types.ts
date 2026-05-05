@@ -1,4 +1,4 @@
-export interface AirtableTool {
+export interface Tool {
   id: string;
   name: string;
   slug: string;
@@ -34,7 +34,7 @@ export interface AirtableTool {
   maxMonthlyPrice?: number;
 }
 
-export interface AirtableCategory {
+export interface Category {
   id: string;
   name: string;
   slug: string;
@@ -42,3 +42,4 @@ export interface AirtableCategory {
   icon?: string;
   displayOrder?: number;
 }
+

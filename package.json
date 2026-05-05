@@ -9,9 +9,7 @@
     "lint": "next lint",
     "test": "tsx src/lib/thank-you-access.test.ts && tsx src/lib/affiliate-links.test.ts && tsx src/lib/zapier-assessment.test.ts",
     "enrich": "tsx scripts/enrich-tools.ts",
-    "enrich:dry": "tsx scripts/enrich-tools.ts --dry-run --limit=5",
-    "migrate:affiliate-os:dry": "tsx scripts/migrate-airtable-to-supabase.ts",
-    "migrate:affiliate-os": "tsx scripts/migrate-airtable-to-supabase.ts --apply"
+    "enrich:dry": "tsx scripts/enrich-tools.ts --dry-run --limit=5"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
@@ -19,7 +17,6 @@
     "@supabase/supabase-js": "^2.105.3",
     "@typeform/embed": "^6.0.0",
     "@vercel/analytics": "^2.0.1",
-    "airtable": "^0.12.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",

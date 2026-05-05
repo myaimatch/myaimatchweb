@@ -19,7 +19,7 @@ import {
   Minus,
   Info,
 } from "lucide-react"
-import type { AirtableTool, AirtableCategory } from "@/lib/airtable"
+import type { Tool, Category } from "@/lib/catalog"
 import { buildGoHref } from "@/lib/affiliate-links"
 
 const SearchBar = dynamic(
@@ -35,8 +35,8 @@ const SearchBar = dynamic(
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 interface Props {
-  tools: AirtableTool[]
-  categories: AirtableCategory[]
+  tools: Tool[]
+  categories: Category[]
   categoryMap: Record<string, string>
 }
 
@@ -1516,7 +1516,7 @@ function ToolRow({
   onToggleFavorite,
   visibleColumns,
 }: {
-  tool: AirtableTool
+  tool: Tool
   categoryMap: Record<string, string>
   isEven: boolean
   isFavorite: boolean

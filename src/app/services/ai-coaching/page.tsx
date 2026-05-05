@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { fetchAllTools } from "@/lib/airtable";
+import { fetchAllTools } from "@/lib/catalog";
 import CadenceSelector from "@/components/services/CadenceSelector";
 import CountUp from "@/components/services/CountUp";
 import OrbitalCore from "@/components/services/OrbitalCore";

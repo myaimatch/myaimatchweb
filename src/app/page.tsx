@@ -4,7 +4,7 @@ import DirectoryClient from "@/components/DirectoryClient";
 import HomeSignalField from "@/components/home/HomeSignalField";
 import MatchEngineFrame from "@/components/home/MatchEngineFrame";
 import MatchOutputPreview from "@/components/home/MatchOutputPreview";
-import { fetchAllCategories, fetchAllTools } from "@/lib/airtable";
+import { fetchAllCategories, fetchAllTools } from "@/lib/catalog";
 import { AI_MATCH_TALLY_POPUP_HREF } from "@/lib/assessment-link";
 
 export const dynamic = "force-dynamic";

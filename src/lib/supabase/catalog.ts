@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { AirtableCategory, AirtableTool } from "@/lib/tool-types";
+import type { Category, Tool } from "@/lib/tool-types";
 import { getSupabaseDataClient } from "./server";
 
 type ToolRow = Record<string, unknown>;
@@ -34,7 +34,7 @@ function asStringArray(value: unknown) {
   return values.length ? values : undefined;
 }
 
-function mapCategory(row: CategoryRow): AirtableCategory {
+function mapCategory(row: CategoryRow): Category {
   return {
     id: asString(row.id),
     name: asString(row.name),
@@ -56,7 +56,7 @@ function mapTool(
     dealDescription?: string;
     dealRank?: number;
   },
-): AirtableTool {
+): Tool {
   return {
     id: asString(row.id),
     name: asString(row.name),
@@ -167,7 +167,7 @@ async function getAffiliateSummaryMap(toolIds: string[]) {
   return map;
 }
 
-export async function fetchAllToolsFromSupabase(): Promise<AirtableTool[]> {
+export async function fetchAllToolsFromSupabase(): Promise<Tool[]> {
   const supabase = getSupabaseDataClient();
   if (!supabase) return [];
 
@@ -192,7 +192,7 @@ export async function fetchAllToolsFromSupabase(): Promise<AirtableTool[]> {
   });
 }
 
-export async function fetchToolBySlugFromSupabase(slug: string): Promise<AirtableTool | null> {
+export async function fetchToolBySlugFromSupabase(slug: string): Promise<Tool | null> {
   const supabase = getSupabaseDataClient();
   if (!supabase) return null;
 
@@ -215,7 +215,7 @@ export async function fetchToolBySlugFromSupabase(slug: string): Promise<Airtabl
   return mapTool(data as ToolRow, categoryMap.get(id) ?? [], affiliateMap.get(id));
 }
 
-export async function fetchToolsByCategoryFromSupabase(categorySlug: string): Promise<AirtableTool[]> {
+export async function fetchToolsByCategoryFromSupabase(categorySlug: string): Promise<Tool[]> {
   const supabase = getSupabaseDataClient();
   if (!supabase) return [];
 
@@ -258,7 +258,7 @@ export async function fetchToolsByCategoryFromSupabase(categorySlug: string): Pr
   });
 }
 
-export async function fetchAllCategoriesFromSupabase(): Promise<AirtableCategory[]> {
+export async function fetchAllCategoriesFromSupabase(): Promise<Category[]> {
   const supabase = getSupabaseDataClient();
   if (!supabase) return [];
 
