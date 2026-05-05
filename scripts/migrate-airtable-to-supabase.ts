@@ -54,6 +54,15 @@ function asOptionalString(value: unknown) {
   return parsed || null;
 }
 
+function uniqueBy<T>(items: T[], getKey: (item: T) => string | null) {
+  const map = new Map<string, T>();
+  for (const item of items) {
+    const key = getKey(item);
+    if (key) map.set(key, item);
+  }
+  return Array.from(map.values());
+}
+
 function asNumber(value: unknown) {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string") {
@@ -75,6 +84,11 @@ function asStringArray(value: unknown) {
     return value.split(",").map((item) => item.trim()).filter(Boolean);
   }
   return [];
+}
+
+function normalizeEmail(value: unknown) {
+  const parsed = asString(value).replace(/\/+$/g, "").toLowerCase();
+  return parsed.includes("@") ? parsed : "";
 }
 
 function isUrl(value: unknown) {
@@ -161,7 +175,7 @@ function toolPayload(record: AirtableRecord) {
 
 function leadPayload(record: AirtableRecord) {
   const fields = record.fields;
-  const email = asString(fields.email ?? fields.Email);
+  const email = normalizeEmail(fields.email ?? fields.Email);
   if (!email) return null;
 
   const fullName = asString(fields.name ?? fields.Name);
@@ -179,7 +193,14 @@ function leadPayload(record: AirtableRecord) {
 
 function affiliateStatus(value: unknown) {
   const status = asString(value).toLowerCase();
-  if (status === "active" || status === "approved") return "active";
+  if (
+    status === "active" ||
+    status === "approved" ||
+    status === "affiliate program" ||
+    status === "partner program"
+  ) {
+    return "active";
+  }
   if (status === "paused" || status === "expired" || status === "rejected") return status;
   return "pending";
 }
@@ -206,7 +227,10 @@ async function run() {
     return;
   }
 
-  const categories = categoryRecords.map(categoryPayload).filter((category) => category.name && category.slug);
+  const categories = uniqueBy(
+    categoryRecords.map(categoryPayload).filter((category) => category.name && category.slug),
+    (category) => category.airtable_id,
+  );
   const { data: categoryRows, error: categoryError } = await supabase
     .from("categories")
     .upsert(categories, { onConflict: "airtable_id" })
@@ -218,7 +242,10 @@ async function run() {
     (categoryRows ?? []).map((row) => [row.airtable_id as string, row.id as string]),
   );
 
-  const tools = toolRecords.map(toolPayload).filter((tool) => tool.name && tool.slug);
+  const tools = uniqueBy(
+    toolRecords.map(toolPayload).filter((tool) => tool.name && tool.slug),
+    (tool) => tool.airtable_id,
+  );
   const { data: toolRows, error: toolError } = await supabase
     .from("tools")
     .upsert(tools, { onConflict: "airtable_id" })
@@ -278,17 +305,77 @@ async function run() {
     }
   }
 
-  if (affiliateLinks.length) {
-    const { error } = await supabase.from("affiliate_links").insert(affiliateLinks);
+  const toolIds = Array.from(new Set(Array.from(toolIdByAirtableId.values())));
+
+  const [{ data: existingLinks, error: existingLinksError }, { data: existingDeals, error: existingDealsError }] =
+    await Promise.all([
+      toolIds.length
+        ? supabase.from("affiliate_links").select("id, tool_id, url").in("tool_id", toolIds)
+        : Promise.resolve({ data: [], error: null }),
+      toolIds.length
+        ? supabase.from("deals").select("tool_id, promo_code, description").in("tool_id", toolIds)
+        : Promise.resolve({ data: [], error: null }),
+    ]);
+
+  if (existingLinksError) throw existingLinksError;
+  if (existingDealsError) throw existingDealsError;
+
+  const existingLinkByKey = new Map(
+    ((existingLinks ?? []) as Array<{ id?: string; tool_id: string; url: string }>).map((row) => [
+      `${row.tool_id}:${row.url}`,
+      row,
+    ]),
+  );
+  const existingDealKeys = new Set(
+    ((existingDeals ?? []) as Array<{ tool_id: string; promo_code: string | null; description: string | null }>).map(
+      (row) => `${row.tool_id}:${row.promo_code ?? ""}:${row.description ?? ""}`,
+    ),
+  );
+
+  const newAffiliateLinks = uniqueBy(
+    affiliateLinks.filter((link) => !existingLinkByKey.has(`${link.tool_id}:${link.url}`)),
+    (link) => `${link.tool_id}:${link.url}`,
+  );
+  const existingAffiliateLinkUpdates = uniqueBy(
+    affiliateLinks.filter((link) => existingLinkByKey.has(`${link.tool_id}:${link.url}`)),
+    (link) => `${link.tool_id}:${link.url}`,
+  );
+  const newDeals = uniqueBy(
+    deals.filter((deal) => !existingDealKeys.has(`${deal.tool_id}:${deal.promo_code ?? ""}:${deal.description ?? ""}`)),
+    (deal) => `${deal.tool_id}:${deal.promo_code ?? ""}:${deal.description ?? ""}`,
+  );
+
+  for (const link of existingAffiliateLinkUpdates) {
+    const existing = existingLinkByKey.get(`${link.tool_id}:${link.url}`);
+    if (!existing?.id) continue;
+
+    const { error } = await supabase
+      .from("affiliate_links")
+      .update({
+        status: link.status,
+        priority: link.priority,
+        approved_at: link.approved_at,
+        label: link.label,
+      })
+      .eq("id", existing.id);
+
     if (error) throw error;
   }
 
-  if (deals.length) {
-    const { error } = await supabase.from("deals").insert(deals);
+  if (newAffiliateLinks.length) {
+    const { error } = await supabase.from("affiliate_links").insert(newAffiliateLinks);
     if (error) throw error;
   }
 
-  const leads = leadRecords.map(leadPayload).filter((lead): lead is NonNullable<typeof lead> => !!lead);
+  if (newDeals.length) {
+    const { error } = await supabase.from("deals").insert(newDeals);
+    if (error) throw error;
+  }
+
+  const leads = uniqueBy(
+    leadRecords.map(leadPayload).filter((lead): lead is NonNullable<typeof lead> => !!lead),
+    (lead) => lead.email,
+  );
   if (leads.length) {
     const { error } = await supabase.from("leads").upsert(leads, { onConflict: "email" });
     if (error) throw error;
@@ -297,8 +384,9 @@ async function run() {
   console.log(`Imported categories:      ${categories.length}`);
   console.log(`Imported tools:           ${tools.length}`);
   console.log(`Linked tool categories:   ${toolCategories.length}`);
-  console.log(`Imported affiliate links: ${affiliateLinks.length}`);
-  console.log(`Imported deals:           ${deals.length}`);
+  console.log(`Imported affiliate links: ${newAffiliateLinks.length}`);
+  console.log(`Updated affiliate links:  ${existingAffiliateLinkUpdates.length}`);
+  console.log(`Imported deals:           ${newDeals.length}`);
   console.log(`Imported leads:           ${leads.length}`);
 }
 
