@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { lookup } from 'dns/promises'
-import Airtable from 'airtable'
 import * as fs from 'fs'
 import { isIP } from 'net'
 import * as path from 'path'
@@ -20,40 +20,64 @@ loadEnv()
 // ─── CLI Args ─────────────────────────────────────────────────────────────────
 const args = process.argv.slice(2)
 const DRY_RUN = args.includes('--dry-run')
-const limitArg = args.find(a => a.startsWith('--limit='))
+const limitArg = args.find((a) => a.startsWith('--limit='))
+const slugsArg = args.find((a) => a.startsWith('--slugs='))
+const ALL_FLAG = args.includes('--all')
 const LIMIT = limitArg ? parseInt(limitArg.split('=')[1]) : Infinity
+const SLUGS = slugsArg
+  ? slugsArg
+      .split('=')[1]
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+  : null
 
 console.log(`\n🔧 Enrich Tools Script`)
 console.log(`   Dry run: ${DRY_RUN}`)
+console.log(`   Slugs:   ${SLUGS ? SLUGS.join(', ') : ALL_FLAG ? 'ALL' : '(none — pass --slugs= or --all)'}`)
 console.log(`   Limit:   ${LIMIT === Infinity ? 'all' : LIMIT}\n`)
+
+if (!SLUGS && !ALL_FLAG) {
+  console.error('❌ Pass --slugs=a,b,c or --all to run.')
+  process.exit(1)
+}
 
 // ─── Clients ──────────────────────────────────────────────────────────────────
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
-  process.env.AIRTABLE_BASE_ID!
-)
+
+function getSupabase(): SupabaseClient {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !serviceKey) throw new Error('Missing Supabase service configuration')
+  return createClient(url, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } })
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface ToolRecord {
   id: string
   name: string
+  slug: string
   websiteUrl: string
 }
 
 interface EnrichedData {
-  support_languages: string[] | null
-  ui_languages: string[] | null
-  founded_year: number | null
-  has_free_plan: boolean | null
-  trial_days: number | null
+  full_description: string | null
+  short_description: string | null
+  pricing_summary: string | null
   best_for: string | null
-  has_api: boolean | null
-  integrations: string[] | null
-  company_hq: string | null
-  employee_count: string | null
+  has_free_plan: boolean | null
   gdpr_compliant: boolean | null
+  founded_year: number | null
+  employee_count: string | null
+  community_reputation: number | null
+  has_api: boolean | null
   has_mobile_app: boolean | null
   soc2_certified: boolean | null
+  trial_days: number | null
+  company_hq: string | null
+  integrations: string[] | null
+  support_languages: string[] | null
+  ui_languages: string[] | null
 }
 
 const ALLOWED_BEST_FOR = new Set(['Solo', 'Small Team', 'Mid-Market', 'Enterprise', 'All'])
@@ -70,6 +94,7 @@ const ALLOWED_INTEGRATIONS = new Set([
 const ALLOWED_COMPANY_HQ = new Set(['USA', 'EU', 'UK', 'Canada', 'LATAM', 'Asia', 'Other'])
 const ALLOWED_EMPLOYEE_COUNT = new Set(['1-10', '11-50', '51-200', '200+'])
 
+// ─── Safe URL fetching ────────────────────────────────────────────────────────
 function isPrivateHostname(hostname: string): boolean {
   const normalized = hostname.toLowerCase()
   return (
@@ -82,10 +107,7 @@ function isPrivateHostname(hostname: string): boolean {
 
 function isPrivateIpv4(ip: string): boolean {
   const parts = ip.split('.').map(Number)
-  if (parts.length !== 4 || parts.some((part) => Number.isNaN(part) || part < 0 || part > 255)) {
-    return true
-  }
-
+  if (parts.length !== 4 || parts.some((p) => Number.isNaN(p) || p < 0 || p > 255)) return true
   const [a, b] = parts
   return (
     a === 0 ||
@@ -98,14 +120,8 @@ function isPrivateIpv4(ip: string): boolean {
 }
 
 function isPrivateIpv6(ip: string): boolean {
-  const normalized = ip.toLowerCase()
-  return (
-    normalized === '::1' ||
-    normalized === '::' ||
-    normalized.startsWith('fc') ||
-    normalized.startsWith('fd') ||
-    normalized.startsWith('fe80:')
-  )
+  const n = ip.toLowerCase()
+  return n === '::1' || n === '::' || n.startsWith('fc') || n.startsWith('fd') || n.startsWith('fe80:')
 }
 
 function isPrivateIpAddress(ip: string): boolean {
@@ -117,76 +133,56 @@ function isPrivateIpAddress(ip: string): boolean {
 
 async function assertSafeRemoteUrl(rawUrl: string): Promise<URL> {
   const url = new URL(rawUrl)
-
-  if (url.protocol !== 'https:') {
-    throw new Error(`Unsafe protocol for enrichment fetch: ${url.protocol}`)
-  }
-
-  if (url.username || url.password) {
-    throw new Error('Refusing URLs with embedded credentials')
-  }
-
-  if (isPrivateHostname(url.hostname)) {
-    throw new Error(`Refusing private hostname: ${url.hostname}`)
-  }
-
-  if (isIP(url.hostname) && isPrivateIpAddress(url.hostname)) {
-    throw new Error(`Refusing private IP address: ${url.hostname}`)
-  }
-
+  if (url.protocol !== 'https:') throw new Error(`Unsafe protocol: ${url.protocol}`)
+  if (url.username || url.password) throw new Error('Refusing URL with credentials')
+  if (isPrivateHostname(url.hostname)) throw new Error(`Private hostname: ${url.hostname}`)
+  if (isIP(url.hostname) && isPrivateIpAddress(url.hostname)) throw new Error(`Private IP: ${url.hostname}`)
   if (!isIP(url.hostname)) {
     const resolved = await lookup(url.hostname, { all: true })
-    if (!resolved.length) {
-      throw new Error(`Could not resolve hostname: ${url.hostname}`)
-    }
-
+    if (!resolved.length) throw new Error(`Cannot resolve: ${url.hostname}`)
     for (const entry of resolved) {
-      if (isPrivateIpAddress(entry.address)) {
-        throw new Error(`Hostname resolves to private IP: ${url.hostname}`)
-      }
+      if (isPrivateIpAddress(entry.address)) throw new Error(`Resolves to private IP: ${url.hostname}`)
     }
   }
-
   return url
 }
 
-async function fetchTextWithValidation(
-  rawUrl: string,
-  transform?: (html: string) => string
-): Promise<string> {
-  let currentUrl = await assertSafeRemoteUrl(rawUrl)
+async function fetchTextWithValidation(rawUrl: string, transform?: (html: string) => string): Promise<string> {
+  let currentUrl: URL
+  try {
+    currentUrl = await assertSafeRemoteUrl(rawUrl)
+  } catch {
+    return ''
+  }
 
-  for (let redirectCount = 0; redirectCount < 4; redirectCount++) {
+  for (let i = 0; i < 4; i++) {
     try {
       const res = await fetch(currentUrl, {
         signal: AbortSignal.timeout(10000),
         headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MyAIMatch/1.0; +https://myaimatch.ai)' },
         redirect: 'manual',
       })
-
       if (res.status >= 300 && res.status < 400) {
         const location = res.headers.get('location')
         if (!location) return ''
         currentUrl = await assertSafeRemoteUrl(new URL(location, currentUrl).toString())
         continue
       }
-
       if (!res.ok) return ''
-
       const text = await res.text()
       return transform ? transform(text) : text
     } catch {
       return ''
     }
   }
-
   return ''
 }
 
-function normalizeEnum(value: unknown, allowedValues: Set<string>): string | null {
+// ─── Normalizers ──────────────────────────────────────────────────────────────
+function normalizeEnum(value: unknown, allowed: Set<string>): string | null {
   if (typeof value !== 'string') return null
-  const normalized = value.trim()
-  return allowedValues.has(normalized) ? normalized : null
+  const v = value.trim()
+  return allowed.has(v) ? v : null
 }
 
 function normalizeBoolean(value: unknown): boolean | null {
@@ -200,164 +196,44 @@ function normalizeNumber(value: unknown, opts: { min?: number; max?: number } = 
   return value
 }
 
-function normalizeStringArray(value: unknown, allowedValues?: Set<string>): string[] | null {
-  if (!Array.isArray(value)) return null
+function normalizeString(value: unknown, maxLen = 5000): string | null {
+  if (typeof value !== 'string') return null
+  const v = value.trim()
+  return v ? v.slice(0, maxLen) : null
+}
 
+function normalizeStringArray(value: unknown, allowed?: Set<string>): string[] | null {
+  if (!Array.isArray(value)) return null
   const cleaned = value
     .filter((item): item is string => typeof item === 'string')
     .map((item) => item.trim())
     .filter(Boolean)
-    .filter((item, index, array) => array.indexOf(item) === index)
-    .filter((item) => !allowedValues || allowedValues.has(item))
-
+    .filter((item, idx, arr) => arr.indexOf(item) === idx)
+    .filter((item) => !allowed || allowed.has(item))
   return cleaned.length ? cleaned : null
 }
 
-function sanitizeEnrichedData(data: unknown): EnrichedData | null {
+function sanitize(data: unknown): EnrichedData | null {
   if (!data || typeof data !== 'object') return null
-
-  const candidate = data as Record<string, unknown>
-
+  const c = data as Record<string, unknown>
   return {
-    support_languages: normalizeStringArray(candidate.support_languages),
-    ui_languages: normalizeStringArray(candidate.ui_languages),
-    founded_year: normalizeNumber(candidate.founded_year, { min: 1950, max: new Date().getFullYear() + 1 }),
-    has_free_plan: normalizeBoolean(candidate.has_free_plan),
-    trial_days: normalizeNumber(candidate.trial_days, { min: 0, max: 365 }),
-    best_for: normalizeEnum(candidate.best_for, ALLOWED_BEST_FOR),
-    has_api: normalizeBoolean(candidate.has_api),
-    integrations: normalizeStringArray(candidate.integrations, ALLOWED_INTEGRATIONS),
-    company_hq: normalizeEnum(candidate.company_hq, ALLOWED_COMPANY_HQ),
-    employee_count: normalizeEnum(candidate.employee_count, ALLOWED_EMPLOYEE_COUNT),
-    gdpr_compliant: normalizeBoolean(candidate.gdpr_compliant),
-    has_mobile_app: normalizeBoolean(candidate.has_mobile_app),
-    soc2_certified: normalizeBoolean(candidate.soc2_certified),
-  }
-}
-
-// ─── Language Hints Extractor ─────────────────────────────────────────────────
-const ISO_TO_LANG: Record<string, string> = {
-  en: 'English', es: 'Spanish', fr: 'French', de: 'German', pt: 'Portuguese',
-  it: 'Italian', nl: 'Dutch', ru: 'Russian', ja: 'Japanese', zh: 'Chinese',
-  ko: 'Korean', ar: 'Arabic', hi: 'Hindi', pl: 'Polish', sv: 'Swedish',
-  da: 'Danish', fi: 'Finnish', no: 'Norwegian', tr: 'Turkish', th: 'Thai',
-  vi: 'Vietnamese', id: 'Indonesian', cs: 'Czech', ro: 'Romanian', uk: 'Ukrainian',
-  he: 'Hebrew', hu: 'Hungarian', el: 'Greek', bg: 'Bulgarian', hr: 'Croatian',
-}
-
-function isoToName(code: string): string {
-  const base = code.split(/[-_]/)[0].toLowerCase()
-  return ISO_TO_LANG[base] || code
-}
-
-interface LanguageHints {
-  htmlLang: string | null
-  hreflangs: string[]
-  ogLocales: string[]
-}
-
-function extractLanguageHints(html: string): LanguageHints {
-  // <html lang="en"> or <html xml:lang="en">
-  const langMatch = html.match(/<html[^>]+(?:xml:)?lang=["']([^"']+)["']/i)
-  const htmlLang = langMatch ? isoToName(langMatch[1]) : null
-
-  // <link rel="alternate" hreflang="es" href="...">
-  const hreflangs: string[] = []
-  const hreflangRegex = /hreflang=["']([a-z]{2}(?:[-_][a-zA-Z]{2,4})?)["']/gi
-  let m: RegExpExecArray | null
-  while ((m = hreflangRegex.exec(html)) !== null) {
-    const lang = isoToName(m[1])
-    if (lang !== 'x-default' && !hreflangs.includes(lang)) hreflangs.push(lang)
-  }
-
-  // <meta property="og:locale" content="en_US"> and og:locale:alternate
-  const ogLocales: string[] = []
-  const ogRegex = /property=["']og:locale(?::alternate)?["'][^>]+content=["']([^"']+)["']/gi
-  while ((m = ogRegex.exec(html)) !== null) {
-    const lang = isoToName(m[1])
-    if (!ogLocales.includes(lang)) ogLocales.push(lang)
-  }
-  // Also match reversed attribute order: content before property
-  const ogRegex2 = /content=["']([^"']+)["'][^>]+property=["']og:locale(?::alternate)?["']/gi
-  while ((m = ogRegex2.exec(html)) !== null) {
-    const lang = isoToName(m[1])
-    if (!ogLocales.includes(lang)) ogLocales.push(lang)
-  }
-
-  return { htmlLang, hreflangs, ogLocales }
-}
-
-// ─── Language Research (Web Search) ───────────────────────────────────────────
-async function researchLanguages(
-  toolName: string,
-  websiteUrl: string,
-  languageHints: LanguageHints
-): Promise<{ support_languages: string[]; ui_languages: string[] }> {
-  const fallback = {
-    support_languages: [languageHints.htmlLang || 'English'],
-    ui_languages: [languageHints.htmlLang || 'English'],
-  }
-
-  const hintsText = [
-    languageHints.htmlLang ? `Page language: ${languageHints.htmlLang}` : null,
-    languageHints.hreflangs.length ? `hreflang tags found: ${languageHints.hreflangs.join(', ')}` : null,
-    languageHints.ogLocales.length ? `OG locales: ${languageHints.ogLocales.join(', ')}` : null,
-  ].filter(Boolean).join('\n')
-
-  const prompt = `Find ALL supported languages for the software tool "${toolName}" (${websiteUrl}).
-
-${hintsText ? `Known language signals from their website:\n${hintsText}\n` : ''}Search for "${toolName} supported languages" — check G2, Capterra, TrustRadius, official help docs, or documentation pages.
-
-Return ONLY valid JSON (no markdown, no extra text):
-{
-  "support_languages": ["English", "Spanish", ...],
-  "ui_languages": ["English", "Spanish", ...]
-}
-
-Rules:
-- support_languages: languages the product's customer support / help center is available in
-- ui_languages: languages the product interface / UI can be set to
-- Include ALL languages you can find evidence for — be thorough
-- Use full English names (e.g. "English" not "en", "Spanish" not "es")
-- If you cannot find specific info for one field, copy from the other (they often overlap)
-- At minimum return ["English"] if the product clearly operates in English`
-
-  try {
-    const response = await anthropic.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
-      tools: [{ type: 'web_search_20250305' as const, name: 'web_search', max_uses: 3 }],
-      messages: [{ role: 'user', content: prompt }],
-    })
-
-    // Find the last text block (after web search results)
-    const textBlock = response.content.filter(b => b.type === 'text').pop()
-    if (!textBlock || textBlock.type !== 'text') return fallback
-
-    let text = textBlock.text
-
-    // Extract JSON: try markdown code block first, then find raw JSON object
-    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/)
-    if (codeBlockMatch) {
-      text = codeBlockMatch[1].trim()
-    } else {
-      const jsonObjMatch = text.match(/\{[\s\S]*\}/)
-      if (jsonObjMatch) {
-        text = jsonObjMatch[0].trim()
-      } else {
-        // No JSON found — Claude returned plain text (no results from search)
-        return fallback
-      }
-    }
-
-    const parsed = JSON.parse(text) as { support_languages?: string[]; ui_languages?: string[] }
-    return {
-      support_languages: normalizeStringArray(parsed.support_languages)?.slice(0, 12) ?? fallback.support_languages,
-      ui_languages: normalizeStringArray(parsed.ui_languages)?.slice(0, 12) ?? fallback.ui_languages,
-    }
-  } catch (err) {
-    console.error(`  ⚠️  Language research error for ${toolName}:`, err)
-    return fallback
+    full_description: normalizeString(c.full_description, 5000),
+    short_description: normalizeString(c.short_description, 200),
+    pricing_summary: normalizeString(c.pricing_summary, 200),
+    best_for: normalizeEnum(c.best_for, ALLOWED_BEST_FOR),
+    has_free_plan: normalizeBoolean(c.has_free_plan),
+    gdpr_compliant: normalizeBoolean(c.gdpr_compliant),
+    founded_year: normalizeNumber(c.founded_year, { min: 1950, max: new Date().getFullYear() + 1 }),
+    employee_count: normalizeEnum(c.employee_count, ALLOWED_EMPLOYEE_COUNT),
+    community_reputation: normalizeNumber(c.community_reputation, { min: 0, max: 5 }),
+    has_api: normalizeBoolean(c.has_api),
+    has_mobile_app: normalizeBoolean(c.has_mobile_app),
+    soc2_certified: normalizeBoolean(c.soc2_certified),
+    trial_days: normalizeNumber(c.trial_days, { min: 0, max: 365 }),
+    company_hq: normalizeEnum(c.company_hq, ALLOWED_COMPANY_HQ),
+    integrations: normalizeStringArray(c.integrations, ALLOWED_INTEGRATIONS),
+    support_languages: normalizeStringArray(c.support_languages),
+    ui_languages: normalizeStringArray(c.ui_languages),
   }
 }
 
@@ -376,31 +252,38 @@ function htmlToText(html: string): string {
     .slice(0, 6000)
 }
 
-async function fetchRawHtml(url: string): Promise<string> {
-  return fetchTextWithValidation(url)
-}
-
-async function fetchPage(url: string): Promise<string> {
-  return fetchTextWithValidation(url, htmlToText)
-}
-
-async function fetchToolPages(websiteUrl: string): Promise<{ home: string; pricing: string; about: string; homeRawHtml: string }> {
+async function fetchToolPages(websiteUrl: string): Promise<{ home: string; pricing: string; about: string }> {
   const baseUrl = websiteUrl.replace(/\/$/, '')
-  const [home, pricing, about, homeRawHtml] = await Promise.all([
-    fetchPage(baseUrl),
-    fetchPage(`${baseUrl}/pricing`).then(t => t || fetchPage(`${baseUrl}/plans`)),
-    fetchPage(`${baseUrl}/about`).then(t => t || fetchPage(`${baseUrl}/company`).then(t2 => t2 || fetchPage(`${baseUrl}/about-us`))),
-    fetchRawHtml(baseUrl),
+  const [home, pricing, about] = await Promise.all([
+    fetchTextWithValidation(baseUrl, htmlToText),
+    fetchTextWithValidation(`${baseUrl}/pricing`, htmlToText).then(
+      (t) => t || fetchTextWithValidation(`${baseUrl}/plans`, htmlToText),
+    ),
+    fetchTextWithValidation(`${baseUrl}/about`, htmlToText).then(
+      (t) =>
+        t ||
+        fetchTextWithValidation(`${baseUrl}/company`, htmlToText).then(
+          (t2) => t2 || fetchTextWithValidation(`${baseUrl}/about-us`, htmlToText),
+        ),
+    ),
   ])
-  return { home, pricing, about, homeRawHtml }
+  return { home, pricing, about }
 }
 
 // ─── Claude Extractor ─────────────────────────────────────────────────────────
+function extractJson(text: string): string | null {
+  const codeBlock = text.match(/```(?:json)?\s*([\s\S]*?)```/)
+  if (codeBlock) return codeBlock[1].trim()
+  const obj = text.match(/\{[\s\S]*\}/)
+  return obj ? obj[0].trim() : null
+}
+
 async function extractWithClaude(
   toolName: string,
   websiteUrl: string,
-  pages: { home: string; pricing: string; about: string }
-): Promise<Omit<EnrichedData, 'support_languages' | 'ui_languages'> | null> {
+  pages: { home: string; pricing: string; about: string },
+  attempt = 1,
+): Promise<EnrichedData | null> {
   const prompt = `You are extracting structured data about an AI software tool from its website.
 
 Tool name: ${toolName}
@@ -418,102 +301,125 @@ ${pages.about || '(not available)'}
 Extract these fields and return ONLY valid JSON (no markdown, no extra text):
 
 {
-  "founded_year": 2021,
+  "full_description": "150-250 words describing what this tool does, who it's for, key features and standout capabilities. Plain prose, no marketing fluff.",
+  "short_description": "Single sentence, max 120 chars",
+  "pricing_summary": "Short format: 'Free / $X-Y/mo / Custom' or similar concise pricing range",
+  "best_for": "Solo | Small Team | Mid-Market | Enterprise | All",
   "has_free_plan": true,
-  "trial_days": 14,
-  "best_for": "Small Team",
+  "gdpr_compliant": true,
+  "founded_year": 2021,
+  "employee_count": "1-10 | 11-50 | 51-200 | 200+",
+  "community_reputation": 4.5,
   "has_api": true,
-  "integrations": ["Zapier", "Slack"],
-  "company_hq": "USA",
-  "employee_count": "11-50",
-  "gdpr_compliant": false,
   "has_mobile_app": false,
-  "soc2_certified": false
+  "soc2_certified": false,
+  "trial_days": 14,
+  "company_hq": "USA | EU | UK | Canada | LATAM | Asia | Other",
+  "integrations": ["Zapier", "Slack"],
+  "support_languages": ["English", "Spanish"],
+  "ui_languages": ["English"]
 }
 
 Rules:
-- Return null for any field you cannot determine with confidence
-- trial_days: 0 if no trial, null if unknown
-- best_for: one of exactly: Solo, Small Team, Mid-Market, Enterprise, All
-- integrations: only from this list: Zapier, Slack, Make, Google Workspace, HubSpot, Notion, Stripe, Other
-- company_hq: one of exactly: USA, EU, UK, Canada, LATAM, Asia, Other
-- employee_count: one of exactly: 1-10, 11-50, 51-200, 200+`
+- Return null for any field you cannot determine with confidence.
+- full_description: REQUIRED, 150-250 words. Describe the product clearly.
+- short_description: REQUIRED, single sentence under 120 chars.
+- pricing_summary: short summary string, not a list.
+- community_reputation: 0-5 if you have evidence (G2, Capterra). null otherwise.
+- integrations: only from this whitelist: Zapier, Slack, Make, Google Workspace, HubSpot, Notion, Stripe, Other.
+- Use full English language names ("English", not "en").`
 
   try {
     const response = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 512,
+      max_tokens: 1500,
       messages: [{ role: 'user', content: prompt }],
     })
-    let text = response.content[0].type === 'text' ? response.content[0].text : ''
-
-    // Extract JSON from markdown code blocks if present
-    const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/)
-    if (jsonMatch) {
-      text = jsonMatch[1].trim()
-    }
-
-    return sanitizeEnrichedData(JSON.parse(text))
+    const textBlock = response.content.find((b) => b.type === 'text')
+    if (!textBlock || textBlock.type !== 'text') return null
+    const json = extractJson(textBlock.text)
+    if (!json) return null
+    return sanitize(JSON.parse(json))
   } catch (err) {
-    console.error(`  ⚠️  Claude parse error for ${toolName}:`, err)
+    if (attempt < 2) {
+      console.log(`  ↻ retry ${attempt + 1}/2`)
+      return extractWithClaude(toolName, websiteUrl, pages, attempt + 1)
+    }
+    console.error(`  ⚠️  Claude error for ${toolName}:`, err)
     return null
   }
 }
 
-// ─── Airtable I/O ─────────────────────────────────────────────────────────────
-async function readToolsFromAirtable(): Promise<ToolRecord[]> {
-  const tools: ToolRecord[] = []
-  await new Promise<void>((resolve, reject) => {
-    base('Tools')
-      .select({
-        filterByFormula: `{Status} = "Active"`,
-        fields: ['Name', 'Website URL'],
-      })
-      .eachPage(
-        (records, fetchNextPage) => {
-          for (const r of records) {
-            const name = r.fields['Name'] as string | undefined
-            const url = r.fields['Website URL'] as string | undefined
-            if (name && url) tools.push({ id: r.id, name, websiteUrl: url })
-          }
-          fetchNextPage()
-        },
-        err => (err ? reject(err) : resolve())
-      )
-  })
-  return tools
+// ─── Clearbit Logo ────────────────────────────────────────────────────────────
+function buildLogoUrl(websiteUrl: string): string | null {
+  try {
+    const domain = new URL(websiteUrl).hostname.replace(/^www\./, '')
+    return `https://logo.clearbit.com/${domain}`
+  } catch {
+    return null
+  }
 }
 
-function buildAirtableFields(data: EnrichedData): Record<string, unknown> {
-  const fields: Record<string, unknown> = {}
-  if (data.support_languages !== null) fields['Support Languages'] = data.support_languages
-  if (data.ui_languages !== null) fields['UI Languages'] = data.ui_languages
-  if (data.founded_year !== null) fields['Founded Year'] = data.founded_year
-  if (data.has_free_plan !== null) fields['Has Free Plan'] = data.has_free_plan
-  if (data.trial_days !== null) fields['Trial Days'] = data.trial_days
-  if (data.best_for !== null) fields['Best For'] = data.best_for
-  if (data.has_api !== null) fields['Has API'] = data.has_api
-  if (data.integrations !== null) fields['Integrations'] = data.integrations
-  if (data.company_hq !== null) fields['Company HQ'] = data.company_hq
-  if (data.employee_count !== null) fields['Employee Count'] = data.employee_count
-  if (data.gdpr_compliant !== null) fields['GDPR Compliant'] = data.gdpr_compliant
-  if (data.has_mobile_app !== null) fields['Has Mobile App'] = data.has_mobile_app
-  if (data.soc2_certified !== null) fields['SOC2 Certified'] = data.soc2_certified
-  return fields
+// ─── Supabase I/O ─────────────────────────────────────────────────────────────
+async function readToolsFromSupabase(supabase: SupabaseClient): Promise<ToolRecord[]> {
+  let query = supabase
+    .from('tools')
+    .select('id, name, slug, website_url')
+    .eq('status', 'active')
+    .order('name', { ascending: true })
+
+  if (SLUGS && SLUGS.length) query = query.in('slug', SLUGS)
+
+  const { data, error } = await query
+  if (error) throw new Error(`Supabase read failed: ${error.message}`)
+
+  return (data ?? [])
+    .filter((r): r is { id: string; name: string; slug: string; website_url: string } =>
+      Boolean(r.id && r.name && r.slug && r.website_url),
+    )
+    .map((r) => ({ id: r.id, name: r.name, slug: r.slug, websiteUrl: r.website_url }))
 }
 
-async function updateAirtableRecord(recordId: string, fields: Record<string, unknown>): Promise<void> {
-  if (Object.keys(fields).length === 0) return
-  await base('Tools').update(recordId, fields as Airtable.FieldSet)
+function buildUpdate(data: EnrichedData, logoUrl: string | null): Record<string, unknown> {
+  const u: Record<string, unknown> = { last_enriched_at: new Date().toISOString() }
+  if (data.full_description) u.full_description = data.full_description
+  if (data.short_description) u.short_description = data.short_description
+  if (data.pricing_summary) u.pricing_summary = data.pricing_summary
+  if (data.best_for) u.best_for = data.best_for
+  if (data.has_free_plan !== null) u.has_free_plan = data.has_free_plan
+  if (data.gdpr_compliant !== null) u.gdpr_compliant = data.gdpr_compliant
+  if (data.founded_year !== null) u.founded_year = data.founded_year
+  if (data.employee_count) u.employee_count = data.employee_count
+  if (data.community_reputation !== null) u.community_reputation = data.community_reputation
+  if (data.has_api !== null) u.has_api = data.has_api
+  if (data.has_mobile_app !== null) u.has_mobile_app = data.has_mobile_app
+  if (data.soc2_certified !== null) u.soc2_certified = data.soc2_certified
+  if (data.trial_days !== null) u.trial_days = data.trial_days
+  if (data.company_hq) u.company_hq = data.company_hq
+  if (data.integrations) u.integrations = data.integrations
+  if (data.support_languages) u.support_languages = data.support_languages
+  if (data.ui_languages) u.ui_languages = data.ui_languages
+  if (logoUrl) u.logo_url = logoUrl
+  return u
+}
+
+async function updateToolInSupabase(
+  supabase: SupabaseClient,
+  toolId: string,
+  update: Record<string, unknown>,
+): Promise<void> {
+  const { error } = await supabase.from('tools').update(update).eq('id', toolId)
+  if (error) throw new Error(`Supabase update failed: ${error.message}`)
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((r) => setTimeout(r, ms))
 }
 
 async function main() {
-  const tools = await readToolsFromAirtable()
+  const supabase = getSupabase()
+  const tools = await readToolsFromSupabase(supabase)
   const toProcess = tools.slice(0, LIMIT === Infinity ? tools.length : LIMIT)
 
   console.log(`Processing ${toProcess.length} of ${tools.length} tools...\n`)
@@ -526,44 +432,33 @@ async function main() {
     const tool = toProcess[i]
     const progress = `[${i + 1}/${toProcess.length}]`
 
-    process.stdout.write(`${progress} ${tool.name} ... `)
+    process.stdout.write(`${progress} ${tool.name} (${tool.slug}) ... `)
 
     try {
-      await assertSafeRemoteUrl(tool.websiteUrl)
-      const { home, pricing, about, homeRawHtml } = await fetchToolPages(tool.websiteUrl)
+      const pages = await fetchToolPages(tool.websiteUrl)
 
-      if (!home && !pricing && !about) {
+      if (!pages.home && !pages.pricing && !pages.about) {
         console.log('⚠️  no pages fetched, skipped')
         skipped++
         continue
       }
 
-      const languageHints = extractLanguageHints(homeRawHtml)
-
-      // Run language research (web search) and general extraction in parallel
-      const [langData, generalData] = await Promise.all([
-        researchLanguages(tool.name, tool.websiteUrl, languageHints),
-        extractWithClaude(tool.name, tool.websiteUrl, { home, pricing, about }),
-      ])
-
-      const data: EnrichedData | null = generalData
-        ? { support_languages: langData.support_languages, ui_languages: langData.ui_languages, ...generalData }
-        : null
-
+      const data = await extractWithClaude(tool.name, tool.websiteUrl, pages)
       if (!data) {
         console.log('⚠️  Claude returned null, skipped')
         skipped++
         continue
       }
 
-      const fields = buildAirtableFields(data)
-      const fieldCount = Object.keys(fields).length
+      const logoUrl = buildLogoUrl(tool.websiteUrl)
+      const update = buildUpdate(data, logoUrl)
+      const fieldCount = Object.keys(update).length - 1 // minus last_enriched_at
 
       if (DRY_RUN) {
         console.log(`✅ dry-run (${fieldCount} fields)`)
-        console.log('   ', JSON.stringify(data))
+        console.log('   ', JSON.stringify({ ...data, logo_url: logoUrl }))
       } else {
-        await updateAirtableRecord(tool.id, fields)
+        await updateToolInSupabase(supabase, tool.id, update)
         console.log(`✅ updated (${fieldCount} fields)`)
         updated++
       }
@@ -572,7 +467,6 @@ async function main() {
       failed++
     }
 
-    // Rate limit: 2.5s between tools to respect Airtable + Claude + web search limits
     if (i < toProcess.length - 1) await sleep(2500)
   }
 
@@ -583,4 +477,7 @@ async function main() {
   console.log(`─────────────────────────────────\n`)
 }
 
-main().catch(console.error)
+main().catch((err) => {
+  console.error(err)
+  process.exit(1)
+})
