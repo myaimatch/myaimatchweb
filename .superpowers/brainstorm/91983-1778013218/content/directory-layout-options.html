@@ -1,0 +1,87 @@
+<h2>How should users browse the outcome-based directory?</h2>
+<p class="subtitle">Pick the interaction model that feels closest to the product you want. The labels use the 121-tool Supabase inventory as the baseline.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Outcome cards | Search | Filters</div>
+      <div class="mockup-body" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px">
+        <div class="placeholder" style="height:74px">Create Content<br><small>Writing, video, design</small></div>
+        <div class="placeholder" style="height:74px">Automate Workflows<br><small>Email, ops, handoffs</small></div>
+        <div class="placeholder" style="height:74px">Analyze & Decide<br><small>Research, data, insights</small></div>
+        <div class="placeholder" style="height:74px">Communicate<br><small>Chat, voice, support</small></div>
+        <div class="placeholder" style="height:74px">Build & Develop<br><small>Code, testing, websites</small></div>
+        <div class="placeholder" style="height:74px">Sell & Convert<br><small>CRM, funnels, ecommerce</small></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Outcome Gateway</h3>
+      <p>First users choose an outcome card, then the existing directory table narrows to that outcome and its sub-outcomes.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">Search tools by what you want to achieve</div>
+      <div class="mockup-body" style="display:grid;grid-template-columns:220px 1fr;gap:12px;padding:14px">
+        <div class="mock-sidebar">
+          Create Content<br>
+          Automate Workflows<br>
+          Analyze & Decide<br>
+          Communicate<br>
+          Build & Develop<br>
+          Sell & Convert
+        </div>
+        <div class="mock-content">
+          <div class="placeholder" style="height:46px">Outcome summary + sub-outcome chips</div>
+          <div class="placeholder" style="height:38px">Best matches row</div>
+          <div class="placeholder" style="height:38px">Tool comparison table</div>
+          <div class="placeholder" style="height:38px">Filters: budget, role, integrations</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Directory Command Center</h3>
+      <p>A persistent outcome rail drives the table, featured matches, search, and filters in one dense workspace.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock-nav">/outcomes/create-content</div>
+      <div class="mockup-body" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px">
+        <div class="mock-content">
+          <div class="placeholder" style="height:52px">Outcome page intro</div>
+          <div class="placeholder" style="height:44px">Top sub-outcomes</div>
+          <div class="placeholder" style="height:44px">Recommended stack CTA</div>
+        </div>
+        <div class="mock-content">
+          <div class="placeholder" style="height:38px">Top tools</div>
+          <div class="placeholder" style="height:38px">Comparison snippets</div>
+          <div class="placeholder" style="height:38px">Related outcomes</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. SEO Outcome Pages</h3>
+      <p>Each outcome gets its own landing/detail page with top tools, sub-outcomes, and links into the full directory.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Recommendation</h4>
+    <ul>
+      <li>B for the main directory experience.</li>
+      <li>C later for SEO pages once categories are stable.</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Why not only A?</h4>
+    <ul>
+      <li>It is simple, but adds an extra step before users see tools.</li>
+      <li>It keeps the current table feeling like the main product.</li>
+    </ul>
+  </div>
+</div>

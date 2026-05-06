@@ -1,0 +1,13 @@
+import puppeteer from 'puppeteer';
+import fs from 'fs';
+const url = process.argv[2];
+const label = process.argv[3] || 'mobile';
+const browser = await puppeteer.launch({ headless: true });
+const page = await browser.newPage();
+await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2 });
+await page.goto(url, { waitUntil: 'networkidle2' });
+await new Promise(r => setTimeout(r, 600));
+const out = `./temporary screenshots/sec-${label}.png`;
+await page.screenshot({ path: out, fullPage: true });
+await browser.close();
+console.log(out);

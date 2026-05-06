@@ -1,0 +1,199 @@
+Ready for review
+Select text to add comments on the plan
+Plan: Decommission Airtable + Enriquecer 4 tools (test) + Mejorar Supabase
+Contexto
+El usuario quiere eliminar Airtable y dejar Supabase como única fuente de verdad. Diagnóstico:
+
+Directorio vacío = data vacía, no bug de UI. Los 119 tools tienen full_description='', pricing_summary='', best_for='', logo_url='', has_free_plan=false, gdpr_compliant=false (todos en defaults).
+Airtable sigue acoplado al repo (package npm, 2 scripts, env vars, tipos legacy AirtableTool).
+Mejoras pendientes en Supabase (advisors): is_admin() expuesto a anon/authenticated, 15 FKs sin índice, 30+ políticas RLS duplicadas.
+Decisiones del usuario
+Logos: Clearbit URLs (logo.clearbit.com/{domain})
+Enrichment scope: solo 4 tools de prueba (Bill, Zapier, Cassidy AI, Ramp) → validar calidad antes de scale
+Zapier: dejar para después de la migración
+Tags: skip por ahora (no agregar columna)
+Fase 1 — Decommission Airtable del código
+El wrapper src/lib/airtable.ts ya delega a Supabase, así que es trabajo cosmético + borrar lo no usado.
+
+Cambios:
+
+Renombrar src/lib/airtable.ts → src/lib/catalog.ts (mantiene mismas funciones).
+En src/lib/tool-types.ts renombrar tipos:
+AirtableTool → Tool
+AirtableCategory → Category
+Mantener alias temporales export type AirtableTool = Tool para no romper imports externos.
+Actualizar imports en:
+src/app/page.tsx
+src/app/deals/page.tsx
+src/app/services/ai-coaching/page.tsx
+src/components/DirectoryClient.tsx
+Borrar scripts/migrate-airtable-to-supabase.ts (one-shot, ya corrió).
+Reescribir scripts/enrich-tools.ts → ver Fase 2.
+En package.json:
+Quitar "airtable": "^0.12.2" de dependencies.
+Quitar scripts migrate:affiliate-os:dry, migrate:affiliate-os (legacy import).
+Mantener enrich, enrich:dry pero ahora apuntan al script reescrito que escribe a Supabase.
+Correr npm install para regenerar lockfile.
+Borrar de .env.example y .env.local: AIRTABLE_API_KEY, AIRTABLE_BASE_ID. Borrar también de Vercel env vars.
+Mover .claude/context/airtable-setup.md y .claude/context/airtable-schema.md a .claude/context/_archive/ (mantener como referencia histórica).
+npm run build + npm run lint → verificar nada se rompió.
+Fase 2 — Reescribir enrich-tools.ts para Supabase + enriquecer 4 tools
+El script actual usa Anthropic Claude y escribe a Airtable. Reescribirlo así:
+
+Lectura:
+
+const supabase = getSupabaseAdminClient();
+const { data: tools } = await supabase
+  .from("tools")
+  .select("id, name, slug, website_url, full_description, pricing_summary, best_for")
+  .eq("status", "active")
+  .in("slug", ["bill", "zapier", "cassidy-ai", "ramp"]); // CLI flag --slugs
+Prompt a Claude (mantener el existente, ajustar output schema):
+
+{
+  "full_description": "150-250 palabras, qué hace, para quién, key features",
+  "short_description": "1 oración, max 120 chars",
+  "pricing_summary": "Free / $X-Y/mo / Custom — formato corto",
+  "best_for": "Solo / Team / SMB / Enterprise",
+  "has_free_plan": true,
+  "gdpr_compliant": true,
+  "founded_year": 2023,
+  "employee_count": "1-10 / 11-50 / 51-200 / 200+",
+  "community_reputation": 4.5,
+  "logo_url": "https://logo.clearbit.com/{domain extraído de website_url}"
+}
+Escritura:
+
+await supabase.from("tools").update({
+  full_description, short_description, pricing_summary, best_for,
+  has_free_plan, gdpr_compliant, founded_year, employee_count,
+  community_reputation, logo_url,
+  last_enriched_at: new Date().toISOString(),
+}).eq("id", tool.id);
+Logos vía Clearbit:
+
+const domain = new URL(tool.website_url).hostname.replace(/^www\./, "");
+const logoUrl = `https://logo.clearbit.com/${domain}`;
+No requiere llamar a Claude — se computa local. Funciona sin API key, gratis.
+
+CLI:
+
+npm run enrich:dry -- --slugs=bill,zapier,cassidy-ai,ramp → preview, log a stdout, no escribe BD.
+npm run enrich -- --slugs=bill,zapier,cassidy-ai,ramp → aplica.
+Verificación: query Supabase post-run debe mostrar los 4 tools con todos los campos llenos.
+
+Después de validar calidad en producción → en runs futuros: npm run enrich -- --all para los 115 restantes.
+
+Fase 3 — Mejoras Supabase
+Aplicar via mcp__plugin_supabase_supabase__apply_migration con archivo nuevo: supabase/migrations/202605051600_post_decommission_improvements.sql
+
+A. Security — fix is_admin() (advisor link):
+
+revoke execute on function public.is_admin() from anon, authenticated;
+B. Performance — índices en 15 FKs huérfanas:
+
+create index if not exists affiliate_links_program_idx on affiliate_links(affiliate_program_id);
+create index if not exists affiliate_programs_tool_idx on affiliate_programs(tool_id);
+create index if not exists agent_findings_tool_idx on agent_findings(tool_id);
+create index if not exists assessment_recs_assessment_idx on assessment_recommendations(assessment_id);
+create index if not exists assessment_recs_tool_idx on assessment_recommendations(tool_id);
+create index if not exists assessment_recs_link_idx on assessment_recommendations(affiliate_link_id);
+create index if not exists assessment_recs_deal_idx on assessment_recommendations(deal_id);
+create index if not exists assessments_lead_idx on assessments(lead_id);
+create index if not exists click_events_link_idx on click_events(affiliate_link_id);
+create index if not exists click_events_deal_idx on click_events(deal_id);
+create index if not exists click_events_rec_idx on click_events(assessment_recommendation_id);
+create index if not exists deals_link_idx on deals(affiliate_link_id);
+create index if not exists revenue_link_idx on revenue_events(affiliate_link_id);
+create index if not exists revenue_program_idx on revenue_events(affiliate_program_id);
+create index if not exists revenue_tool_idx on revenue_events(tool_id);
+C. Performance — consolidar RLS duplicadas:
+
+En tools, categories, deals, affiliate_links, tool_categories hay dos políticas SELECT (admin + public) que se evalúan ambas en cada query. Reemplazar:
+
+drop policy if exists "admins manage tools" on tools;
+drop policy if exists "public can read active tools" on tools;
+create policy "tools_select" on tools for select
+  using (status = 'active' or public.is_admin());
+create policy "tools_write" on tools for all
+  using (public.is_admin()) with check (public.is_admin());
+Repetir el patrón para categories, deals, affiliate_links, tool_categories.
+
+→ Reduce overhead RLS a la mitad en queries del directorio.
+
+D. Nuevos campos útiles en tools (sin tags):
+
+alter table tools
+  add column if not exists last_enriched_at timestamptz,
+  add column if not exists featured_priority int default 0,
+  add column if not exists search_tsv tsvector
+    generated always as (
+      to_tsvector('english',
+        coalesce(name,'') || ' ' ||
+        coalesce(short_description,'') || ' ' ||
+        coalesce(full_description,'') || ' ' ||
+        coalesce(best_for,''))
+    ) stored;
+
+create index if not exists tools_search_tsv_idx on tools using gin(search_tsv);
+create index if not exists tools_featured_idx on tools(featured_priority desc) where status='active';
+→ search_tsv habilita full-text search rápido en el directorio (ej: where search_tsv @@ plainto_tsquery('email automation')).
+
+E. Skipped en esta ronda:
+
+tags text[] — usuario decidió skip.
+Borrar índices nunca usados — son recientes, dales tiempo.
+Leaked password protection — magic-link only, no aplica.
+Fase 4 — Git + deploy
+Trabajar en dev. Commits separados por fase:
+
+chore: remove airtable, rename module to catalog
+feat: rewrite enrich-tools to write directly to supabase
+feat(db): security fix, fk indexes, rls consolidation, search_tsv
+feat(data): enrich 4 test tools (bill, zapier, cassidy-ai, ramp)
+Después:
+
+npm run build (cada commit).
+PR dev → main, merge.
+Vercel deploy automático.
+Correr npm run enrich -- --slugs=bill,zapier,cassidy-ai,ramp desde local (apuntando a producción Supabase via .env.local).
+Fase 5 (después, no en este sprint) — Auditoría Zapier
+Volver al MCP de Zapier para revisar mappings (role, business_type, team_size) y validar el zap end-to-end. Diferido por decisión del usuario.
+
+Verificación end-to-end
+Test	Esperado
+npm run build después de Fase 1	Sin errores TS
+grep -r "from \"airtable\"" src scripts	Sin matches
+grep -r "AIRTABLE_" src scripts .env.example	Sin matches
+npm run enrich -- --slugs=bill,zapier,cassidy-ai,ramp	4 tools con campos llenos
+Query: select name, length(full_description), logo_url from tools where slug in ('bill','zapier','cassidy-ai','ramp')	length > 100, logo_url con clearbit.com
+Visitar / en producción	Cards de Bill, Zapier, Cassidy AI, Ramp con descripción + logo
+Re-correr get_advisors security	Warning de is_admin desaparece
+Test FTS: select name from tools where search_tsv @@ plainto_tsquery('email')	Devuelve tools relevantes
+Riesgos y mitigaciones
+Riesgo	Mitigación
+Romper imports al renombrar airtable.ts	Mantener alias export type AirtableTool = Tool temporalmente
+Clearbit no tiene logo del tool	Fallback en UI: mostrar iniciales si logo_url no carga (onError)
+Migration RLS deja a admins sin acceso	Probar primero con apply_migration; si falla, rollback con drop policy ... create policy ...
+Enrichment de Claude devuelve JSON inválido	El parser ya tolera code fences; agregar try/catch con retry x2
+Archivos modificados
+Renombrar: src/lib/airtable.ts → src/lib/catalog.ts
+
+Editar:
+
+src/lib/tool-types.ts
+src/app/page.tsx, src/app/deals/page.tsx, src/app/services/ai-coaching/page.tsx
+src/components/DirectoryClient.tsx
+package.json, package-lock.json
+.env.example, .env.local
+scripts/enrich-tools.ts (rewrite completo)
+Borrar:
+
+scripts/migrate-airtable-to-supabase.ts
+Mover a archive:
+
+.claude/context/airtable-setup.md
+.claude/context/airtable-schema.md
+Crear:
+
+supabase/migrations/202605051600_post_decommission_improvements.sql

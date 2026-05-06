@@ -1,0 +1,14 @@
+import puppeteer from 'puppeteer';
+const url = process.argv[2];
+const scrollY = parseInt(process.argv[3] || '0', 10);
+const label = process.argv[4] || 'section';
+const browser = await puppeteer.launch({ headless: true });
+const page = await browser.newPage();
+await page.setViewport({ width: 1440, height: 900 });
+await page.goto(url, { waitUntil: 'networkidle2' });
+await page.evaluate((y) => window.scrollTo(0, y), scrollY);
+await new Promise(r => setTimeout(r, 600));
+const out = `./temporary screenshots/sec-${label}.png`;
+await page.screenshot({ path: out, fullPage: false });
+await browser.close();
+console.log(out);
