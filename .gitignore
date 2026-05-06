@@ -20,6 +20,10 @@ docs/references/
 # build cache
 tsconfig.tsbuildinfo
 
+# runtime enrichment backups
+data/enrichment-backups/
+data/enrichment-dry-runs/
+
 # claude project-local state
 .claude/memory/*
 !.claude/memory/.gitkeep
@@ -27,4 +31,5 @@ tsconfig.tsbuildinfo
 .claude/worktrees/
 CLAUDE.local.md
 .vercel
+supabase/.branches/
 supabase/.temp/
