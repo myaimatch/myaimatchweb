@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { VisionVideoButton } from "@/components/vision/VisionVideoButton";
 
 export const metadata: Metadata = {
   title: "myAImatch · Vision",
@@ -14,6 +15,7 @@ export default function VisionPage() {
       {/* ─────── Section 1 · Hero ─────── */}
       <section className="vision-hero">
         <div className="vision-hero-noise" aria-hidden="true" />
+        <VisionVideoButton />
         <div className="vision-shell vision-hero-inner">
           <span className="vision-pill">
             <span className="vision-pill-dot" />
@@ -679,6 +681,205 @@ const VISION_STYLES = `
     opacity: 0.034;
     mix-blend-mode: overlay;
     pointer-events: none;
+  }
+
+  .vision-video-launcher {
+    position: absolute;
+    top: 34px;
+    left: 50%;
+    z-index: 8;
+    width: min(680px, calc(100% - 32px));
+    transform: translateX(-50%);
+  }
+
+  .vision-video-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 62px;
+    padding: 10px 26px 10px 12px;
+    border: 1px solid rgba(196,181,253,0.28);
+    border-radius: 999px;
+    background:
+      radial-gradient(ellipse 64% 120% at 50% 120%, rgba(132,104,235,0.24), rgba(132,104,235,0)),
+      rgba(17,17,17,0.72);
+    color: #ffffff;
+    font-family: inherit;
+    cursor: pointer;
+    backdrop-filter: blur(18px);
+    overflow: hidden;
+    transform: translateY(0) scale(1);
+    transition:
+      transform 220ms cubic-bezier(0.22,1,0.36,1),
+      border-color 220ms ease,
+      background 220ms ease;
+  }
+
+  .vision-video-button::before {
+    content: "";
+    position: absolute;
+    left: 16%;
+    right: 16%;
+    bottom: -26px;
+    height: 54px;
+    border-radius: 999px;
+    background: radial-gradient(ellipse, rgba(132,104,235,0.36), rgba(132,104,235,0) 72%);
+    filter: blur(8px);
+    opacity: 0.72;
+    pointer-events: none;
+  }
+
+  .vision-video-button:hover {
+    transform: translateY(-2px) scale(1.01);
+    border-color: rgba(196,181,253,0.46);
+    background:
+      radial-gradient(ellipse 70% 130% at 50% 120%, rgba(132,104,235,0.34), rgba(132,104,235,0)),
+      rgba(17,17,17,0.82);
+  }
+
+  .vision-video-button:active {
+    transform: translateY(0) scale(0.985);
+  }
+
+  .vision-video-button:focus-visible,
+  .vision-video-close:focus-visible {
+    outline: 2px solid rgba(196,181,253,0.86);
+    outline-offset: 3px;
+  }
+
+  .vision-video-button-icon {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 auto;
+    border: 1px solid rgba(196,181,253,0.34);
+    border-radius: 999px;
+    background: linear-gradient(135deg, #8468EB, #5B42C3);
+    color: #ffffff;
+  }
+
+  .vision-video-button-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 12px;
+    min-width: 0;
+    color: rgba(255,255,255,0.9);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  .vision-video-button-copy strong {
+    color: rgba(196,181,253,0.86);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .vision-video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+  }
+
+  .vision-video-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 18%, rgba(132,104,235,0.24), rgba(0,0,0,0) 68%),
+      rgba(0,0,0,0.78);
+    cursor: pointer;
+    backdrop-filter: blur(16px);
+  }
+
+  .vision-video-panel {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, 100%);
+    border: 1px solid rgba(196,181,253,0.22);
+    border-radius: 18px;
+    background: rgba(17,17,17,0.94);
+    overflow: hidden;
+  }
+
+  .vision-video-panel::before {
+    content: "";
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: -58px;
+    height: 120px;
+    border-radius: 999px;
+    background: radial-gradient(ellipse, rgba(132,104,235,0.34), rgba(132,104,235,0) 70%);
+    filter: blur(12px);
+    pointer-events: none;
+  }
+
+  .vision-video-panel-head {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 60px;
+    padding: 12px 14px 12px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.74);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .vision-video-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.78);
+    cursor: pointer;
+    transform: scale(1);
+    transition:
+      transform 180ms cubic-bezier(0.22,1,0.36,1),
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .vision-video-close:hover {
+    transform: scale(1.06);
+    border-color: rgba(196,181,253,0.34);
+    color: #ffffff;
+  }
+
+  .vision-video-player {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000000;
   }
 
   .vision-hero-inner {
@@ -1606,7 +1807,39 @@ const VISION_STYLES = `
 
     .vision-hero {
       min-height: auto;
-      padding: 72px 0 64px;
+      padding: 108px 0 64px;
+    }
+
+    .vision-video-launcher {
+      top: 18px;
+      width: min(100% - 24px, 520px);
+    }
+
+    .vision-video-button {
+      min-height: 58px;
+      padding: 9px 18px 9px 10px;
+      gap: 10px;
+    }
+
+    .vision-video-button-copy {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .vision-video-button-copy strong {
+      font-size: 9px;
+      white-space: normal;
+    }
+
+    .vision-video-modal {
+      padding: 12px;
+    }
+
+    .vision-video-panel {
+      border-radius: 14px;
     }
 
     .vision-hero-title {
