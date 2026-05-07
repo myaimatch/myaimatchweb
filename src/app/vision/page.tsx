@@ -3,7 +3,7 @@ import { VisionVideoButton } from "@/components/vision/VisionVideoButton";
 
 export const metadata: Metadata = {
   title: "myAImatch · Vision",
-  description: "Internal proposal — the AI workflow brain ecosystem.",
+  description: "Internal proposal — myAI Navigator ecosystem.",
   robots: { index: false, follow: false },
 };
 
@@ -12,7 +12,7 @@ export default function VisionPage() {
     <div className="vision-root">
       <style dangerouslySetInnerHTML={{ __html: VISION_STYLES }} />
 
-      {/* ─────── Section 1 · Hero ─────── */}
+      {/* ─────── S1 · Hero ─────── */}
       <section className="vision-hero">
         <div className="vision-hero-noise" aria-hidden="true" />
         <VisionVideoButton />
@@ -24,12 +24,13 @@ export default function VisionPage() {
           <h1 className="vision-hero-title">
             myAImatch deja de ser un directorio.
             <br />
-            Se convierte en tu <span>AI workflow brain</span>.
+            Se convierte en tu <span>myAI Navigator</span>.
           </h1>
           <p className="vision-hero-body">
-            Una membresía mensual. Un <em>agent</em> que vive en tu computadora,
-            aprende tu día, y te dice qué <em>tools</em> y <em>workflows</em>{" "}
-            usar para ser <strong>10x más productivo</strong>.
+            Una membresía mensual. Un <em>agente</em> que vive en tu
+            computadora, aprende tu día, y te <em>mapea</em> los tools y
+            workflows exactos que deberías usar para ser{" "}
+            <strong>10x más productivo</strong>.
           </p>
           <div className="vision-hero-meta">
             <span><strong>Subscription</strong> + Affiliate + Services</span>
@@ -47,116 +48,48 @@ export default function VisionPage() {
         </div>
       </section>
 
-      {/* ─────── Section 2 · Ecosystem Diagram ─────── */}
+      {/* ─────── S2 · Ecosystem Diagram ─────── */}
       <section className="vision-ecosystem">
         <div className="vision-shell">
           <header className="vision-section-head">
             <span className="vision-label">02 · El ecosistema</span>
             <h2 className="vision-section-title">
-              Cómo el <span>workflow brain</span> conecta todo.
+              Cómo el <span>myAI Navigator</span> conecta todo.
             </h2>
             <p className="vision-section-body">
-              Cinco capas que se alimentan en loop: tu día se vuelve data, la
-              data se vuelve memory, la memory cruza con el catálogo vivo de
-              tools, y el resultado regresa a ti como recomendaciones que
-              ningún directorio estático puede dar.
+              Un loop continuo: tu día alimenta al agente, el agente entrena tu{" "}
+              <em>AI brain</em>, el brain cruza contra el catálogo vivo de tools,
+              y el resultado regresa a ti como un mapa personalizado que ningún
+              directorio estático puede generar.
             </p>
           </header>
 
-          <div className="vision-eco-canvas">
-            <div className="vision-eco-grid">
-              <div className="vision-eco-column">
-                <EcoNode
-                  index="01"
-                  kicker="INPUT"
-                  titleEn="Your daily workflow"
-                  titleEs="Tu día"
-                  body="clicks · apps · tareas · websites · transiciones · idle time"
-                  icon={<IconActivity />}
-                />
-                <Connector label="silent local capture" />
-                <EcoNode
-                  index="02"
-                  kicker="LOCAL"
-                  titleEn="myAImatch desktop agent"
-                  titleEs="El agente"
-                  body="Tauri · macOS / Win / Linux · encrypted on-device · sin keylogging"
-                  icon={<IconChip />}
-                  highlight
-                />
-                <Connector />
-                <EcoNode
-                  index="03"
-                  kicker="MEMORY"
-                  titleEn="Your personal AI brain"
-                  titleEs="Tu cerebro"
-                  body="memory persistente · context · patterns · improves week over week"
-                  icon={<IconBrain />}
-                  spotlight
-                />
-                <Connector label="continuous sync ↕" bidirectional />
-                <EcoNode
-                  index="04"
-                  kicker="LIVE"
-                  titleEn="myAImatch tool catalog"
-                  titleEs="El catálogo vivo"
-                  body="tools · news · docs · workflows · releases — la fuente más fresca"
-                  icon={<IconCatalog />}
-                  highlight
-                />
-                <Connector />
-                <EcoNode
-                  index="05"
-                  kicker="OUTPUT"
-                  titleEn="Monthly optimization report"
-                  titleEs="El reporte mensual"
-                  body='"instala X" · "automatiza Y" · "elimina Z" — específico para ti'
-                  icon={<IconReport />}
-                />
+          <div className="eco-outer">
+            <EcoDiagram />
+            <aside className="vision-moat-card" aria-label="Data moat highlight">
+              <span className="vision-moat-label">el moat</span>
+              <h3>First-hand workflow data</h3>
+              <p>
+                Ningún competidor tiene este <em>input</em>. Vinculado al
+                usuario individual, en tiempo real, anonimizable.
+              </p>
+              <div className="vision-moat-meta">
+                <span>· no se compra</span>
+                <span>· no se replica</span>
+                <span>· crece con cada usuario</span>
               </div>
-
-              <aside className="vision-moat-card" aria-label="Data moat highlight">
-                <span className="vision-moat-label">el moat</span>
-                <h3>First-hand workflow data</h3>
-                <p>
-                  Ningún competidor tiene este <em>input</em>. Vinculado al
-                  usuario individual, en tiempo real, anonimizable.
-                </p>
-                <div className="vision-moat-meta">
-                  <span>· no se compra</span>
-                  <span>· no se replica</span>
-                  <span>· crece con cada usuario</span>
-                </div>
-                <svg
-                  className="vision-moat-arrow"
-                  width="180"
-                  height="60"
-                  viewBox="0 0 180 60"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M170 30 C 130 30, 110 18, 60 22 L 18 30 M30 22 L 18 30 L 30 38"
-                    stroke="rgba(196,181,253,0.62)"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeDasharray="3 4"
-                  />
-                </svg>
-              </aside>
-            </div>
+            </aside>
           </div>
         </div>
       </section>
 
-      {/* ─────── Section 3 · How It Works ─────── */}
+      {/* ─────── S3 · How It Works ─────── */}
       <section className="vision-how">
         <div className="vision-shell">
           <header className="vision-section-head">
             <span className="vision-label">03 · Cómo funciona</span>
             <h2 className="vision-section-title">
-              Tres pasos. <span>Capture → learn → match.</span>
+              Así funciona. <span>Capture · Learn · Match.</span>
             </h2>
             <p className="vision-section-body">
               La ingeniería existe. Hay <em>precedentes claros</em> (RescueTime,
@@ -172,9 +105,10 @@ export default function VisionPage() {
               <h3>El agent corre en background.</h3>
               <p>
                 Registra señales del sistema operativo: apps activas, websites,
-                ventanas enfocadas, transiciones, tiempo idle. <strong>Local-first</strong>,
-                encriptado en tu disco. Sin keylogging, sin screenshots por
-                defecto. Tú decides qué se sincroniza.
+                ventanas enfocadas, transiciones, tiempo idle.{" "}
+                <strong>Local-first</strong>, encriptado en tu disco. Sin
+                keylogging, sin screenshots por defecto. Tú decides qué se
+                sincroniza.
               </p>
               <ul className="vision-how-bullets">
                 <li>Tauri (Rust + webview) — bundle &lt;15MB</li>
@@ -188,10 +122,10 @@ export default function VisionPage() {
               <span className="vision-how-kicker">Learn</span>
               <h3>El brain procesa patrones.</h3>
               <p>
-                Tu <em>personal AI brain</em> identifica cuándo eres más
-                productivo, qué tools usas mal, en qué tarea pierdes 40 min al
-                día. <strong>Memory persistente</strong> — la versión del mes 6
-                no se parece a la del día uno.
+                Tu <em>AI brain</em> identifica cuándo eres más productivo, qué
+                tools usas mal, en qué tarea pierdes 40 min al día.{" "}
+                <strong>Mes 6 es radicalmente diferente a Día 1</strong> — la
+                memoria persiste, los patrones se refinan semana a semana.
               </p>
               <ul className="vision-how-bullets">
                 <li>Vector store local (sqlite-vec / lancedb)</li>
@@ -205,13 +139,14 @@ export default function VisionPage() {
               <span className="vision-how-kicker">Match</span>
               <h3>Cruzamos contra el catálogo vivo.</h3>
               <p>
-                Aquí es donde myAImatch ya tiene ventaja: el catálogo de tools
-                se actualiza constantemente. Cruzamos <em>tu</em> contexto con
-                lo más fresco. Resultado: <strong>recomendaciones específicas</strong>{" "}
-                que un directorio estático nunca podría dar.
+                Cada dos semanas hay nuevos tools en el mercado. El Navigator
+                cruza <em>tu</em> contexto con lo más reciente — no lo de hace 6
+                meses. Resultado:{" "}
+                <strong>un mapa de tools actualizado para ti</strong> que un
+                directorio estático nunca podría dar.
               </p>
               <ul className="vision-how-bullets">
-                <li>Re-ranking semanal con releases nuevos</li>
+                <li>Re-ranking quincenal con releases nuevos</li>
                 <li>Auto-comparativa contra tools que ya usas</li>
                 <li>Workflow templates listos para implementar</li>
               </ul>
@@ -220,13 +155,13 @@ export default function VisionPage() {
         </div>
       </section>
 
-      {/* ─────── Section 4 · Value Moat ─────── */}
+      {/* ─────── S4 · Value Moat ─────── */}
       <section className="vision-moat">
         <div className="vision-shell">
           <header className="vision-section-head">
             <span className="vision-label">04 · Por qué tiene valor</span>
             <h2 className="vision-section-title">
-              Tres ingredientes. <span>Imposibles de replicar juntos.</span>
+              Tres ingredientes. <span>Nadie los tiene juntos todavía.</span>
             </h2>
           </header>
 
@@ -241,9 +176,9 @@ export default function VisionPage() {
               <span className="vision-moat-pillar-kicker">First-hand data</span>
               <h3>Workflow real, no surveys.</h3>
               <p>
-                Nadie más tiene este input. En tiempo real, vinculado al
-                usuario individual. Vendors solo ven engagement de su producto
-                — nosotros vemos el día completo.
+                Nadie más tiene este input. En tiempo real, vinculado al usuario
+                individual. Vendors solo ven engagement de su producto — nosotros
+                vemos el día completo.
               </p>
             </article>
 
@@ -259,8 +194,8 @@ export default function VisionPage() {
               <h3>La fuente más fresca.</h3>
               <p>
                 myAImatch ya recolecta news, docs, releases, integrations. Se
-                actualiza más rápido que cualquier humano puede. <em>Eso ya lo
-                tenemos</em> — solo falta enchufar el agent.
+                actualiza más rápido que cualquier humano puede.{" "}
+                <em>Eso ya lo tenemos</em> — solo falta enchufar el Navigator.
               </p>
             </article>
 
@@ -275,8 +210,8 @@ export default function VisionPage() {
               <h3>El switching cost se vuelve enorme.</h3>
               <p>
                 Cada día el brain mejora. Mes 6 ≠ Mes 1. Las recomendaciones se
-                vuelven irreemplazables — porque ya conocen tu historia, no
-                solo tu perfil.
+                vuelven irreemplazables — porque ya conocen tu historia, no solo
+                tu perfil.
               </p>
             </article>
           </div>
@@ -289,19 +224,19 @@ export default function VisionPage() {
         </div>
       </section>
 
-      {/* ─────── Section 5 · Revenue Streams ─────── */}
+      {/* ─────── S5 · Revenue Streams ─────── */}
       <section className="vision-revenue">
         <div className="vision-shell">
           <header className="vision-section-head">
             <span className="vision-label">05 · Modelo de negocio</span>
             <h2 className="vision-section-title">
-              Cuatro ingresos. <span>Todos se refuerzan entre sí.</span>
+              Fuentes de ingresos. <span>Todos se refuerzan entre sí.</span>
             </h2>
             <p className="vision-section-body">
               La suscripción genera <em>data</em>. La data genera mejores{" "}
-              <em>recomendaciones</em>. Las recomendaciones generan{" "}
-              <em>affiliate clicks</em> y <em>implementaciones</em>. Y eso paga
-              la próxima ronda de mejoras.
+              <em>recomendaciones</em>. Las recomendaciones abren{" "}
+              <em>affiliate clicks</em> e <em>implementaciones</em> desde
+              cualquier punto del customer journey.
             </p>
           </header>
 
@@ -311,15 +246,16 @@ export default function VisionPage() {
               <span className="vision-revenue-tag vision-revenue-tag--recurring">recurring</span>
               <h3>SaaS Individual</h3>
               <p className="vision-revenue-tagline">
-                El producto core: agent + brain + reporte mensual.
+                El producto core: myAI Navigator + reporte mensual. Plan premium
+                con actualizaciones quincenales.
               </p>
               <div className="vision-revenue-price">
                 <strong>$19</strong>
                 <span>/mo · per user</span>
               </div>
               <p className="vision-revenue-note">
-                Free trial agresivo (14 días) para mostrar valor antes del
-                primer charge.
+                El catálogo cambia cada 2 semanas — plan premium cubre esa
+                cadencia para quienes necesitan estar al día más rápido.
               </p>
             </article>
 
@@ -328,16 +264,16 @@ export default function VisionPage() {
               <span className="vision-revenue-tag vision-revenue-tag--recurring">recurring</span>
               <h3>Team Plan</h3>
               <p className="vision-revenue-tagline">
-                Cada miembro tiene su brain · contexto compartido del equipo ·
-                recomendaciones <em>org-level</em>.
+                Cada miembro tiene su brain. El equipo comparte contexto: el
+                Navigator genera recomendaciones a nivel org, no solo individual.
               </p>
               <div className="vision-revenue-price">
                 <strong>$49</strong>
                 <span>/seat · mín 5 seats</span>
               </div>
               <p className="vision-revenue-note">
-                El upsell natural: una vez que un equipo lo usa, se convierte en
-                infraestructura de productividad.
+                Una vez que el equipo lo usa, se vuelve infraestructura de
+                productividad. El switching cost crece cada mes.
               </p>
             </article>
 
@@ -346,16 +282,19 @@ export default function VisionPage() {
               <span className="vision-revenue-tag vision-revenue-tag--transactional">transactional</span>
               <h3>Affiliate Revenue</h3>
               <p className="vision-revenue-tagline">
-                Comisión cuando el usuario contrata un tool recomendado.
+                Comisión cuando el usuario contrata un tool recomendado. Entra
+                desde múltiples puntos del customer journey:
               </p>
+              <ul className="vision-revenue-touchpoints">
+                <li>SaaS Individual — el report recomienda, el usuario compra</li>
+                <li>Team Plan — mismo mecanismo, escala con el equipo</li>
+                <li>Directory / SEO — alguien busca, encuentra, convierte</li>
+                <li>Free Assessment — recomendamos tools directamente</li>
+              </ul>
               <div className="vision-revenue-price">
-                <strong>15-30%</strong>
+                <strong>15–30%</strong>
                 <span>· por conversión</span>
               </div>
-              <p className="vision-revenue-note">
-                Ya es parte del modelo actual de myAImatch. Solo escala con la
-                base de usuarios.
-              </p>
             </article>
 
             <article className="vision-revenue-card">
@@ -363,53 +302,144 @@ export default function VisionPage() {
               <span className="vision-revenue-tag vision-revenue-tag--services">project-based</span>
               <h3>Implementation Services</h3>
               <p className="vision-revenue-tagline">
-                <em>myAImatch Company</em> implementa los tools recomendados
-                por ti — tu margen alto.
+                myAImatch Company implementa los tools recomendados. El lead
+                puede venir desde cualquier punto:
               </p>
+              <ul className="vision-revenue-touchpoints">
+                <li>Free Assessment — detectamos necesidad, ofrecemos setup</li>
+                <li>Directory / SEO — alguien busca un tool, nosotros lo implementamos</li>
+                <li>Monthly report — recomienda, ellos piden ayuda para ejecutar</li>
+                <li>Premium plan — análisis profundo abre la conversación</li>
+              </ul>
               <div className="vision-revenue-price">
-                <strong>$3K-30K</strong>
+                <strong>$3K–30K</strong>
                 <span>· por proyecto</span>
               </div>
-              <p className="vision-revenue-note">
-                El upsell de margen alto. El reporte mensual abre la
-                conversación; nosotros cerramos la entrega.
-              </p>
             </article>
           </div>
 
           <div className="vision-revenue-flywheel">
             <span className="vision-label">El flywheel</span>
             <p>
-              <strong>Suscripción</strong> → genera data ·
-              <strong> Data</strong> → mejora recomendaciones ·
-              <strong> Recomendaciones</strong> → affiliate clicks ·
-              <strong> Affiliate</strong> → cierre con servicios.
+              <strong>Suscripción</strong> → genera data ·{" "}
+              <strong>Data</strong> → mejora recomendaciones ·{" "}
+              <strong>Recomendaciones</strong> → affiliate desde cualquier
+              touchpoint · <strong>Affiliate</strong> → cierre con servicios.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ─────── Section 6 · Closing ─────── */}
-      <section className="vision-close">
-        <div className="vision-shell vision-close-inner">
-          <span className="vision-label">06 · Por qué ahora</span>
-          <h2 className="vision-close-title">
-            Las AI tools cambian cada semana.
-            <br />
-            <span>Los humanos no.</span>
-          </h2>
-          <p className="vision-close-body">
-            El gap entre lo que existe y lo que la gente realmente usa se hace
-            más grande cada día. <strong>myAImatch cierra ese gap</strong> — no
-            como un directorio, sino como un compañero que aprende contigo.
-          </p>
-          <div className="vision-close-cta" role="group" aria-label="Next step">
-            <span className="vision-close-cta-arrow">→</span>
-            <span className="vision-close-cta-label">Next step</span>
-            <span className="vision-close-cta-text">
-              Prototype del desktop agent en <strong>8 semanas</strong>
-            </span>
+      {/* ─────── S6 · Why Now ─────── */}
+      <section className="vision-whynow">
+        <div className="vision-shell">
+          <header className="vision-section-head">
+            <span className="vision-label">06 · Por qué ahora</span>
+            <h2 className="vision-section-title">
+              El AI fog es real. <span>Y empeora cada semana.</span>
+            </h2>
+          </header>
+
+          <div className="vision-whynow-grid">
+            <div className="vision-whynow-stat-box">
+              <div className="vision-whynow-number">+2,000</div>
+              <p className="vision-whynow-stat-label">
+                AI tools lanzados en los últimos 12 meses. Sin un sistema que
+                aprenda contigo, siempre estarás un paso atrás.
+              </p>
+            </div>
+
+            <div className="vision-whynow-blocks">
+              <div className="vision-whynow-block">
+                <span className="vision-whynow-block-kicker">El problema</span>
+                <p>
+                  Hay tantos tools nuevos que planificar a largo plazo es
+                  imposible. El AI fog — la neblina de opciones, hype y noise —
+                  paraliza a equipos enteros. Cada semana, una nueva herramienta
+                  que &ldquo;lo cambia todo.&rdquo;
+                </p>
+              </div>
+              <div className="vision-whynow-block">
+                <span className="vision-whynow-block-kicker">La solución</span>
+                <p>
+                  No necesitas un plan fijo. Necesitas{" "}
+                  <strong>flexibilidad</strong>. Un sistema que se moldea
+                  contigo, que se actualiza con el mercado, que te dice qué
+                  cambiar antes de que quedes atrás — sin que tengas que
+                  investigar cada semana.
+                </p>
+              </div>
+              <div className="vision-whynow-block">
+                <span className="vision-whynow-block-kicker">El alcance</span>
+                <p>
+                  Esto no es solo para CTOs. Desde un CEO hasta alguien que
+                  acaba de empezar, todos necesitan actualizarse regularmente.
+                  El Navigator democratiza esa ventaja — sin importar tu nivel
+                  técnico.
+                </p>
+              </div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* ─────── S7 · Implementation Plan ─────── */}
+      <section className="vision-impl">
+        <div className="vision-shell">
+          <header className="vision-section-head">
+            <span className="vision-label">07 · Plan de implementación</span>
+            <h2 className="vision-section-title">
+              Si esto es aceptado. <span>Tres fases para llegar a beta.</span>
+            </h2>
+          </header>
+
+          <div className="vision-impl-grid">
+            <article className="vision-impl-card">
+              <div className="vision-impl-phase">Fase 1</div>
+              <div className="vision-impl-weeks">Semanas 1–3</div>
+              <h3>Scaffold del Desktop Agent</h3>
+              <ul className="vision-impl-bullets">
+                <li>Tauri app (Rust + webview) con OS signal capture</li>
+                <li>AES-256 local encryption</li>
+                <li>Basic onboarding + settings UI</li>
+              </ul>
+              <div className="vision-impl-deliverable">
+                <span className="vision-impl-del-label">Entregable</span>
+                <span>Agent corriendo en macOS, capturando señales sin keylogging</span>
+              </div>
+            </article>
+
+            <article className="vision-impl-card vision-impl-card--mid">
+              <div className="vision-impl-phase">Fase 2</div>
+              <div className="vision-impl-weeks">Semanas 4–6</div>
+              <h3>AI Brain + Memory</h3>
+              <ul className="vision-impl-bullets">
+                <li>Vector store local (sqlite-vec o lancedb)</li>
+                <li>LLM cloud para análisis, on-device para inferencia ligera</li>
+                <li>Primeras recomendaciones desde contexto real</li>
+              </ul>
+              <div className="vision-impl-deliverable">
+                <span className="vision-impl-del-label">Entregable</span>
+                <span>Brain con memory persistente, 1er reporte generado</span>
+              </div>
+            </article>
+
+            <article className="vision-impl-card">
+              <div className="vision-impl-phase">Fase 3</div>
+              <div className="vision-impl-weeks">Semanas 7–10</div>
+              <h3>Catalog Integration + Beta</h3>
+              <ul className="vision-impl-bullets">
+                <li>API hook al catálogo vivo de myAImatch</li>
+                <li>Re-ranking quincenal con releases recientes</li>
+                <li>Onboarding 10–20 beta users (individual y team)</li>
+              </ul>
+              <div className="vision-impl-deliverable">
+                <span className="vision-impl-del-label">Entregable</span>
+                <span>Producto en manos de usuarios reales, feedback loop activo</span>
+              </div>
+            </article>
+          </div>
+
           <footer className="vision-footer">
             <span>myAImatch · Internal proposal · 2026</span>
             <span className="vision-footer-divider">·</span>
@@ -421,86 +451,146 @@ export default function VisionPage() {
   );
 }
 
-/* ─────────── Inline node + connector helpers ─────────── */
+/* ─────────── Ecosystem Diagram ─────────── */
 
-type EcoNodeProps = {
-  index: string;
-  kicker: string;
-  titleEn: string;
-  titleEs: string;
-  body: string;
-  icon: React.ReactNode;
-  highlight?: boolean;
-  spotlight?: boolean;
-};
-
-function EcoNode({
-  index,
-  kicker,
-  titleEn,
-  titleEs,
-  body,
-  icon,
-  highlight,
-  spotlight,
-}: EcoNodeProps) {
-  const cls = [
-    "vision-eco-node",
-    highlight ? "vision-eco-node--highlight" : "",
-    spotlight ? "vision-eco-node--spotlight" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+function EcoDiagram() {
   return (
-    <div className={cls}>
-      <div className="vision-eco-node-head">
-        <span className="vision-eco-node-num">{index}</span>
-        <span className="vision-eco-node-kicker">{kicker}</span>
-        <span className="vision-eco-node-icon" aria-hidden="true">
-          {icon}
-        </span>
+    <div className="eco-diagram-wrap">
+      {/* SVG layer — lines and animated dots */}
+      <svg
+        className="eco-diagram-svg"
+        viewBox="0 0 680 480"
+        fill="none"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        {/* Static visible lines */}
+        <path
+          d="M 198 97 C 248 150, 302 185, 316 200"
+          stroke="rgba(196,181,253,0.2)"
+          strokeWidth="1.4"
+          strokeDasharray="4 7"
+        />
+        <path
+          d="M 482 97 C 432 150, 378 185, 364 200"
+          stroke="rgba(196,181,253,0.2)"
+          strokeWidth="1.4"
+          strokeDasharray="4 7"
+        />
+        <path
+          d="M 170 362 C 210 322, 268 274, 308 244"
+          stroke="rgba(196,181,253,0.2)"
+          strokeWidth="1.4"
+          strokeDasharray="4 7"
+        />
+        <path
+          d="M 316 248 C 272 284, 208 328, 166 364"
+          stroke="rgba(196,181,253,0.12)"
+          strokeWidth="1.2"
+          strokeDasharray="3 9"
+        />
+        <path
+          d="M 340 256 L 340 412"
+          stroke="rgba(196,181,253,0.2)"
+          strokeWidth="1.4"
+          strokeDasharray="4 7"
+        />
+
+        {/* Hidden paths for animateMotion */}
+        <path id="ecp-wf"  d="M 198 97 C 248 150, 302 185, 316 200" />
+        <path id="ecp-ag"  d="M 482 97 C 432 150, 378 185, 364 200" />
+        <path id="ecp-ci"  d="M 170 362 C 210 322, 268 274, 308 244" />
+        <path id="ecp-co"  d="M 316 248 C 272 284, 208 328, 166 364" />
+        <path id="ecp-rep" d="M 340 256 L 340 412" />
+
+        {/* Animated dots */}
+        <circle r="2.6" fill="rgba(196,181,253,0.92)">
+          <animateMotion dur="2.4s" repeatCount="indefinite">
+            <mpath href="#ecp-wf" />
+          </animateMotion>
+        </circle>
+        <circle r="2.6" fill="rgba(196,181,253,0.92)">
+          <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.7s">
+            <mpath href="#ecp-ag" />
+          </animateMotion>
+        </circle>
+        <circle r="2.4" fill="rgba(196,181,253,0.72)">
+          <animateMotion dur="3.2s" repeatCount="indefinite" begin="1.1s">
+            <mpath href="#ecp-ci" />
+          </animateMotion>
+        </circle>
+        <circle r="2.4" fill="rgba(196,181,253,0.72)">
+          <animateMotion dur="3.2s" repeatCount="indefinite" begin="2.7s">
+            <mpath href="#ecp-co" />
+          </animateMotion>
+        </circle>
+        <circle r="2.6" fill="rgba(196,181,253,0.92)">
+          <animateMotion dur="2.0s" repeatCount="indefinite" begin="0.3s">
+            <mpath href="#ecp-rep" />
+          </animateMotion>
+        </circle>
+      </svg>
+
+      {/* Brain — center hub */}
+      <div className="eco-brain">
+        <div className="eco-brain-glow" aria-hidden="true" />
+        <div className="eco-brain-ring" aria-hidden="true" />
+        <div className="eco-brain-icon" aria-hidden="true">
+          <IconBrain />
+        </div>
+        <span className="eco-brain-label">Your myAI Brain</span>
+        <span className="eco-brain-sub">memory · patterns · context</span>
       </div>
-      <h3 className="vision-eco-node-title">
-        {titleEn}
-        <span className="vision-eco-node-title-es">{titleEs}</span>
-      </h3>
-      <p className="vision-eco-node-body">{body}</p>
+
+      {/* Daily Workflow — top left */}
+      <div className="eco-node eco-node-wf">
+        <span className="eco-node-icon"><IconActivity /></span>
+        <div className="eco-node-copy">
+          <span className="eco-node-kicker">INPUT</span>
+          <strong className="eco-node-name">Daily Workflow</strong>
+          <span className="eco-node-desc">apps · clicks · tareas</span>
+        </div>
+      </div>
+
+      {/* Desktop Agent — top right */}
+      <div className="eco-node eco-node-ag">
+        <span className="eco-node-icon"><IconChip /></span>
+        <div className="eco-node-copy">
+          <span className="eco-node-kicker">LOCAL</span>
+          <strong className="eco-node-name">Desktop Agent</strong>
+          <span className="eco-node-desc">encrypted · on-device</span>
+        </div>
+      </div>
+
+      {/* Live Catalog — bottom left */}
+      <div className="eco-node eco-node-cat">
+        <span className="eco-node-icon"><IconCatalog /></span>
+        <div className="eco-node-copy">
+          <span className="eco-node-kicker">LIVE</span>
+          <strong className="eco-node-name">Tool Catalog</strong>
+          <span className="eco-node-desc">fuente más fresca</span>
+        </div>
+      </div>
+
+      {/* Monthly Report — bottom center */}
+      <div className="eco-node eco-node-rep">
+        <span className="eco-node-icon"><IconReport /></span>
+        <div className="eco-node-copy">
+          <span className="eco-node-kicker">OUTPUT</span>
+          <strong className="eco-node-name">Your Report</strong>
+          <span className="eco-node-desc">mensual · quincenal</span>
+        </div>
+      </div>
     </div>
   );
 }
 
-function Connector({
-  label,
-  bidirectional,
-}: {
-  label?: string;
-  bidirectional?: boolean;
-}) {
-  return (
-    <div
-      className={`vision-eco-connector${bidirectional ? " vision-eco-connector--bi" : ""}`}
-      aria-hidden="true"
-    >
-      <span className="vision-eco-connector-line" />
-      {label ? (
-        <span className="vision-eco-connector-label">{label}</span>
-      ) : null}
-    </div>
-  );
-}
-
-/* ─────────── Inline icons ─────────── */
+/* ─────────── Icons ─────────── */
 
 function IconActivity() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 12h3l3-8 4 16 3-8h5"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M3 12h3l3-8 4 16 3-8h5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -517,7 +607,7 @@ function IconChip() {
 
 function IconBrain() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
       <path
         d="M9 4a3 3 0 0 0-3 3v.5a3 3 0 0 0-2 2.8v.7a3 3 0 0 0 1 2.2V14a3 3 0 0 0 3 3h0M15 4a3 3 0 0 1 3 3v.5a3 3 0 0 1 2 2.8v.7a3 3 0 0 1-1 2.2V14a3 3 0 0 1-3 3h0M12 4v17M9 17v3M15 17v3"
         stroke="currentColor"
@@ -542,18 +632,13 @@ function IconCatalog() {
 function IconReport() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
+      <path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
       <path d="M14 3v5h5M9 13h7M9 16h6M9 10h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
     </svg>
   );
 }
 
-/* ─────────── Page-scoped styles ─────────── */
+/* ─────────── Page styles ─────────── */
 
 const VISION_STYLES = `
   .vision-root {
@@ -627,7 +712,17 @@ const VISION_STYLES = `
     line-height: 1.72;
   }
 
-  /* ─── Section 1 · Hero ─── */
+  @keyframes orbPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.72; transform: scale(1.08); }
+  }
+
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── S1 · Hero ─── */
 
   .vision-hero {
     position: relative;
@@ -683,6 +778,7 @@ const VISION_STYLES = `
     pointer-events: none;
   }
 
+  /* Video button styles */
   .vision-video-launcher {
     position: absolute;
     top: 34px;
@@ -740,9 +836,7 @@ const VISION_STYLES = `
       rgba(17,17,17,0.82);
   }
 
-  .vision-video-button:active {
-    transform: translateY(0) scale(0.985);
-  }
+  .vision-video-button:active { transform: translateY(0) scale(0.985); }
 
   .vision-video-button:focus-visible,
   .vision-video-close:focus-visible {
@@ -939,10 +1033,7 @@ const VISION_STYLES = `
     line-height: 1.72;
   }
 
-  .vision-hero-body strong {
-    color: #ffffff;
-    font-weight: 700;
-  }
+  .vision-hero-body strong { color: #ffffff; font-weight: 700; }
 
   .vision-hero-meta {
     display: inline-flex;
@@ -960,15 +1051,8 @@ const VISION_STYLES = `
     letter-spacing: 0.01em;
   }
 
-  .vision-hero-meta strong {
-    color: #ffffff;
-    font-weight: 700;
-    margin-right: 4px;
-  }
-
-  .vision-meta-divider {
-    color: rgba(255,255,255,0.22);
-  }
+  .vision-hero-meta strong { color: #ffffff; font-weight: 700; margin-right: 4px; }
+  .vision-meta-divider { color: rgba(255,255,255,0.22); }
 
   .vision-hero-scroll {
     position: absolute;
@@ -988,7 +1072,7 @@ const VISION_STYLES = `
     animation: heroFadeUp 1.2s ease-out;
   }
 
-  /* ─── Section 2 · Ecosystem ─── */
+  /* ─── S2 · Ecosystem ─── */
 
   .vision-ecosystem {
     position: relative;
@@ -1010,217 +1094,179 @@ const VISION_STYLES = `
     box-shadow: 0 0 18px rgba(132,104,235,0.35);
   }
 
-  .vision-eco-canvas {
-    position: relative;
-    margin-top: 8px;
-  }
-
-  .vision-eco-grid {
-    position: relative;
+  .eco-outer {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
-    gap: 64px;
+    grid-template-columns: 1fr minmax(260px, 300px);
+    gap: 56px;
     align-items: center;
   }
 
-  .vision-eco-column {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  /* Eco node card */
-  .vision-eco-node {
+  /* Diagram wrap */
+  .eco-diagram-wrap {
     position: relative;
-    display: grid;
-    gap: 12px;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 18px;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
-      rgba(12,12,14,0.78);
-    padding: 22px 24px;
-    box-shadow:
-      0 18px 48px rgba(0,0,0,0.42),
-      0 0 0 1px rgba(255,255,255,0.02) inset;
-    transition: transform 200ms cubic-bezier(0.22,1,0.36,1), border-color 200ms ease;
+    width: 100%;
+    max-width: 660px;
+    aspect-ratio: 680 / 480;
   }
 
-  .vision-eco-node:hover {
-    transform: translateY(-2px);
-    border-color: rgba(196,181,253,0.24);
-  }
-
-  .vision-eco-node--highlight {
-    border-color: rgba(196,181,253,0.22);
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(132,104,235,0.16), transparent 70%),
-      linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)),
-      rgba(12,12,14,0.78);
-  }
-
-  .vision-eco-node--spotlight {
-    border-color: rgba(196,181,253,0.42);
-    background:
-      radial-gradient(ellipse 90% 70% at 50% 0%, rgba(132,104,235,0.28), transparent 72%),
-      linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025)),
-      rgba(20,16,42,0.84);
-    box-shadow:
-      0 22px 56px rgba(91,66,195,0.4),
-      0 0 38px rgba(132,104,235,0.22),
-      0 0 0 1px rgba(196,181,253,0.16) inset;
-  }
-
-  .vision-eco-node--spotlight::after {
-    content: "";
+  .eco-diagram-svg {
     position: absolute;
-    inset: -1px;
-    z-index: -1;
-    border-radius: inherit;
-    background: linear-gradient(135deg, rgba(196,181,253,0.4), transparent 56%);
-    filter: blur(14px);
-    opacity: 0.42;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
   }
 
-  .vision-eco-node-head {
+  /* Brain node */
+  .eco-brain {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  .eco-brain-glow {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 999px;
+    background: radial-gradient(ellipse, rgba(132,104,235,0.46), rgba(91,66,195,0.18) 56%, transparent 80%);
+    filter: blur(20px);
+    animation: orbPulse 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .eco-brain-ring {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 999px;
+    border: 1px solid rgba(196,181,253,0.3);
+    animation: orbPulse 3s ease-in-out infinite reverse;
+    pointer-events: none;
+  }
+
+  .eco-brain-icon {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
-    gap: 12px;
-  }
-
-  .vision-eco-node-num {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
-    min-width: 38px;
-    height: 26px;
-    padding: 0 10px;
+    width: 76px;
+    height: 76px;
     border-radius: 999px;
-    background: rgba(132,104,235,0.16);
-    border: 1px solid rgba(196,181,253,0.28);
-    color: var(--v-accent);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
+    border: 1px solid rgba(196,181,253,0.44);
+    background:
+      radial-gradient(ellipse at center, rgba(196,181,253,0.3), rgba(132,104,235,0.12) 64%),
+      rgba(20,16,42,0.9);
+    box-shadow:
+      0 0 36px rgba(132,104,235,0.52),
+      0 0 0 7px rgba(196,181,253,0.07);
+    color: #ffffff;
   }
 
-  .vision-eco-node-kicker {
-    color: var(--v-accent);
-    font-size: 10px;
+  .eco-brain-label {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 13px;
     font-weight: 800;
-    letter-spacing: 0.16em;
+    letter-spacing: -0.01em;
+    text-align: center;
+    white-space: nowrap;
+    margin-top: 8px;
+  }
+
+  .eco-brain-sub {
+    color: var(--v-text-dim);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-align: center;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
-  .vision-eco-node-icon {
-    margin-left: auto;
+  /* Surrounding nodes */
+  .eco-node {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.02)),
+      rgba(12,12,14,0.78);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    min-width: 164px;
+    transition: border-color 220ms ease, transform 220ms cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .eco-node:hover {
+    border-color: rgba(196,181,253,0.26);
+    transform: translate(-50%, -50%) translateY(-2px);
+  }
+
+  .eco-node-wf  { left: 29%; top: 16%; }
+  .eco-node-ag  { left: 71%; top: 16%; }
+  .eco-node-cat { left: 20%; top: 78%; }
+  .eco-node-rep { left: 50%; top: 90%; }
+
+  .eco-node-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    border: 1px solid rgba(196,181,253,0.22);
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+    border-radius: 10px;
+    border: 1px solid rgba(196,181,253,0.2);
     background: rgba(132,104,235,0.12);
     color: var(--v-accent);
   }
 
-  .vision-eco-node-title {
-    margin: 0;
-    color: #ffffff;
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.18;
+  .eco-node-copy {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 10px;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
   }
 
-  .vision-eco-node-title-es {
-    color: var(--v-text-dim);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: lowercase;
-  }
-
-  .vision-eco-node-title-es::before {
-    content: "·";
-    margin-right: 8px;
-    color: rgba(255,255,255,0.18);
-  }
-
-  .vision-eco-node-body {
-    margin: 0;
-    color: var(--v-text-muted);
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  /* Connector */
-  .vision-eco-connector {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 56px;
-  }
-
-  .vision-eco-connector-line {
-    position: relative;
-    display: block;
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(196,181,253,0.06), rgba(196,181,253,0.42), rgba(196,181,253,0.06));
-    overflow: hidden;
-  }
-
-  .vision-eco-connector-line::after {
-    content: "";
-    position: absolute;
-    left: -1px;
-    right: -1px;
-    height: 24px;
-    background: linear-gradient(180deg, transparent, rgba(196,181,253,0.95), transparent);
-    box-shadow: 0 0 10px rgba(196,181,253,0.7);
-    animation: visionFlow 2.2s linear infinite;
-  }
-
-  .vision-eco-connector--bi .vision-eco-connector-line::after {
-    animation-duration: 1.6s;
-  }
-
-  .vision-eco-connector-label {
-    position: absolute;
-    left: calc(50% + 12px);
-    color: var(--v-text-dim);
-    font-size: 10px;
+  .eco-node-kicker {
+    color: var(--v-accent);
+    font-size: 9px;
     font-weight: 800;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    white-space: nowrap;
-    padding: 4px 9px;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 999px;
-    background: rgba(10,10,14,0.68);
-    backdrop-filter: blur(8px);
   }
 
-  @keyframes visionFlow {
-    0%   { top: -24px; opacity: 0; }
-    18%  { opacity: 1; }
-    82%  { opacity: 1; }
-    100% { top: 100%;  opacity: 0; }
+  .eco-node-name {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .eco-node-desc {
+    color: var(--v-text-dim);
+    font-size: 11px;
+    white-space: nowrap;
   }
 
   /* Moat side card */
   .vision-moat-card {
     position: relative;
     overflow: hidden;
-    align-self: center;
     padding: 28px 26px 32px;
     border: 1px solid rgba(196,181,253,0.32);
     border-radius: 22px;
@@ -1271,16 +1317,7 @@ const VISION_STYLES = `
     letter-spacing: 0.04em;
   }
 
-  .vision-moat-arrow {
-    position: absolute;
-    left: -160px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    opacity: 0.6;
-  }
-
-  /* ─── Section 3 · How ─── */
+  /* ─── S3 · How ─── */
 
   .vision-how {
     padding: 120px 0;
@@ -1357,10 +1394,7 @@ const VISION_STYLES = `
     line-height: 1.7;
   }
 
-  .vision-how-card p strong {
-    color: #ffffff;
-    font-weight: 700;
-  }
+  .vision-how-card p strong { color: #ffffff; font-weight: 700; }
 
   .vision-how-bullets {
     margin: 22px 0 0;
@@ -1391,7 +1425,7 @@ const VISION_STYLES = `
     box-shadow: 0 0 10px rgba(132,104,235,0.6);
   }
 
-  /* ─── Section 4 · Moat ─── */
+  /* ─── S4 · Moat ─── */
 
   .vision-moat {
     position: relative;
@@ -1452,9 +1486,7 @@ const VISION_STYLES = `
     animation: orbPulse 3.2s ease-in-out infinite;
   }
 
-  .vision-moat-orb--accent {
-    animation-duration: 2.4s;
-  }
+  .vision-moat-orb--accent { animation-duration: 2.4s; }
 
   .vision-moat-pillar-kicker {
     display: inline-block;
@@ -1501,7 +1533,7 @@ const VISION_STYLES = `
     padding: 0 8px;
   }
 
-  /* ─── Section 5 · Revenue ─── */
+  /* ─── S5 · Revenue ─── */
 
   .vision-revenue {
     padding: 120px 0;
@@ -1596,17 +1628,41 @@ const VISION_STYLES = `
     line-height: 1.65;
   }
 
+  .vision-revenue-touchpoints {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 6px;
+  }
+
+  .vision-revenue-touchpoints li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--v-text-dim);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  .vision-revenue-touchpoints li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--v-accent);
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
   .vision-revenue-price {
     display: flex;
     align-items: baseline;
     gap: 10px;
-    margin-top: 22px;
-    padding-top: 20px;
+    margin-top: 20px;
+    padding-top: 18px;
     border-top: 1px solid rgba(255,255,255,0.06);
   }
 
   .vision-revenue-price strong {
-    color: #ffffff;
     font-size: 38px;
     font-weight: 800;
     letter-spacing: -0.03em;
@@ -1624,7 +1680,7 @@ const VISION_STYLES = `
   }
 
   .vision-revenue-note {
-    margin: 18px 0 0;
+    margin: 16px 0 0;
     color: var(--v-text-dim);
     font-size: 13px;
     line-height: 1.6;
@@ -1647,25 +1703,115 @@ const VISION_STYLES = `
     line-height: 1.7;
   }
 
-  .vision-revenue-flywheel strong {
-    color: #ffffff;
-    font-weight: 700;
+  .vision-revenue-flywheel strong { color: #ffffff; font-weight: 700; }
+
+  /* ─── S6 · Why Now ─── */
+
+  .vision-whynow {
+    position: relative;
+    padding: 120px 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(132,104,235,0.18), transparent 70%),
+      #07070b;
   }
 
-  /* ─── Section 6 · Closing ─── */
+  .vision-whynow::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 132px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(196,181,253,0.86), rgba(132,104,235,0.4), transparent);
+  }
 
-  .vision-close {
+  .vision-whynow-grid {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .vision-whynow-stat-box {
+    position: sticky;
+    top: 40px;
+    padding: 36px 28px 32px;
+    border: 1px solid rgba(196,181,253,0.28);
+    border-radius: 22px;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(132,104,235,0.3), transparent 70%),
+      rgba(20,15,42,0.78);
+    box-shadow:
+      0 24px 56px rgba(91,66,195,0.3),
+      0 0 0 1px rgba(196,181,253,0.1) inset;
+  }
+
+  .vision-whynow-number {
+    font-size: clamp(46px, 5.5vw, 66px);
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+    background: linear-gradient(135deg, #ffffff 0%, #C4B5FD 60%, #5B42C3 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+
+  .vision-whynow-stat-label {
+    color: var(--v-text-muted);
+    font-size: 14px;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .vision-whynow-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    padding-top: 8px;
+  }
+
+  .vision-whynow-block {
+    padding-left: 24px;
+    border-left: 2px solid rgba(196,181,253,0.24);
+  }
+
+  .vision-whynow-block-kicker {
+    display: block;
+    color: var(--v-accent);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .vision-whynow-block p {
+    color: var(--v-text-muted);
+    font-size: 15px;
+    line-height: 1.72;
+    margin: 0;
+  }
+
+  .vision-whynow-block p strong { color: #ffffff; font-weight: 700; }
+
+  /* ─── S7 · Implementation Plan ─── */
+
+  .vision-impl {
     position: relative;
     overflow: hidden;
-    padding: 132px 0 96px;
+    padding: 120px 0 96px;
     background:
-      radial-gradient(ellipse 56% 70% at 12% 56%, rgba(196,181,253,0.28), rgba(132,104,235,0.14) 36%, transparent 72%),
-      radial-gradient(ellipse 58% 60% at 88% 18%, rgba(132,104,235,0.2), transparent 72%),
-      linear-gradient(135deg, rgba(196,181,253,0.06), rgba(49,27,146,0.32) 100%),
+      radial-gradient(ellipse 56% 70% at 12% 56%, rgba(196,181,253,0.22), rgba(132,104,235,0.1) 36%, transparent 72%),
+      radial-gradient(ellipse 58% 60% at 88% 18%, rgba(132,104,235,0.16), transparent 72%),
+      linear-gradient(135deg, rgba(196,181,253,0.04), rgba(49,27,146,0.24) 100%),
       #070709;
   }
 
-  .vision-close::before {
+  .vision-impl::before {
     content: "";
     position: absolute;
     left: 50%;
@@ -1677,95 +1823,143 @@ const VISION_STYLES = `
     box-shadow: 0 0 24px rgba(196,181,253,0.34);
   }
 
-  .vision-close-inner {
+  .vision-impl-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .vision-impl-card {
     position: relative;
-    text-align: center;
-  }
-
-  .vision-close-title {
-    margin: 22px auto 0;
-    max-width: 980px;
-    color: #ffffff;
-    font-size: clamp(40px, 6.6vw, 86px);
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    line-height: 1.0;
-  }
-
-  .vision-close-title span {
-    background: linear-gradient(135deg, #C4B5FD 0%, #5B42C3 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .vision-close-body {
-    margin: 28px auto 0;
-    max-width: 660px;
-    color: var(--v-text-muted);
-    font-size: 17px;
-    line-height: 1.72;
-  }
-
-  .vision-close-body strong {
-    color: #ffffff;
-    font-weight: 700;
-  }
-
-  .vision-close-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    margin: 40px auto 0;
-    padding: 14px 24px 14px 18px;
-    border: 1px solid rgba(196,181,253,0.42);
-    border-radius: 999px;
+    overflow: hidden;
+    padding: 32px 28px 36px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 22px;
     background:
-      linear-gradient(135deg, rgba(196,181,253,0.18), rgba(132,104,235,0.1)),
-      rgba(12,9,30,0.6);
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.01em;
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.018)),
+      rgba(10,10,14,0.7);
     box-shadow:
-      0 16px 40px rgba(91,66,195,0.32),
-      0 0 28px rgba(132,104,235,0.18);
+      0 18px 48px rgba(0,0,0,0.4),
+      0 0 0 1px rgba(255,255,255,0.02) inset;
   }
 
-  .vision-close-cta-arrow {
+  .vision-impl-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,181,253,0.36), transparent);
+  }
+
+  .vision-impl-card--mid {
+    border-color: rgba(196,181,253,0.28);
+    background:
+      radial-gradient(ellipse 80% 60% at 100% 0%, rgba(132,104,235,0.2), transparent 70%),
+      linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+      rgba(20,15,42,0.76);
+    box-shadow:
+      0 24px 56px rgba(91,66,195,0.28),
+      0 0 32px rgba(132,104,235,0.14),
+      0 0 0 1px rgba(196,181,253,0.1) inset;
+  }
+
+  .vision-impl-phase {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
+    padding: 5px 12px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #C4B5FD 0%, #5B42C3 100%);
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 800;
-    line-height: 1;
-  }
-
-  .vision-close-cta-label {
+    background: rgba(132,104,235,0.16);
+    border: 1px solid rgba(196,181,253,0.28);
     color: var(--v-accent);
     font-size: 10px;
     font-weight: 800;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
-  .vision-close-cta-text strong {
-    font-weight: 800;
-    color: #ffffff;
+  .vision-impl-weeks {
+    display: block;
+    margin: 10px 0 0;
+    color: var(--v-text-dim);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
   }
 
+  .vision-impl-card h3 {
+    margin: 14px 0 0;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .vision-impl-bullets {
+    margin: 18px 0 0;
+    padding: 16px 0 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    list-style: none;
+    display: grid;
+    gap: 8px;
+  }
+
+  .vision-impl-bullets li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--v-text-muted);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .vision-impl-bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--v-primary);
+    box-shadow: 0 0 8px rgba(132,104,235,0.5);
+  }
+
+  .vision-impl-deliverable {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 22px 0 0;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(132,104,235,0.1);
+    border: 1px solid rgba(196,181,253,0.16);
+  }
+
+  .vision-impl-del-label {
+    display: block;
+    color: var(--v-accent);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .vision-impl-deliverable span:last-child {
+    color: var(--v-text-muted);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  /* Footer */
   .vision-footer {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 14px;
-    margin-top: 64px;
+    margin-top: 72px;
     color: var(--v-text-dim);
     font-size: 11px;
     font-weight: 700;
@@ -1773,20 +1967,14 @@ const VISION_STYLES = `
     text-transform: uppercase;
   }
 
-  .vision-footer-divider {
-    color: rgba(255,255,255,0.18);
-  }
+  .vision-footer-divider { color: rgba(255,255,255,0.18); }
 
   /* ─── Responsive ─── */
 
   @media (max-width: 1080px) {
-    .vision-eco-grid {
+    .eco-outer {
       grid-template-columns: 1fr;
-      gap: 36px;
-    }
-
-    .vision-moat-arrow {
-      display: none;
+      gap: 40px;
     }
 
     .vision-moat-card {
@@ -1798,12 +1986,26 @@ const VISION_STYLES = `
     .vision-moat-grid {
       grid-template-columns: 1fr;
     }
+
+    .vision-whynow-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .vision-whynow-stat-box {
+      position: static;
+      max-width: 380px;
+    }
+
+    .vision-impl-grid {
+      grid-template-columns: 1fr;
+      max-width: 540px;
+      margin: 0 auto;
+    }
   }
 
   @media (max-width: 720px) {
-    .vision-shell {
-      width: min(100% - 24px, 1180px);
-    }
+    .vision-shell { width: min(100% - 24px, 1180px); }
 
     .vision-hero {
       min-height: auto;
@@ -1834,46 +2036,40 @@ const VISION_STYLES = `
       white-space: normal;
     }
 
-    .vision-video-modal {
-      padding: 12px;
-    }
-
-    .vision-video-panel {
-      border-radius: 14px;
-    }
+    .vision-video-modal { padding: 12px; }
+    .vision-video-panel { border-radius: 14px; }
 
     .vision-hero-title {
       font-size: clamp(38px, 11vw, 56px);
       line-height: 1.02;
     }
 
-    .vision-section-title {
-      font-size: clamp(30px, 9vw, 44px);
-    }
+    .vision-section-title { font-size: clamp(30px, 9vw, 44px); }
 
     .vision-ecosystem,
     .vision-how,
     .vision-moat,
     .vision-revenue,
-    .vision-close {
+    .vision-whynow,
+    .vision-impl {
       padding: 80px 0;
     }
 
-    .vision-revenue-grid {
-      grid-template-columns: 1fr;
+    .vision-revenue-grid { grid-template-columns: 1fr; }
+    .vision-revenue-num { font-size: 44px; }
+
+    .eco-diagram-wrap {
+      aspect-ratio: auto;
+      min-height: 380px;
     }
 
-    .vision-revenue-num {
-      font-size: 44px;
+    .eco-node {
+      min-width: 130px;
+      padding: 9px 12px;
     }
 
-    .vision-eco-node {
-      padding: 18px 18px;
-    }
-
-    .vision-eco-node-title {
-      font-size: 18px;
-    }
+    .eco-node-name { font-size: 12px; }
+    .eco-node-desc { display: none; }
 
     .vision-hero-meta {
       flex-direction: column;
@@ -1882,26 +2078,15 @@ const VISION_STYLES = `
       gap: 6px;
     }
 
-    .vision-meta-divider {
-      display: none;
-    }
-
-    .vision-close-cta {
-      flex-direction: column;
-      gap: 8px;
-      text-align: center;
-      padding: 18px 22px;
-    }
+    .vision-meta-divider { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .vision-eco-connector-line::after,
     .vision-pill-dot,
-    .vision-moat-orb {
+    .vision-moat-orb,
+    .eco-brain-glow,
+    .eco-brain-ring {
       animation: none !important;
-    }
-    .vision-eco-connector-line::after {
-      display: none;
     }
   }
 `;

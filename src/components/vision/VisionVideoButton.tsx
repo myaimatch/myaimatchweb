@@ -47,7 +47,7 @@ export function VisionVideoButton() {
           </span>
           <span className="vision-video-button-copy">
             <span>Watch the 30s vision film</span>
-            <strong>Investor pitch · AI workflow brain</strong>
+            <strong>Investor pitch · myAI Navigator</strong>
           </span>
         </button>
       </div>
