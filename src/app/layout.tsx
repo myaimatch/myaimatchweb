@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { HideOnVision } from "@/components/HideOnVision";
 import ServicePolish from "@/components/services/ServicePolish";
 import GlobalCursorTrail from "@/components/GlobalCursorTrail";
 import TallySubmissionTracker from "@/components/assessment/TallySubmissionTracker";
@@ -46,12 +47,12 @@ export default function RootLayout({
         <script async src="https://tally.so/widgets/embed.js" />
       </head>
       <body className="antialiased">
-        <Navbar />
+        <HideOnVision><Navbar /></HideOnVision>
         <main>{children}</main>
         <GlobalCursorTrail />
         <ServicePolish />
         <TallySubmissionTracker />
-        <Footer />
+        <HideOnVision><Footer /></HideOnVision>
         <Analytics />
       </body>
     </html>
