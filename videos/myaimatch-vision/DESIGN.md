@@ -2,7 +2,7 @@
 
 ## Style Prompt
 
-A cinematic investor explainer for myAImatch: dark-first, purple-led, premium, urgent, and strategic. The video should feel like a product thesis becoming inevitable: glass interfaces, local workflow signals, live catalog data, and a central AI workflow brain forming from brand light. Use restraint, high contrast, and precise motion instead of hype graphics.
+A cinematic investor explainer for myAImatch: dark-first, purple-led, premium, urgent, and strategic. The video should feel like a product thesis becoming inevitable: AI fog clearing into a hub-and-spoke system called myAI Navigator, with glass interfaces, local workflow signals, live catalog data, and a central personal AI brain forming from brand light. Use restraint, high contrast, and precise motion instead of hype graphics.
 
 ## Colors
 
