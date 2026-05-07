@@ -169,6 +169,20 @@ export function classifyToolForOutcomeMigration(input: OutcomeMigrationToolInput
     });
   }
 
+  if (textIncludes(haystack, ["chatbot", "voice agent", "voice ai", "conversational ai", "virtual agent", "copilot", "assistant", "agent", "knowledge base", "custom gpt"])) {
+    return makeProposal(input, {
+      primaryOutcomeSlug: "build-ai-agents",
+      secondaryOutcomeSlugs: textIncludes(haystack, ["customer", "support", "helpdesk"]) ? ["support-customers"] : [],
+      subcategorySlugs: textIncludes(haystack, ["voice"])
+        ? ["build-voice-agents"]
+        : textIncludes(haystack, ["knowledge", "rag"])
+          ? ["rag-knowledge-bases"]
+          : ["build-chatbots"],
+      confidence: "medium",
+      reason: "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers.",
+    });
+  }
+
   if (textIncludes(haystack, ["automation", "process automation", "scraping", "ocr", "data entry", "document processing", "bardeen", "browse ai"])) {
     return makeProposal(input, {
       primaryOutcomeSlug: "automate-workflows",
@@ -180,20 +194,6 @@ export function classifyToolForOutcomeMigration(input: OutcomeMigrationToolInput
           : ["connect-apps"],
       confidence: "medium",
       reason: "The tool connects systems or automates repeatable operational steps.",
-    });
-  }
-
-  if (textIncludes(haystack, ["chatbot", "voice agent", "copilot", "assistant", "agent", "knowledge base", "custom gpt"])) {
-    return makeProposal(input, {
-      primaryOutcomeSlug: "build-ai-agents",
-      secondaryOutcomeSlugs: textIncludes(haystack, ["customer", "support", "helpdesk"]) ? ["support-customers"] : [],
-      subcategorySlugs: textIncludes(haystack, ["voice"])
-        ? ["build-voice-agents"]
-        : textIncludes(haystack, ["knowledge", "rag"])
-          ? ["rag-knowledge-bases"]
-          : ["build-chatbots"],
-      confidence: "medium",
-      reason: "The tool creates AI assistants, copilots, chatbots, voice agents, or knowledge workers.",
     });
   }
 

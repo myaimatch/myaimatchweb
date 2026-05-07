@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>myAImatch Vision Explainer</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: #000000;
+        overflow: hidden;
+      }
+
+      #myaimatch-vision {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000000;
+        color: #ffffff;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        background-color: #000000;
+      }
+
+      .scene:not(.scene-1) {
+        opacity: 0;
+      }
+
+      .scene-content {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 116px 138px;
+        gap: 28px;
+      }
+
+      .ambient {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(ellipse 80% 58% at 50% -6%, rgba(132,104,235,0.34), rgba(91,66,195,0.12) 42%, rgba(0,0,0,0) 74%),
+          radial-gradient(ellipse 48% 34% at 84% 28%, rgba(196,181,253,0.16), rgba(0,0,0,0) 70%),
+          radial-gradient(ellipse 45% 32% at 12% 86%, rgba(132,104,235,0.14), rgba(0,0,0,0) 66%),
+          #000000;
+      }
+
+      .noise {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 256px 256px;
+        mix-blend-mode: overlay;
+      }
+
+      .grid {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background:
+          linear-gradient(rgba(255,255,255,0.04) 1px, rgba(255,255,255,0) 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.04) 1px, rgba(255,255,255,0) 1px);
+        background-size: 96px 96px;
+        -webkit-mask-image: radial-gradient(ellipse 74% 56% at 50% 20%, #000000, rgba(0,0,0,0) 76%);
+        mask-image: radial-gradient(ellipse 74% 56% at 50% 20%, #000000, rgba(0,0,0,0) 76%);
+      }
+
+      .beam {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 3;
+        width: 2px;
+        height: 260px;
+        background: linear-gradient(180deg, #C4B5FD, rgba(132,104,235,0.48), rgba(132,104,235,0));
+        box-shadow: 0 0 26px rgba(132,104,235,0.55);
+      }
+
+      .logo-watermark {
+        position: absolute;
+        right: 118px;
+        top: 96px;
+        z-index: 4;
+        width: 172px;
+        opacity: 0.78;
+        filter: drop-shadow(0 0 34px rgba(132,104,235,0.34));
+      }
+
+      .kicker {
+        width: max-content;
+        border: 1px solid rgba(196,181,253,0.28);
+        border-radius: 999px;
+        background: rgba(132,104,235,0.10);
+        padding: 11px 18px;
+        color: rgba(255,255,255,0.76);
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .headline {
+        max-width: 1280px;
+        margin: 0;
+        color: #ffffff;
+        font-size: 104px;
+        font-weight: 850;
+        letter-spacing: -0.04em;
+        line-height: 0.98;
+      }
+
+      .headline .accent,
+      .accent-text {
+        color: #C4B5FD;
+        text-shadow: 0 0 34px rgba(132,104,235,0.42);
+      }
+
+      .subcopy {
+        max-width: 850px;
+        margin: 0;
+        color: rgba(255,255,255,0.68);
+        font-size: 32px;
+        font-weight: 430;
+        line-height: 1.34;
+      }
+
+      .micro {
+        color: rgba(255,255,255,0.42);
+        font-size: 22px;
+        letter-spacing: 0.03em;
+      }
+
+      .tool-cloud {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+      }
+
+      .tool-chip {
+        position: absolute;
+        min-width: 142px;
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 999px;
+        background: rgba(255,255,255,0.045);
+        padding: 14px 22px;
+        color: rgba(255,255,255,0.74);
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        backdrop-filter: blur(14px);
+      }
+
+      .chip-1 { left: 1240px; top: 220px; }
+      .chip-2 { left: 1400px; top: 358px; }
+      .chip-3 { left: 1170px; top: 520px; }
+      .chip-4 { left: 1510px; top: 640px; }
+      .chip-5 { left: 1280px; top: 760px; }
+
+      .directory-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 230px);
+        gap: 18px;
+        margin-top: 20px;
+      }
+
+      .directory-card {
+        height: 138px;
+        border: 1px solid rgba(255,255,255,0.09);
+        border-radius: 18px;
+        background:
+          radial-gradient(ellipse 80% 60% at 50% 100%, rgba(132,104,235,0.12), rgba(0,0,0,0) 70%),
+          rgba(255,255,255,0.04);
+        padding: 22px;
+        box-sizing: border-box;
+      }
+
+      .card-bar {
+        width: 58px;
+        height: 8px;
+        border-radius: 999px;
+        background: #8468EB;
+        margin-bottom: 24px;
+      }
+
+      .card-line {
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.32);
+        margin-bottom: 12px;
+      }
+
+      .card-line.short {
+        width: 62%;
+        background: rgba(255,255,255,0.18);
+      }
+
+      .unknown-day {
+        position: absolute;
+        right: 128px;
+        bottom: 150px;
+        width: 480px;
+        border-left: 2px solid rgba(196,181,253,0.34);
+        padding-left: 30px;
+        color: rgba(255,255,255,0.72);
+        font-size: 34px;
+        font-weight: 750;
+        line-height: 1.16;
+      }
+
+      .brain-stage {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .brain-core {
+        position: relative;
+        width: 470px;
+        height: 470px;
+        border: 1px solid rgba(196,181,253,0.24);
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(196,181,253,0.52), rgba(132,104,235,0.16) 32%, rgba(0,0,0,0) 66%),
+          rgba(17,17,17,0.18);
+        box-shadow: 0 0 88px rgba(132,104,235,0.46);
+      }
+
+      .brain-core::before,
+      .brain-core::after {
+        content: "";
+        position: absolute;
+        inset: 52px;
+        border: 1px dashed rgba(196,181,253,0.32);
+        border-radius: 50%;
+      }
+
+      .brain-core::after {
+        inset: 112px;
+        border-style: solid;
+        border-color: rgba(255,255,255,0.18);
+      }
+
+      .core-logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 170px;
+        transform: translate(-50%, -50%);
+        filter: drop-shadow(0 0 38px rgba(196,181,253,0.55));
+      }
+
+      .orbit-label {
+        position: absolute;
+        border: 1px solid rgba(196,181,253,0.24);
+        border-radius: 999px;
+        background: rgba(0,0,0,0.46);
+        padding: 14px 22px;
+        color: rgba(255,255,255,0.78);
+        font-size: 20px;
+        font-weight: 750;
+      }
+
+      .orbit-a { left: 346px; top: 248px; }
+      .orbit-b { right: 332px; top: 300px; }
+      .orbit-c { left: 444px; bottom: 268px; }
+      .orbit-d { right: 420px; bottom: 224px; }
+
+      .pipeline {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+        width: 100%;
+        margin-top: 18px;
+      }
+
+      .pipe-card {
+        position: relative;
+        min-height: 270px;
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 18px;
+        background:
+          radial-gradient(ellipse 80% 60% at 50% 100%, rgba(132,104,235,0.16), rgba(0,0,0,0) 72%),
+          rgba(255,255,255,0.042);
+        padding: 34px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .pipe-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 36px;
+        border: 1px solid rgba(196,181,253,0.28);
+        border-radius: 999px;
+        color: #C4B5FD;
+        font-size: 18px;
+        font-weight: 850;
+      }
+
+      .pipe-card h3 {
+        margin: 34px 0 12px;
+        color: #ffffff;
+        font-size: 48px;
+        font-weight: 850;
+        letter-spacing: -0.03em;
+      }
+
+      .pipe-card p {
+        margin: 0;
+        color: rgba(255,255,255,0.62);
+        font-size: 24px;
+        line-height: 1.36;
+      }
+
+      .pipe-glow {
+        position: absolute;
+        left: 34px;
+        right: 34px;
+        bottom: 30px;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #8468EB, #C4B5FD);
+        box-shadow: 0 0 24px rgba(132,104,235,0.5);
+      }
+
+      .triangle {
+        position: relative;
+        width: 760px;
+        height: 600px;
+        margin: 0 auto;
+      }
+
+      .tri-line {
+        position: absolute;
+        left: 150px;
+        top: 110px;
+        width: 460px;
+        height: 400px;
+        border: 2px solid rgba(196,181,253,0.28);
+        clip-path: polygon(50% 0, 100% 100%, 0 100%);
+        background: radial-gradient(ellipse at 50% 62%, rgba(132,104,235,0.16), rgba(0,0,0,0) 66%);
+      }
+
+      .moat-node {
+        position: absolute;
+        width: 260px;
+        border: 1px solid rgba(196,181,253,0.24);
+        border-radius: 18px;
+        background: rgba(255,255,255,0.045);
+        padding: 22px 24px;
+        color: #ffffff;
+        font-size: 25px;
+        font-weight: 800;
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      .moat-node span {
+        display: block;
+        margin-top: 8px;
+        color: rgba(255,255,255,0.44);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .node-a { left: 250px; top: 38px; }
+      .node-b { left: 20px; bottom: 28px; }
+      .node-c { right: 20px; bottom: 28px; }
+
+      .final-lockup {
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 30px;
+      }
+
+      .final-logo {
+        width: 446px;
+        filter: drop-shadow(0 0 44px rgba(132,104,235,0.42));
+      }
+
+      .final-title {
+        max-width: 980px;
+        margin: 0;
+        color: #ffffff;
+        font-size: 98px;
+        font-weight: 850;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+      }
+
+      .final-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 18px;
+        border: 1px solid rgba(196,181,253,0.34);
+        border-radius: 999px;
+        background: rgba(132,104,235,0.14);
+        padding: 20px 34px;
+        color: rgba(255,255,255,0.86);
+        font-size: 28px;
+        font-weight: 750;
+      }
+
+      .final-cta strong {
+        color: #ffffff;
+        font-weight: 900;
+      }
+
+      .caption-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 72px;
+        z-index: 40;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .caption {
+        position: absolute;
+        max-width: 1560px;
+        border: 1px solid rgba(196,181,253,0.22);
+        border-radius: 999px;
+        background: rgba(0,0,0,0.50);
+        backdrop-filter: blur(18px);
+        padding: 18px 32px;
+        color: rgba(255,255,255,0.92);
+        font-size: 42px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        line-height: 1.05;
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        white-space: nowrap;
+        box-shadow: 0 0 36px rgba(132,104,235,0.18);
+      }
+
+      .caption strong {
+        color: #C4B5FD;
+      }
+
+      .transition {
+        position: absolute;
+        inset: 0;
+        z-index: 35;
+        background:
+          radial-gradient(ellipse 80% 54% at 50% 50%, rgba(196,181,253,0.36), rgba(132,104,235,0.20) 28%, rgba(0,0,0,0.96) 68%),
+          #000000;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .fade-black {
+        position: absolute;
+        inset: 0;
+        z-index: 60;
+        background: #000000;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .data-trail {
+        position: absolute;
+        z-index: 4;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(132,104,235,0), #8468EB, #C4B5FD, rgba(196,181,253,0));
+        box-shadow: 0 0 18px rgba(132,104,235,0.45);
+        transform-origin: left center;
+      }
+
+      .trail-1 { width: 520px; left: 210px; top: 760px; transform: rotate(-18deg); }
+      .trail-2 { width: 420px; right: 280px; top: 260px; transform: rotate(24deg); }
+      .trail-3 { width: 620px; right: 220px; bottom: 270px; transform: rotate(-8deg); }
+    </style>
+  </head>
+  <body>
+    <div id="myaimatch-vision" data-composition-id="myaimatch-vision" data-start="0" data-width="1920" data-height="1080" data-duration="30">
+      <audio id="narration" data-start="0" data-duration="30" data-track-index="2" src="narration.wav" data-volume="1"></audio>
+      <section class="scene scene-1">
+        <div class="ambient"></div>
+        <div class="noise"></div>
+        <div class="grid"></div>
+        <div class="beam"></div>
+        <img class="logo-watermark" src="assets/logo-mark.png" alt="" />
+        <div class="tool-cloud" data-layout-ignore>
+          <div class="tool-chip chip-1">Agents</div>
+          <div class="tool-chip chip-2">Automations</div>
+          <div class="tool-chip chip-3">Research</div>
+          <div class="tool-chip chip-4">Meetings</div>
+          <div class="tool-chip chip-5">Ops</div>
+        </div>
+        <div class="scene-content">
+          <div class="kicker s1-kicker">Investor vision · 2026</div>
+          <h1 class="headline s1-title">AI tools change <span class="accent">every week.</span></h1>
+          <p class="subcopy s1-copy">Your workflow does not keep up.</p>
+        </div>
+      </section>
+
+      <section class="scene scene-2">
+        <div class="ambient"></div>
+        <div class="noise"></div>
+        <div class="grid"></div>
+        <div class="scene-content">
+          <div class="kicker s2-kicker">The old model</div>
+          <h2 class="headline s2-title">A directory can show what exists.</h2>
+          <div class="directory-grid">
+            <div class="directory-card"><div class="card-bar"></div><div class="card-line"></div><div class="card-line short"></div></div>
+            <div class="directory-card"><div class="card-bar"></div><div class="card-line"></div><div class="card-line short"></div></div>
+            <div class="directory-card"><div class="card-bar"></div><div class="card-line"></div><div class="card-line short"></div></div>
+            <div class="directory-card"><div class="card-bar"></div><div class="card-line"></div><div class="card-line short"></div></div>
+            <div class="directory-card"><div class="card-bar"></div><div class="card-line"></div><div class="card-line short"></div></div>
+            <div class="directory-card"><div class="card-bar"></div><div class="card-line"></div><div class="card-line short"></div></div>
+          </div>
+          <div class="unknown-day s2-note">But it cannot understand your day.</div>
+        </div>
+      </section>
+
+      <section class="scene scene-3">
+        <div class="ambient"></div>
+        <div class="noise"></div>
+        <div class="beam"></div>
+        <div class="brain-stage" data-layout-ignore>
+          <div class="brain-core">
+            <img class="core-logo" src="assets/logo-brain.png" alt="" />
+          </div>
+          <div class="orbit-label orbit-a">Calendar pressure</div>
+          <div class="orbit-label orbit-b">Tool fatigue</div>
+          <div class="orbit-label orbit-c">Context switching</div>
+          <div class="orbit-label orbit-d">Hidden patterns</div>
+        </div>
+        <div class="scene-content">
+          <div class="kicker s3-kicker">The new model</div>
+          <h2 class="headline s3-title">myAImatch becomes your <span class="accent">AI workflow brain.</span></h2>
+        </div>
+      </section>
+
+      <section class="scene scene-4">
+        <div class="ambient"></div>
+        <div class="noise"></div>
+        <div class="grid"></div>
+        <div class="scene-content">
+          <div class="kicker s4-kicker">How it works</div>
+          <h2 class="headline s4-title">Capture. Learn. Match.</h2>
+          <div class="pipeline">
+            <article class="pipe-card pipe-1">
+              <span class="pipe-num">01</span>
+              <h3>Capture</h3>
+              <p>A private desktop agent reads workflow signals, not keystrokes.</p>
+              <div class="pipe-glow"></div>
+            </article>
+            <article class="pipe-card pipe-2">
+              <span class="pipe-num">02</span>
+              <h3>Learn</h3>
+              <p>Persistent memory finds patterns that improve month after month.</p>
+              <div class="pipe-glow"></div>
+            </article>
+            <article class="pipe-card pipe-3">
+              <span class="pipe-num">03</span>
+              <h3>Match</h3>
+              <p>The live catalog recommends the exact tools and workflows.</p>
+              <div class="pipe-glow"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene-5">
+        <div class="ambient"></div>
+        <div class="noise"></div>
+        <div class="beam"></div>
+        <div class="data-trail trail-1"></div>
+        <div class="data-trail trail-2"></div>
+        <div class="data-trail trail-3"></div>
+        <div class="scene-content">
+          <div class="kicker s5-kicker">The moat</div>
+          <h2 class="headline s5-title">Three assets. <span class="accent">Hard to replicate together.</span></h2>
+          <div class="triangle">
+            <div class="tri-line"></div>
+            <div class="moat-node node-a">Workflow Data<span>first-hand</span></div>
+            <div class="moat-node node-b">Live AI Catalog<span>fresh weekly</span></div>
+            <div class="moat-node node-c">Continuous Learning<span>higher switching cost</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene-6">
+        <div class="ambient"></div>
+        <div class="noise"></div>
+        <div class="beam"></div>
+        <div class="scene-content final-lockup">
+          <img class="final-logo" src="assets/logo-full.png" alt="myAImatch" />
+          <h2 class="final-title">Build the first AI workflow brain.</h2>
+          <div class="final-cta"><span>Prototype the desktop agent in</span> <strong>8 weeks</strong></div>
+        </div>
+      </section>
+
+      <div class="caption-wrap" aria-hidden="true">
+        <div id="cg-0" class="caption">AI tools change <strong>every week</strong></div>
+        <div id="cg-1" class="caption">People keep working the same way</div>
+        <div id="cg-2" class="caption">A directory shows what exists</div>
+        <div id="cg-3" class="caption">It cannot understand <strong>your day</strong></div>
+        <div id="cg-4" class="caption">myAImatch becomes your <strong>AI workflow brain</strong></div>
+        <div id="cg-5" class="caption">Private desktop agent. Persistent memory.</div>
+        <div id="cg-6" class="caption">Matched to the exact tools and workflows</div>
+        <div id="cg-7" class="caption"><strong>First-hand workflow data</strong></div>
+        <div id="cg-8" class="caption">A <strong>live AI catalog</strong></div>
+        <div id="cg-9" class="caption">Recommendations that improve every month</div>
+        <div id="cg-10" class="caption">Prototype in <strong>8 weeks</strong></div>
+      </div>
+      <div class="transition"></div>
+      <div class="fade-black"></div>
+    </div>
+
+    <script src="assets/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      var DURATION = 30;
+      var scenes = [".scene-1", ".scene-2", ".scene-3", ".scene-4", ".scene-5", ".scene-6"];
+
+      function showScene(index, at) {
+        tl.set(scenes, { opacity: 0 }, at);
+        tl.set(scenes[index], { opacity: 1 }, at);
+      }
+
+      function focusTransition(at, nextIndex) {
+        tl.fromTo(".transition", { opacity: 0, scale: 1.08, filter: "blur(18px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.26, ease: "power3.in" }, at);
+        showScene(nextIndex, at + 0.28);
+        tl.to(".transition", { opacity: 0, scale: 1.12, filter: "blur(22px)", duration: 0.34, ease: "power2.out" }, at + 0.30);
+      }
+
+      showScene(0, 0);
+
+      tl.from(".scene-1 .ambient", { scale: 1.12, opacity: 0.4, duration: 3.6, ease: "sine.out" }, 0.1);
+      tl.from(".s1-kicker", { y: 22, opacity: 0, duration: 0.45, ease: "power3.out" }, 0.2);
+      tl.from(".s1-title", { y: 70, opacity: 0, scale: 0.985, duration: 0.78, ease: "expo.out" }, 0.46);
+      tl.from(".s1-copy", { x: -38, opacity: 0, duration: 0.56, ease: "power2.out" }, 1.05);
+      tl.from(".scene-1 .logo-watermark", { scale: 0.72, opacity: 0, rotation: -4, duration: 0.72, ease: "back.out(1.3)" }, 1.15);
+      tl.from(".tool-chip", { y: 34, opacity: 0, scale: 0.86, stagger: 0.08, duration: 0.38, ease: "power4.out" }, 1.55);
+      tl.to(".tool-chip", { x: 22, y: -12, duration: 2.1, stagger: 0.05, ease: "sine.inOut" }, 2.38);
+
+      focusTransition(3.7, 1);
+      tl.from(".s2-kicker", { x: -42, opacity: 0, duration: 0.42, ease: "power3.out" }, 4.1);
+      tl.from(".s2-title", { y: 52, opacity: 0, duration: 0.66, ease: "expo.out" }, 4.32);
+      tl.from(".directory-card", { opacity: 0, y: 30, scale: 0.94, stagger: 0.055, duration: 0.42, ease: "back.out(1.2)" }, 4.82);
+      tl.from(".s2-note", { x: 62, opacity: 0, duration: 0.58, ease: "power4.out" }, 6.35);
+      tl.to(".directory-card", { x: function(i) { return [-22, 18, 34, -16, 28, -30][i]; }, y: function(i) { return [18, -12, 24, -18, 16, -8][i]; }, rotation: function(i) { return [-3, 2, 4, -2, 3, -4][i]; }, duration: 1.2, ease: "sine.inOut" }, 6.85);
+
+      focusTransition(8.72, 2);
+      tl.from(".s3-kicker", { y: -24, opacity: 0, duration: 0.42, ease: "power2.out" }, 9.08);
+      tl.from(".s3-title", { y: 64, opacity: 0, duration: 0.76, ease: "expo.out" }, 9.34);
+      tl.from(".brain-core", { scale: 0.5, opacity: 0, rotation: -18, duration: 0.92, ease: "back.out(1.1)" }, 10.0);
+      tl.from(".core-logo", { scale: 0.64, opacity: 0, duration: 0.5, ease: "power4.out" }, 10.35);
+      tl.from(".orbit-label", { opacity: 0, scale: 0.84, y: 28, stagger: 0.11, duration: 0.46, ease: "power3.out" }, 10.72);
+      tl.to(".brain-core", { rotation: 8, scale: 1.035, duration: 3.2, ease: "sine.inOut" }, 11.1);
+
+      focusTransition(14.7, 3);
+      tl.from(".s4-kicker", { x: 48, opacity: 0, duration: 0.42, ease: "power3.out" }, 15.05);
+      tl.from(".s4-title", { y: 54, opacity: 0, duration: 0.66, ease: "expo.out" }, 15.28);
+      tl.from(".pipe-card", { y: 62, opacity: 0, scale: 0.94, stagger: 0.14, duration: 0.58, ease: "back.out(1.25)" }, 15.85);
+      tl.from(".pipe-num", { scale: 0.55, opacity: 0, stagger: 0.12, duration: 0.36, ease: "power4.out" }, 16.16);
+      tl.from(".pipe-glow", { scaleX: 0, opacity: 0, transformOrigin: "left center", stagger: 0.12, duration: 0.52, ease: "power2.out" }, 16.72);
+      tl.to(".pipe-glow", { x: 28, duration: 2.2, stagger: 0.08, ease: "sine.inOut" }, 17.3);
+
+      focusTransition(20.72, 4);
+      tl.from(".s5-kicker", { y: 24, opacity: 0, duration: 0.4, ease: "power3.out" }, 21.06);
+      tl.from(".s5-title", { x: -60, opacity: 0, duration: 0.7, ease: "expo.out" }, 21.26);
+      tl.from(".tri-line", { scale: 0.72, opacity: 0, duration: 0.72, ease: "power2.out" }, 21.78);
+      tl.from(".moat-node", { opacity: 0, y: 46, scale: 0.88, stagger: 0.12, duration: 0.5, ease: "back.out(1.25)" }, 22.15);
+      tl.from(".data-trail", { scaleX: 0, opacity: 0, stagger: 0.08, duration: 0.46, ease: "power3.out" }, 22.48);
+      tl.to(".data-trail", { x: 80, duration: 2.3, stagger: 0.1, ease: "sine.inOut" }, 23.16);
+
+      focusTransition(25.72, 5);
+      tl.from(".final-logo", { scale: 0.72, opacity: 0, y: 28, duration: 0.68, ease: "back.out(1.15)" }, 26.08);
+      tl.from(".final-title", { y: 62, opacity: 0, duration: 0.72, ease: "expo.out" }, 26.44);
+      tl.from(".final-cta", { y: 36, opacity: 0, scale: 0.92, duration: 0.52, ease: "power4.out" }, 27.12);
+      tl.to(".fade-black", { opacity: 1, duration: 0.75, ease: "power1.inOut" }, 29.22);
+
+      var captionGroups = [
+        { id: "cg-0", start: 0.18, end: 2.1 },
+        { id: "cg-1", start: 2.1, end: 3.8 },
+        { id: "cg-2", start: 4.2, end: 5.9 },
+        { id: "cg-3", start: 5.9, end: 8.7 },
+        { id: "cg-4", start: 9.2, end: 14.7 },
+        { id: "cg-5", start: 15.2, end: 17.4 },
+        { id: "cg-6", start: 17.4, end: 20.7 },
+        { id: "cg-7", start: 21.1, end: 22.8 },
+        { id: "cg-8", start: 22.8, end: 24.1 },
+        { id: "cg-9", start: 24.1, end: 25.6 },
+        { id: "cg-10", start: 26.3, end: 29.15 }
+      ];
+
+      captionGroups.forEach(function(group) {
+        var selector = "#" + group.id;
+        tl.set(selector, { visibility: "visible" }, group.start);
+        tl.fromTo(selector, { opacity: 0, y: 18, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.18, ease: "power3.out" }, group.start);
+        tl.to(selector, { opacity: 0, scale: 0.96, duration: 0.12, ease: "power2.in" }, group.end - 0.12);
+        tl.set(selector, { opacity: 0, visibility: "hidden" }, group.end);
+      });
+
+      window.__timelines["myaimatch-vision"] = tl;
+    </script>
+  </body>
+</html>

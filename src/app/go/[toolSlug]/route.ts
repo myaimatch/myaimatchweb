@@ -33,17 +33,19 @@ export async function GET(
     return NextResponse.redirect(new URL("/#match-tools", request.url), 307);
   }
 
-  try {
-    await logAffiliateClick({
-      resolved,
-      source,
-      recommendationId,
-      referer: request.headers.get("referer"),
-      userAgent: request.headers.get("user-agent"),
-      ip: getClientIp(request),
-    });
-  } catch (error) {
-    console.error("Failed to log affiliate click", error);
+  if (source !== "link_check") {
+    try {
+      await logAffiliateClick({
+        resolved,
+        source,
+        recommendationId,
+        referer: request.headers.get("referer"),
+        userAgent: request.headers.get("user-agent"),
+        ip: getClientIp(request),
+      });
+    } catch (error) {
+      console.error("Failed to log affiliate click", error);
+    }
   }
 
   return NextResponse.redirect(safeRedirectUrl(resolved.resolution.destinationUrl), 302);

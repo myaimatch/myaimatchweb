@@ -41,6 +41,18 @@ const semrush = classifyToolForOutcomeMigration({
 assert.equal(semrush.primaryOutcomeSlug, "grow-audience");
 assert.deepEqual(semrush.subcategorySlugs, ["seo-research-audits"]);
 
+const amelia = classifyToolForOutcomeMigration({
+  name: "Amelia",
+  slug: "amelia",
+  currentCategories: [],
+  currentSubcategory: "",
+  shortDescription: "Enterprise conversational AI agent platform for voice and text customer interactions.",
+  fullDescription: "Amelia deploys voice and text AI agents with autonomous reasoning, task automation, and enterprise integrations.",
+});
+
+assert.equal(amelia.primaryOutcomeSlug, "build-ai-agents");
+assert.ok(amelia.subcategorySlugs.includes("build-voice-agents"));
+
 assert.deepEqual(validateOutcomeProposal({
   toolId: "tool_1",
   toolName: "Broken",
